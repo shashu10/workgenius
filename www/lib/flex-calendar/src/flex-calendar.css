@@ -31,7 +31,7 @@
       -ms-flex-align: start;
           align-items: flex-start;
 
-  background-color: #ffb835;
+  background-color: #F0C330;
 }
 
 .flex-calendar .month .arrow,
@@ -104,7 +104,7 @@
 }
 
 .flex-calendar .week {
-  background-color: #faac1c;
+  background-color: #E8BB29;
 }
 
 .flex-calendar .week .day,
@@ -138,7 +138,7 @@
 
 .flex-calendar .days .day.today,
 .flex-calendar .days .day.disabled.today{
-  color: #FFB835;
+  color: #F0C330;
   border: 1px solid;
 }
 
@@ -171,7 +171,7 @@
 .flex-calendar .days .day.selected .number {
   width: 40px;
   height: 40px;
-  background-color: #FFB835;
+  background-color: #F0C330;
   border-radius: 100%;
   line-height: 40px;
   color: #FFFFFF;
@@ -195,7 +195,7 @@
   width: 6px;
   height: 6px;
   border-radius:100%;
-  background-color: #faac1c;
+  background-color: #E8BB29;
   position:absolute;
   bottom:10px;
   margin-left:-3px;

@@ -1,1 +1,9 @@
 /* Empty. Add your own CSS if you like */
+
+/* TODO find a better/built-in solution */
+.workgenius-logo {
+	background-image: url("../img/logo.png") !important;
+    background-size: 100% !important;
+    width: 32px;
+    background-repeat: no-repeat !important;
+}
