@@ -80,7 +80,11 @@ angular.module('starter.controllers', [])
   };
 
   $scope.events = [
-    {foo: 'bar', date: "2015-08-18"},
-    {foo: 'bar', date: "2015-08-20"}
+    {company: 'instacart', earnings: 45, date: "2015-08-20"},
+    {company: 'bento', earnings: 40, date: "2015-08-23"},
+    {company: 'instacart', earnings: 84, date: "2015-08-25"},
   ];
+}])
+
+.controller('ScheduleListCtrl', ['$scope', function($scope) {
 }]);

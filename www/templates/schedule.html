@@ -1,5 +1,15 @@
 <ion-view ng-controller="ScheduleCtrl" view-title="Schedule">
-  <ion-content>
-    <flex-calendar options="options" events="events"></flex-calendar>
-  </ion-content>
+    <ion-content>
+
+    	<!-- Monthly Calendar -->
+        <flex-calendar options="options" events="events"></flex-calendar>
+
+        <!-- Schedule of events -->
+        <ion-list ng-controller="ScheduleListCtrl">
+            <ion-item ng-repeat="event in events">
+                {{event.company}}, {{event.earnings}}, {{event.date}}
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
 </ion-view>
