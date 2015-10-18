@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($rootScope, $scope, $state) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -9,35 +9,25 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  // Form data for the login modal
-  $scope.loginData = {};
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
   // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
+  // $scope.doSignup = function() {
+  //   console.log('Doing Signup', $scope.loginData);
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
+  //   // Simulate a login delay. Remove this and replace with your login
+  //   // code if using a login system
+  //   $timeout(function() {
+  //     $scope.closeLogin();
+  //   }, 1000);
+  // };
+
+
+  $scope.logout = function() {
+      Parse.User.logOut();
+      $rootScope.user = null;
+      $rootScope.isLoggedIn = false;
+      $state.go('app.search', {
+          clear: true
+      });
   };
 })
 
@@ -53,6 +43,173 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+
+.controller('LoginController', function($scope, $state, $rootScope, $ionicLoading) {
+    $scope.user = {
+        username: null,
+        password: null
+    };
+
+    $scope.error = {};
+
+    $scope.login = function() {
+        $scope.loading = $ionicLoading.show({
+            content: 'Logging in',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+        });
+
+        var user = $scope.user;
+        Parse.User.logIn(('' + user.username).toLowerCase(), user.password, {
+            success: function(user) {
+                $ionicLoading.hide();
+                $rootScope.user = user;
+                $rootScope.isLoggedIn = true;
+                $state.go('app.schedule', {
+                    clear: true
+                });
+            },
+            error: function(user, err) {
+                $ionicLoading.hide();
+                // The login failed. Check error to see why.
+                if (err.code === 101) {
+                    $scope.error.message = 'Invalid login credentials';
+                } else {
+                    $scope.error.message = 'An unexpected error has ' +
+                        'occurred, please try again.';
+                }
+                $scope.$apply();
+            }
+        });
+    };
+
+    $scope.forgot = function() {
+        $state.go('app.forgot');
+    };
+})
+
+.controller('ForgotPasswordController', function($scope, $state, $ionicLoading) {
+    $scope.user = {};
+    $scope.error = {};
+    $scope.state = {
+        success: false
+    };
+
+    $scope.reset = function() {
+        $scope.loading = $ionicLoading.show({
+            content: 'Sending',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+        });
+
+        Parse.User.requestPasswordReset($scope.user.email, {
+            success: function() {
+                // TODO: show success
+                $ionicLoading.hide();
+                $scope.state.success = true;
+                $scope.$apply();
+            },
+            error: function(err) {
+                $ionicLoading.hide();
+                if (err.code === 125) {
+                    $scope.error.message = 'Email address does not exist';
+                } else {
+                    $scope.error.message = 'An unknown error has occurred, ' +
+                        'please try again';
+                }
+                $scope.$apply();
+            }
+        });
+    };
+
+    $scope.login = function() {
+        $state.go('app.login');
+    };
+})
+
+.controller('RegisterController', function($scope, $state, $ionicLoading, $rootScope) {
+    $scope.user = {};
+    $scope.error = {};
+
+    $scope.days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
+
+    var companyList = [
+      "bento",
+      "caviar",
+      "instacart",
+      "luxe",
+      "munchery",
+      "saucey",
+      "shyp",
+      "sprig",
+      "workgenius",
+    ];
+
+    $scope.companies= {};
+    for (var i=0; i<companyList.length; i++) {
+      $scope.companies[companyList[i]] = false;
+    }
+
+    var chunk = function (arr, size) {
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        newArr.push(arr.slice(i, i+size));
+      }
+      return newArr;
+    };
+
+    $scope.chunkedCompanies = chunk(companyList, 3);
+
+    $scope.select = function(name) {
+      $scope.companies[name] = !$scope.companies[name];
+      console.log("select: " + name + ", " + $scope.companies[name]);
+    };
+    $scope.register = function() {
+
+        // TODO: add age verification step
+        $scope.loading = $ionicLoading.show({
+            content: 'Sending',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+        });
+
+        var user = new Parse.User();
+        user.set("username", $scope.user.email);
+        user.set("password", $scope.user.password);
+        user.set("email", $scope.user.email);
+
+
+        user.signUp(null, {
+            success: function(user) {
+                $ionicLoading.hide();
+                $rootScope.user = user;
+                $rootScope.isLoggedIn = true;
+                $state.go('app.schedule', {
+                    clear: true
+                });
+            },
+            error: function(user, error) {
+                $ionicLoading.hide();
+                if (error.code === 125) {
+                    $scope.error.message = 'Please specify a valid email ' +
+                        'address';
+                } else if (error.code === 202) {
+                    $scope.error.message = 'The email address is already ' +
+                        'registered';
+                } else {
+                    $scope.error.message = error.message;
+                }
+                $scope.$apply();
+            }
+        });
+    };
 })
 
 .controller('ScheduleCtrl', ['$scope', function($scope) {

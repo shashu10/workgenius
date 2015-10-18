@@ -1,9 +1,61 @@
 /* Empty. Add your own CSS if you like */
 
+
 /* TODO find a better/built-in solution */
+
 .workgenius-logo {
-	background-image: url("../img/logo.png") !important;
+    background-image: url("../img/logo.png") !important;
     background-size: 100% !important;
     width: 32px;
     background-repeat: no-repeat !important;
 }
+/* TODO Find better placeholder */
+.workgenius-logo.title {
+	margin: 5px 0 0 -15px;
+	left: 50% !important;
+}
+.login-signup {
+	padding-top: 10px;
+	text-align: center;
+}
+.login-signup a {
+	text-decoration: underline;
+}
+/* Login Form Validation */
+form input.ng-invalid.ng-touched {
+	border-bottom: 1px solid #FA787E;
+}
+
+.loginError {
+	color: red;
+}
+
+.register .box {
+	padding-bottom: 40px;
+}
+.register .list {
+	padding: 1px;
+}
+.register .col {
+	text-align: center;
+}
+.register .col img {
+	width: 33%;
+	height: auto;
+	opacity: 0.5;
+	-webkit-filter: grayscale(1);
+	filter: grayscale(1);
+}
+.register .col img.selected {
+	opacity: 1;
+	-webkit-filter: grayscale(0);
+	filter: grayscale(0);
+}
+
+.register .hours .icon {
+	font-size: large;
+}
+/*form input.ng-valid.ng-touched {
+    border-bottom: 1px solid #78FA89;
+}
+*/

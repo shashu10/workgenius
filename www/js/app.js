@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'flexcalendar' , 'pascalprecht.translate'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -18,6 +18,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'flexcalendar' , 'pas
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
+    }
+
+    // Initialize Parse here with AppID and JavascriptID
+    Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
+    var currentUser = Parse.User.current();
+    $rootScope.user = null;
+    $rootScope.isLoggedIn = false;
+
+    if (currentUser) {
+        $rootScope.user = currentUser;
+        $rootScope.isLoggedIn = true;
+        $state.go('app.schedule');
     }
   });
 })
@@ -67,6 +79,36 @@ angular.module('starter', ['ionic', 'starter.controllers', 'flexcalendar' , 'pas
         controller: 'PlaylistCtrl'
       }
     }
+  })
+
+  .state('app.login', {
+      url: '/login',
+      views: {
+          'menuContent': {
+              templateUrl: 'templates/login.html',
+              controller: 'LoginController'
+          }
+      }
+  })
+
+  .state('app.forgot', {
+      url: '/forgot',
+      views: {
+          'menuContent': {
+              templateUrl: 'templates/forgotPassword.html',
+              controller: 'ForgotPasswordController'
+          }
+      }
+  })
+
+  .state('app.register', {
+      url: '/register',
+      views: {
+          'menuContent': {
+              templateUrl: 'templates/register.html',
+              controller: 'RegisterController'
+          }
+      }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/playlists');
