@@ -6,8 +6,20 @@
 
         <!-- Schedule of events -->
         <ion-list ng-controller="ScheduleListCtrl">
-            <ion-item ng-repeat="event in events">
-                {{event.company}}, {{event.earnings}}, {{event.date}}
+            <ion-item class="item-icon-left" ng-repeat="event in events">
+                <i class="icon ion-earth"></i>
+                <div class="schedule-text">
+                    <div>
+                        {{event.company}}    
+                    </div>
+                    <div class="schedule-time">
+                        <standard-time-meridian etime='event.startsAt.getHours()*3600'></standard-time-meridian> - <standard-time-meridian etime='event.endsAt.getHours()*3600'></standard-time-meridian>
+                    </div>
+                    <div class="schedule-guarantee" ng-show="event.guarantee">GUARANTEED</div>
+                </div>
+                <span class="item-note earnings-estimate">
+                  earnings est: <i class="light-green">{{Math.floor(event.startsAt.getTime() - event.endsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</i>
+                </span>
             </ion-item>
         </ion-list>
 

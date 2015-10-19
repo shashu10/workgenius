@@ -10,6 +10,11 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/companies.html'
   };
 })
+.directive('weeklyTargetControls', function() {
+  return {
+    templateUrl: 'templates/weeklyTargetControls.html'
+  };
+})
 
 .directive('standardTimeMeridian', function () {
     return {

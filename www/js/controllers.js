@@ -25,11 +25,6 @@ angular.module('workgenius.controllers', [])
 .controller('AvailabilityCtrl', function($rootScope, $scope, $state, $ionicModal) {
 
     $scope.days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
-
-    if (!$rootScope.schedules) {
-      $rootScope.schedules = {};
-      $rootScope.totalHours = 0;
-    }
     
     // Required for modal initialization
     $scope.schedule = {
@@ -60,8 +55,8 @@ angular.module('workgenius.controllers', [])
       $scope.modal.show();
     };
     $scope.deleteSchedule = function (schedule) {
-      $rootScope.schedules[schedule.day][schedule.id] = null;
       $rootScope.totalHours -= ($scope.schedule.endsAt.inputEpochTime - $scope.schedule.startsAt.inputEpochTime)/3600;
+      delete $rootScope.schedules[schedule.day][schedule.id];
     };
     $scope.saveDay = function () {
       if (!$rootScope.schedules[$scope.schedule.day]) {
@@ -115,15 +110,9 @@ angular.module('workgenius.controllers', [])
 })
 
 .controller('PreferencesCtrl', function($rootScope, $scope, $state) {
+})
 
-  // $scope.openAvailability = function() {
-  //     $rootScope.user = null;
-  //     $rootScope.isLoggedIn = false;
-
-  //     $state.go('app.availability', {
-  //         clear: true
-  //     });
-  // };
+.controller('weeklyTargetCtrl', function($rootScope, $scope, $state) {
 })
 
 .controller('LoginController', function($scope, $state, $rootScope, $ionicLoading, $ionicHistory) {
@@ -266,7 +255,8 @@ angular.module('workgenius.controllers', [])
     };
 })
 
-.controller('ScheduleCtrl', ['$scope', function($scope) {
+.controller('ScheduleCtrl', ['$scope', function($scope, $rootScope) {
+    $scope.Math = window.Math;
     $scope.options = {
     defaultDate: "2015-08-06",
     minDate: "2015-01-01",
@@ -291,9 +281,24 @@ angular.module('workgenius.controllers', [])
   };
 
   $scope.events = [
-    {company: 'instacart', earnings: 45, date: "2015-08-20"},
-    {company: 'bento', earnings: 40, date: "2015-08-23"},
-    {company: 'instacart', earnings: 84, date: "2015-08-25"},
+    {
+      company: 'Instacart', date: "2015-08-20",
+      startsAt: new Date("October 22, 2015 07:00:00"),
+      endsAt: new Date("October 22, 2015 10:00:00"),
+      guarantee: true,
+    },
+    {
+      company: 'Bento', date: "2015-08-23",
+      startsAt: new Date("October 22, 2015 11:00:00"),
+      endsAt: new Date("October 22, 2015 14:00:00"),
+      guarantee: true,
+    },
+    {
+      company: 'Saucey', date: "2015-08-25",
+      startsAt: new Date("October 24, 2015 13:00:00"),
+      endsAt: new Date("October 24, 2015 14:30:00"),
+      guarantee: false,
+    },
   ];
 }])
 

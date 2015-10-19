@@ -60,15 +60,60 @@ form input.ng-invalid.ng-touched {
 	text-align: center;
 	padding-top: 10px;
 }
-.days p {
+.days .title p {
 	margin: 0;
 }
-.days strong {
+.days .title strong.red {
 	line-height: 40px;
 	color: #B30000;
+}
+
+.weeklyTarget {
+	text-align: center;
+}
+.weekly-hours {
+    font-size: 56px;
+    padding: 30px;
+    font-weight: 500;
+}
+.currency-estimate {
+    font-size: 40px;
+    font-weight: 400;
+}
+.light-green {
+    color: #40C06C;
+}
+.light-blue {
+    color: #53ADF0;	
+}
+.light-blue-background {
+    background-color: #53ADF0;
+}
+.small-light {
+	padding: 20px;
+	color: #BCBCBC;
+}
+.schedule-text {
+	float: left;
+}
+.schedule-text div {
+	font-size: small;
+    line-height: 12px;
+}
+.schedule-guarantee {
+	font-size: xx-small !important;
+	background-color: #A1A1A1;
+	display: inline;
+	color: white;
+	padding: 1px 4px;
 }
 /*form input.ng-valid.ng-touched {
     border-bottom: 1px solid #78FA89;
 }
 */
 
+
+.flex-calendar .days .day {
+	min-height: 50px !important;
+    line-height: 40px !important;
+}

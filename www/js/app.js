@@ -23,13 +23,23 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     // Initialize Parse here with AppID and JavascriptID
     Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
     var currentUser = Parse.User.current();
-    $rootScope.user = null;
-    $rootScope.isLoggedIn = false;
 
     if (currentUser) {
         $rootScope.user = currentUser;
         $rootScope.isLoggedIn = true;
-        $state.go('app.schedule');
+        // $state.go('app.schedule');
+    } else {
+      $rootScope.user = null;
+      $rootScope.isLoggedIn = false;
+    }
+    if (!$rootScope.hourlyTarget) {
+      console.log('hourlyTarget not defined');
+      $rootScope.hourlyTarget = 40;
+      $rootScope.hourlyRate = 15;
+    }
+    if (!$rootScope.schedules) {
+      $rootScope.schedules = {};
+      $rootScope.totalHours = 0;
     }
   });
 })
@@ -44,21 +54,56 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: '/search',
+  .state('app.shifts', {
+    url: '/shifts',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/shifts.html'
       }
     }
   })
 
+  .state('app.stats', {
+    url: '/stats',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/stats.html'
+      }
+    }
+  })
+  .state('app.stats.earnings', {
+    url: "/earnings",
+    views: {
+      'home-tab': {
+        templateUrl: "templates/earnings.html",
+        controller: 'HomeTabCtrl'
+      }
+    }
+  })
+  .state('app.stats.hours', {
+    url: "/hours",
+    views: {
+      'home-tab': {
+        templateUrl: "templates/hours.html"
+      }
+    }
+  })
   .state('app.companyWhitelist', {
     url: '/companyWhitelist',
     views: {
       'menuContent': {
         templateUrl: 'templates/companyWhitelist.html',
         controller: 'CompanyWhitelistCtrl'
+      }
+    }
+  })
+
+  .state('app.weeklyTarget', {
+    url: '/weeklyTarget',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/weeklyTarget.html',
+        controller: 'weeklyTargetCtrl'
       }
     }
   })
