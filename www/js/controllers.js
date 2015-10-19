@@ -22,6 +22,110 @@ angular.module('workgenius.controllers', [])
   };
 })
 
+.controller('AvailabilityCtrl', function($rootScope, $scope, $state, $ionicModal) {
+
+    $scope.days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
+
+    if (!$rootScope.schedules) {
+      $rootScope.schedules = {};
+      $rootScope.totalHours = 0;
+    }
+    
+    // Required for modal initialization
+    $scope.schedule = {
+      id: "",
+      repeatWeekly: true,
+      editing: false,
+      startsAt: newTimePickerObject(),
+      endsAt: newTimePickerObject(),
+      day: "",
+    };
+    // Create the login modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/newSchedule.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+
+    $scope.editSchedule = function (day, schedule) {
+
+      $scope.schedule = schedule || {
+        id: Math.random().toString(),
+        repeatWeekly: false,
+        startsAt: newTimePickerObject(),
+        endsAt: newTimePickerObject(),
+        day: day,
+      };
+
+      $scope.modal.show();
+    };
+    $scope.deleteSchedule = function (schedule) {
+      $rootScope.schedules[schedule.day][schedule.id] = null;
+      $rootScope.totalHours -= ($scope.schedule.endsAt.inputEpochTime - $scope.schedule.startsAt.inputEpochTime)/3600;
+    };
+    $scope.saveDay = function () {
+      if (!$rootScope.schedules[$scope.schedule.day]) {
+        $rootScope.schedules[$scope.schedule.day] = {};
+      }
+      $rootScope.schedules[$scope.schedule.day][$scope.schedule.id] = $scope.schedule;
+      $rootScope.totalHours += ($scope.schedule.endsAt.inputEpochTime - $scope.schedule.startsAt.inputEpochTime)/3600;
+      $scope.modal.hide();
+    };
+
+    $scope.discardDay = function () {
+      $scope.modal.hide();
+    };
+
+})
+
+.controller('CompanyWhitelistCtrl', function($rootScope, $scope, $state) {
+    var companyList = [
+      "bento",
+      "caviar",
+      "instacart",
+      "luxe",
+      "munchery",
+      "saucey",
+      "shyp",
+      "sprig",
+      "workgenius",
+    ];
+
+    if (!$rootScope.companies) {
+      $rootScope.companies = {};
+      for (var i=0; i<companyList.length; i++) {
+        $rootScope.companies[companyList[i]] = false;
+      }
+    }
+
+    var chunk = function (arr, size) {
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        newArr.push(arr.slice(i, i+size));
+      }
+      return newArr;
+    };
+
+    $scope.chunkedCompanies = chunk(companyList, 3);
+
+    $scope.select = function(name) {
+      $rootScope.companies[name] = !$rootScope.companies[name];
+      console.log("select: " + name + ", " + $rootScope.companies[name]);
+    };
+})
+
+.controller('PreferencesCtrl', function($rootScope, $scope, $state) {
+
+  // $scope.openAvailability = function() {
+  //     $rootScope.user = null;
+  //     $rootScope.isLoggedIn = false;
+
+  //     $state.go('app.availability', {
+  //         clear: true
+  //     });
+  // };
+})
+
 .controller('LoginController', function($scope, $state, $rootScope, $ionicLoading, $ionicHistory) {
     $scope.user = {
         username: null,
@@ -112,87 +216,10 @@ angular.module('workgenius.controllers', [])
     };
 })
 
-.controller('RegisterController', function($scope, $state, $ionicLoading, $ionicModal, $rootScope, $ionicHistory) {
+.controller('RegisterController', function($scope, $state, $ionicLoading, $rootScope, $ionicHistory) {
     $scope.user = {};
     $scope.error = {};
 
-    $scope.days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
-    $scope.schedules = {};
-    
-    // Required for modal initialization
-    $scope.schedule = {
-      id: "",
-      repeatWeekly: true,
-      editing: false,
-      startsAt: newTimePickerObject(),
-      endsAt: newTimePickerObject(),
-      day: "",
-    };
-    // Create the login modal that we will use later
-    $ionicModal.fromTemplateUrl('templates/newSchedule.html', {
-      scope: $scope
-    }).then(function(modal) {
-      $scope.modal = modal;
-    });
-
-    $scope.editSchedule = function (day, schedule) {
-
-      $scope.schedule = schedule || {
-        id: Math.random().toString(),
-        repeatWeekly: false,
-        startsAt: newTimePickerObject(),
-        endsAt: newTimePickerObject(),
-        day: day,
-      };
-
-      $scope.modal.show();
-    };
-    $scope.deleteSchedule = function (schedule) {
-      $scope.schedules[schedule.day][schedule.id] = null;
-    };
-    $scope.saveDay = function () {
-      if (!$scope.schedules[$scope.schedule.day]) {
-        $scope.schedules[$scope.schedule.day] = {};
-      }
-      $scope.schedules[$scope.schedule.day][$scope.schedule.id] = $scope.schedule;
-      $scope.modal.hide();
-    };
-
-    $scope.discardDay = function () {
-      $scope.modal.hide();
-    };
-
-    var companyList = [
-      "bento",
-      "caviar",
-      "instacart",
-      "luxe",
-      "munchery",
-      "saucey",
-      "shyp",
-      "sprig",
-      "workgenius",
-    ];
-
-    $scope.companies= {};
-    for (var i=0; i<companyList.length; i++) {
-      $scope.companies[companyList[i]] = false;
-    }
-
-    var chunk = function (arr, size) {
-      var newArr = [];
-      for (var i=0; i<arr.length; i+=size) {
-        newArr.push(arr.slice(i, i+size));
-      }
-      return newArr;
-    };
-
-    $scope.chunkedCompanies = chunk(companyList, 3);
-
-    $scope.select = function(name) {
-      $scope.companies[name] = !$scope.companies[name];
-      console.log("select: " + name + ", " + $scope.companies[name]);
-    };
     $scope.register = function() {
 
         // TODO: add age verification step

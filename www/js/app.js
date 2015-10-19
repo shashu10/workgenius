@@ -37,7 +37,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('app', {
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
@@ -53,11 +53,32 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     }
   })
 
+  .state('app.companyWhitelist', {
+    url: '/companyWhitelist',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/companyWhitelist.html',
+        controller: 'CompanyWhitelistCtrl'
+      }
+    }
+  })
+
+  .state('app.availability', {
+    url: '/availability',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/availability.html',
+        controller: 'AvailabilityCtrl'
+      }
+    }
+  })
+
   .state('app.preferences', {
     url: '/preferences',
     views: {
       'menuContent': {
-        templateUrl: 'templates/preferences.html'
+        templateUrl: 'templates/preferences.html',
+        controller: 'PreferencesCtrl'
       }
     }
   })

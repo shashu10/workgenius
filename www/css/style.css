@@ -36,26 +36,39 @@ form input.ng-invalid.ng-touched {
 .register .list {
 	padding: 1px;
 }
-.register .col {
+.companies .col {
 	text-align: center;
 }
-.register .col img {
+.companies .col img {
 	width: 33%;
 	height: auto;
 	opacity: 0.5;
 	-webkit-filter: grayscale(1);
 	filter: grayscale(1);
 }
-.register .col img.selected {
+.companies .col img.selected {
 	opacity: 1;
 	-webkit-filter: grayscale(0);
 	filter: grayscale(0);
 }
 
-.register .icon {
+.days .icon {
 	font-size: large;
+}
+
+.days .title {
+	text-align: center;
+	padding-top: 10px;
+}
+.days p {
+	margin: 0;
+}
+.days strong {
+	line-height: 40px;
+	color: #B30000;
 }
 /*form input.ng-valid.ng-touched {
     border-bottom: 1px solid #78FA89;
 }
 */
+

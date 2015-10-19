@@ -5,6 +5,11 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/days.html'
   };
 })
+.directive('companies', function() {
+  return {
+    templateUrl: 'templates/companies.html'
+  };
+})
 
 .directive('standardTimeMeridian', function () {
     return {

@@ -8,17 +8,17 @@
 				</span>
 			</ion-item>
 
-			<ion-item href="#">
+			<ion-item href="#/app/companyWhitelist">
 			   Company Whitelist
 				<span class="item-note">
-					{{preferences.companies}}
+					<span ng-repeat= "(company, value) in companies" ng-show="value">{{company}}{{$last ? '' : ', '}}</span>
 				</span>
 			</ion-item>
 
-			<ion-item href="#">
+			<ion-item href="#/app/availability">
 			   Manage Availability
 				<span class="item-note">
-					{{preferences.hours}} Hours
+					{{totalHours}} Hours
 				</span>
 			</ion-item>
 
