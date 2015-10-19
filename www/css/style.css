@@ -107,6 +107,16 @@ form input.ng-invalid.ng-touched {
 	color: white;
 	padding: 1px 4px;
 }
+.earnings, .hours {
+	text-align: center;
+}
+.earnings h4 {
+	color: #53ADF0;
+}
+.hours h4 {
+	color: #F0C330;
+}
+
 /*form input.ng-valid.ng-touched {
     border-bottom: 1px solid #78FA89;
 }

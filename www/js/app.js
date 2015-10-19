@@ -62,12 +62,20 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       }
     }
   })
-
   .state('app.stats', {
-    url: '/stats',
+       url: '/stats',
+       views: {
+           'menuContent': {
+               templateUrl: 'templates/stats.html',
+               controller: "TabsPageController"
+           }
+       }
+  })
+  .state('app.about', {
+    url: '/about',
     views: {
       'menuContent': {
-        templateUrl: 'templates/stats.html'
+        templateUrl: 'templates/about.html'
       }
     }
   })

@@ -114,7 +114,16 @@ angular.module('workgenius.controllers', [])
 
 .controller('weeklyTargetCtrl', function($rootScope, $scope, $state) {
 })
+.controller('TabsPageController', [ '$scope', '$state', function($scope, $state) {
+        $scope.navTitle = 'Tab Page';
 
+        $scope.leftButtons = [{
+            type: 'button-icon icon ion-navicon',
+            tap: function(e) {
+                $scope.toggleMenu();
+            }
+        }];
+    }])
 .controller('LoginController', function($scope, $state, $rootScope, $ionicLoading, $ionicHistory) {
     $scope.user = {
         username: null,
