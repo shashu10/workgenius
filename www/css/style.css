@@ -52,7 +52,7 @@ form input.ng-invalid.ng-touched {
 	filter: grayscale(0);
 }
 
-.register .hours .icon {
+.register .icon {
 	font-size: large;
 }
 /*form input.ng-valid.ng-touched {

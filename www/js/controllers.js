@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('workgenius.controllers', [])
 
 .controller('AppCtrl', function($rootScope, $scope, $state, $ionicHistory) {
 
@@ -8,18 +8,6 @@ angular.module('starter.controllers', [])
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
   //});
-
-  // Perform the login action when the user submits the login form
-  // $scope.doSignup = function() {
-  //   console.log('Doing Signup', $scope.loginData);
-
-  //   // Simulate a login delay. Remove this and replace with your login
-  //   // code if using a login system
-  //   $timeout(function() {
-  //     $scope.closeLogin();
-  //   }, 1000);
-  // };
-
 
   $scope.logout = function() {
       Parse.User.logOut();
@@ -138,11 +126,55 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('RegisterController', function($scope, $state, $ionicLoading, $rootScope, $ionicHistory) {
+.controller('RegisterController', function($scope, $state, $ionicLoading, $ionicModal, $rootScope, $ionicHistory) {
     $scope.user = {};
     $scope.error = {};
 
     $scope.days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
+    $scope.schedules = {};
+    
+    // Required for modal initialization
+    $scope.schedule = {
+      id: "",
+      repeatWeekly: true,
+      editing: false,
+      startsAt: newTimePickerObject(),
+      endsAt: newTimePickerObject(),
+      day: "",
+    };
+    // Create the login modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/newSchedule.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+
+    $scope.editSchedule = function (day, schedule) {
+
+      $scope.schedule = schedule || {
+        id: Math.random().toString(),
+        repeatWeekly: false,
+        startsAt: newTimePickerObject(),
+        endsAt: newTimePickerObject(),
+        day: day,
+      };
+
+      $scope.modal.show();
+    };
+    $scope.deleteSchedule = function (schedule) {
+      $scope.schedules[schedule.day][schedule.id] = null;
+    };
+    $scope.saveDay = function () {
+      if (!$scope.schedules[$scope.schedule.day]) {
+        $scope.schedules[$scope.schedule.day] = {};
+      }
+      $scope.schedules[$scope.schedule.day][$scope.schedule.id] = $scope.schedule;
+      $scope.modal.hide();
+    };
+
+    $scope.discardDay = function () {
+      $scope.modal.hide();
+    };
 
     var companyList = [
       "bento",
@@ -254,3 +286,23 @@ angular.module('starter.controllers', [])
 
 .controller('ScheduleListCtrl', ['$scope', function($scope) {
 }]);
+
+function newTimePickerObject () {
+  return {
+      inputEpochTime: ((new Date()).getHours() * 60 * 60),  //Optional
+      step: 15,  //Optional
+      format: 12,  //Optional
+      titleLabel: '12-hour Format',  //Optional
+      setLabel: 'Set',  //Optional
+      closeLabel: 'Close',  //Optional
+      setButtonType: 'button-positive',  //Optional
+      closeButtonType: 'button-stable',  //Optional
+      callback: function (val) {    //Mandatory
+        if (typeof (val) === 'undefined') {
+          console.log('Time not selected');
+        } else {
+          this.inputEpochTime = val;
+        }
+      }
+    };
+}

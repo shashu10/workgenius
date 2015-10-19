@@ -26,15 +26,8 @@
             </ion-slide>
             <!-- Hours -->
             <ion-slide>
-                <div class="list box hours">
-                    <div ng-repeat="day in days">
-                        <div class="item item-divider">
-                            {{day}}
-                        </div>
-                        <a class="item item-icon-left" href="#">
-                            <i class="icon ion-ios-plus-outline"></i>
-                        </a>
-                    </div>
+                <div class="list box">
+                    <days/>
                 </div>
             </ion-slide>
             <!-- Signup -->
@@ -45,7 +38,6 @@
                         CREATE ACCOUNT
                     </button>
                     By creating an account you agree to the Terms of Use and Privacy Policy.
-                    <h1>PINK</h1>
                 </div>
             </ion-slide>
         </ion-slide-box>

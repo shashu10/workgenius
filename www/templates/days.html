@@ -1,0 +1,19 @@
+<div ng-repeat="day in days">
+    <div class="item item-divider">
+        {{day}}
+    </div>
+    <a ng-repeat = "(key, schedule) in schedules[day]" class="item item-icon-left" ng-click="editSchedule(day, schedule)" href="#">
+        <i class="icon ion-ios-minus-outline" ng-click="deleteSchedule(schedule)" ></i>
+        <span>
+            <standard-time-meridian etime='schedule.startsAt.inputEpochTime'/>,
+        </span>
+        -
+        <span>
+            <standard-time-meridian etime='schedule.endsAt.inputEpochTime'/>
+        </span>
+        <strong ng-show="{{schedule.repeatWeekly}}">R</strong>
+    </a>
+    <a class="item item-icon-left" ng-click="editSchedule(day)" href="#">
+        <i class="icon ion-ios-plus-outline"></i>
+    </a>
+</div>

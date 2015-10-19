@@ -1,0 +1,38 @@
+<ion-modal-view>
+  <ion-header-bar>
+
+    <div class="buttons">
+      <button class="button button-positive button-clear" ng-click="discardDay()">
+        Cancel
+      </button>
+    </div>
+
+    <h1 class="title">{{schedule.day | capitalize}}s</h1>
+
+    <div class="buttons">
+      <button class="button button-positive button-clear" ng-click="saveDay()">Accept</button>
+    </div>
+
+  </ion-header-bar>
+  <ion-content>
+
+  <ul>
+
+    <ionic-timepicker input-obj="schedule.startsAt" class="item item-button-right">
+      Starts
+        <standard-time-meridian etime='schedule.startsAt.inputEpochTime' class="button button-positive button-clear"/>
+    </ionic-timepicker>
+
+    <ionic-timepicker input-obj="schedule.endsAt" class="item item-button-right">
+      Ends
+        <standard-time-meridian etime='schedule.endsAt.inputEpochTime' class="button button-positive button-clear"/>
+    </ionic-timepicker>
+
+    <ion-toggle class="item" ng-model="schedule.repeatWeekly">
+      Repeat Weekly
+    </ion-toggle>
+
+  </ul>
+
+  </ion-content>
+</ion-modal-view>
