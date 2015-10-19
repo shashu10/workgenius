@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($rootScope, $scope, $state) {
+.controller('AppCtrl', function($rootScope, $scope, $state, $ionicHistory) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -25,7 +25,10 @@ angular.module('starter.controllers', [])
       Parse.User.logOut();
       $rootScope.user = null;
       $rootScope.isLoggedIn = false;
-      $state.go('app.search', {
+      $ionicHistory.nextViewOptions({
+          historyRoot: true
+      });
+      $state.go('app.schedule', {
           clear: true
       });
   };
@@ -45,7 +48,7 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('LoginController', function($scope, $state, $rootScope, $ionicLoading) {
+.controller('LoginController', function($scope, $state, $rootScope, $ionicLoading, $ionicHistory) {
     $scope.user = {
         username: null,
         password: null
@@ -68,6 +71,9 @@ angular.module('starter.controllers', [])
                 $ionicLoading.hide();
                 $rootScope.user = user;
                 $rootScope.isLoggedIn = true;
+                $ionicHistory.nextViewOptions({
+                    historyRoot: true
+                });
                 $state.go('app.schedule', {
                     clear: true
                 });
@@ -132,7 +138,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('RegisterController', function($scope, $state, $ionicLoading, $rootScope) {
+.controller('RegisterController', function($scope, $state, $ionicLoading, $rootScope, $ionicHistory) {
     $scope.user = {};
     $scope.error = {};
 
@@ -191,6 +197,9 @@ angular.module('starter.controllers', [])
                 $ionicLoading.hide();
                 $rootScope.user = user;
                 $rootScope.isLoggedIn = true;
+                $ionicHistory.nextViewOptions({
+                    historyRoot: true
+                });
                 $state.go('app.schedule', {
                     clear: true
                 });
