@@ -27,7 +27,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     if (currentUser) {
         $rootScope.user = currentUser;
         $rootScope.isLoggedIn = true;
-        // $state.go('app.schedule');
+        $state.go('app.schedule');
     } else {
       $rootScope.user = null;
       $rootScope.isLoggedIn = false;

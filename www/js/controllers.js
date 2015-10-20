@@ -299,7 +299,6 @@ angular.module('workgenius.controllers', [])
 .controller('ScheduleCtrl', ['$scope', function($scope, $rootScope) {
     $scope.Math = window.Math;
     $scope.options = {
-    defaultDate: "2015-08-06",
     minDate: "2015-01-01",
     maxDate: "2015-12-31",
     disabledDates: [
@@ -323,19 +322,19 @@ angular.module('workgenius.controllers', [])
 
   $scope.events = [
     {
-      company: 'Instacart', date: "2015-08-20",
+      company: 'Instacart', date: "2015-10-22",
       startsAt: new Date("October 22, 2015 07:00:00"),
       endsAt: new Date("October 22, 2015 10:00:00"),
       guarantee: true,
     },
     {
-      company: 'Bento', date: "2015-08-23",
+      company: 'Bento', date: "2015-10-22",
       startsAt: new Date("October 22, 2015 11:00:00"),
       endsAt: new Date("October 22, 2015 14:00:00"),
       guarantee: true,
     },
     {
-      company: 'Saucey', date: "2015-08-25",
+      company: 'Saucey', date: "2015-10-24",
       startsAt: new Date("October 24, 2015 13:00:00"),
       endsAt: new Date("October 24, 2015 14:30:00"),
       guarantee: false,
