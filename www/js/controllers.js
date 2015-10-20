@@ -114,6 +114,38 @@ angular.module('workgenius.controllers', [])
 
 .controller('weeklyTargetCtrl', function($rootScope, $scope, $state) {
 })
+
+.controller('ShiftsCtrl', function($rootScope, $scope, $state) {
+
+  $scope.shifts=[
+  {
+    name:"Coleen", company: "caviar", earnings: 62,
+    date: new Date("October 23, 2014"),
+    startsAt: new Date("October 23, 2014 18:30:00"),
+    endsAt: new Date("October 23, 2014 21:30:00")
+  },
+  {
+    name:"Sam R", company: "saucey", earnings: 72,
+    date: new Date("October 24, 2014"),
+    startsAt: new Date("October 24, 2014 19:00:00"),
+    endsAt: new Date("October 24, 2014 23:00:00")
+  },
+  {
+    name:"Ed D", company: "luxe", earnings: 80,
+    date: new Date("October 26, 2014"),
+    startsAt: new Date("October 26, 2014 8:00:00"),
+    endsAt: new Date("October 26, 2014 12:00:00")
+  },
+  {
+    name:"Josh", company: "instacart", earnings: 30,
+    date: new Date("October 30, 2014"),
+    startsAt: new Date("October 30, 2014 11:30:00"),
+    endsAt: new Date("October 30, 2014 13:30:00")
+  },
+  ];
+
+
+})
 .controller('TabsPageController', [ '$scope', '$state', function($scope, $state) {
         $scope.navTitle = 'Tab Page';
 

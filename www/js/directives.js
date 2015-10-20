@@ -10,6 +10,16 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/companies.html'
   };
 })
+.directive('shift', function() {
+  return {
+    templateUrl: 'templates/shift.html'
+  };
+})
+.directive('colorDivider', function() {
+  return {
+    templateUrl: 'templates/colorDivider.html'
+  };
+})
 .directive('weeklyTargetControls', function() {
   return {
     templateUrl: 'templates/weeklyTargetControls.html'

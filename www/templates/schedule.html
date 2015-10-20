@@ -1,13 +1,13 @@
 <ion-view ng-controller="ScheduleCtrl" view-title="Schedule">
     <ion-content>
-
     	<!-- Monthly Calendar -->
         <flex-calendar options="options" events="events"></flex-calendar>
 
         <!-- Schedule of events -->
         <ion-list ng-controller="ScheduleListCtrl">
-            <ion-item class="item-icon-left" ng-repeat="event in events">
-                <i class="icon ion-earth"></i>
+            <ion-item class="item-avatar" ng-repeat="event in events">
+                <img ng-src="img/companies/{{event.company.toLowerCase()}}.png">
+                <!-- <i class="icon ion-earth"></i> -->
                 <div class="schedule-text">
                     <div>
                         {{event.company}}    

@@ -58,7 +58,8 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     url: '/shifts',
     views: {
       'menuContent': {
-        templateUrl: 'templates/shifts.html'
+        templateUrl: 'templates/shifts.html',
+        controller: "ShiftsCtrl"
       }
     }
   })
