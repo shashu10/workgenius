@@ -321,24 +321,25 @@ angular.module('workgenius.controllers', [])
     },
   };
 
+  // Flex cal error displays one day behind
   $scope.events = [
     {
-      company: 'Instacart', date: "2015-10-22",
+      company: 'Instacart', date: "2015-10-23",
       startsAt: new Date("October 22, 2015 07:00:00"),
       endsAt: new Date("October 22, 2015 10:00:00"),
     },
     {
-      company: 'Bento', date: "2015-10-22",
+      company: 'Bento', date: "2015-10-23",
       startsAt: new Date("October 22, 2015 11:00:00"),
       endsAt: new Date("October 22, 2015 14:00:00"),
     },
     {
-      company: 'Saucey', date: "2015-10-24",
+      company: 'Saucey', date: "2015-10-25",
       startsAt: new Date("October 24, 2015 13:00:00"),
       endsAt: new Date("October 24, 2015 14:30:00"),
     },
     {
-      company: 'Caviar', date: "2015-10-25",
+      company: 'Caviar', date: "2015-10-26",
       startsAt: new Date("October 25, 2015 8:00:00"),
       endsAt: new Date("October 25, 2015 11:30:00"),
     },

@@ -33,7 +33,6 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       $rootScope.isLoggedIn = false;
     }
     if (!$rootScope.hourlyTarget) {
-      console.log('hourlyTarget not defined');
       $rootScope.hourlyTarget = 40;
       $rootScope.hourlyRate = 15;
     }

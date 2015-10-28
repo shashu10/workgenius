@@ -10,6 +10,11 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/companies.html'
   };
 })
+.directive('eventList', function() {
+  return {
+    templateUrl: 'templates/EventList.html'
+  };
+})
 .directive('shift', function() {
   return {
     templateUrl: 'templates/shift.html'
