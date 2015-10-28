@@ -100,13 +100,6 @@ form input.ng-invalid.ng-touched {
 	font-size: small;
     line-height: 12px;
 }
-.schedule-guarantee {
-	font-size: xx-small !important;
-	background-color: #A1A1A1;
-	display: inline;
-	color: white;
-	padding: 1px 4px;
-}
 .earnings, .hours {
 	text-align: center;
 }

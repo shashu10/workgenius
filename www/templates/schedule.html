@@ -5,7 +5,7 @@
 
         <!-- Schedule of events -->
         <ion-list ng-controller="ScheduleListCtrl">
-            <ion-item class="item-avatar" ng-repeat="event in events">
+            <ion-item class="item-avatar" ng-repeat="event in events" auto-list-divider auto-list-divider-value="{{event.startsAt.toISOString()}}" auto-list-divider-function="dividerFunction">
                 <img ng-src="img/companies/{{event.company.toLowerCase()}}.png">
                 <!-- <i class="icon ion-earth"></i> -->
                 <div class="schedule-text">
@@ -15,10 +15,9 @@
                     <div class="schedule-time">
                         <standard-time-meridian etime='event.startsAt.getHours()*3600'></standard-time-meridian> - <standard-time-meridian etime='event.endsAt.getHours()*3600'></standard-time-meridian>
                     </div>
-                    <div class="schedule-guarantee" ng-show="event.guarantee">GUARANTEED</div>
                 </div>
                 <span class="item-note earnings-estimate">
-                  earnings est: <i class="light-green">{{Math.floor(event.startsAt.getTime() - event.endsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</i>
+                  earnings est: <i class="light-green">{{getDuration(event) | currency:undefined:0}}</i>
                 </span>
             </ion-item>
         </ion-list>

@@ -297,8 +297,9 @@ angular.module('workgenius.controllers', [])
 })
 
 .controller('ScheduleCtrl', ['$scope', function($scope, $rootScope) {
-    $scope.Math = window.Math;
-    $scope.options = {
+  var hourlyRate = 15;
+  $scope.Math = window.Math;
+  $scope.options = {
     minDate: "2015-01-01",
     maxDate: "2015-12-31",
     disabledDates: [
@@ -325,24 +326,40 @@ angular.module('workgenius.controllers', [])
       company: 'Instacart', date: "2015-10-22",
       startsAt: new Date("October 22, 2015 07:00:00"),
       endsAt: new Date("October 22, 2015 10:00:00"),
-      guarantee: true,
     },
     {
       company: 'Bento', date: "2015-10-22",
       startsAt: new Date("October 22, 2015 11:00:00"),
       endsAt: new Date("October 22, 2015 14:00:00"),
-      guarantee: true,
     },
     {
       company: 'Saucey', date: "2015-10-24",
       startsAt: new Date("October 24, 2015 13:00:00"),
       endsAt: new Date("October 24, 2015 14:30:00"),
-      guarantee: false,
+    },
+    {
+      company: 'Caviar', date: "2015-10-25",
+      startsAt: new Date("October 25, 2015 8:00:00"),
+      endsAt: new Date("October 25, 2015 11:30:00"),
     },
   ];
+
+  $scope.getDuration = function (event) {
+    return Number((event.endsAt.getTime() - event.startsAt.getTime())/3600000 * hourlyRate);
+  };
+  // Assume dates are already sorted. If not, sort them
+  // $scope.events.sort(function(a,b){
+  //     var textA = a.company.toUpperCase();
+  //     var textB = b.company.toUpperCase();
+  //     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+  // });
+
 }])
 
 .controller('ScheduleListCtrl', ['$scope', function($scope) {
+  $scope.dividerFunction = function(date){
+    return moment(date).format('dddd Do');
+  };
 }]);
 
 function newTimePickerObject () {
@@ -364,3 +381,12 @@ function newTimePickerObject () {
       }
     };
 }
+var daysOfTheWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
