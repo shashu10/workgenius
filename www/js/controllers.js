@@ -20,6 +20,43 @@ angular.module('workgenius.controllers', [])
           clear: true
       });
   };
+
+  // Schedule calendar / list toggle
+
+  $scope.showRightIcon = ($state.current.name == "app.schedule" || $state.current.name == "app.scheduleList");
+  $scope.showCalendarIcon = true;
+
+  $scope.scheduleIsActive = function () {
+    console.log('test');
+    return false;
+  };
+
+  // $scope.currentState = "abc";
+  $scope.$on('$stateChangeStart', function(event, current) {
+    if (current.name == "app.schedule" || current.name == "app.scheduleList") {
+      $scope.showRightIcon = true;
+      $scope.showCalendarIcon = (current.name !== "app.schedule");
+    } else {
+      $scope.showRightIcon = false;
+    }
+  });
+
+  $scope.showScheduleCalendar = function () {
+    $scope.toggleWithoutAnimation('schedule');
+  };
+  $scope.showScheduleList = function () {
+    $scope.toggleWithoutAnimation('scheduleList');
+  };
+  $scope.toggleWithoutAnimation = function(state) {
+    $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableAnimate: true
+    });
+    $state.go('app.' + state, {
+        clear: true
+    });
+  };
+  // End
 })
 
 .controller('AvailabilityCtrl', function($rootScope, $scope, $state, $ionicModal) {
@@ -70,7 +107,6 @@ angular.module('workgenius.controllers', [])
     $scope.discardDay = function () {
       $scope.modal.hide();
     };
-
 })
 
 .controller('CompanyWhitelistCtrl', function($rootScope, $scope, $state) {

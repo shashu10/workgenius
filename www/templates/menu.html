@@ -8,6 +8,11 @@
         <button class="button button-icon button-clear workgenius-logo" menu-toggle="left">
         </button>
       </ion-nav-buttons>
+      <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear" ng-show="showRightIcon" ng-class="showCalendarIcon ? 'ion-ios-calendar-outline' : 'ion-ios-list-outline'"
+        ng-click="showCalendarIcon ? showScheduleCalendar() : showScheduleList()">
+        </button>
+      </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>

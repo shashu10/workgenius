@@ -136,6 +136,15 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     }
   })
 
+  .state('app.scheduleList', {
+      url: '/scheduleList',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/scheduleList.html'
+        }
+      }
+    })
+
   .state('app.schedule', {
       url: '/schedule',
       views: {
