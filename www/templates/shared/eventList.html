@@ -12,7 +12,7 @@
             </div>
         </div>
         <span class="item-note earnings-estimate">
-          earnings est: <i class="light-green">{{getDuration(event) | currency:undefined:0}}</i>
+          earnings est: <i class="light-green">{{(event.endsAt.getTime() - event.startsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</i>
         </span>
     </ion-item>
 </ion-list>

@@ -4,28 +4,28 @@
 			<ion-item href="#/app/weeklyTarget">
 			   Weekly Hours Target
 				<span class="item-note">
-					Set at: {{hourlyTarget}}
+					Set at: {{pref.hourlyTarget}}
 				</span>
 			</ion-item>
 
-			<ion-item href="#/app/companyWhitelist">
+			<ion-item href="#/app/companies-page">
 			   Company Whitelist
 				<span class="item-note">
-					<span ng-repeat= "(company, value) in companies" ng-show="value">{{company}}{{$last ? '' : ', '}}</span>
+					<span ng-repeat= "(company, value) in pref.companies" ng-show="value">{{company}}{{$last ? '' : ', '}}</span>
 				</span>
 			</ion-item>
 
 			<ion-item href="#/app/availability">
 			   Manage Availability
 				<span class="item-note">
-					{{totalHours}} Hours
+					{{totalHours}} {{totalHours == 1 ? 'Hour' : 'Hours'}}
 				</span>
 			</ion-item>
 
-			<ion-item href="#">
+			<ion-item href="#/app/vehicles-page">
 			   Vehicle Type
 				<span class="item-note">
-					Car
+					<span ng-repeat= "(vehicle, value) in pref.vehicles" ng-show="value">{{vehicle}}{{$last ? '' : ', '}}</span>
 				</span>
 			</ion-item>
 		</ion-list>

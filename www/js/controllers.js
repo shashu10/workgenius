@@ -92,24 +92,48 @@ angular.module('workgenius.controllers', [])
       $scope.modal.show();
     };
     $scope.deleteSchedule = function (schedule) {
-      $rootScope.totalHours -= ($scope.schedule.endsAt.inputEpochTime - $scope.schedule.startsAt.inputEpochTime)/3600;
       delete $rootScope.schedules[schedule.day][schedule.id];
+      $scope.recalculateHours();
     };
     $scope.saveDay = function () {
       if (!$rootScope.schedules[$scope.schedule.day]) {
         $rootScope.schedules[$scope.schedule.day] = {};
       }
       $rootScope.schedules[$scope.schedule.day][$scope.schedule.id] = $scope.schedule;
-      $rootScope.totalHours += ($scope.schedule.endsAt.inputEpochTime - $scope.schedule.startsAt.inputEpochTime)/3600;
       $scope.modal.hide();
+      $scope.recalculateHours();
     };
-
+    $scope.recalculateHours = function () {
+      var totalHours = 0;
+      for (var day in $rootScope.schedules) {
+        for (var sched in $rootScope.schedules[day]) {
+          var entry = $rootScope.schedules[day][sched];
+          totalHours += (entry.endsAt.inputEpochTime - entry.startsAt.inputEpochTime)/3600;
+        }
+      }
+      $rootScope.totalHours = totalHours;
+    };
     $scope.discardDay = function () {
       $scope.modal.hide();
     };
 })
+.controller('VehiclesCtrl', function($rootScope, $scope, $state) {
+  console.log('VehiclesCtrl running');
+    $scope.vehicleList = {
+      "car" : "ion-android-car",
+      "scooter" : "ion-android-cart",
+      "bicycle" : "ion-android-bicycle",
+      "motorbike" : "ion-android-plane"
+    };
 
-.controller('CompanyWhitelistCtrl', function($rootScope, $scope, $state) {
+    if (!$rootScope.pref.vehicles) {
+      $rootScope.pref.vehicles = {};
+      for (var vehicle in $scope.vehicleList) {
+        $rootScope.pref.vehicles[vehicle] = false;
+      }
+    }
+})
+.controller('CompaniesCtrl', function($rootScope, $scope, $state) {
     var companyList = [
       "bento",
       "caviar",
@@ -122,10 +146,10 @@ angular.module('workgenius.controllers', [])
       "workgenius",
     ];
 
-    if (!$rootScope.companies) {
-      $rootScope.companies = {};
+    if (!$rootScope.pref.companies) {
+      $rootScope.pref.companies = {};
       for (var i=0; i<companyList.length; i++) {
-        $rootScope.companies[companyList[i]] = false;
+        $rootScope.pref.companies[companyList[i]] = false;
       }
     }
 
@@ -140,8 +164,7 @@ angular.module('workgenius.controllers', [])
     $scope.chunkedCompanies = chunk(companyList, 3);
 
     $scope.select = function(name) {
-      $rootScope.companies[name] = !$rootScope.companies[name];
-      console.log("select: " + name + ", " + $rootScope.companies[name]);
+      $rootScope.pref.companies[name] = !$rootScope.pref.companies[name];
     };
 })
 
@@ -182,7 +205,7 @@ angular.module('workgenius.controllers', [])
 
 
 })
-.controller('TabsPageController', [ '$scope', '$state', function($scope, $state) {
+.controller('StatsController', [ '$scope', '$state', function($scope, $state) {
         $scope.navTitle = 'Tab Page';
 
         $scope.leftButtons = [{
@@ -333,7 +356,7 @@ angular.module('workgenius.controllers', [])
 })
 
 .controller('ScheduleCtrl', ['$scope', function($scope, $rootScope) {
-  var hourlyRate = 15;
+
   $scope.Math = window.Math;
   $scope.options = {
     minDate: "2015-01-01",
@@ -401,9 +424,6 @@ angular.module('workgenius.controllers', [])
     },
   ];
 
-  $scope.getDuration = function (event) {
-    return Number((event.endsAt.getTime() - event.startsAt.getTime())/3600000 * hourlyRate);
-  };
   // Assume dates are already sorted. If not, sort them
   // $scope.events.sort(function(a,b){
   //     var textA = a.company.toUpperCase();

@@ -32,8 +32,13 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       $rootScope.user = null;
       $rootScope.isLoggedIn = false;
     }
-    if (!$rootScope.hourlyTarget) {
-      $rootScope.hourlyTarget = 40;
+    if (!$rootScope.pref) {
+      $rootScope.pref = {};
+    }
+    if (!$rootScope.pref.hourlyTarget) {
+      $rootScope.pref.hourlyTarget = 40;
+    }
+    if (!$rootScope.hourlyRate) {
       $rootScope.hourlyRate = 15;
     }
     if (!$rootScope.schedules) {
@@ -62,42 +67,33 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       }
     }
   })
-  .state('app.stats', {
-       url: '/stats',
+  .state('app.stats-page', {
+       url: '/stats-page',
        views: {
            'menuContent': {
-               templateUrl: 'templates/main/stats.html',
-               controller: "TabsPageController"
+               templateUrl: 'templates/main/stats-page.html',
+               controller: "StatsController"
            }
        }
   })
-  .state('app.stats.earnings', {
-    url: "/earnings",
-    views: {
-      'home-tab': {
-        templateUrl: "templates/main/earnings.html",
-        controller: 'HomeTabCtrl'
-      }
-    }
-  })
-  .state('app.stats.hours', {
-    url: "/hours",
-    views: {
-      'home-tab': {
-        templateUrl: "templates/main/hours.html"
-      }
-    }
-  })
-  .state('app.companyWhitelist', {
-    url: '/companyWhitelist',
+  .state('app.companies-page', {
+    url: '/companies-page',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/companyWhitelist.html',
-        controller: 'CompanyWhitelistCtrl'
+        templateUrl: 'templates/main/companies-page.html',
+        controller: 'CompaniesCtrl'
       }
     }
   })
-
+  .state('app.vehicles-page', {
+    url: '/vehicles-page',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main/vehicles-page.html',
+        controller: 'VehiclesCtrl'
+      }
+    }
+  })
   .state('app.weeklyTarget', {
     url: '/weeklyTarget',
     views: {
