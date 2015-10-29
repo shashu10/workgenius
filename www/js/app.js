@@ -94,31 +94,31 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       }
     }
   })
-  .state('app.weeklyTarget', {
-    url: '/weeklyTarget',
+  .state('app.target-page', {
+    url: '/target-page',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/weeklyTarget.html',
-        controller: 'weeklyTargetCtrl'
+        templateUrl: 'templates/main/target-page.html',
+        controller: 'TargetCtrl'
       }
     }
   })
 
-  .state('app.availability', {
-    url: '/availability',
+  .state('app.availability-page', {
+    url: '/availability-page',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/availability.html',
+        templateUrl: 'templates/main/availability-page.html',
         controller: 'AvailabilityCtrl'
       }
     }
   })
 
-  .state('app.preferences', {
-    url: '/preferences',
+  .state('app.preferences-page', {
+    url: '/preferences-page',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/preferences.html',
+        templateUrl: 'templates/main/preferences-page.html',
         controller: 'PreferencesCtrl'
       }
     }
@@ -142,31 +142,31 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       }
     })
 
-  .state('app.login', {
-      url: '/login',
+  .state('app.login-page', {
+      url: '/login-page',
       views: {
           'menuContent': {
-              templateUrl: 'templates/main/login.html',
+              templateUrl: 'templates/main/login-page.html',
               controller: 'LoginController'
           }
       }
   })
 
-  .state('app.forgot', {
-      url: '/forgot',
+  .state('app.forgot-password-page', {
+      url: '/forgot-password-page',
       views: {
           'menuContent': {
-              templateUrl: 'templates/main/forgotPassword.html',
+              templateUrl: 'templates/main/forgot-password-page.html',
               controller: 'ForgotPasswordController'
           }
       }
   })
 
-  .state('app.register', {
-      url: '/register',
+  .state('app.register-page', {
+      url: '/register-page',
       views: {
           'menuContent': {
-              templateUrl: 'templates/main/register.html',
+              templateUrl: 'templates/main/register-page.html',
               controller: 'RegisterController'
           }
       }

@@ -1,53 +1,53 @@
 <ion-view view-title="Stats" left-buttons="leftButtons">
-    <ion-tabs class="tabs-icon-left tabs-top">
-        <ion-tab title="Earnings" icon="ion-cash">
-	        <div>
-	            <ion-content class="has-header padding">
-	                <div class="earnings center-text">
-	                	<h4>Today</h4>
-		                <h2>
-			                {{188 | currency:undefined:0}}
-		                </h2>
-		                <h4>This Week</h4>
-		                <h2>
-			                {{ 720 | currency:undefined:0}}
-		                </h2>
-		                <h4>This Month</h4>
-		                <h2>
-			                {{ 2410 | currency:undefined:0}}
-		                </h2>
-		                <h4>Lifetime</h4>
-		                <h2>
-			                {{ 11002 | currency:undefined:0}}
-		                </h2>
-	                </div>
-	            </ion-content>
-	        </div>
-        </ion-tab>
+    <ion-content class="has-header">
+    	<div class="wg-stats-toggler" ng-click="toggle = !toggle">
+    		<span ng-class="{wgBlueBack: toggle}">
+    			Earnings
+    		</span>
+    		<span ng-class="{wgYellowBack: !toggle}">
+    			Performance
+    		</span>
+    	</div>
+        <div title="Earnings" icon="ion-cash" ng-show="toggle">
+            <div class="earnings center-text">
+            	<h4>Today</h4>
+                <h2>
+	                {{188 | currency:undefined:0}}
+                </h2>
+                <h4>This Week</h4>
+                <h2>
+	                {{ 720 | currency:undefined:0}}
+                </h2>
+                <h4>This Month</h4>
+                <h2>
+	                {{ 2410 | currency:undefined:0}}
+                </h2>
+                <h4>Lifetime</h4>
+                <h2>
+	                {{ 11002 | currency:undefined:0}}
+                </h2>
+            </div>
+        </div>
 
-        <ion-tab title="Hours" icon="ion-clock">
-            <ion-nav-view name="about-tab">
-                <ion-content class="has-header padding">
-					<div class="hours center-text">
-						<h4>Today</h4>
-		                <h2>
-			                {{8}}
-		                </h2>
-		                <h4>This Week</h4>
-		                <h2>
-			                {{31}}
-		                </h2>
-		                <h4>This Month</h4>
-		                <h2>
-			                {{130}}
-		                </h2>
-		                <h4>Lifetime</h4>
-		                <h2>
-			                {{846}}
-		                </h2>
-					</div>
-                </ion-content>
-            </ion-nav-view>
-        </ion-tab>
-    </ion-tabs>
+        <div title="Hours" icon="ion-clock" ng-hide="toggle">
+			<div class="hours center-text">
+				<h4>Today</h4>
+                <h2>
+	                {{8}}
+                </h2>
+                <h4>This Week</h4>
+                <h2>
+	                {{31}}
+                </h2>
+                <h4>This Month</h4>
+                <h2>
+	                {{130}}
+                </h2>
+                <h4>Lifetime</h4>
+                <h2>
+	                {{846}}
+                </h2>
+			</div>
+        </div>
+    </ion-content>
 </ion-view>

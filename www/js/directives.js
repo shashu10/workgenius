@@ -25,9 +25,9 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/colorDivider.html'
   };
 })
-.directive('weeklyTargetControls', function() {
+.directive('targetControls', function() {
   return {
-    templateUrl: 'templates/shared/weeklyTargetControls.html'
+    templateUrl: 'templates/shared/targetControls.html'
   };
 })
 

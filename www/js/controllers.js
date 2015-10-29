@@ -174,7 +174,7 @@ angular.module('workgenius.controllers', [])
 .controller('PreferencesCtrl', function($rootScope, $scope, $state) {
 })
 
-.controller('weeklyTargetCtrl', function($rootScope, $scope, $state) {
+.controller('TargetCtrl', function($rootScope, $scope, $state) {
 })
 
 .controller('ShiftsCtrl', function($rootScope, $scope, $state) {
