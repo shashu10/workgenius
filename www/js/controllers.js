@@ -148,9 +148,9 @@ angular.module('workgenius.controllers', [])
 
     if (!$rootScope.pref.companies) {
       $rootScope.pref.companies = {};
-      for (var i=0; i<companyList.length; i++) {
-        $rootScope.pref.companies[companyList[i]] = false;
-      }
+      // for (var i=0; i<companyList.length; i++) {
+      //   $rootScope.pref.companies[companyList[i]] = false;
+      // }
     }
 
     var chunk = function (arr, size) {
@@ -164,7 +164,10 @@ angular.module('workgenius.controllers', [])
     $scope.chunkedCompanies = chunk(companyList, 3);
 
     $scope.select = function(name) {
-      $rootScope.pref.companies[name] = !$rootScope.pref.companies[name];
+      if ($rootScope.pref.companies[name])
+        delete $rootScope.pref.companies[name];
+      else
+        $rootScope.pref.companies[name] = true;
     };
 })
 
