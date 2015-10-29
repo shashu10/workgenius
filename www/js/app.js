@@ -50,7 +50,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+    controller: 'MenuCtrl'
   })
 
   .state('app.shifts', {
@@ -70,14 +70,6 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
                controller: "TabsPageController"
            }
        }
-  })
-  .state('app.about', {
-    url: '/about',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/about.html'
-      }
-    }
   })
   .state('app.stats.earnings', {
     url: "/earnings",

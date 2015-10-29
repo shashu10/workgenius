@@ -1,6 +1,6 @@
 angular.module('workgenius.controllers', [])
 
-.controller('AppCtrl', function($rootScope, $scope, $state, $ionicHistory) {
+.controller('MenuCtrl', function($rootScope, $scope, $state, $ionicHistory) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
