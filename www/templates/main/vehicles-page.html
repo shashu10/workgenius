@@ -1,12 +1,12 @@
 <ion-view view-title="Vehicles">
     <ion-content>
         <ion-list>
-            <ion-item class="item-checkbox item-icon-right" ng-repeat="(vehicle, icon) in vehicleList">
+            <ion-item class="item-checkbox item-icon-right" ng-repeat="vehicle in pref.vehicles">
                 <label class="checkbox">
-                    <input type="checkbox" ng-model="pref.vehicles[vehicle]">
+                    <input type="checkbox" ng-model="vehicle.selected">
                 </label>
-                {{vehicle}}
-                <i class="icon {{icon}}"></i>
+                {{vehicle.name}}
+                <i class="icon {{vehicle.icon}}"></i>
             </ion-item>
         </ion-list>
     </ion-content>

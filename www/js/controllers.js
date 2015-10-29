@@ -16,15 +16,15 @@ angular.module('workgenius.controllers', [])
       $ionicHistory.nextViewOptions({
           historyRoot: true
       });
-      $state.go('app.schedule', {
+      $state.go('app.schedule-calendar-page', {
           clear: true
       });
   };
 
   // Schedule calendar / list toggle
 
-  $scope.showRightIcon = ($state.current.name == "app.schedule" || $state.current.name == "app.scheduleList");
-  $scope.showCalendarIcon = $state.current.name == "app.scheduleList";
+  $scope.showRightIcon = ($state.current.name == "app.schedule-calendar-page" || $state.current.name == "app.schedule-list-page");
+  $scope.showCalendarIcon = $state.current.name == "app.schedule-list-page";
 
   $scope.scheduleIsActive = function () {
     console.log('test');
@@ -33,19 +33,19 @@ angular.module('workgenius.controllers', [])
 
   // $scope.currentState = "abc";
   $scope.$on('$stateChangeStart', function(event, current) {
-    if (current.name == "app.schedule" || current.name == "app.scheduleList") {
+    if (current.name == "app.schedule-calendar-page" || current.name == "app.schedule-list-page") {
       $scope.showRightIcon = true;
-      $scope.showCalendarIcon = (current.name !== "app.schedule");
+      $scope.showCalendarIcon = (current.name !== "app.schedule-calendar-page");
     } else {
       $scope.showRightIcon = false;
     }
   });
 
   $scope.showScheduleCalendar = function () {
-    $scope.toggleWithoutAnimation('schedule');
+    $scope.toggleWithoutAnimation('schedule-calendar-page');
   };
   $scope.showScheduleList = function () {
-    $scope.toggleWithoutAnimation('scheduleList');
+    $scope.toggleWithoutAnimation('schedule-list-page');
   };
   $scope.toggleWithoutAnimation = function(state) {
     $ionicHistory.nextViewOptions({
@@ -119,21 +119,34 @@ angular.module('workgenius.controllers', [])
 })
 .controller('VehiclesCtrl', function($rootScope, $scope, $state) {
   console.log('VehiclesCtrl running');
-    $scope.vehicleList = {
-      "car" : "ion-android-car",
-      "scooter" : "ion-android-cart",
-      "bicycle" : "ion-android-bicycle",
-      "motorbike" : "ion-android-plane"
-    };
 
     if (!$rootScope.pref.vehicles) {
-      $rootScope.pref.vehicles = {};
-      for (var vehicle in $scope.vehicleList) {
-        $rootScope.pref.vehicles[vehicle] = false;
-      }
+      $rootScope.pref.vehicles = [
+        {
+          name:"car",
+          icon: "ion-android-car",
+          selected: false
+        },
+        {
+          name:"scooter",
+          icon: "ion-android-cart",
+          selected: false
+        },
+        {
+          name:"bicycle",
+          icon: "ion-android-bicycle",
+          selected: false
+        },
+        {
+          name:"motorbike",
+          icon: "ion-android-plane",
+          selected: false
+        },
+      ];
     }
 })
 .controller('CompaniesCtrl', function($rootScope, $scope, $state) {
+  
     var companyList = [
       "bento",
       "caviar",
@@ -244,7 +257,7 @@ angular.module('workgenius.controllers', [])
                 $ionicHistory.nextViewOptions({
                     historyRoot: true
                 });
-                $state.go('app.schedule', {
+                $state.go('app.schedule-calendar-page', {
                     clear: true
                 });
             },
@@ -263,7 +276,7 @@ angular.module('workgenius.controllers', [])
     };
 
     $scope.forgot = function() {
-        $state.go('app.forgot');
+        $state.go('app.forgot-password-page');
     };
 })
 
@@ -337,7 +350,7 @@ angular.module('workgenius.controllers', [])
                 $ionicHistory.nextViewOptions({
                     historyRoot: true
                 });
-                $state.go('app.schedule', {
+                $state.go('app.schedule-calendar-page', {
                     clear: true
                 });
             },

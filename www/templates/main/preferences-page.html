@@ -25,7 +25,7 @@
 			<ion-item href="#/app/vehicles-page">
 			   Vehicle Type
 				<span class="item-note">
-					<span ng-repeat= "(vehicle, value) in pref.vehicles" ng-show="value">{{vehicle}}{{$last ? '' : ', '}}</span>
+					<span ng-repeat="vehicle in pref.vehicles | filter:{ selected: true }" >{{vehicle.name}}{{$last ? '' : ', '}}</span>
 				</span>
 			</ion-item>
 		</ion-list>

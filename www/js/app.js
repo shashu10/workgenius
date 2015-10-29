@@ -27,7 +27,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     if (currentUser) {
         $rootScope.user = currentUser;
         $rootScope.isLoggedIn = true;
-        $state.go('app.schedule');
+        $state.go('app.schedule-calendar-page');
     } else {
       $rootScope.user = null;
       $rootScope.isLoggedIn = false;
@@ -124,20 +124,20 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     }
   })
 
-  .state('app.scheduleList', {
-      url: '/scheduleList',
+  .state('app.schedule-list-page', {
+      url: '/schedule-list-page',
       views: {
         'menuContent': {
-          templateUrl: 'templates/main/scheduleList.html'
+          templateUrl: 'templates/main/schedule-list-page.html'
         }
       }
     })
 
-  .state('app.schedule', {
-      url: '/schedule',
+  .state('app.schedule-calendar-page', {
+      url: '/schedule-calendar-page',
       views: {
         'menuContent': {
-          templateUrl: 'templates/main/schedule.html'
+          templateUrl: 'templates/main/schedule-calendar-page.html'
         }
       }
     })
@@ -172,5 +172,5 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/login');
+  $urlRouterProvider.otherwise('/app/login-page');
 });
