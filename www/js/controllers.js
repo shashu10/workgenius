@@ -24,7 +24,7 @@ angular.module('workgenius.controllers', [])
   // Schedule calendar / list toggle
 
   $scope.showRightIcon = ($state.current.name == "app.schedule" || $state.current.name == "app.scheduleList");
-  $scope.showCalendarIcon = true;
+  $scope.showCalendarIcon = $state.current.name == "app.scheduleList";
 
   $scope.scheduleIsActive = function () {
     console.log('test');
@@ -379,6 +379,26 @@ angular.module('workgenius.controllers', [])
       startsAt: new Date("October 25, 2015 8:00:00"),
       endsAt: new Date("October 25, 2015 11:30:00"),
     },
+    {
+      company: 'Luxe', date: "2015-10-27",
+      startsAt: new Date("October 26, 2015 07:00:00"),
+      endsAt: new Date("October 26, 2015 10:00:00"),
+    },
+    {
+      company: 'Munchery', date: "2015-10-27",
+      startsAt: new Date("October 26, 2015 11:00:00"),
+      endsAt: new Date("October 26, 2015 14:00:00"),
+    },
+    {
+      company: 'Shyp', date: "2015-10-29",
+      startsAt: new Date("October 28, 2015 13:00:00"),
+      endsAt: new Date("October 28, 2015 14:30:00"),
+    },
+    {
+      company: 'Sprig', date: "2015-10-30",
+      startsAt: new Date("October 29, 2015 8:00:00"),
+      endsAt: new Date("October 29, 2015 11:30:00"),
+    },
   ];
 
   $scope.getDuration = function (event) {
@@ -418,12 +438,5 @@ function newTimePickerObject () {
       }
     };
 }
-var daysOfTheWeek = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
+
+

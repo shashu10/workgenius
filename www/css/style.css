@@ -109,7 +109,9 @@ form input.ng-invalid.ng-touched {
 .hours h4 {
 	color: #F0C330;
 }
-
+.item-company-icon > img:first-child {
+    border-radius: 0;
+}
 div.color-divider {
   display: -webkit-box;
   display: -moz-box;

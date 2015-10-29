@@ -1,6 +1,6 @@
 <!-- Schedule of events -->
 <ion-list ng-controller="ScheduleListCtrl">
-    <ion-item class="item-avatar" ng-repeat="event in events" auto-list-divider auto-list-divider-value="{{event.startsAt.toISOString()}}" auto-list-divider-function="dividerFunction">
+    <ion-item class="item-avatar item-company-icon" ng-repeat="event in events" auto-list-divider auto-list-divider-value="{{event.startsAt.toISOString()}}" auto-list-divider-function="dividerFunction">
         <img ng-src="img/companies/{{event.company.toLowerCase()}}.png">
         <!-- <i class="icon ion-earth"></i> -->
         <div class="schedule-text">
