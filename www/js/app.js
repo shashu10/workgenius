@@ -57,7 +57,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     url: '/shifts',
     views: {
       'menuContent': {
-        templateUrl: 'templates/shifts.html',
+        templateUrl: 'templates/main/shifts.html',
         controller: "ShiftsCtrl"
       }
     }
@@ -66,7 +66,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
        url: '/stats',
        views: {
            'menuContent': {
-               templateUrl: 'templates/stats.html',
+               templateUrl: 'templates/main/stats.html',
                controller: "TabsPageController"
            }
        }
@@ -75,7 +75,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     url: "/earnings",
     views: {
       'home-tab': {
-        templateUrl: "templates/earnings.html",
+        templateUrl: "templates/main/earnings.html",
         controller: 'HomeTabCtrl'
       }
     }
@@ -84,7 +84,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     url: "/hours",
     views: {
       'home-tab': {
-        templateUrl: "templates/hours.html"
+        templateUrl: "templates/main/hours.html"
       }
     }
   })
@@ -92,7 +92,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     url: '/companyWhitelist',
     views: {
       'menuContent': {
-        templateUrl: 'templates/companyWhitelist.html',
+        templateUrl: 'templates/main/companyWhitelist.html',
         controller: 'CompanyWhitelistCtrl'
       }
     }
@@ -102,7 +102,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     url: '/weeklyTarget',
     views: {
       'menuContent': {
-        templateUrl: 'templates/weeklyTarget.html',
+        templateUrl: 'templates/main/weeklyTarget.html',
         controller: 'weeklyTargetCtrl'
       }
     }
@@ -112,7 +112,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     url: '/availability',
     views: {
       'menuContent': {
-        templateUrl: 'templates/availability.html',
+        templateUrl: 'templates/main/availability.html',
         controller: 'AvailabilityCtrl'
       }
     }
@@ -122,7 +122,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
     url: '/preferences',
     views: {
       'menuContent': {
-        templateUrl: 'templates/preferences.html',
+        templateUrl: 'templates/main/preferences.html',
         controller: 'PreferencesCtrl'
       }
     }
@@ -132,7 +132,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       url: '/scheduleList',
       views: {
         'menuContent': {
-          templateUrl: 'templates/scheduleList.html'
+          templateUrl: 'templates/main/scheduleList.html'
         }
       }
     })
@@ -141,7 +141,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       url: '/schedule',
       views: {
         'menuContent': {
-          templateUrl: 'templates/schedule.html'
+          templateUrl: 'templates/main/schedule.html'
         }
       }
     })
@@ -150,7 +150,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       url: '/login',
       views: {
           'menuContent': {
-              templateUrl: 'templates/login.html',
+              templateUrl: 'templates/main/login.html',
               controller: 'LoginController'
           }
       }
@@ -160,7 +160,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       url: '/forgot',
       views: {
           'menuContent': {
-              templateUrl: 'templates/forgotPassword.html',
+              templateUrl: 'templates/main/forgotPassword.html',
               controller: 'ForgotPasswordController'
           }
       }
@@ -170,7 +170,7 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       url: '/register',
       views: {
           'menuContent': {
-              templateUrl: 'templates/register.html',
+              templateUrl: 'templates/main/register.html',
               controller: 'RegisterController'
           }
       }

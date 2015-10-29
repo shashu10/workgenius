@@ -2,32 +2,32 @@ angular.module('workgenius.directives', [])
 
 .directive('days', function() {
   return {
-    templateUrl: 'templates/days.html'
+    templateUrl: 'templates/shared/days.html'
   };
 })
 .directive('companies', function() {
   return {
-    templateUrl: 'templates/companies.html'
+    templateUrl: 'templates/shared/companies.html'
   };
 })
 .directive('eventList', function() {
   return {
-    templateUrl: 'templates/EventList.html'
+    templateUrl: 'templates/shared/eventList.html'
   };
 })
 .directive('shift', function() {
   return {
-    templateUrl: 'templates/shift.html'
+    templateUrl: 'templates/shared/shift.html'
   };
 })
 .directive('colorDivider', function() {
   return {
-    templateUrl: 'templates/colorDivider.html'
+    templateUrl: 'templates/shared/colorDivider.html'
   };
 })
 .directive('weeklyTargetControls', function() {
   return {
-    templateUrl: 'templates/weeklyTargetControls.html'
+    templateUrl: 'templates/shared/weeklyTargetControls.html'
   };
 })
 

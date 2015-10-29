@@ -73,7 +73,7 @@ angular.module('workgenius.controllers', [])
       day: "",
     };
     // Create the login modal that we will use later
-    $ionicModal.fromTemplateUrl('templates/newSchedule.html', {
+    $ionicModal.fromTemplateUrl('templates/shared/newSchedule.html', {
       scope: $scope
     }).then(function(modal) {
       $scope.modal = modal;
