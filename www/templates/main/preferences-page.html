@@ -28,6 +28,12 @@
 					<span ng-repeat="vehicle in pref.vehicles | filter:{ selected: true }" >{{vehicle.name}}{{$last ? '' : ', '}}</span>
 				</span>
 			</ion-item>
+
+			<ion-item class="item-icon-right assertive" ng-click="logout()" ng-show="isLoggedIn">
+	          Logout
+	          <i class="icon ion-log-out"></i>
+	        </ion-item>
+
 		</ion-list>
 	</ion-content>
 </ion-view>

@@ -345,3 +345,6 @@ span.wg-dash {
 .wg-tiny {
 	/*font-size: medium;*/
 }
+.item-company-icon img {
+	border-radius: 0 !important;
+}
