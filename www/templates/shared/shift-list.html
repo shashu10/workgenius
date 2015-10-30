@@ -1,6 +1,6 @@
 <!-- Schedule of shifts -->
 <ion-list ng-controller="ScheduleListCtrl">
-    <div ng-repeat="group in shifts">
+    <div ng-repeat="group in groupedShifts">
         <ion-item class="item-divider">
             {{dividerFunction(group[0].startsAt)}}
         </ion-item>

@@ -429,17 +429,38 @@ angular.module('workgenius.controllers', [])
     ],
     dayNamesLength: 1, // 1 for "M", 2 for "Mo", 3 for "Mon"; 9 will show full day names. Default is 1.
     mondayIsFirstDay: true,//set monday as first day of week. Default is false
-    eventClick: function(date) {
-      console.log(date);
+    eventClick: function(event) {
+      $scope.truncateShiftsList(event);
     },
-    dateClick: function(date) {
-      console.log(date);
+    dateClick: function(event) {
+      $scope.truncateShiftsList(event);
     },
     changeMonth: function(month, year) {
-      console.log(month, year);
+      var mo = month.index + 1;
+      var event = new Date(year + "-" + mo + "-" + "01");
+      $scope.truncateShiftsList({date: event});
     },
   };
+  $scope.truncateShiftsList = function (event) {
+    var eventDate = new Date(event.date);
 
+    var grouped = groupBy($scope.shifts, function(item){return [item.date];});
+    for (var i = 0; i< grouped.length; i++) {
+      var thisDate = new Date(grouped[i][0].date);
+      if (eventDate.getMonth() < thisDate.getMonth()) {
+        $scope.groupedShifts = grouped.splice(i);
+        return;
+      }
+      if (eventDate.getMonth() == thisDate.getMonth()) {
+        if (eventDate.getDate() <= thisDate.getDate()) {
+          $scope.groupedShifts = grouped.splice(i);
+          return;
+        }
+      }
+
+    }
+    $scope.groupedShifts = [];
+  };
   // Flex cal error displays one day behind
   $scope.shifts = [
     {
@@ -495,11 +516,7 @@ angular.module('workgenius.controllers', [])
       group.splice(idx, 1);
     }
   };
-  $scope.shifts = groupBy($scope.shifts, function(item)
-  {
-    return [item.date];
-  });
-
+  $scope.groupedShifts = groupBy($scope.shifts, function(item){return [item.date];});
   // Assume dates are already sorted. If not, sort them
   // $scope.shifts.sort(function(a,b){
   //     var textA = a.company.toUpperCase();
