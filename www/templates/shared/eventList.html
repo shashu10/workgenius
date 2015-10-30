@@ -1,18 +1,33 @@
-<!-- Schedule of events -->
+<!-- Schedule of shifts -->
 <ion-list ng-controller="ScheduleListCtrl">
-    <ion-item class="item-avatar item-company-icon" ng-repeat="event in events" auto-list-divider auto-list-divider-value="{{event.startsAt.toISOString()}}" auto-list-divider-function="dividerFunction">
-        <img ng-src="img/companies/{{event.company.toLowerCase()}}.png">
-        <!-- <i class="icon ion-earth"></i> -->
-        <div class="schedule-text">
-            <div>
-                {{event.company}}    
+    <div ng-repeat="group in shifts">
+        <ion-item class="item-divider">
+            {{dividerFunction(group[0].startsAt)}}
+        </ion-item>
+        <ion-item class="item-avatar item-company-icon" ng-repeat="shift in group" can-swipe="true">
+            <img ng-src="img/companies/{{shift.company.toLowerCase()}}.png">
+            <!-- <i class="icon ion-earth"></i> -->
+            <div class="schedule-text">
+                <div>
+                    {{shift.company}}
+                </div>
+                <div class="schedule-time">
+                    <standard-time-meridian etime='shift.startsAt.getHours()*3600'></standard-time-meridian> -
+                    <standard-time-meridian etime='shift.endsAt.getHours()*3600'></standard-time-meridian>
+                </div>
             </div>
-            <div class="schedule-time">
-                <standard-time-meridian etime='event.startsAt.getHours()*3600'></standard-time-meridian> - <standard-time-meridian etime='event.endsAt.getHours()*3600'></standard-time-meridian>
-            </div>
-        </div>
-        <span class="item-note earnings-estimate">
-          earnings est: <i class="light-green">{{(event.endsAt.getTime() - event.startsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</i>
-        </span>
-    </ion-item>
+            <span class="item-note earnings-estimate">
+              earnings est: <i class="light-green">{{(shift.endsAt.getTime() - shift.startsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</i>
+            </span>
+            <ion-option-button class="button-info" ng-click="goToApp(shift)">
+                App
+            </ion-option-button>
+            <ion-option-button class="button-positive" ng-click="tradeShift(shift)">
+                Trade
+            </ion-option-button>
+            <ion-option-button class="button-assertive" ng-click="deleteShift(shift, group, shifts)">
+                Delete
+            </ion-option-button>
+        </ion-item>
+    </div>
 </ion-list>

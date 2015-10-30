@@ -27,7 +27,6 @@ angular.module('workgenius.controllers', [])
   $scope.showCalendarIcon = $state.current.name == "app.schedule-list-page";
 
   $scope.scheduleIsActive = function () {
-    console.log('test');
     return false;
   };
 
@@ -118,7 +117,6 @@ angular.module('workgenius.controllers', [])
     };
 })
 .controller('VehiclesCtrl', function($rootScope, $scope, $state) {
-  console.log('VehiclesCtrl running');
 
     if (!$rootScope.pref.vehicles) {
       $rootScope.pref.vehicles = [
@@ -161,9 +159,6 @@ angular.module('workgenius.controllers', [])
 
     if (!$rootScope.pref.companies) {
       $rootScope.pref.companies = {};
-      // for (var i=0; i<companyList.length; i++) {
-      //   $rootScope.pref.companies[companyList[i]] = false;
-      // }
     }
 
     var chunk = function (arr, size) {
@@ -397,7 +392,7 @@ angular.module('workgenius.controllers', [])
   };
 
   // Flex cal error displays one day behind
-  $scope.events = [
+  $scope.shifts = [
     {
       company: 'Instacart', date: "2015-10-23",
       startsAt: new Date("October 22, 2015 07:00:00"),
@@ -439,6 +434,22 @@ angular.module('workgenius.controllers', [])
       endsAt: new Date("October 29, 2015 11:30:00"),
     },
   ];
+  $scope.deleteShift = function (shift, group, shifts) {
+    var idx = group.indexOf(shift);
+    if (group.length === 1) {
+      
+      idx = shifts.indexOf(group);
+      shifts.splice(idx, 1);
+      group.splice(idx, 1);
+    } else {
+
+      group.splice(idx, 1);
+    }
+  };
+  $scope.shifts = groupBy($scope.shifts, function(item)
+  {
+    return [item.date];
+  });
 
   // Assume dates are already sorted. If not, sort them
   // $scope.events.sort(function(a,b){
@@ -476,3 +487,17 @@ function newTimePickerObject () {
 }
 
 
+function groupBy( array , f )
+{
+  var groups = {};
+  array.forEach( function( o )
+  {
+    var group = JSON.stringify( f(o) );
+    groups[group] = groups[group] || [];
+    groups[group].push( o );  
+  });
+  return Object.keys(groups).map( function( group )
+  {
+    return groups[group]; 
+  })
+}
