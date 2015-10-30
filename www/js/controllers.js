@@ -71,6 +71,7 @@ angular.module('workgenius.controllers', [])
       endsAt: newTimePickerObject(),
       day: "",
     };
+
     // Create the login modal that we will use later
     $ionicModal.fromTemplateUrl('templates/shared/newSchedule.html', {
       scope: $scope
@@ -185,35 +186,53 @@ angular.module('workgenius.controllers', [])
 .controller('TargetCtrl', function($rootScope, $scope, $state) {
 })
 
-.controller('ShiftsCtrl', function($rootScope, $scope, $state) {
+.controller('ShiftsCtrl', function($rootScope, $scope, $state, $ionicModal) {
 
   $scope.shifts=[
-  {
-    name:"Coleen", company: "caviar", earnings: 62,
-    date: new Date("October 23, 2014"),
-    startsAt: new Date("October 23, 2014 18:30:00"),
-    endsAt: new Date("October 23, 2014 21:30:00")
-  },
-  {
-    name:"Sam R", company: "saucey", earnings: 72,
-    date: new Date("October 24, 2014"),
-    startsAt: new Date("October 24, 2014 19:00:00"),
-    endsAt: new Date("October 24, 2014 23:00:00")
-  },
-  {
-    name:"Ed D", company: "luxe", earnings: 80,
-    date: new Date("October 26, 2014"),
-    startsAt: new Date("October 26, 2014 8:00:00"),
-    endsAt: new Date("October 26, 2014 12:00:00")
-  },
-  {
-    name:"Josh", company: "instacart", earnings: 30,
-    date: new Date("October 30, 2014"),
-    startsAt: new Date("October 30, 2014 11:30:00"),
-    endsAt: new Date("October 30, 2014 13:30:00")
-  },
+    {
+      name:"Coleen", company: "caviar", earnings: 62,
+      date: new Date("October 23, 2014"),
+      startsAt: new Date("October 23, 2014 18:30:00"),
+      endsAt: new Date("October 23, 2014 21:30:00")
+    },
+    {
+      name:"Sam R", company: "saucey", earnings: 72,
+      date: new Date("October 24, 2014"),
+      startsAt: new Date("October 24, 2014 19:00:00"),
+      endsAt: new Date("October 24, 2014 23:00:00")
+    },
+    {
+      name:"Ed D", company: "luxe", earnings: 80,
+      date: new Date("October 26, 2014"),
+      startsAt: new Date("October 26, 2014 8:00:00"),
+      endsAt: new Date("October 26, 2014 12:00:00")
+    },
+    {
+      name:"Josh", company: "instacart", earnings: 30,
+      date: new Date("October 30, 2014"),
+      startsAt: new Date("October 30, 2014 11:30:00"),
+      endsAt: new Date("October 30, 2014 13:30:00")
+    },
   ];
+  $scope.selectedShift = $scope.shifts[0];
+  // Create the login modal that we will use later
+  $ionicModal.fromTemplateUrl('templates/shared/accept-shift.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
 
+  $scope.accept = function (shift) {
+    $scope.selectedShift = shift;
+    $scope.modal.show();
+  };
+
+  $scope.acceptShift = function (shift) {
+    $scope.modal.hide();
+  };
+  $scope.declineShift = function (shift) {
+    $scope.modal.hide();
+  };
 
 })
 .controller('StatsController', [ '$scope', '$state', function($scope, $state) {

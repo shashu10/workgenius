@@ -321,3 +321,27 @@ span.wg-dash {
 	display: block;
     color: #2D98CB !important;
 }
+.wg-buttons-line {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+}
+.wg-buttons-line button {
+	margin: 10px;
+	-webkit-flex: 1;
+	-moz-flex: 1;
+	-ms-flex: 1;
+	-o-flex: 1;
+	flex: 1;
+}
+.wg-center-header {
+	text-align: center;
+}
+.wg-blue {
+	color: #2D98CB;
+}
+.wg-tiny {
+	/*font-size: medium;*/
+}
