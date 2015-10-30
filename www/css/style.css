@@ -63,11 +63,14 @@ form input.ng-invalid.ng-touched {
 .days .title p {
 	margin: 0;
 }
-.days .title strong.red {
+.wg-red {
 	line-height: 40px;
 	color: #B30000;
 }
-
+.wg-blue {
+	line-height: 40px;
+	color: #2D98CB;
+}
 .weeklyTarget {
 	text-align: center;
 }
@@ -251,4 +254,7 @@ div.color-divider {
 .wg-stats-toggler span.wgYellowBack{
     background-color: #F0C330;
     color: white;
+}
+.item.range {
+	border: none;
 }

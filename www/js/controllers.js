@@ -317,7 +317,7 @@ angular.module('workgenius.controllers', [])
 })
 
 .controller('RegisterController', function($scope, $state, $ionicLoading, $rootScope, $ionicHistory) {
-    $scope.user = {};
+    $rootScope.pref.user = $rootScope.pref.user || {};
     $scope.error = {};
 
     $scope.register = function() {
@@ -332,9 +332,9 @@ angular.module('workgenius.controllers', [])
         });
 
         var user = new Parse.User();
-        user.set("username", $scope.user.email);
-        user.set("password", $scope.user.password);
-        user.set("email", $scope.user.email);
+        user.set("username", $rootScope.pref.user.email);
+        user.set("password", $rootScope.pref.user.password);
+        user.set("email", $rootScope.pref.user.email);
 
 
         user.signUp(null, {
@@ -358,6 +358,7 @@ angular.module('workgenius.controllers', [])
                     $scope.error.message = 'The email address is already ' +
                         'registered';
                 } else {
+                  console.log('test');
                     $scope.error.message = error.message;
                 }
                 $scope.$apply();

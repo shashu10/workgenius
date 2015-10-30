@@ -4,7 +4,7 @@
         <p>tap on the (+) sign on the day you want to set your availability.</p>
         <p>You can add as many hours as you like!</p>
 
-        <strong class="red">Total: {{totalHours}} {{totalHours == 1 ? 'Hour' : 'Hours'}}</strong>
+        <strong ng-class="totalHours === 0 ? 'wg-red' : 'wg-blue'">Total: {{totalHours}} {{totalHours == 1 ? 'Hour' : 'Hours'}}</strong>
     </div>
 
     <div ng-repeat="day in days">

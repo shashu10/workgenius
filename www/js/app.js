@@ -162,11 +162,38 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       }
   })
 
-  .state('app.register-page', {
-      url: '/register-page',
+  .state('app.register-account-info', {
+      url: '/register-account-info',
       views: {
           'menuContent': {
-              templateUrl: 'templates/main/register-page.html',
+              templateUrl: 'templates/login/register-account-info.html',
+              controller: 'RegisterController'
+          }
+      }
+  })
+  .state('app.register-companies', {
+      url: '/register-companies',
+      views: {
+          'menuContent': {
+              templateUrl: 'templates/login/register-companies.html',
+              controller: 'RegisterController'
+          }
+      }
+  })
+  .state('app.register-schedule', {
+      url: '/register-schedule',
+      views: {
+          'menuContent': {
+              templateUrl: 'templates/login/register-schedule.html',
+              controller: 'RegisterController'
+          }
+      }
+  })
+  .state('app.register-target-hours', {
+      url: '/register-target-hours',
+      views: {
+          'menuContent': {
+              templateUrl: 'templates/login/register-target-hours.html',
               controller: 'RegisterController'
           }
       }
