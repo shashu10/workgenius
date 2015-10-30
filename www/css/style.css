@@ -258,3 +258,66 @@ div.color-divider {
 .item.range {
 	border: none;
 }
+
+.wg-pager {
+
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+
+    margin: auto;
+    padding: 20px 0 15px 0;
+    width: 250px;
+    text-align: center;
+}
+.wg-pager>span{
+
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+
+	-webkit-flex: 1;
+	-moz-flex: 1;
+	-ms-flex: 1;
+	-o-flex: 1;
+	flex: 1;
+}
+.wg-pager-selected .wg-dash,
+.wg-pager-selected .wg-circle {
+    background-color: #2D98CB !important;
+}
+span.wg-circle {
+    background-color: #DDDDDD;
+    border-radius: 100px;
+    width: 21px;
+    color: white;
+    position: relative;
+}
+
+span.wg-dash {
+	-webkit-flex: 1;
+	-moz-flex: 1;
+	-ms-flex: 1;
+	-o-flex: 1;
+	flex: 1;
+    height: 2px;
+    margin: auto;
+    background-color: #DDDDDD;
+}
+.wg-pager-label {
+    position: absolute;
+    top: -22px;
+    overflow: visible;
+    width: 100px;
+    left: -40px;
+    font-size: smaller;
+    display: none;
+}
+.wg-pager-selected .wg-pager-label {
+	display: block;
+    color: #2D98CB !important;
+}

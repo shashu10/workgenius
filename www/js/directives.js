@@ -30,7 +30,11 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/targetControls.html'
   };
 })
-
+.directive('wgPager', function() {
+  return {
+    templateUrl: 'templates/shared/wg-pager.html'
+  };
+})
 .directive('standardTimeMeridian', function () {
     return {
         restrict: 'AE',

@@ -319,6 +319,35 @@ angular.module('workgenius.controllers', [])
 .controller('RegisterController', function($scope, $state, $ionicLoading, $rootScope, $ionicHistory) {
     $rootScope.pref.user = $rootScope.pref.user || {};
     $scope.error = {};
+    $scope.labels = [
+      "sign up",
+      "companies",
+      "availability",
+      "target hours",
+    ];
+    var nextPage = "";
+    switch($state.current.name) {
+        case 'app.register-account-info':
+            $scope.currentPage = 0;
+            nextPage = 'app.register-companies';
+            break;
+        case 'app.register-companies':
+            $scope.currentPage = 1;
+            nextPage = 'app.register-schedule';
+            break;
+        case 'app.register-schedule':
+            $scope.currentPage = 2;
+            nextPage = 'app.register-target-hours';
+            break;
+        case 'app.register-target-hours':
+            $scope.currentPage = 3;
+            break;
+    }
+    $scope.next = function() {
+      $state.go(nextPage, {
+          clear: true
+      });
+    };
 
     $scope.register = function() {
 
