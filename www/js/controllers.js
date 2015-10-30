@@ -452,7 +452,7 @@ angular.module('workgenius.controllers', [])
   });
 
   // Assume dates are already sorted. If not, sort them
-  // $scope.events.sort(function(a,b){
+  // $scope.shifts.sort(function(a,b){
   //     var textA = a.company.toUpperCase();
   //     var textB = b.company.toUpperCase();
   //     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;

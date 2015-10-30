@@ -10,9 +10,9 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/companies.html'
   };
 })
-.directive('eventList', function() {
+.directive('shiftList', function() {
   return {
-    templateUrl: 'templates/shared/eventList.html'
+    templateUrl: 'templates/shared/shift-list.html'
   };
 })
 .directive('shift', function() {
