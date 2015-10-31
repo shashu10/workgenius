@@ -268,7 +268,7 @@ div.color-divider {
 	display: flex;
 
     margin: auto;
-    padding: 20px 0 15px 0;
+    padding: 30px 0 15px 0;
     width: 250px;
     text-align: center;
 }
@@ -280,11 +280,19 @@ div.color-divider {
 	display: -o-flex;
 	display: flex;
 
-	-webkit-flex: 1;
-	-moz-flex: 1;
-	-ms-flex: 1;
-	-o-flex: 1;
-	flex: 1;
+	-webkit-flex: 2;
+	-moz-flex: 2;
+	-ms-flex: 2;
+	-o-flex: 2;
+	flex: 2;
+}
+.wg-pager>span:last-child{
+
+	-webkit-flex: 0 0 21px;
+	-moz-flex: 0 0 21px;
+	-ms-flex: 0 0 21px;
+	-o-flex: 0 0 21px;
+	flex: 0 0 21px;
 }
 .wg-pager-selected .wg-dash,
 .wg-pager-selected .wg-circle {

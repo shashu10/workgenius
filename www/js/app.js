@@ -48,7 +48,9 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  $ionicConfigProvider.views.forwardCache(true);
+
   $stateProvider
 
   .state('app', {
@@ -142,62 +144,83 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       }
     })
 
-  .state('app.login-page', {
-      url: '/login-page',
-      views: {
-          'menuContent': {
-              templateUrl: 'templates/main/login-page.html',
-              controller: 'LoginController'
-          }
-      }
+  // .state('app.login-page', {
+  //     url: '/login-page',
+  //     views: {
+  //         'menuContent': {
+  //             templateUrl: 'templates/main/login-page.html',
+  //             controller: 'LoginController'
+  //         }
+  //     }
+  // })
+
+  // setup an abstract state for the tabs directive
+  .state('tab', {
+    url: '/tab',
+    abstract: true,
+    templateUrl: 'templates/login/tabs.html'
   })
 
-  .state('app.forgot-password-page', {
+  // Each tab has its own nav history stack:
+
+  .state('tab.login', {
+    url: '/login',
+    views: {
+      'tab-login': {
+        templateUrl: 'templates/login/login-tab.html',
+        controller: 'LoginController'
+      }
+    }
+  })
+
+  .state('tab.forgot-password-page', {
       url: '/forgot-password-page',
       views: {
-          'menuContent': {
+          'tab-login': {
               templateUrl: 'templates/main/forgot-password-page.html',
               controller: 'ForgotPasswordController'
           }
       }
   })
-
-  .state('app.register-account-info', {
+  .state('tab.register-account-info', {
       url: '/register-account-info',
       views: {
-          'menuContent': {
+          'tab-register': {
               templateUrl: 'templates/login/register-account-info.html',
               controller: 'RegisterController'
           }
       }
   })
-  .state('app.register-companies', {
+  .state('tab.register-companies', {
       url: '/register-companies',
       views: {
-          'menuContent': {
+          'tab-register': {
               templateUrl: 'templates/login/register-companies.html',
               controller: 'RegisterController'
           }
       }
   })
-  .state('app.register-schedule', {
+  .state('tab.register-schedule', {
       url: '/register-schedule',
       views: {
-          'menuContent': {
+          'tab-register': {
               templateUrl: 'templates/login/register-schedule.html',
               controller: 'RegisterController'
           }
       }
   })
-  .state('app.register-target-hours', {
+  .state('tab.register-target-hours', {
       url: '/register-target-hours',
       views: {
-          'menuContent': {
+          'tab-register': {
               templateUrl: 'templates/login/register-target-hours.html',
               controller: 'RegisterController'
           }
       }
   });
+
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/login-page');
+  $urlRouterProvider.otherwise('/tab/login');
+  // if none of the above states are matched, use this as the fallback
+  // $urlRouterProvider.otherwise('/app/login-page');
 });

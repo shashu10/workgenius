@@ -16,7 +16,7 @@ angular.module('workgenius.controllers', [])
       $ionicHistory.nextViewOptions({
           historyRoot: true
       });
-      $state.go('app.schedule-calendar-page', {
+      $state.go('tab.login', {
           clear: true
       });
   };
@@ -290,7 +290,7 @@ angular.module('workgenius.controllers', [])
     };
 
     $scope.forgot = function() {
-        $state.go('app.forgot-password-page');
+        $state.go('tab.forgot-password-page');
     };
 })
 
@@ -346,19 +346,19 @@ angular.module('workgenius.controllers', [])
     ];
     var nextPage = "";
     switch($state.current.name) {
-        case 'app.register-account-info':
+        case 'tab.register-account-info':
             $scope.currentPage = 0;
-            nextPage = 'app.register-companies';
+            nextPage = 'tab.register-companies';
             break;
-        case 'app.register-companies':
+        case 'tab.register-companies':
             $scope.currentPage = 1;
-            nextPage = 'app.register-schedule';
+            nextPage = 'tab.register-schedule';
             break;
-        case 'app.register-schedule':
+        case 'tab.register-schedule':
             $scope.currentPage = 2;
-            nextPage = 'app.register-target-hours';
+            nextPage = 'tab.register-target-hours';
             break;
-        case 'app.register-target-hours':
+        case 'tab.register-target-hours':
             $scope.currentPage = 3;
             break;
     }
