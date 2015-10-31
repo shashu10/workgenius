@@ -36,7 +36,7 @@
 
 .flex-calendar .month .arrow,
 .flex-calendar .month .label{
-  height: 60px;
+  height: 44px;
 
   -webkit-box-ordinal-group: 1;
 
@@ -52,7 +52,7 @@
   -webkit-align-self: auto;
       -ms-flex-item-align: auto;
           align-self: auto;
-  line-height: 60px;
+  line-height: 45px;
 
   font-size:20px;
 }
@@ -63,7 +63,7 @@
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABqUlEQVR4Xt3b0U3EMBCE4XEFUAolHB0clUFHUAJ0cldBkKUgnRDh7PWsd9Z5Tpz8nyxFspOCJMe2bU8AXgG8lFIurMcurIE8x9nj3wE8AvgE8MxCkAf4Ff/jTEOQBjiIpyLIAtyJpyFIAjTGUxDkADrjhxGkAIzxQwgyAIPxZgQJAFJ8RbgCOJVS6muy6QgHiIyvQqEA0fGhAArxYQAq8SEASvHTAdTipwIoxk8DUI2fAqAc7w6gHu8KkCHeDSBLvAtApng6QLZ4KkDGeBpA1ngKQOb4YYDs8UMAK8SbAVaJNwGsFN8NsFq8FeADwEPTmvPxSXV/v25xNy9fD97v8PLuVeF9FiyD0A1QKVdCMAGshGAGWAVhCGAFhGGA7AgUgMwINICsCFSAjAh0gGwILgCZENwAsiC4AmRAcAdQR5gCoIwwDUAVYSqAIsJ0ADWEEAAlhDAAFYRQAAWEcIBoBAkAIsLX/rV48291MgAEhO747o0Rr82J23GNS+6meEkAw0wwx8sCdCAMxUsDNCAMx8sD/INAiU8B8AcCLT4NwA3CG4Az68/xOu43keZ+UGLOkN4AAAAASUVORK5CYII=') no-repeat;
   background-size: contain;
   background-origin: content-box;
-  padding:15px 5px;
+  padding:10px 5px;
   cursor:pointer;
   -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -119,10 +119,10 @@
 }
 
 .flex-calendar .days .day{
-  min-height: 60px;
+  min-height: 30px;
   box-sizing: border-box;
   position: relative;
-  line-height: 60px;
+  line-height: 30px;
   border-top:1px solid #FCFCFC;
   background-color: #fff;
   color: #8B8B8B;
@@ -169,11 +169,11 @@
 }
 
 .flex-calendar .days .day.selected .number {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background-color: #F0C330;
   border-radius: 100%;
-  line-height: 40px;
+  line-height: 30px;
   color: #FFFFFF;
 }
 
@@ -190,6 +190,10 @@
   background-image: url('data:image/gif;base64,R0lGODlhBQAFAOMAAP/14////93uHt3uHt3uHt3uHv///////////wAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAFAAUAAAQL0ACAzpG0YnonNxEAOw==');
 }
 
+.flex-calendar .days .day.selected.event:before {
+    bottom: 3px;
+    margin-left: -6px;
+}
 .flex-calendar .days .day.event:before {
   content: "";
   width: 6px;
@@ -198,5 +202,5 @@
   background-color: #E8BB29;
   position:absolute;
   bottom:10px;
-  margin-left:-3px;
+  margin-left:-17px;
 }

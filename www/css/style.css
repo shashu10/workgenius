@@ -144,10 +144,6 @@ div.color-divider {
 .right-top {
 	float:right;
 }
-.flex-calendar .days .day {
-	min-height: 50px !important;
-    line-height: 40px !important;
-}
 .wrkgns-small-light-text {
 
 }
