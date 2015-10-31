@@ -158,7 +158,8 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/login/tabs.html'
+    templateUrl: 'templates/login/tabs.html',
+    controller: 'RegisterController'
   })
 
   // Each tab has its own nav history stack:
@@ -187,7 +188,6 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       views: {
           'tab-register': {
               templateUrl: 'templates/login/register-account-info.html',
-              controller: 'RegisterController'
           }
       }
   })
@@ -196,7 +196,6 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       views: {
           'tab-register': {
               templateUrl: 'templates/login/register-companies.html',
-              controller: 'RegisterController'
           }
       }
   })
@@ -205,7 +204,6 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       views: {
           'tab-register': {
               templateUrl: 'templates/login/register-schedule.html',
-              controller: 'RegisterController'
           }
       }
   })
@@ -214,7 +212,6 @@ angular.module('starter', ['ionic', 'workgenius.controllers', 'workgenius.direct
       views: {
           'tab-register': {
               templateUrl: 'templates/login/register-target-hours.html',
-              controller: 'RegisterController'
           }
       }
   });

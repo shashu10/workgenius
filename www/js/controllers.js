@@ -250,7 +250,6 @@ angular.module('workgenius.controllers', [])
         username: null,
         password: null
     };
-
     $scope.error = {};
 
     $scope.login = function() {
@@ -338,31 +337,36 @@ angular.module('workgenius.controllers', [])
 .controller('RegisterController', function($scope, $state, $ionicLoading, $rootScope, $ionicHistory) {
     $rootScope.pref.user = $rootScope.pref.user || {};
     $scope.error = {};
+    $scope.showPager = true;
+    $scope.something = "some val";
     $scope.labels = [
       "sign up",
       "companies",
       "availability",
       "target hours",
     ];
-    var nextPage = "";
-    switch($state.current.name) {
-        case 'tab.register-account-info':
-            $scope.currentPage = 0;
-            nextPage = 'tab.register-companies';
-            break;
-        case 'tab.register-companies':
-            $scope.currentPage = 1;
-            nextPage = 'tab.register-schedule';
-            break;
-        case 'tab.register-schedule':
-            $scope.currentPage = 2;
-            nextPage = 'tab.register-target-hours';
-            break;
-        case 'tab.register-target-hours':
-            $scope.currentPage = 3;
-            break;
-    }
+    var registerPages = [
+      'tab.register-account-info',
+      'tab.register-companies',
+      'tab.register-schedule',
+      'tab.register-target-hours',
+    ];
+    $scope.syncPagerState = function () {
+      $scope.currentPage = registerPages.indexOf($state.current.name);
+      console.log($scope.currentPage);
+    };
+    $scope.getNextPage = function () {
+      var idx = registerPages.indexOf($state.current.name);
+      var nextPage = registerPages[idx+1];
+      return nextPage;
+    };
+    $scope.syncPagerState();
+    // $scope.currentState = "abc";
+    $scope.$on('$stateChangeSuccess', function(event, current) {
+        $scope.syncPagerState();
+    });
     $scope.next = function() {
+      var nextPage = $scope.getNextPage(true);
       $state.go(nextPage, {
           clear: true
       });
