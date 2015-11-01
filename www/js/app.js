@@ -19,8 +19,9 @@ angular.module('workgenius', ['ionic', 'workgenius.controllers', 'workgenius.dir
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
+    // Variables defined here are hidden in their own scope.
   });
+  
   // Initialize Parse here with AppID and JavascriptID
   Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
   var currentUser = Parse.User.current();
@@ -53,6 +54,8 @@ angular.module('workgenius', ['ionic', 'workgenius.controllers', 'workgenius.dir
 
   $stateProvider
 
+  // Main Side Menu pages
+
   .state('app', {
     url: '/app',
     abstract: true,
@@ -60,23 +63,62 @@ angular.module('workgenius', ['ionic', 'workgenius.controllers', 'workgenius.dir
     controller: 'MenuCtrl'
   })
 
-  .state('app.shifts', {
-    url: '/shifts',
+  // Main Pages
+
+  .state('app.stats-page', {
+     url: '/stats-page',
+     views: {
+         'menuContent': {
+             templateUrl: 'templates/main/stats-page.html',
+             controller: "StatsController"
+         }
+     }
+  })
+  .state('app.available-shifts-page', {
+    url: '/available-shifts-page',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/shifts.html',
+        templateUrl: 'templates/main/available-shifts-page.html',
         controller: "ShiftsCtrl"
       }
     }
   })
-  .state('app.stats-page', {
-       url: '/stats-page',
-       views: {
-           'menuContent': {
-               templateUrl: 'templates/main/stats-page.html',
-               controller: "StatsController"
-           }
-       }
+  .state('app.schedule-calendar-page', {
+    url: '/schedule-calendar-page',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main/schedule-calendar-page.html'
+      }
+    }
+  })
+  .state('app.schedule-list-page', {
+    url: '/schedule-list-page',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main/schedule-list-page.html'
+      }
+    }
+  })
+  .state('app.preferences-page', {
+    url: '/preferences-page',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main/preferences-page.html',
+        controller: 'PreferencesCtrl'
+      }
+    }
+  })
+
+  // Sub Views
+
+  .state('app.target-page', {
+    url: '/target-page',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main/target-page.html',
+        controller: 'TargetCtrl'
+      }
+    }
   })
   .state('app.companies-page', {
     url: '/companies-page',
@@ -84,6 +126,15 @@ angular.module('workgenius', ['ionic', 'workgenius.controllers', 'workgenius.dir
       'menuContent': {
         templateUrl: 'templates/main/companies-page.html',
         controller: 'CompaniesCtrl'
+      }
+    }
+  })
+  .state('app.availability-page', {
+    url: '/availability-page',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main/availability-page.html',
+        controller: 'AvailabilityCtrl'
       }
     }
   })
@@ -96,70 +147,17 @@ angular.module('workgenius', ['ionic', 'workgenius.controllers', 'workgenius.dir
       }
     }
   })
-  .state('app.target-page', {
-    url: '/target-page',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/main/target-page.html',
-        controller: 'TargetCtrl'
-      }
-    }
-  })
 
-  .state('app.availability-page', {
-    url: '/availability-page',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/main/availability-page.html',
-        controller: 'AvailabilityCtrl'
-      }
-    }
-  })
+  //  - - - - End - - - -
 
-  .state('app.preferences-page', {
-    url: '/preferences-page',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/main/preferences-page.html',
-        controller: 'PreferencesCtrl'
-      }
-    }
-  })
-
-  .state('app.schedule-list-page', {
-      url: '/schedule-list-page',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/main/schedule-list-page.html'
-        }
-      }
-    })
-
-  .state('app.schedule-calendar-page', {
-      url: '/schedule-calendar-page',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/main/schedule-calendar-page.html'
-        }
-      }
-    })
-
-  // .state('app.login-page', {
-  //     url: '/login-page',
-  //     views: {
-  //         'menuContent': {
-  //             templateUrl: 'templates/main/login-page.html',
-  //             controller: 'LoginController'
-  //         }
-  //     }
-  // })
+  // Login/Registration Tabs
 
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/login/tabs.html',
-    controller: 'RegisterController'
+    controller: 'RegisterController' // Needs to persist across register pages
   })
 
   // Each tab has its own nav history stack:
@@ -216,8 +214,8 @@ angular.module('workgenius', ['ionic', 'workgenius.controllers', 'workgenius.dir
       }
   });
 
+  //  - - - - End Login/Registration Tabs - - - -
+
   // if none of the above states are matched, use this as the fallback
-  // $urlRouterProvider.otherwise('/tab/login');
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/schedule-calendar-page');
+  $urlRouterProvider.otherwise('/tab/login');
 });
