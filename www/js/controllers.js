@@ -324,7 +324,7 @@ angular.module('workgenius.controllers', [])
                     $scope.error.message = 'An unknown error has occurred, ' +
                         'please try again';
                 }
-                $scope.$apply();
+                // $scope.$apply();
             }
         });
     };
