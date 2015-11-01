@@ -357,3 +357,6 @@ span.wg-dash {
 .item-company-icon img {
 	border-radius: 0 !important;
 }
+.has-subheader.has-pagerheader {
+	padding-top: 23px !important;
+}

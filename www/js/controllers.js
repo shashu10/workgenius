@@ -410,7 +410,6 @@ angular.module('workgenius.controllers', [])
                     $scope.error.message = 'The email address is already ' +
                         'registered';
                 } else {
-                  console.log('test');
                     $scope.error.message = error.message;
                 }
                 $scope.$apply();
