@@ -20,32 +20,32 @@ angular.module('workgenius', ['ionic', 'workgenius.controllers', 'workgenius.dir
       StatusBar.styleDefault();
     }
 
-    // Initialize Parse here with AppID and JavascriptID
-    Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
-    var currentUser = Parse.User.current();
-
-    if (currentUser) {
-        $rootScope.user = currentUser;
-        $rootScope.isLoggedIn = true;
-        $state.go('app.schedule-calendar-page');
-    } else {
-      $rootScope.user = null;
-      $rootScope.isLoggedIn = false;
-    }
-    if (!$rootScope.pref) {
-      $rootScope.pref = {};
-    }
-    if (!$rootScope.pref.hourlyTarget) {
-      $rootScope.pref.hourlyTarget = 40;
-    }
-    if (!$rootScope.hourlyRate) {
-      $rootScope.hourlyRate = 15;
-    }
-    if (!$rootScope.schedules) {
-      $rootScope.schedules = {};
-      $rootScope.totalHours = 0;
-    }
   });
+  // Initialize Parse here with AppID and JavascriptID
+  Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
+  var currentUser = Parse.User.current();
+
+  if (currentUser) {
+      $rootScope.user = currentUser;
+      $rootScope.isLoggedIn = true;
+      $state.go('app.schedule-calendar-page');
+  } else {
+    $rootScope.user = null;
+    $rootScope.isLoggedIn = false;
+  }
+  if (!$rootScope.pref) {
+    $rootScope.pref = {};
+  }
+  if (!$rootScope.pref.hourlyTarget) {
+    $rootScope.pref.hourlyTarget = 40;
+  }
+  if (!$rootScope.hourlyRate) {
+    $rootScope.hourlyRate = 15;
+  }
+  if (!$rootScope.schedules) {
+    $rootScope.schedules = {};
+    $rootScope.totalHours = 0;
+  }
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
@@ -217,7 +217,7 @@ angular.module('workgenius', ['ionic', 'workgenius.controllers', 'workgenius.dir
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/login');
+  // $urlRouterProvider.otherwise('/tab/login');
   // if none of the above states are matched, use this as the fallback
-  // $urlRouterProvider.otherwise('/app/login-page');
+  $urlRouterProvider.otherwise('/app/schedule-calendar-page');
 });
