@@ -8,19 +8,23 @@ var rename = require('gulp-rename');
 var sh = require('shelljs');
 var templateCache = require('gulp-angular-templatecache');
 var watch = require('gulp-watch');
+var shell = require('gulp-shell');
+
+
+var paths = {
+  sass: ['./scss/**/*.scss']
+};
+
+gulp.task('serve', shell.task(['ionic serve']));
 
 gulp.task('cache', function () {
     gulp.src('./www/templates/**/*.html')
         .pipe(watch('./www/templates/**/*.html'))
         .pipe(templateCache('templatescache.js', { module:'templatescache', standalone:true, root: 'templates/' }))
         .pipe(gulp.dest('./www/templates/'));
-}); 
+});
 
-var paths = {
-  sass: ['./scss/**/*.scss']
-};
-
-gulp.task('default', ['sass']);
+gulp.task('default', ['cache', 'serve']);
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
