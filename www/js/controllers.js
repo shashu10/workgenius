@@ -26,12 +26,8 @@ angular.module('workgenius.controllers', [])
   $scope.showRightIcon = ($state.current.name == "app.schedule-calendar-page" || $state.current.name == "app.schedule-list-page");
   $scope.showCalendarIcon = $state.current.name == "app.schedule-list-page";
 
-  $scope.scheduleIsActive = function () {
-    return false;
-  };
-
   // $scope.currentState = "abc";
-  $scope.$on('$stateChangeStart', function(event, current) {
+  $scope.$on('$stateChangeSuccess', function(event, current) {
     if (current.name == "app.schedule-calendar-page" || current.name == "app.schedule-list-page") {
       $scope.showRightIcon = true;
       $scope.showCalendarIcon = (current.name !== "app.schedule-calendar-page");
