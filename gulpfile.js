@@ -7,9 +7,11 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
 var templateCache = require('gulp-angular-templatecache');
+var watch = require('gulp-watch');
 
 gulp.task('cache', function () {
     gulp.src('./www/templates/**/*.html')
+        .pipe(watch('./www/templates/**/*.html'))
         .pipe(templateCache('templatescache.js', { module:'templatescache', standalone:true, root: 'templates/' }))
         .pipe(gulp.dest('./www/templates/'));
 }); 

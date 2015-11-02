@@ -1,11 +1,13 @@
 <ion-view class="register" title="Availability">
-    <ion-content has-header="true" class="has-subheader has-pagerheader" has-tabs="true" padding="true">
+    <ion-content has-header="true" class="has-subheader has-pagerheader" has-tabs="true">
 
         <div ng-controller="AvailabilityCtrl">
             <days/>
         </div>
-        <button ng-click="next()" class="button button-block button-positive">
-            Continue >>
-        </button>
+		<div class="padding">
+	        <button ng-click="next()" class="button button-block button-positive">
+	            Continue >>
+	        </button>
+        </div>
     </ion-content>
 </ion-view>

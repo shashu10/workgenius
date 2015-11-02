@@ -279,7 +279,7 @@ angular.module('workgenius.controllers', [])
                     $scope.error.message = 'An unexpected error has ' +
                         'occurred, please try again.';
                 }
-                $scope.$apply();
+                // $scope.$apply();
             }
         });
     };
@@ -310,7 +310,7 @@ angular.module('workgenius.controllers', [])
                 // TODO: show success
                 $ionicLoading.hide();
                 $scope.state.success = true;
-                $scope.$apply();
+                // $scope.$apply();
             },
             error: function(err) {
                 $ionicLoading.hide();
@@ -349,7 +349,6 @@ angular.module('workgenius.controllers', [])
     ];
     $scope.syncPagerState = function () {
       $scope.currentPage = registerPages.indexOf($state.current.name);
-      console.log($scope.currentPage);
     };
     $scope.getNextPage = function () {
       var idx = registerPages.indexOf($state.current.name);
@@ -357,7 +356,7 @@ angular.module('workgenius.controllers', [])
       return nextPage;
     };
     $scope.syncPagerState();
-    // $scope.currentState = "abc";
+
     $scope.$on('$stateChangeSuccess', function(event, current) {
         $scope.syncPagerState();
     });
@@ -408,7 +407,7 @@ angular.module('workgenius.controllers', [])
                 } else {
                     $scope.error.message = error.message;
                 }
-                $scope.$apply();
+                // $scope.$apply();
             }
         });
     };
