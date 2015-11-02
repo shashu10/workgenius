@@ -6,6 +6,7 @@
 // 'workgenius.controllers' is found in controllers.js
 angular.module('workgenius', [
     'ionic',
+    'ngCordova',
     'workgenius.controllers',
     'workgenius.directives',
     'workgenius.filters',
@@ -57,6 +58,8 @@ angular.module('workgenius', [
     $rootScope.schedules = {};
     $rootScope.totalHours = 0;
   }
+  if (!$rootScope.imageURL)
+    $rootScope.imageURL = "img/profile_default.jpg";
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {

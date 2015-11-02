@@ -1,6 +1,6 @@
 angular.module('workgenius.controllers', [])
 
-.controller('MenuCtrl', function($rootScope, $scope, $state, $ionicHistory, $ionicActionSheet, $timeout) {
+.controller('MenuCtrl', function($rootScope, $scope, $state, $ionicHistory) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -21,29 +21,6 @@ angular.module('workgenius.controllers', [])
       });
   };
 
-  $scope.changePhoto = function () {
-    // Show the action sheet
-   var hideSheet = $ionicActionSheet.show({
-     buttons: [
-       { text: 'Choose from library' },
-       { text: 'Take profile picture' }
-     ],
-     destructiveText: 'Remove photo',
-     titleText: 'Change your profile photo',
-     cancelText: 'Cancel',
-     cancel: function() {
-          // add cancel code..
-        },
-     buttonClicked: function(index) {
-       return true;
-     }
-   });
-
-   // For example's sake, hide the sheet after two seconds
-   $timeout(function() {
-     hideSheet();
-   }, 2000);
-  };
   // Schedule calendar / list toggle
 
   $scope.showRightIcon = ($state.current.name == "app.schedule-calendar-page" || $state.current.name == "app.schedule-list-page");
