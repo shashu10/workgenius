@@ -79,6 +79,7 @@ angular.module('workgenius.directives', [])
                   sourceType: Camera.PictureSourceType[type],
                   allowEdit: false,
                   encodingType: Camera.EncodingType.JPEG,
+                  correctOrientation: true,
                   popoverOptions: CameraPopoverOptions,
               };
 
