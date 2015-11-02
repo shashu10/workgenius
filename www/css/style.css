@@ -360,3 +360,14 @@ span.wg-dash {
 .has-subheader.has-pagerheader {
 	padding-top: 23px !important;
 }
+.wg-profile-wrapper {
+	width: 100%;
+	text-align: center;
+}
+.wg-profile-wrapper img {
+	padding:30px;
+	border-radius: 50%;
+	width: 200px;
+	display:inline-block;
+	margin:auto;
+}

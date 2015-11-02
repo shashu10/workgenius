@@ -1,13 +1,18 @@
 <ion-view view-title="Stats" left-buttons="leftButtons">
     <ion-content class="has-header">
-    	<div class="wg-stats-toggler">
-    		<span ng-class="{wgBlueBack: toggle}" ng-click="toggle = true">
-    			Earnings
-    		</span>
-    		<span ng-class="{wgYellowBack: !toggle}" ng-click="toggle = false">
-    			Performance
-    		</span>
-    	</div>
+    
+        <div class="wg-profile-wrapper">
+            <img ng-click="changePhoto()" src="img/profile_default.jpg">
+        </div>
+
+        <div class="wg-stats-toggler">
+            <span ng-class="{wgBlueBack: toggle}" ng-click="toggle = true">
+                Earnings
+            </span>
+            <span ng-class="{wgYellowBack: !toggle}" ng-click="toggle = false">
+                Performance
+            </span>
+        </div>
         <div title="Earnings" icon="ion-cash" ng-show="toggle">
             <div class="earnings center-text">
             	<h4>Today</h4>

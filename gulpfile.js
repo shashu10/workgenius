@@ -19,12 +19,11 @@ gulp.task('serve', shell.task(['ionic serve']));
 
 gulp.task('cache', function () {
     gulp.src('./www/templates/**/*.html')
-        .pipe(watch('./www/templates/**/*.html'))
         .pipe(templateCache('templatescache.js', { module:'templatescache', standalone:true, root: 'templates/' }))
         .pipe(gulp.dest('./www/templates/'));
 });
 
-gulp.task('default', ['cache', 'serve']);
+gulp.task('default', ['serve', 'watch']);
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -40,7 +39,7 @@ gulp.task('sass', function(done) {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.sass, ['sass']);
+  gulp.watch('./www/templates/**/*.html', ['cache']);
 });
 
 gulp.task('install', ['git-check'], function() {
