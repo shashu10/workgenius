@@ -376,3 +376,12 @@ span.wg-dash {
 	text-align: center;
 	padding-bottom: 30px;
 }
+.wg-flex-calendar-header {
+    top: 44px;
+    position: relative;
+    z-index: 999;
+    background-color: white;
+}
+.has-calendar {
+    top: 318px;
+}
