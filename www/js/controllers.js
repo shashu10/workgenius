@@ -1,6 +1,6 @@
 angular.module('workgenius.controllers', [])
 
-.controller('MenuCtrl', function($rootScope, $scope, $state, $ionicHistory, getUserData) {
+.controller('MenuCtrl', ['$scope', '$state', '$ionicHistory', 'getUserData', function( $scope, $state, $ionicHistory, getUserData) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -11,7 +11,6 @@ angular.module('workgenius.controllers', [])
 
   $scope.logout = function() {
       Parse.User.logOut();
-      $rootScope.currentUser = null;
       
       getUserData();
 
@@ -54,9 +53,9 @@ angular.module('workgenius.controllers', [])
     });
   };
   // End
-})
+}])
 
-.controller('AvailabilityCtrl', function($rootScope, $scope, $state, $ionicModal, timePicker, setUserData) {
+.controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
 
     $scope.update = setUserData.availability;
 
@@ -121,11 +120,11 @@ angular.module('workgenius.controllers', [])
     });
 
     $scope.recalculateHours();
-})
-.controller('VehiclesCtrl', function($rootScope, $scope, $state, setUserData) {
+}])
+.controller('VehiclesCtrl', ['$scope', 'setUserData', function( $scope, setUserData) {
     $scope.update = setUserData.vehicles;
-})
-.controller('CompaniesCtrl', function($rootScope, $scope, $state, setUserData) {
+}])
+.controller('CompaniesCtrl', ['$rootScope', '$scope', 'setUserData', function($rootScope, $scope, setUserData) {
   
     var companyList = [
       "bento",
@@ -159,13 +158,13 @@ angular.module('workgenius.controllers', [])
 
       $scope.update();
     };
-})
+}])
 
-.controller('TargetCtrl', function($scope, $rootScope, setUserData) {
+.controller('TargetCtrl', ['$scope', 'setUserData', function($scope, setUserData) {
   $scope.update = setUserData.target;
-})
+}])
 
-.controller('ShiftsCtrl', function($rootScope, $scope, $state, $ionicModal) {
+.controller('ShiftsCtrl', ['$scope', '$ionicModal', function($scope, $ionicModal) {
 
   $scope.shifts=[
     {
@@ -213,12 +212,18 @@ angular.module('workgenius.controllers', [])
     $scope.modal.hide();
   };
 
-})
-.controller('EarningsController', [ '$scope', '$state', function($scope, $state) {
 }])
+.controller('EarningsController', function() {
+})
 
-.controller('ScheduleCtrl', ['$scope', function($scope, $rootScope) {
+.controller('ScheduleCtrl', ['$scope', function($scope) {
   $scope.flexCtrl = {};
+  // $scope.$on('$ionicView.enter', function(e, current) {
+  //   console.log($scope.flexCtrl.weeks);
+  // });
+  $scope.adjustCalendarHeight = function (argument) {
+    
+  };
 
   $scope.Math = window.Math;
   $scope.options = {

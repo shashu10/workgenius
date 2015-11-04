@@ -19,7 +19,7 @@ angular.module('workgenius', [
     'templatescache',
   ])
 
-.run(function($ionicPlatform, $rootScope, $state, getUserData) {
+.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData', function($ionicPlatform, $rootScope, $state, getUserData) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -62,9 +62,9 @@ angular.module('workgenius', [
 
   getUserData();
 
-})
+}])
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   // $ionicConfigProvider.views.forwardCache(true);
 
   $stateProvider
@@ -233,4 +233,4 @@ angular.module('workgenius', [
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/login');
-});
+}]);

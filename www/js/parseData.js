@@ -1,6 +1,6 @@
 angular.module('parseData', [])
 
-.factory('debounce', function($timeout, $q) {
+.factory('debounce', ['$timeout', '$q', function($timeout, $q) {
   return function(func, wait, immediate) {
     var timeout;
     var deferred = $q.defer();
@@ -25,7 +25,7 @@ angular.module('parseData', [])
       return deferred.promise;
     };
   };
-})
+}])
 
 .factory('timePicker', function () {
   return function (inputEpochTime) {
@@ -33,7 +33,7 @@ angular.module('parseData', [])
       inputEpochTime: inputEpochTime || ((new Date()).getHours() * 60 * 60),  //Optional
       step: 60,  //Optional
       format: 12,  //Optional
-      titleLabel: '12-hour Format',  //Optional
+      titleLabel: 'Select Time',  //Optional
       setLabel: 'Set',  //Optional
       closeLabel: 'Close',  //Optional
       setButtonType: 'button-positive',  //Optional
