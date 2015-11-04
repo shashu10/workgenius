@@ -212,7 +212,7 @@ div.color-divider {
 .item-avatar img {
 	height: auto !important;
 }
-.wg-stats-toggler {
+.wg-earnings-toggler {
     background-color: #F8F8F8;
     height: 40px;
     display: -webkit-flex;
@@ -228,26 +228,26 @@ div.color-divider {
     text-align: center;
     line-height: 38px;
 }
-.wg-stats-toggler span {
+.wg-earnings-toggler span {
 	-webkit-flex: 1;
 	-moz-flex: 1;
 	-ms-flex: 1;
 	-o-flex: 1;
 	flex: 1;
 }
-.wg-stats-toggler span:first-child {
+.wg-earnings-toggler span:first-child {
 	border-right: 0.1em solid #D5D5D5;
 }
 
-.wg-stats-toggler span.cow{
+.wg-earnings-toggler span.cow{
     background-color: #328AC4;
     color: white;
 }
-.wg-stats-toggler span.wgBlueBack{
+.wg-earnings-toggler span.wgBlueBack{
     background-color: #328AC4;
     color: white;
 }
-.wg-stats-toggler span.wgYellowBack{
+.wg-earnings-toggler span.wgYellowBack{
     background-color: #F0C330;
     color: white;
 }

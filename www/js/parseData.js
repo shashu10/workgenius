@@ -31,7 +31,7 @@ angular.module('parseData', [])
   return function (inputEpochTime) {
     return {
       inputEpochTime: inputEpochTime || ((new Date()).getHours() * 60 * 60),  //Optional
-      step: 15,  //Optional
+      step: 60,  //Optional
       format: 12,  //Optional
       titleLabel: '12-hour Format',  //Optional
       setLabel: 'Set',  //Optional
@@ -155,16 +155,12 @@ angular.module('parseData', [])
         icon: "ion-android-car",
         selected: !!user && user.get('vehicles').indexOf('car') > -1
       },{
-        name:"scooter",
-        icon: "ion-android-cart",
-        selected: !!user && user.get('vehicles').indexOf('scooter') > -1
-      },{
         name:"bicycle",
         icon: "ion-android-bicycle",
         selected: !!user && user.get('vehicles').indexOf('bicycle') > -1
       },{
         name:"motorbike",
-        icon: "ion-android-plane",
+        icon: "ion-android-bicycle",
         selected: !!user && user.get('vehicles').indexOf('motorbike') > -1
       },
     ];

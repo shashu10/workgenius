@@ -1,19 +1,19 @@
-<ion-view view-title="Stats" left-buttons="leftButtons">
+<ion-view view-title="Earnings" left-buttons="leftButtons">
     <ion-content class="has-header">
 
         <div><wg-profile-photo/></div>
         
         <h4 class="wg-user-name">{{currentUser.name}}</h4>
 
-        <div class="wg-stats-toggler">
-            <span ng-class="{wgBlueBack: toggle}" ng-click="toggle = true">
+        <div class="wg-earnings-toggler">
+            <span ng-class="{wgBlueBack: !toggle}" ng-click="toggle = false">
                 Earnings
             </span>
-            <span ng-class="{wgYellowBack: !toggle}" ng-click="toggle = false">
-                Performance
+            <span ng-class="{wgYellowBack: toggle}" ng-click="toggle = true">
+                Hours
             </span>
         </div>
-        <div title="Earnings" icon="ion-cash" ng-show="toggle">
+        <div title="Earnings" icon="ion-cash" ng-hide="toggle">
             <div class="earnings center-text">
             	<h4>Today</h4>
                 <h2>
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div title="Hours" icon="ion-clock" ng-hide="toggle">
+        <div title="Hours" icon="ion-clock" ng-show="toggle">
 			<div class="hours center-text">
 				<h4>Today</h4>
                 <h2>

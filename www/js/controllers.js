@@ -214,10 +214,11 @@ angular.module('workgenius.controllers', [])
   };
 
 })
-.controller('StatsController', [ '$scope', '$state', function($scope, $state) {
+.controller('EarningsController', [ '$scope', '$state', function($scope, $state) {
 }])
 
 .controller('ScheduleCtrl', ['$scope', function($scope, $rootScope) {
+  $scope.flexCtrl = {};
 
   $scope.Math = window.Math;
   $scope.options = {
@@ -253,18 +254,15 @@ angular.module('workgenius.controllers', [])
       var thisDate = new Date(grouped[i][0].date);
       if (eventDate.getYear() > thisDate.getYear()) {
         $scope.groupedShifts = [];
-        console.log('after year');
         return;
       }
       if (eventDate.getYear() < thisDate.getYear() || eventDate.getMonth() < thisDate.getMonth()) {
         $scope.groupedShifts = grouped.splice(i);
-        console.log('before year and/or month');
         return;
       }
       if (eventDate.getMonth() == thisDate.getMonth() && eventDate.getYear() == thisDate.getYear()) {
         if (eventDate.getDate() <= thisDate.getDate()) {
           $scope.groupedShifts = grouped.splice(i);
-          console.log('same year & month, before date');
           return;
         }
       }

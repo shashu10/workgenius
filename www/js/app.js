@@ -80,12 +80,12 @@ angular.module('workgenius', [
 
   // Main Pages
 
-  .state('app.stats-page', {
-     url: '/stats-page',
+  .state('app.earnings-page', {
+     url: '/earnings-page',
      views: {
          'menuContent': {
-             templateUrl: 'templates/main/stats-page.html',
-             controller: "StatsController"
+             templateUrl: 'templates/main/earnings-page.html',
+             controller: "EarningsController"
          }
      }
   })

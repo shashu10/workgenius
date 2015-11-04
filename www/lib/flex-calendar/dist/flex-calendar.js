@@ -44,6 +44,7 @@
     Controller.$inject = ['$scope' , '$filter'];
 
     function Controller($scope , $filter) {
+      $scope.$parent.flexCtrl = $scope; // WG controller access
 
       $scope.days = [];
       $scope.options = $scope.options || {};
