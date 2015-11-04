@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'workgenius.controllers' is found in controllers.js
 angular.module('workgenius', [
-    'ionic',
+    'ionic','ionic.service.core',
     'ngCordova',
     'workgenius.onboarding',
     'workgenius.controllers',
