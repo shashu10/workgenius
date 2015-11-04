@@ -372,3 +372,7 @@ span.wg-dash {
 .wg-profile-wrapper {
 	padding: 30px;
 }
+.wg-user-name {
+	text-align: center;
+	padding-bottom: 30px;
+}

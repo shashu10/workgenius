@@ -7,8 +7,10 @@
 angular.module('workgenius', [
     'ionic',
     'ngCordova',
+    'workgenius.onboarding',
     'workgenius.controllers',
     'workgenius.directives',
+    'parseData',
     'workgenius.filters',
     'ionic-timepicker',
     'flexcalendar',
@@ -17,7 +19,7 @@ angular.module('workgenius', [
     'templatescache',
   ])
 
-.run(function($ionicPlatform, $rootScope, $state) {
+.run(function($ionicPlatform, $rootScope, $state, getUserData) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -35,35 +37,35 @@ angular.module('workgenius', [
   
   // Initialize Parse here with AppID and JavascriptID
   Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
-  var currentUser = Parse.User.current();
 
-  if (currentUser) {
-      $rootScope.user = currentUser;
-      $rootScope.isLoggedIn = true;
-      $state.go('app.schedule-calendar-page');
+  $rootScope.currentUser = Parse.User.current() || {};
+  if ($rootScope.currentUser && Parse.User.current()) {
+    $rootScope.currentUser.email = Parse.User.current().get('email');
+    $rootScope.currentUser.hourlyTarget = 40;
+    $state.go('app.schedule-calendar-page');
   } else {
-    $rootScope.user = null;
-    $rootScope.isLoggedIn = false;
-  }
-  if (!$rootScope.pref) {
-    $rootScope.pref = {};
-  }
-  if (!$rootScope.pref.hourlyTarget) {
-    $rootScope.pref.hourlyTarget = 40;
+    $rootScope.currentUser.hourlyTarget = 40;
+    $rootScope.currentUser.name = 'John Smith';
   }
   if (!$rootScope.hourlyRate) {
     $rootScope.hourlyRate = 15;
   }
-  if (!$rootScope.schedules) {
-    $rootScope.schedules = {};
+  if (!$rootScope.currentUser.availability) {
+    $rootScope.currentUser.availability = {};
     $rootScope.totalHours = 0;
   }
   if (!$rootScope.imageURL)
     $rootScope.imageURL = "img/profile_default.jpg";
+  if (!$rootScope.currentUser.companies) {
+    $rootScope.currentUser.companies = {};
+  }
+
+  getUserData();
+
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-  $ionicConfigProvider.views.forwardCache(true);
+  // $ionicConfigProvider.views.forwardCache(true);
 
   $stateProvider
 
@@ -116,8 +118,7 @@ angular.module('workgenius', [
     url: '/preferences-page',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/preferences-page.html',
-        controller: 'PreferencesCtrl'
+        templateUrl: 'templates/main/preferences-page.html'
       }
     }
   })
@@ -170,7 +171,7 @@ angular.module('workgenius', [
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/login/tabs.html',
-    controller: 'RegisterController' // Needs to persist across register pages
+    controller: 'RegisterCtrl' // Needs to persist across register pages
   })
 
   // Each tab has its own nav history stack:
@@ -180,7 +181,7 @@ angular.module('workgenius', [
     views: {
       'tab-login': {
         templateUrl: 'templates/login/login-tab.html',
-        controller: 'LoginController'
+        controller: 'LoginCtrl'
       }
     }
   })
@@ -190,7 +191,7 @@ angular.module('workgenius', [
       views: {
           'tab-login': {
               templateUrl: 'templates/main/forgot-password-page.html',
-              controller: 'ForgotPasswordController'
+              controller: 'ForgotCtrl'
           }
       }
   })
@@ -223,6 +224,7 @@ angular.module('workgenius', [
       views: {
           'tab-register': {
               templateUrl: 'templates/login/register-target-hours.html',
+              controller: 'TargetCtrl'
           }
       }
   });

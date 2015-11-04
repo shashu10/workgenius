@@ -4,32 +4,32 @@
 			<ion-item href="#/app/target-page">
 			   Weekly Hours Target
 				<span class="item-note">
-					Set at: {{pref.hourlyTarget}}
+					Set at: {{currentUser.hourlyTarget}}
 				</span>
 			</ion-item>
 
 			<ion-item href="#/app/companies-page">
 			   Company Whitelist
 				<span class="item-note">
-					<span ng-repeat= "(company, value) in pref.companies">{{company}}{{$last ? '' : ', '}}</span>
+					<span ng-repeat= "(company, value) in currentUser.companies">{{company}}{{$last ? '' : ', '}}</span>
 				</span>
 			</ion-item>
 
 			<ion-item href="#/app/availability-page">
 			   Manage Availability
 				<span class="item-note">
-					{{totalHours}} {{totalHours == 1 ? 'Hour' : 'Hours'}}
+					{{currentUser.totalHours}} {{currentUser.totalHours == 1 ? 'Hour' : 'Hours'}}
 				</span>
 			</ion-item>
 
 			<ion-item href="#/app/vehicles-page">
 			   Vehicle Type
 				<span class="item-note">
-					<span ng-repeat="vehicle in pref.vehicles | filter:{ selected: true }" >{{vehicle.name}}{{$last ? '' : ', '}}</span>
+					<span ng-repeat="vehicle in currentUser.vehicles | filter:{ selected: true }" >{{vehicle.name}}{{$last ? '' : ', '}}</span>
 				</span>
 			</ion-item>
 
-			<!-- add ng-show="isLoggedIn" if needed -->
+			<!-- add ng-show="currentUser" if needed -->
 			<ion-item class="item-icon-right assertive" ng-click="logout()">
 	          Logout
 	          <i class="icon ion-log-out"></i>

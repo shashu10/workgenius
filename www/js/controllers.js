@@ -1,6 +1,6 @@
 angular.module('workgenius.controllers', [])
 
-.controller('MenuCtrl', function($rootScope, $scope, $state, $ionicHistory) {
+.controller('MenuCtrl', function($rootScope, $scope, $state, $ionicHistory, getUserData) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -11,8 +11,10 @@ angular.module('workgenius.controllers', [])
 
   $scope.logout = function() {
       Parse.User.logOut();
-      $rootScope.user = null;
-      $rootScope.isLoggedIn = false;
+      $rootScope.currentUser = null;
+      
+      getUserData();
+
       $ionicHistory.nextViewOptions({
           historyRoot: true
       });
@@ -54,17 +56,60 @@ angular.module('workgenius.controllers', [])
   // End
 })
 
-.controller('AvailabilityCtrl', function($rootScope, $scope, $state, $ionicModal) {
+.controller('AvailabilityCtrl', function($rootScope, $scope, $state, $ionicModal, timePicker, setUserData) {
+
+    $scope.update = setUserData.availability;
+
+    $scope.editSchedule = function (day, schedule) {
+
+      $scope.schedule = schedule || {
+        id: Math.random().toString().slice(2),
+        startsAt: timePicker(),
+        endsAt: timePicker(),
+        day: day,
+      };
+
+      $scope.modal.show();
+    };
+    $scope.deleteSchedule = function (schedule) {
+      delete $rootScope.currentUser.availability[schedule.day][schedule.id];
+      if (angular.equals({}, $rootScope.currentUser.availability[schedule.day])) {
+        delete $rootScope.currentUser.availability[schedule.day];
+      }
+      $scope.recalculateHours();
+    };
+    $scope.saveDay = function () {
+      if (!$rootScope.currentUser.availability[$scope.schedule.day]) {
+        $rootScope.currentUser.availability[$scope.schedule.day] = {};
+      }
+      $rootScope.currentUser.availability[$scope.schedule.day][$scope.schedule.id] = $scope.schedule;
+      $scope.modal.hide();
+      $scope.recalculateHours();
+    };
+    $scope.recalculateHours = function () {
+      var totalHours = 0;
+      for (var day in $rootScope.currentUser.availability) {
+        for (var sched in $rootScope.currentUser.availability[day]) {
+          var entry = $rootScope.currentUser.availability[day][sched];
+          totalHours += (entry.endsAt.inputEpochTime - entry.startsAt.inputEpochTime)/3600;
+        }
+      }
+      $rootScope.currentUser.totalHours = totalHours;
+      $scope.update();
+    };
+    $scope.discardDay = function () {
+      $scope.modal.hide();
+    };
+
 
     $scope.days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
     
     // Required for modal initialization
     $scope.schedule = {
       id: "",
-      repeatWeekly: true,
       editing: false,
-      startsAt: newTimePickerObject(),
-      endsAt: newTimePickerObject(),
+      startsAt: timePicker(),
+      endsAt: timePicker(),
       day: "",
     };
 
@@ -75,72 +120,12 @@ angular.module('workgenius.controllers', [])
       $scope.modal = modal;
     });
 
-    $scope.editSchedule = function (day, schedule) {
-
-      $scope.schedule = schedule || {
-        id: Math.random().toString(),
-        repeatWeekly: false,
-        startsAt: newTimePickerObject(),
-        endsAt: newTimePickerObject(),
-        day: day,
-      };
-
-      $scope.modal.show();
-    };
-    $scope.deleteSchedule = function (schedule) {
-      delete $rootScope.schedules[schedule.day][schedule.id];
-      $scope.recalculateHours();
-    };
-    $scope.saveDay = function () {
-      if (!$rootScope.schedules[$scope.schedule.day]) {
-        $rootScope.schedules[$scope.schedule.day] = {};
-      }
-      $rootScope.schedules[$scope.schedule.day][$scope.schedule.id] = $scope.schedule;
-      $scope.modal.hide();
-      $scope.recalculateHours();
-    };
-    $scope.recalculateHours = function () {
-      var totalHours = 0;
-      for (var day in $rootScope.schedules) {
-        for (var sched in $rootScope.schedules[day]) {
-          var entry = $rootScope.schedules[day][sched];
-          totalHours += (entry.endsAt.inputEpochTime - entry.startsAt.inputEpochTime)/3600;
-        }
-      }
-      $rootScope.totalHours = totalHours;
-    };
-    $scope.discardDay = function () {
-      $scope.modal.hide();
-    };
+    $scope.recalculateHours();
 })
-.controller('VehiclesCtrl', function($rootScope, $scope, $state) {
-
-    if (!$rootScope.pref.vehicles) {
-      $rootScope.pref.vehicles = [
-        {
-          name:"car",
-          icon: "ion-android-car",
-          selected: false
-        },
-        {
-          name:"scooter",
-          icon: "ion-android-cart",
-          selected: false
-        },
-        {
-          name:"bicycle",
-          icon: "ion-android-bicycle",
-          selected: false
-        },
-        {
-          name:"motorbike",
-          icon: "ion-android-plane",
-          selected: false
-        },
-      ];
-    }
+.controller('VehiclesCtrl', function($rootScope, $scope, $state, setUserData) {
+    $scope.update = setUserData.vehicles;
 })
-.controller('CompaniesCtrl', function($rootScope, $scope, $state) {
+.controller('CompaniesCtrl', function($rootScope, $scope, $state, setUserData) {
   
     var companyList = [
       "bento",
@@ -154,10 +139,6 @@ angular.module('workgenius.controllers', [])
       "workgenius",
     ];
 
-    if (!$rootScope.pref.companies) {
-      $rootScope.pref.companies = {};
-    }
-
     var chunk = function (arr, size) {
       var newArr = [];
       for (var i=0; i<arr.length; i+=size) {
@@ -168,18 +149,20 @@ angular.module('workgenius.controllers', [])
 
     $scope.chunkedCompanies = chunk(companyList, 3);
 
+    $scope.update = setUserData.companies;
+
     $scope.select = function(name) {
-      if ($rootScope.pref.companies[name])
-        delete $rootScope.pref.companies[name];
+      if ($rootScope.currentUser.companies[name])
+        delete $rootScope.currentUser.companies[name];
       else
-        $rootScope.pref.companies[name] = true;
+        $rootScope.currentUser.companies[name] = true;
+
+      $scope.update();
     };
 })
 
-.controller('PreferencesCtrl', function($rootScope, $scope, $state) {
-})
-
-.controller('TargetCtrl', function($rootScope, $scope, $state) {
+.controller('TargetCtrl', function($scope, $rootScope, setUserData) {
+  $scope.update = setUserData.target;
 })
 
 .controller('ShiftsCtrl', function($rootScope, $scope, $state, $ionicModal) {
@@ -232,193 +215,16 @@ angular.module('workgenius.controllers', [])
 
 })
 .controller('StatsController', [ '$scope', '$state', function($scope, $state) {
-        $scope.navTitle = 'Tab Page';
-
-        $scope.leftButtons = [{
-            type: 'button-icon icon ion-navicon',
-            tap: function(e) {
-                $scope.toggleMenu();
-            }
-        }];
-    }])
-.controller('LoginController', function($scope, $state, $rootScope, $ionicLoading, $ionicHistory) {
-    $scope.user = {
-        username: null,
-        password: null
-    };
-    $scope.error = {};
-
-    $scope.login = function() {
-        $scope.loading = $ionicLoading.show({
-            content: 'Logging in',
-            animation: 'fade-in',
-            showBackdrop: true,
-            maxWidth: 200,
-            showDelay: 0
-        });
-
-        var user = $scope.user;
-        Parse.User.logIn(('' + user.username).toLowerCase(), user.password, {
-            success: function(user) {
-                $ionicLoading.hide();
-                $rootScope.user = user;
-                $rootScope.isLoggedIn = true;
-                $ionicHistory.nextViewOptions({
-                    historyRoot: true
-                });
-                $state.go('app.schedule-calendar-page', {
-                    clear: true
-                });
-            },
-            error: function(user, err) {
-                $ionicLoading.hide();
-                // The login failed. Check error to see why.
-                if (err.code === 101) {
-                    $scope.error.message = 'Invalid login credentials';
-                } else {
-                    $scope.error.message = 'An unexpected error has ' +
-                        'occurred, please try again.';
-                }
-                // $scope.$apply();
-            }
-        });
-    };
-
-    $scope.forgot = function() {
-        $state.go('tab.forgot-password-page');
-    };
-})
-
-.controller('ForgotPasswordController', function($scope, $state, $ionicLoading) {
-    $scope.user = {};
-    $scope.error = {};
-    $scope.state = {
-        success: false
-    };
-
-    $scope.reset = function() {
-        $scope.loading = $ionicLoading.show({
-            content: 'Sending',
-            animation: 'fade-in',
-            showBackdrop: true,
-            maxWidth: 200,
-            showDelay: 0
-        });
-
-        Parse.User.requestPasswordReset($scope.user.email, {
-            success: function() {
-                // TODO: show success
-                $ionicLoading.hide();
-                $scope.state.success = true;
-                // $scope.$apply();
-            },
-            error: function(err) {
-                $ionicLoading.hide();
-                if (err.code === 125) {
-                    $scope.error.message = 'Email address does not exist';
-                } else {
-                    $scope.error.message = 'An unknown error has occurred, ' +
-                        'please try again';
-                }
-                // $scope.$apply();
-            }
-        });
-    };
-
-    $scope.login = function() {
-        $state.go('app.login');
-    };
-})
-
-.controller('RegisterController', function($scope, $state, $ionicLoading, $rootScope, $ionicHistory) {
-    $rootScope.pref.user = $rootScope.pref.user || {};
-    $scope.error = {};
-    $scope.showPager = true;
-    $scope.something = "some val";
-    $scope.labels = [
-      "sign up",
-      "companies",
-      "availability",
-      "target hours",
-    ];
-    var registerPages = [
-      'tab.register-account-info',
-      'tab.register-companies',
-      'tab.register-schedule',
-      'tab.register-target-hours',
-    ];
-    $scope.syncPagerState = function () {
-      $scope.currentPage = registerPages.indexOf($state.current.name);
-    };
-    $scope.getNextPage = function () {
-      var idx = registerPages.indexOf($state.current.name);
-      var nextPage = registerPages[idx+1];
-      return nextPage;
-    };
-    $scope.syncPagerState();
-
-    $scope.$on('$stateChangeSuccess', function(event, current) {
-        $scope.syncPagerState();
-    });
-    $scope.next = function() {
-      var nextPage = $scope.getNextPage(true);
-      $state.go(nextPage, {
-          clear: true
-      });
-    };
-
-    $scope.register = function() {
-
-        // TODO: add age verification step
-        $scope.loading = $ionicLoading.show({
-            content: 'Sending',
-            animation: 'fade-in',
-            showBackdrop: true,
-            maxWidth: 200,
-            showDelay: 0
-        });
-
-        var user = new Parse.User();
-        user.set("username", $rootScope.pref.user.email);
-        user.set("password", $rootScope.pref.user.password);
-        user.set("email", $rootScope.pref.user.email);
-
-
-        user.signUp(null, {
-            success: function(user) {
-                $ionicLoading.hide();
-                $rootScope.user = user;
-                $rootScope.isLoggedIn = true;
-                $ionicHistory.nextViewOptions({
-                    historyRoot: true
-                });
-                $state.go('app.schedule-calendar-page', {
-                    clear: true
-                });
-            },
-            error: function(user, error) {
-                $ionicLoading.hide();
-                if (error.code === 125) {
-                    $scope.error.message = 'Please specify a valid email ' +
-                        'address';
-                } else if (error.code === 202) {
-                    $scope.error.message = 'The email address is already ' +
-                        'registered';
-                } else {
-                    $scope.error.message = error.message;
-                }
-                // $scope.$apply();
-            }
-        });
-    };
-})
+}])
 
 .controller('ScheduleCtrl', ['$scope', function($scope, $rootScope) {
 
   $scope.Math = window.Math;
   $scope.options = {
-    minDate: "2015-01-01",
-    maxDate: "2015-12-31",
+    // Start calendar from current day
+
+    minDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+    maxDate: moment().add(3, 'months').format('YYYY-MM-DD'),
     disabledDates: [
         "2015-06-22",
         "2015-07-27",
@@ -445,13 +251,20 @@ angular.module('workgenius.controllers', [])
     var grouped = groupBy($scope.shifts, function(item){return [item.date];});
     for (var i = 0; i< grouped.length; i++) {
       var thisDate = new Date(grouped[i][0].date);
-      if (eventDate.getMonth() < thisDate.getMonth()) {
-        $scope.groupedShifts = grouped.splice(i);
+      if (eventDate.getYear() > thisDate.getYear()) {
+        $scope.groupedShifts = [];
+        console.log('after year');
         return;
       }
-      if (eventDate.getMonth() == thisDate.getMonth()) {
+      if (eventDate.getYear() < thisDate.getYear() || eventDate.getMonth() < thisDate.getMonth()) {
+        $scope.groupedShifts = grouped.splice(i);
+        console.log('before year and/or month');
+        return;
+      }
+      if (eventDate.getMonth() == thisDate.getMonth() && eventDate.getYear() == thisDate.getYear()) {
         if (eventDate.getDate() <= thisDate.getDate()) {
           $scope.groupedShifts = grouped.splice(i);
+          console.log('same year & month, before date');
           return;
         }
       }
@@ -462,44 +275,44 @@ angular.module('workgenius.controllers', [])
   // Flex cal error displays one day behind
   $scope.shifts = [
     {
-      company: 'Instacart', date: "2015-10-23",
-      startsAt: new Date("October 22, 2015 07:00:00"),
-      endsAt: new Date("October 22, 2015 10:00:00"),
+      company: 'Instacart', date: "2015-11-23",
+      startsAt: new Date("November 22, 2015 07:00:00"),
+      endsAt: new Date("November 22, 2015 10:00:00"),
     },
     {
-      company: 'Bento', date: "2015-10-23",
-      startsAt: new Date("October 22, 2015 11:00:00"),
-      endsAt: new Date("October 22, 2015 14:00:00"),
+      company: 'Bento', date: "2015-11-23",
+      startsAt: new Date("November 22, 2015 11:00:00"),
+      endsAt: new Date("November 22, 2015 14:00:00"),
     },
     {
-      company: 'Saucey', date: "2015-10-25",
-      startsAt: new Date("October 24, 2015 13:00:00"),
-      endsAt: new Date("October 24, 2015 14:30:00"),
+      company: 'Saucey', date: "2015-11-25",
+      startsAt: new Date("November 24, 2015 13:00:00"),
+      endsAt: new Date("November 24, 2015 14:30:00"),
     },
     {
-      company: 'Caviar', date: "2015-10-26",
-      startsAt: new Date("October 25, 2015 8:00:00"),
-      endsAt: new Date("October 25, 2015 11:30:00"),
+      company: 'Caviar', date: "2015-11-26",
+      startsAt: new Date("November 25, 2015 8:00:00"),
+      endsAt: new Date("November 25, 2015 11:30:00"),
     },
     {
-      company: 'Luxe', date: "2015-10-27",
-      startsAt: new Date("October 26, 2015 07:00:00"),
-      endsAt: new Date("October 26, 2015 10:00:00"),
+      company: 'Luxe', date: "2015-11-27",
+      startsAt: new Date("November 26, 2015 07:00:00"),
+      endsAt: new Date("November 26, 2015 10:00:00"),
     },
     {
-      company: 'Munchery', date: "2015-10-27",
-      startsAt: new Date("October 26, 2015 11:00:00"),
-      endsAt: new Date("October 26, 2015 14:00:00"),
+      company: 'Munchery', date: "2015-11-27",
+      startsAt: new Date("November 26, 2015 11:00:00"),
+      endsAt: new Date("November 26, 2015 14:00:00"),
     },
     {
-      company: 'Shyp', date: "2015-10-29",
-      startsAt: new Date("October 28, 2015 13:00:00"),
-      endsAt: new Date("October 28, 2015 14:30:00"),
+      company: 'Shyp', date: "2015-11-29",
+      startsAt: new Date("November 28, 2015 13:00:00"),
+      endsAt: new Date("November 28, 2015 14:30:00"),
     },
     {
-      company: 'Sprig', date: "2015-10-30",
-      startsAt: new Date("October 29, 2015 8:00:00"),
-      endsAt: new Date("October 29, 2015 11:30:00"),
+      company: 'Sprig', date: "2015-11-30",
+      startsAt: new Date("November 29, 2015 8:00:00"),
+      endsAt: new Date("November 29, 2015 11:30:00"),
     },
   ];
   $scope.deleteShift = function (shift, group, shifts) {
@@ -515,12 +328,6 @@ angular.module('workgenius.controllers', [])
     }
   };
   $scope.groupedShifts = groupBy($scope.shifts, function(item){return [item.date];});
-  // Assume dates are already sorted. If not, sort them
-  // $scope.shifts.sort(function(a,b){
-  //     var textA = a.company.toUpperCase();
-  //     var textB = b.company.toUpperCase();
-  //     return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-  // });
 
 }])
 
@@ -529,27 +336,6 @@ angular.module('workgenius.controllers', [])
     return moment(date).format('dddd Do');
   };
 }]);
-
-function newTimePickerObject () {
-  return {
-      inputEpochTime: ((new Date()).getHours() * 60 * 60),  //Optional
-      step: 15,  //Optional
-      format: 12,  //Optional
-      titleLabel: '12-hour Format',  //Optional
-      setLabel: 'Set',  //Optional
-      closeLabel: 'Close',  //Optional
-      setButtonType: 'button-positive',  //Optional
-      closeButtonType: 'button-stable',  //Optional
-      callback: function (val) {    //Mandatory
-        if (typeof (val) === 'undefined') {
-          console.log('Time not selected');
-        } else {
-          this.inputEpochTime = val;
-        }
-      }
-    };
-}
-
 
 function groupBy( array , f )
 {

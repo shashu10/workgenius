@@ -1,11 +1,11 @@
 <div class="weeklyTarget">
-	<p class= "weekly-hours light-blue">{{pref.hourlyTarget}}</p>
+	<p class= "weekly-hours light-blue">{{currentUser.hourlyTarget}}</p>
 	<div class="item range">
 		0
-		<input type="range" ng-model="pref.hourlyTarget" name="hours" min="0" max="60">
-		60
+		<input type="range" ng-model="currentUser.hourlyTarget" name="hours" ng-change="update(currentUser.hourlyTarget)" min="0" max="80">
+		80
 	</div>
 	<p class="small-light">Earnings estimate</p>
 
-	<p class= "currency-estimate light-green">{{pref.hourlyTarget * hourlyRate | currency:undefined:0}}</p>
+	<p class= "currency-estimate light-green">{{currentUser.hourlyTarget * hourlyRate | currency:undefined:0}}</p>
 </div>
