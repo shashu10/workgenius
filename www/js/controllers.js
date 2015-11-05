@@ -223,6 +223,14 @@ $scope.chat = ['one', 'two', 'three', 'four', 'five', 'six', 'seven'];
 })
 
 .controller('ScheduleCtrl', ['$scope', function($scope) {
+  $scope.myRightButtons = [
+    {
+      type: 'button-positive',
+      content: '<i class="icon ion-navicon"></i>',
+      tap: function(e) {
+      }
+    }
+  ];
   $scope.flexCtrl = {};
   // $scope.$on('$ionicView.enter', function(e, current) {
   //   console.log($scope.flexCtrl.weeks);

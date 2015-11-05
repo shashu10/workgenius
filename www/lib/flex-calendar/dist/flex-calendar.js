@@ -8,11 +8,11 @@
 
       var template =
       '<div class="flex-calendar">'+
-        '<div class="month">'+
-          '<div class="arrow {{arrowPrevClass}}" ng-click="prevMonth()"></div>'+
-          '<div class="label">{{ selectedMonth | translate }} {{selectedYear}}</div>'+
-          '<div class="arrow {{arrowNextClass}}" ng-click="nextMonth()"></div>'+
-        '</div>'+
+        // '<div class="month">'+
+        //   '<div class="arrow {{arrowPrevClass}}" ng-click="prevMonth()"></div>'+
+        //   '<div class="label">{{ selectedMonth | translate }} {{selectedYear}}</div>'+
+        //   '<div class="arrow {{arrowNextClass}}" ng-click="nextMonth()"></div>'+
+        // '</div>'+
         '<div class="week">'+
           '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
         '</div>'+

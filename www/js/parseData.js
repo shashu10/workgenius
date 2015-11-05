@@ -153,15 +153,15 @@ angular.module('parseData', [])
       {
         name:"car",
         icon: "ion-android-car",
-        selected: !!user && user.get('vehicles').indexOf('car') > -1
+        selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('car') > -1
       },{
         name:"bicycle",
         icon: "ion-android-bicycle",
-        selected: !!user && user.get('vehicles').indexOf('bicycle') > -1
+        selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('bicycle') > -1
       },{
         name:"motorbike",
         icon: "ion-android-bicycle",
-        selected: !!user && user.get('vehicles').indexOf('motorbike') > -1
+        selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('motorbike') > -1
       },
     ];
   };

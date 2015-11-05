@@ -6,7 +6,11 @@ angular.module('workgenius.onboarding', [])
         password: '',
     };
     $scope.error = {};
-
+    $scope.loginDemoUser = function () {
+        $scope.user.email    = "john@gmail.com";
+        $scope.user.password = "1234";
+        $scope.login();
+    };
     $scope.login = function() {
         $scope.loading = $ionicLoading.show({
             content: 'Logging in',
