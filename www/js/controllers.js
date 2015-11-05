@@ -1,7 +1,13 @@
 angular.module('workgenius.controllers', [])
 
 .controller('MenuCtrl', ['$scope', '$state', '$ionicHistory', 'getUserData', function( $scope, $state, $ionicHistory, getUserData) {
+  $scope.mylimit = 1;
 
+  $scope.limit = 3;
+$scope.expand = function(limit) { 
+  $scope.limit += limit;
+}
+$scope.chat = ['one', 'two', 'three', 'four', 'five', 'six', 'seven'];
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),

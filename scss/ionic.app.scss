@@ -16,14 +16,19 @@ $dark:                            #444 !default;
 */
 
 $positive:                        #69BFF8;
+
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
+
+// Flexbox Mixins
+@import 'flexbox';
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
 // Available Shifts styling
 @import 'shift';
+
 
 .wg-profile-photo {
 	width: 150px;
@@ -132,17 +137,13 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     border-radius: 0;
 }
 div.color-divider {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+	@include flexbox();
 }
 .color-divider span {
     height: 1px;
     margin: 0;
     padding: 0;
-    flex-grow: 1;
+    @include flex-grow(1);
 }
 .color-divider span:nth-child(2n) {
     background-color: #F0C330;
@@ -175,13 +176,10 @@ div.color-divider {
 	height: auto !important;
 }
 .wg-earnings-toggler {
+
+	@include flexbox();
     background-color: #F8F8F8;
     height: 40px;
-    display: -webkit-flex;
-    display: -moz-flex;
-    display: -ms-flex;
-    display: -o-flex;
-    display: flex;
     font-size: larger;
     color: #383838;
     border-bottom: 0.1em solid #D5D5D5;
@@ -189,29 +187,21 @@ div.color-divider {
     margin-top: -1px;
     text-align: center;
     line-height: 38px;
-}
-.wg-earnings-toggler span {
-	-webkit-flex: 1;
-	-moz-flex: 1;
-	-ms-flex: 1;
-	-o-flex: 1;
-	flex: 1;
-}
-.wg-earnings-toggler span:first-child {
-	border-right: 0.1em solid #D5D5D5;
-}
 
-.wg-earnings-toggler span.cow{
-    background-color: #328AC4;
-    color: white;
-}
-.wg-earnings-toggler span.wgBlueBack{
-    background-color: #328AC4;
-    color: white;
-}
-.wg-earnings-toggler span.wgYellowBack{
-    background-color: #F0C330;
-    color: white;
+	span {
+		@include flex-grow(1);
+	}
+	span:first-child {
+		border-right: 0.1em solid #D5D5D5;
+	}
+	span.wgBlueBack{
+	    background-color: $positive;
+	    color: white;
+	}
+	span.wgYellowBack{
+	    background-color: #F0C330;
+	    color: white;
+	}
 }
 .item.range {
 	border: none;
@@ -224,11 +214,7 @@ div.color-divider {
 }
 .wg-pager {
 
-	display: -webkit-flex;
-	display: -moz-flex;
-	display: -ms-flex;
-	display: -o-flex;
-	display: flex;
+	@include flexbox();
 
     margin: auto;
     padding: 25px 0 15px 0;
@@ -237,29 +223,18 @@ div.color-divider {
 }
 .wg-pager>span{
 
-	display: -webkit-flex;
-	display: -moz-flex;
-	display: -ms-flex;
-	display: -o-flex;
-	display: flex;
-
-	-webkit-flex: 2;
-	-moz-flex: 2;
-	-ms-flex: 2;
-	-o-flex: 2;
-	flex: 2;
+	@include flexbox();
+	@include flex-grow(2);
 }
 .wg-pager>span:last-child{
-
-	-webkit-flex: 0 0 21px;
-	-moz-flex: 0 0 21px;
-	-ms-flex: 0 0 21px;
-	-o-flex: 0 0 21px;
-	flex: 0 0 21px;
+	@include flex-grow(0);
+	@include flex-basis('21px');
 }
-.wg-pager-selected .wg-dash,
-.wg-pager-selected .wg-circle {
-    background-color: #2D98CB !important;
+.wg-pager-selected{
+	.wg-dash,
+	.wg-circle {
+	    background-color: $positive !important;
+	}
 }
 span.wg-circle {
     background-color: #DDDDDD;
@@ -270,11 +245,7 @@ span.wg-circle {
 }
 
 span.wg-dash {
-	-webkit-flex: 1;
-	-moz-flex: 1;
-	-ms-flex: 1;
-	-o-flex: 1;
-	flex: 1;
+	@include flex-grow(1);
     height: 2px;
     margin: auto;
     background-color: #DDDDDD;
@@ -293,19 +264,11 @@ span.wg-dash {
     color: #2D98CB !important;
 }
 .wg-buttons-line {
-	display: -webkit-flex;
-	display: -moz-flex;
-	display: -ms-flex;
-	display: -o-flex;
-	display: flex;
+	@include flexbox();
 }
 .wg-buttons-line button {
 	margin: 10px;
-	-webkit-flex: 1;
-	-moz-flex: 1;
-	-ms-flex: 1;
-	-o-flex: 1;
-	flex: 1;
+	@include flex-grow(1);
 }
 .wg-center-header {
 	text-align: center;
