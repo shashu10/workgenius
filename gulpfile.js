@@ -12,7 +12,8 @@ var shell = require('gulp-shell');
 
 
 var paths = {
-  sass: ['./scss/**/*.scss']
+  sass: ['./scss/**/*.scss'],
+  templates: ['./www/templates/**/*.html']
 };
 
 gulp.task('serve', shell.task(['ionic serve']));
@@ -39,7 +40,8 @@ gulp.task('sass', function(done) {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./www/templates/**/*.html', ['cache']);
+  gulp.watch(paths.templates, ['cache']);
+  gulp.watch(paths.sass, ['sass']);
 });
 
 gulp.task('install', ['git-check'], function() {

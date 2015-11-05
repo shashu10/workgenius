@@ -1,0 +1,63 @@
+// Available Shifts styling
+
+.shift {
+
+	padding: 20px 20px 0 20px;
+
+	.left-top {
+		float: left;
+	}
+	.right-top {
+		float: right;
+	}
+	.row:last-child {
+		padding: 0;
+	}
+	.img-box {
+
+		text-align: center;
+
+		img {
+			padding: 10px 0 5px 0;
+			width: 50%;
+		}
+	}
+	.time-box {
+		text-align: center;
+	}
+	h4 {
+		color: #53ADF0;
+		margin-top: 0;
+	}
+	p {
+		margin-bottom: 0;
+	}
+	.button-small {
+		display: block;
+		margin: 12% auto;
+		padding: 2px 10px;
+	}
+
+	.shift-title div:first-child {
+		text-transform: uppercase;
+	}
+	.shift-title div:last-child {
+		right: 0;
+	}
+
+	.shift-name,
+	.shift-date {
+		font-size: small
+	}
+	.shift-header {
+		text-transform: uppercase;
+	}
+	.shift-header,
+	.shift-earnings {
+		color: gray;
+		font-size: smaller;
+	}
+	.shift-earnings {
+		color: #505050;
+	}
+}

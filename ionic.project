@@ -1,4 +1,13 @@
 {
   "name": "workgenius",
-  "app_id": "3d43e7c0"
+  "app_id": "3d43e7c0",
+  "gulpStartupTasks": [
+    "sass",
+    "cache",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
 }
