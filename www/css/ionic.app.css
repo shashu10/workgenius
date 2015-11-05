@@ -9148,12 +9148,6 @@ a.button {
     filter: grayscale(0); }
 
 /* Empty. Add your own CSS if you like */
-.workgenius-logo {
-  background-image: url("../img/logo.png") !important;
-  background-size: 100% !important;
-  width: 32px;
-  background-repeat: no-repeat !important; }
-
 .days .icon {
   font-size: large; }
 

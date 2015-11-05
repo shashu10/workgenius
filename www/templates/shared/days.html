@@ -8,11 +8,11 @@
     </div>
 
     <div ng-repeat="day in days">
-        <div class="item item-divider">
-            {{day}}
-        </div>
-        <a ng-repeat = "(key, schedule) in currentUser.availability[day]" class="item item-icon-left">
-            <i class="icon ion-ios-minus-outline" ng-click="deleteSchedule(schedule)" ></i>
+        <ion-item class="item-divider">
+            {{day | capitalize}}
+        </ion-item>
+        <ion-item ng-repeat = "(key, schedule) in currentUser.availability[day]" class="item item-icon-left">
+            <i class="icon ion-ios-minus-outline assertive" ng-click="deleteSchedule(schedule)" ></i>
             <div ng-click="editSchedule(day, schedule)">
                 <span>
                     <standard-time-meridian etime='schedule.startsAt.inputEpochTime'/>,
@@ -22,9 +22,9 @@
                     <standard-time-meridian etime='schedule.endsAt.inputEpochTime'/>
                 </span>
             </div>
-        </a>
-        <a class="item item-icon-left" ng-click="editSchedule(day)">
-            <i class="icon ion-ios-plus-outline"></i>
-        </a>
+        </ion-item>
+        <ion-item class="item item-icon-left" ng-click="editSchedule(day)">
+            <i class="icon ion-ios-plus-outline positive"></i>
+        </ion-item>
     </div>
 </div>
