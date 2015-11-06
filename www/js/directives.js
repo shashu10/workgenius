@@ -35,7 +35,7 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/wg-pager.html'
   };
 })
-.directive('customSubheader', function() {
+.directive('flexCalendarSubheader', function() {
   return {
     link: function(scope, element, attrs) {
       scope.$watch(function() {
@@ -43,7 +43,26 @@ angular.module('workgenius.directives', [])
         var height = element[0].offsetHeight + element[0].offsetTop;
         
         // Get the ion-content element containing has-subheader
-        var content = angular.element(document.querySelector('.has-customsubheader'));
+        var content = angular.element(document.querySelector('.has-flex-calendar-subheader'));
+
+        content.css("top", height + "px");
+      });
+    }
+  };
+})
+.directive('wgPagerHeader', function() {
+  return {
+    link: function(scope, element, attrs) {
+      scope.$watch(function() {
+
+        var height = element[0].offsetHeight + element[0].offsetTop;
+
+        console.log((height === 0));
+        // this is probably the login view
+        if (height === 0) return;
+
+        // Get the ion-content element containing has-subheader
+        var content = angular.element(document.querySelector('.has-pager-subheader'));
 
         content.css("top", height + "px");
       });

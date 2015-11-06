@@ -104,24 +104,18 @@ angular.module('workgenius.onboarding', [])
     $scope.error = {};
     $scope.showPager = true;
 
-    $scope.labels = [
-      "sign up",
-      "companies",
-      "availability",
-      "target hours",
-    ];
-    var registerPages = [
+    $scope.pages = [
       'tab.register-account-info',
       'tab.register-companies',
       'tab.register-schedule',
       'tab.register-target-hours',
     ];
     $scope.syncPagerState = function () {
-      $scope.currentPage = registerPages.indexOf($state.current.name);
+      $scope.currentPage = $scope.pages.indexOf($state.current.name);
     };
     $scope.getNextPage = function () {
-      var idx = registerPages.indexOf($state.current.name);
-      var nextPage = registerPages[idx+1];
+      var idx = $scope.pages.indexOf($state.current.name);
+      var nextPage = $scope.pages[idx+1];
       return nextPage;
     };
     $scope.syncPagerState();

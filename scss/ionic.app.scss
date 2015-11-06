@@ -199,18 +199,12 @@ div.color-divider {
 .item.range {
 	border: none;
 }
-.wg-pager-header {
-    height: 66px;
-}
-.has-pager-header {
-	top: 110px;
-}
 .wg-pager {
 
 	@include flexbox();
 
     margin: auto;
-    padding: 25px 0 15px 0;
+    padding: 7px 0;
     width: 250px;
     text-align: center;
 }
@@ -275,14 +269,11 @@ span.wg-dash {
 .item-company-icon img {
 	border-radius: 0 !important;
 }
-.has-subheader.has-pagerheader {
-	padding-top: 23px !important;
-}
 .wg-user-name {
 	text-align: center;
 	padding-bottom: 30px;
 }
-.bar-subheader {
+.custom-subheader {
   height: auto !important;
   padding: 0;
 }

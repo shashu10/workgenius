@@ -1,10 +1,7 @@
 <div class="wg-pager">
-    <span ng-repeat="(id, item) in labels" ng-class="currentPage == id ? 'wg-pager-selected' : ''">
+    <span ng-repeat="(id, item) in pages" ng-class="currentPage == id ? 'wg-pager-selected' : ''">
       <span class="wg-circle">
         {{id + 1}}
-        <a class="wg-pager-label">
-          {{item}}
-        </a>
       </span>
       <span ng-hide="$last" class="wg-dash">
    

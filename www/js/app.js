@@ -19,7 +19,7 @@ angular.module('workgenius', [
     'templatescache',
   ])
 
-.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData', function($ionicPlatform, $rootScope, $state, getUserData) {
+.run(['$ionicPlatform', '$rootScope', '$state', '$cordovaStatusbar', 'getUserData', function($ionicPlatform, $rootScope, $state, $cordovaStatusbar, getUserData) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -30,7 +30,11 @@ angular.module('workgenius', [
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+      // StatusBar.styleDefault();
+      
+      // Does not really work
+      $cordovaStatusbar.overlaysWebView(true);
+      $cordovaStatusBar.style(1);
     }
     // Variables defined here are hidden in their own scope.
   });
