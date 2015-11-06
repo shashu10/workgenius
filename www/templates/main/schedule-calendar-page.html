@@ -1,8 +1,10 @@
 <ion-view ng-controller="ScheduleCtrl" view-title="{{flexCtrl.selectedMonth | translate}}" right-buttons="myRightButtons">
-	<div class="wg-flex-calendar-header">
+
+	<ion-header-bar custom-subheader class="bar-subheader">
 		<flex-calendar options="options" events="shifts"></flex-calendar>
-	</div>
-    <ion-content class="has-calendar">
+	</ion-header-bar>
+	
+    <ion-content >
 
         <!-- Schedule of events -->
         <shift-list/>
