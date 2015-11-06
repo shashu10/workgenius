@@ -347,7 +347,7 @@ angular.module('workgenius.controllers', [])
       endsAt: new Date("November 29, 2015 11:30:00"),
     },
   ];
-  $scope.deleteShift = function (shift, group, shifts) {
+  $scope.cancelShift = function (shift, group, shifts) {
     var idx = group.indexOf(shift);
     if (group.length === 1) {
       
