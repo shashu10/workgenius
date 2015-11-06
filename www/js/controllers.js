@@ -61,7 +61,7 @@ angular.module('workgenius.controllers', [])
     $scope.dailyHours = [0,0,0,0,0,0,0];
 
     $scope.chart = {
-        labels : ["M", "T", "W", "Th", "F", "Sa", "Su"],
+        labels : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         scaleShowHorizontalLines: false,
         scaleShowVerticalLines: false,
         datasets : [
@@ -76,6 +76,7 @@ angular.module('workgenius.controllers', [])
         scaleShowGridLines: false,
         scaleShowLabels: false,
         showScale: false,
+        tooltipTemplate: "<%= value %> Hour<%if (value !== 1){%>s<%}%>",
     };
 
     $scope.update = setUserData.availability;
