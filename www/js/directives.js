@@ -39,17 +39,16 @@ angular.module('workgenius.directives', [])
   return {
     link: function(scope, element, attrs) {
       scope.$watch(function() {
-        // Add 44px because this is the height of the header
-        console.log('test');
+
         var height = element[0].offsetHeight + element[0].offsetTop;
         
         // Get the ion-content element containing has-subheader
-        var content = angular.element(document.querySelector('.has-subheader'));
+        var content = angular.element(document.querySelector('.has-customsubheader'));
 
         content.css("top", height + "px");
       });
     }
-  }
+  };
 })
 .directive('wgProfilePhoto', function() {
   return {
