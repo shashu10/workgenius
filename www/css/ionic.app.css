@@ -9388,3 +9388,19 @@ span.wg-dash {
 .custom-subheader {
   height: auto !important;
   padding: 0; }
+
+.wg-flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .wg-flex .wg-flex-item {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -moz-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1; }
+
+.align-center {
+  text-align: center; }

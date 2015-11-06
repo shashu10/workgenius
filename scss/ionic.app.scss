@@ -277,3 +277,12 @@ span.wg-dash {
   height: auto !important;
   padding: 0;
 }
+.wg-flex {
+	@include flexbox();
+	.wg-flex-item {
+		@include flex-grow(1);
+	}
+}
+.align-center {
+	text-align: center;
+}

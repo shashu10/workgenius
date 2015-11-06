@@ -1,13 +1,7 @@
 angular.module('workgenius.controllers', [])
 
 .controller('MenuCtrl', ['$scope', '$state', '$ionicHistory', 'getUserData', function( $scope, $state, $ionicHistory, getUserData) {
-  $scope.mylimit = 1;
 
-  $scope.limit = 3;
-$scope.expand = function(limit) { 
-  $scope.limit += limit;
-}
-$scope.chat = ['one', 'two', 'three', 'four', 'five', 'six', 'seven'];
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -59,9 +53,30 @@ $scope.chat = ['one', 'two', 'three', 'four', 'five', 'six', 'seven'];
     });
   };
   // End
+
 }])
 
 .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
+
+    $scope.dailyHours = [0,0,0,0,0,0,0];
+
+    $scope.chart = {
+        labels : ["M", "T", "W", "Th", "F", "Sa", "Su"],
+        scaleShowHorizontalLines: false,
+        scaleShowVerticalLines: false,
+        datasets : [
+            {
+                fillColor : "#69BFF8",
+                strokeColor : "#69BFF8",
+                data : $scope.dailyHours
+            }
+        ], 
+    };
+    $scope.chartOptions = {
+        scaleShowGridLines: false,
+        scaleShowLabels: false,
+        showScale: false,
+    };
 
     $scope.update = setUserData.availability;
 
@@ -93,11 +108,18 @@ $scope.chat = ['one', 'two', 'three', 'four', 'five', 'six', 'seven'];
     };
     $scope.recalculateHours = function () {
       var totalHours = 0;
+      $scope.dailyHours.every(function (el, idx, arr) {
+        arr[idx] = 0;
+      });
+      
       for (var day in $rootScope.currentUser.availability) {
+        var hours = 0;
         for (var sched in $rootScope.currentUser.availability[day]) {
           var entry = $rootScope.currentUser.availability[day][sched];
-          totalHours += (entry.endsAt.inputEpochTime - entry.startsAt.inputEpochTime)/3600;
+          hours += (entry.endsAt.inputEpochTime - entry.startsAt.inputEpochTime)/3600;
         }
+        totalHours += hours;
+        $scope.dailyHours[$scope.days.indexOf(day)] = hours;
       }
       $rootScope.currentUser.totalHours = totalHours;
       $scope.update();

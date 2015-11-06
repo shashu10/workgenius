@@ -13,6 +13,7 @@ angular.module('workgenius', [
     'parseData',
     'workgenius.filters',
     'ionic-timepicker',
+    'angles',
     'flexcalendar',
     'pascalprecht.translate',
     'ngIOS9UIWebViewPatch',
@@ -25,8 +26,8 @@ angular.module('workgenius', [
   function($ionicPlatform, $rootScope, $state, $cordovaStatusbar, getUserData, $ionicAnalytics) {
     $ionicPlatform.ready(function() {
 
-      $ionicAnalytics.register();
-      
+      // $ionicAnalytics.register();
+
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins.Keyboard) {

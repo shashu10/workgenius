@@ -50,25 +50,6 @@ angular.module('workgenius.directives', [])
     }
   };
 })
-.directive('wgPagerHeader', function() {
-  return {
-    link: function(scope, element, attrs) {
-      scope.$watch(function() {
-
-        var height = element[0].offsetHeight + element[0].offsetTop;
-
-        console.log((height === 0));
-        // this is probably the login view
-        if (height === 0) return;
-
-        // Get the ion-content element containing has-subheader
-        var content = angular.element(document.querySelector('.has-pager-subheader'));
-
-        content.css("top", height + "px");
-      });
-    }
-  };
-})
 .directive('wgProfilePhoto', function() {
   return {
       templateUrl: 'templates/shared/wg-profile-photo.html',
