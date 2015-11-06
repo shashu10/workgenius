@@ -3,6 +3,7 @@
     <div ng-repeat="group in groupedShifts">
         <ion-item class="item-divider">
             {{dividerFunction(group[0].startsAt)}}
+            <span class="light-green">{{groupEarnings(group) | currency:undefined:0}}</span>
         </ion-item>
         <ion-item class="item-avatar item-company-icon" ng-repeat="shift in group" can-swipe="true">
             <img ng-src="img/companies/{{shift.company.toLowerCase()}}.png">
@@ -16,7 +17,7 @@
                     <standard-time-meridian etime='shift.endsAt.getHours()*3600'></standard-time-meridian>
                 </div>
             </div>
-            <span class="item-note earnings-estimate">
+            <span class="item-note">
               earnings est: <i class="light-green">{{(shift.endsAt.getTime() - shift.startsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</i>
             </span>
             <ion-option-button class="button-info" ng-click="goToApp(shift)">

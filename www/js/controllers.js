@@ -245,7 +245,7 @@ angular.module('workgenius.controllers', [])
 .controller('EarningsController', function() {
 })
 
-.controller('ScheduleCtrl', ['$scope', function($scope) {
+.controller('ScheduleCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
   $scope.flexCtrl = {};
   // $scope.$on('$ionicView.enter', function(e, current) {
   //   console.log($scope.flexCtrl.weeks);
@@ -361,6 +361,17 @@ angular.module('workgenius.controllers', [])
   };
   $scope.groupedShifts = groupBy($scope.shifts, function(item){return [item.date];});
 
+  $scope.shiftEarnings = function (shift) {
+    return (shift.endsAt.getTime() - shift.startsAt.getTime())/3600000 * $rootScope.hourlyRate;
+  };
+  $scope.groupEarnings = function (group) {
+    var earnings = 0;
+    for (var i=0; i < group.length; i++) {
+      var shift = group[i];
+      earnings += $scope.shiftEarnings(shift);
+    }
+    return earnings;
+  };
 }])
 
 .controller('ScheduleListCtrl', ['$scope', function($scope) {
