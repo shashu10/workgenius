@@ -17,56 +17,62 @@ angular.module('workgenius', [
     'pascalprecht.translate',
     'ngIOS9UIWebViewPatch',
     'templatescache',
+    'ionic.service.core',
+    'ionic.service.analytics'
   ])
 
-.run(['$ionicPlatform', '$rootScope', '$state', '$cordovaStatusbar', 'getUserData', function($ionicPlatform, $rootScope, $state, $cordovaStatusbar, getUserData) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+.run(['$ionicPlatform', '$rootScope', '$state', '$cordovaStatusbar', 'getUserData', '$ionicAnalytics',
+  function($ionicPlatform, $rootScope, $state, $cordovaStatusbar, getUserData, $ionicAnalytics) {
+    $ionicPlatform.ready(function() {
 
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      // StatusBar.styleDefault();
+      $ionicAnalytics.register();
       
-      // Does not really work
-      $cordovaStatusbar.overlaysWebView(true);
-      $cordovaStatusBar.style(1);
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
+
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        // StatusBar.styleDefault();
+        
+        // Does not really work
+        $cordovaStatusbar.overlaysWebView(true);
+        $cordovaStatusBar.style(1);
+      }
+      // Variables defined here are hidden in their own scope.
+    });
+    
+    // Initialize Parse here with AppID and JavascriptID
+    Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
+
+    $rootScope.currentUser = Parse.User.current() || {};
+    if ($rootScope.currentUser && Parse.User.current()) {
+      $rootScope.currentUser.email = Parse.User.current().get('email');
+      $rootScope.currentUser.hourlyTarget = 40;
+      $state.go('app.schedule-calendar-page');
+    } else {
+      $rootScope.currentUser.hourlyTarget = 40;
+      $rootScope.currentUser.name = 'John Smith';
     }
-    // Variables defined here are hidden in their own scope.
-  });
-  
-  // Initialize Parse here with AppID and JavascriptID
-  Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
+    if (!$rootScope.hourlyRate) {
+      $rootScope.hourlyRate = 15;
+    }
+    if (!$rootScope.currentUser.availability) {
+      $rootScope.currentUser.availability = {};
+      $rootScope.totalHours = 0;
+    }
+    if (!$rootScope.imageURL)
+      $rootScope.imageURL = "img/profile_default.jpg";
+    if (!$rootScope.currentUser.companies) {
+      $rootScope.currentUser.companies = {};
+    }
 
-  $rootScope.currentUser = Parse.User.current() || {};
-  if ($rootScope.currentUser && Parse.User.current()) {
-    $rootScope.currentUser.email = Parse.User.current().get('email');
-    $rootScope.currentUser.hourlyTarget = 40;
-    $state.go('app.schedule-calendar-page');
-  } else {
-    $rootScope.currentUser.hourlyTarget = 40;
-    $rootScope.currentUser.name = 'John Smith';
-  }
-  if (!$rootScope.hourlyRate) {
-    $rootScope.hourlyRate = 15;
-  }
-  if (!$rootScope.currentUser.availability) {
-    $rootScope.currentUser.availability = {};
-    $rootScope.totalHours = 0;
-  }
-  if (!$rootScope.imageURL)
-    $rootScope.imageURL = "img/profile_default.jpg";
-  if (!$rootScope.currentUser.companies) {
-    $rootScope.currentUser.companies = {};
-  }
+    getUserData();
 
-  getUserData();
-
-}])
+  }])
 
 .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
   // $ionicConfigProvider.views.forwardCache(true);
