@@ -51,9 +51,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 		img {
 			width: 33%;
 			height: auto;
-			opacity: 0.5;
+			opacity: 0.3;
 			-webkit-filter: grayscale(1);
 			filter: grayscale(1);
+			transition: filter 0.5s, -webkit-filter 0.5s, opacity 0.5s;
+		    -webkit-transition-timing-function: ease-out; /* Safari */
+		    transition-timing-function: ease-out;	
 		}
 		img.selected {
 			opacity: 1;
@@ -289,4 +292,25 @@ span.wg-dash {
 .item-divider span{
 	position:absolute;
 	right:10px;
+}
+.tabs {
+    transition: bottom 0.5s;
+    -webkit-transition-timing-function: ease-out; /* Safari */
+    transition-timing-function: ease-out;		
+}
+.tabs-hide {
+	.tabs {
+	    bottom: -50px;	
+	}
+	.has-tabs {
+		bottom: 0;
+	}
+}
+.pager-hide {
+    top: 0px;
+}
+.bar-subheader {
+    transition: top 0.25s;
+    -webkit-transition-timing-function: ease-out; /* Safari */
+    transition-timing-function: ease-out;	
 }

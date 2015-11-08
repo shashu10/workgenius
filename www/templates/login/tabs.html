@@ -1,7 +1,7 @@
 <ion-nav-bar class="bar-positive">
       <ion-nav-back-button>
       </ion-nav-back-button>
-      <ion-header-bar class="bar-subheader" ng-show="currentPage > -1">
+      <ion-header-bar class="bar-subheader" ng-class="{'pager-hide' : currentPage === -1}">
         <wg-pager/>
       </ion-header-bar>
 </ion-nav-bar>
@@ -10,7 +10,7 @@ Create tabs with an icon and label, using the tabs-positive style.
 Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
-<ion-tabs class="tabs-color-active-positive">
+<ion-tabs class="tabs-color-active-positive" ng-class="{'tabs-hide' : currentPage > 0}">
 
   <!-- Dashboard Tab -->
   <ion-tab title="Login" href="#/tab/login">

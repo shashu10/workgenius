@@ -27,7 +27,6 @@ angular.module('workgenius.controllers', [])
   $scope.showRightIcon = ($state.current.name == "app.schedule-calendar-page" || $state.current.name == "app.schedule-list-page");
   $scope.showCalendarIcon = $state.current.name == "app.schedule-list-page";
 
-  // $scope.currentState = "abc";
   $scope.$on('$stateChangeSuccess', function(event, current) {
     if (current.name == "app.schedule-calendar-page" || current.name == "app.schedule-list-page") {
       $scope.showRightIcon = true;
@@ -246,14 +245,11 @@ angular.module('workgenius.controllers', [])
 })
 
 .controller('ScheduleCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
-  $scope.flexCtrl = {};
-  // $scope.$on('$ionicView.enter', function(e, current) {
-  //   console.log($scope.flexCtrl.weeks);
-  // });
+
   $scope.adjustCalendarHeight = function (argument) {
     
   };
-
+  $scope.selectedMonth = moment().format('MMMM');
   $scope.Math = window.Math;
   $scope.options = {
     // Start calendar from current day
@@ -266,18 +262,27 @@ angular.module('workgenius.controllers', [])
         "2015-08-13",
         "2015-08-15"
     ],
-    dayNamesLength: 1, // 1 for "M", 2 for "Mo", 3 for "Mon"; 9 will show full day names. Default is 1.
-    mondayIsFirstDay: true,//set monday as first day of week. Default is false
+
+    // dayNamesLength: 1, // 1 for "M", 2 for "Mo", 3 for "Mon"; 9 will show full day names. Default is 1.
+    // mondayIsFirstDay: true,//set monday as first day of week. Default is false
+
     eventClick: function(event) {
       $scope.truncateShiftsList(event);
+      $scope.selectedMonth = moment(event.date).format('MMMM');
     },
     dateClick: function(event) {
       $scope.truncateShiftsList(event);
+      $scope.selectedMonth = moment(event.date).format('MMMM');
     },
     changeMonth: function(month, year) {
-      var mo = month.index + 1;
-      var event = new Date(year + "-" + mo + "-" + "01");
-      $scope.truncateShiftsList({date: event});
+
+      $scope.selectedMonth = month.name;
+
+      if (moment(event.date).format('MM') === month.index) {
+        $scope.truncateShiftsList({date: new Date()});
+      } else {
+        $scope.truncateShiftsList({date: new Date(year + "-" + month.index + "-" + 1)});
+      }
     },
   };
   $scope.truncateShiftsList = function (event) {

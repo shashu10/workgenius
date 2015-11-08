@@ -16,15 +16,20 @@
         '<div class="week">'+
           '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
         '</div>'+
-        '<div class="days" ng-repeat="week in weeks">'+
-          '<div class="day"'+
-            'ng-repeat="day in week track by $index"'+
-            'ng-class="{selected: isDefaultDate(day), event: day.event[0], disabled: day.disabled, out: !day}"'+
-            'ng-click="onClick(day, $index, $event)"'+
-          '>'+
-            '<div class="number">{{day.day}}</div>'+
-          '</div>'+
-        '</div>'+
+        '<ion-slide-box show-pager="false" on-slide-changed="monthHasChanged($index)">' +
+
+          '<ion-slide ng-repeat="curr in months">' +
+            '<div class="days" ng-repeat="week in curr.weeks">'+
+              '<div class="day"'+
+                'ng-repeat="day in week track by $index"'+
+                'ng-class="{selected: isDefaultDate(day), event: day.event[0], disabled: day.disabled, out: !day}"'+
+                'ng-click="onClick(day, $index, $event)"'+
+              '>'+
+                '<div class="number">{{day.day}}</div>'+
+              '</div>'+
+            '</div>'+
+          '</ion-slide>' +
+        '</ion-slide-box>' +
       '</div>';
 
       var directive = {
@@ -44,7 +49,6 @@
     Controller.$inject = ['$scope' , '$filter'];
 
     function Controller($scope , $filter) {
-      $scope.$parent.flexCtrl = $scope; // WG controller access
 
       $scope.days = [];
       $scope.options = $scope.options || {};
@@ -71,7 +75,7 @@
       if($scope.options.mondayIsFirstDay)
       {
         var sunday = WEEKDAYS.shift();
-        WEEKDAYS.push(sunday)
+        WEEKDAYS.push(sunday);
       }
 
       if ($scope.options.minDate) {
@@ -90,6 +94,8 @@
       {
         createMappedEvents();
       }
+
+      calculateMonths();
 
       function createMappedDisabledDates(){
         if(!$scope.options.disabledDates) return;
@@ -146,6 +152,21 @@
         if(month !== previousMonth) calculateWeeks();
       });
 
+      $scope.monthHasChanged = function ($index) {
+
+        var curr = $scope.months[$index];
+        $scope.selectedYear = curr.year;
+        $scope.selectedMonth = MONTHS[curr.month];
+        var month = {name: $scope.selectedMonth, index: curr.month + 1, _index: curr.month+2 };
+        $scope.options.changeMonth(month, $scope.selectedYear);
+
+        if ($index === 0)
+          $scope.options.defaultDate = new Date();
+
+        else
+          $scope.options.defaultDate = new Date($scope.selectedYear + "-" + (curr.month + 1) + "-1");
+      };
+
       /////////////////
 
       function onClick(date, index, domEvent) {
@@ -187,21 +208,21 @@
         for(var i = 0; i < $scope.mappedDisabledDates.length; i++){
           if(date.year === $scope.mappedDisabledDates[i].getFullYear() && date.month === $scope.mappedDisabledDates[i].getMonth() && date.day === $scope.mappedDisabledDates[i].getDate()){
             return true;
-            break;
           }
         }
       }
 
-      function allowedPrevMonth() {
+      function allowedPrevMonth(currMonth, currYear) {
         var prevYear = null;
         var prevMonth = null;
         if (!$scope.options.minDate) { return true; }
-        var currMonth = MONTHS.indexOf($scope.selectedMonth);
+        currMonth = currMonth || MONTHS.indexOf($scope.selectedMonth);
+        currYear = currYear || $scope.selectedYear;
         if (currMonth === 0) {
-          prevYear = ($scope.selectedYear - 1);
+          prevYear = (currYear - 1);
           prevMonth = 11;
         } else {
-          prevYear = $scope.selectedYear;
+          prevYear = currYear;
           prevMonth = (currMonth - 1);
         }
         if (prevYear < $scope.options.minDate.getFullYear()) { return false; }
@@ -211,41 +232,63 @@
         return true;
       }
 
-      function allowedNextMonth() {
+      function allowedNextMonth(currMonth, currYear) {
         var nextYear = null;
         var nextMonth = null;
-        if (!$scope.options.maxDate) { return true; }
-        var currMonth = MONTHS.indexOf($scope.selectedMonth);
+
+        if (currMonth === undefined)
+          currMonth = MONTHS.indexOf($scope.selectedMonth);
+        if (currYear === undefined)
+          currYear = $scope.selectedYear;
+
         if (currMonth === 11) {
-          nextYear = ($scope.selectedYear + 1);
+          nextYear = (currYear + 1);
           nextMonth = 0;
         } else {
-          nextYear = $scope.selectedYear;
+          nextYear = currYear;
           nextMonth = (currMonth + 1);
         }
+        if (!$scope.options.maxDate) { return newMonth(nextMonth, nextYear); }
         if (nextYear > $scope.options.maxDate.getFullYear()) { return false; }
         if (nextYear === $scope.options.maxDate.getFullYear()) {
           if (nextMonth > $scope.options.maxDate.getMonth()) { return false; }
         }
-        return true;
+        return newMonth(nextMonth, nextYear);
+      }
+      
+      function newMonth (m, y) {
+        return {
+          month: m,
+          year: y,
+          weeks: populateWeek(m, y, [])
+        };
+      }
+      function calculateMonths() {
+        $scope.months = [];
+        var curr = newMonth($scope.options.minDate.getMonth(), $scope.options.minDate.getFullYear());
+
+        while (curr) {
+          $scope.months.push(curr);
+          curr = allowedNextMonth(curr.month, curr.year);
+        }
       }
 
-      function calculateWeeks() {
-        $scope.weeks = [];
+      function populateWeek (currMonth, currYear, currWeeks) {
+
         var week = null;
-        var daysInCurrentMonth = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth) + 1, 0).getDate();
+        var daysInCurrentMonth = new Date(currYear, currMonth + 1, 0).getDate();
 
         for (var day = 1; day < daysInCurrentMonth + 1; day += 1) {
-          var date = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth), day);
-          var dayNumber = new Date($scope.selectedYear, MONTHS.indexOf($scope.selectedMonth), day).getDay();
+          var date = new Date(currYear, currMonth, day);
+          var dayNumber = new Date(currYear, currMonth, day).getDay();
           if($scope.options.mondayIsFirstDay)
           {
             dayNumber = (dayNumber + 6) % 7;
           }
           week = week || [null, null, null, null, null, null, null];
           week[dayNumber] = {
-            year: $scope.selectedYear,
-            month: MONTHS.indexOf($scope.selectedMonth),
+            year: currYear,
+            month: currMonth,
             day: day,
             date: date,
             _month : date.getMonth() + 1
@@ -262,10 +305,18 @@
           }
 
           if (dayNumber === 6 || day === daysInCurrentMonth) {
-            $scope.weeks.push(week);
+            currWeeks.push(week);
             week = undefined;
           }
         }
+
+        return currWeeks;
+       }
+      function calculateWeeks(currMonth, currYear, currWeeks) {
+
+        $scope.weeks = [];
+        populateWeek(MONTHS.indexOf($scope.selectedMonth), $scope.selectedYear, $scope.weeks);
+
         (!$scope.allowedPrevMonth()) ? $scope.arrowPrevClass = "hidden" : $scope.arrowPrevClass = "visible";
         (!$scope.allowedNextMonth()) ? $scope.arrowNextClass = "hidden" : $scope.arrowNextClass = "visible";
       }
