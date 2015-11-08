@@ -1,6 +1,6 @@
 <ion-view class="register" title="Register">
     <!-- Set scroll to false because navigatig to the next input item causes the whole view with the nav-bars to jump -->
-    <ion-content has-header="true" class="has-subheader">
+    <ion-content has-header="true" class="has-subheader has-pager " ng-class="{'slide-up' : currentPage === -1}">
         <div class="list">
             <label class="item item-input">
                 <i class="icon ion-person placeholder-icon"></i>

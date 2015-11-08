@@ -294,23 +294,28 @@ span.wg-dash {
 	right:10px;
 }
 .tabs {
-    transition: bottom 0.5s;
+    transition: transform 0.25s;
     -webkit-transition-timing-function: ease-out; /* Safari */
     transition-timing-function: ease-out;		
 }
 .tabs-hide {
 	.tabs {
-	    bottom: -50px;	
-	}
-	.has-tabs {
-		bottom: 0;
+	    transform: translate3d(0, 50px, 0);
 	}
 }
-.pager-hide {
-    top: 0px;
+.has-pager {
+	transition: transform 0.25s;
+    -webkit-transition-timing-function: ease-out; /* Safari */
+    transition-timing-function: ease-out;
+}
+.slide-down {	
+	transform: translate3d(0, 44px, 0);
+}
+.slide-up {
+	transform: translate3d(0, -44px, 0);
 }
 .bar-subheader {
-    transition: top 0.25s;
+    transition: transform 0.25s;
     -webkit-transition-timing-function: ease-out; /* Safari */
-    transition-timing-function: ease-out;	
+    transition-timing-function: ease-out;
 }
