@@ -9211,8 +9211,8 @@ a.button {
 .hours h4 {
   color: #F0C330; }
 
-.item-company-icon > img:first-child {
-  border-radius: 0; }
+.item-company-icon img {
+  border-radius: 0 !important; }
 
 div.color-divider {
   display: -webkit-box;
@@ -9381,9 +9381,6 @@ span.wg-dash {
 
 .wg-tiny {
   /*font-size: medium;*/ }
-
-.item-company-icon img {
-  border-radius: 0 !important; }
 
 .wg-user-name {
   text-align: center;

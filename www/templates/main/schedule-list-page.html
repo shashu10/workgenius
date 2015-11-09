@@ -1,6 +1,42 @@
 <ion-view ng-controller="ScheduleCtrl" view-title="Schedule">
     <ion-content>
         <!-- Schedule of events -->
-        <shift-list/>
+        <!-- <shift-list/> -->
+        <div ng-controller="ListCtrl">
+        	<ion-list show-delete="data.showDelete" show-reorder="data.showReorder">
+				
+		        <ion-item ng-repeat="shift in groupedShifts" 
+		                  item="item"
+		                  href="#/item/{{item.id}}" ng-class="{'item-divider' : shift.divider}" class="item-remove-animate">
+		          Item {{ item.id }}
+            <!-- <img ng-src="img/companies/{{shift.company.toLowerCase()}}.png"> -->
+            <div class="schedule-text">
+                <div>
+                    {{shift.company}}
+                </div>
+                <div class="schedule-time">
+                    <standard-time-meridian etime='shift.startsAt.getHours()*3600'></standard-time-meridian> -
+                    <standard-time-meridian etime='shift.endsAt.getHours()*3600'></standard-time-meridian>
+                </div>
+            </div>
+					<span class="item-note">
+						earnings est: 
+						<i class="light-green">{{(shift.endsAt.getTime() - shift.startsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</i>
+					</span>
+		            <div ng-if="!shift.divider">
+		                <ion-option-button class="button-info" ng-click="goToApp(shift)">
+		                    App
+		                </ion-option-button>
+		                <ion-option-button class="button-positive" ng-click="tradeShift(shift)">
+		                    Trade
+		                </ion-option-button>
+		                <ion-option-button class="button-assertive" ng-click="cancelShift($index)">
+		                    Cancel
+		                </ion-option-button>
+		            </div>
+		        </ion-item>
+
+		      </ion-list>
+        </div>
     </ion-content>
 </ion-view>

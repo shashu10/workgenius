@@ -54,7 +54,78 @@ angular.module('workgenius.controllers', [])
   // End
 
 }])
-
+.controller('ListCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
+  
+  $scope.data = {
+    showDelete: false
+  };
+  
+  $scope.edit = function(item) {
+    alert('Edit Item: ' + item.id);
+  };
+  $scope.share = function(item) {
+    alert('Share Item: ' + item.id);
+  };
+ 
+  $scope.onItemDelete = function(item) {
+    $scope.items.splice($scope.items.indexOf(item), 1);
+  };
+  
+  $scope.items = [
+    { id: 0 },
+    { id: 1 },
+    { id: 2 },
+    { id: 3 },
+    { id: 4 },
+    { id: 5 },
+    { id: 6 },
+    { id: 7 },
+    { id: 8 },
+    { id: 9 },
+    { id: 10 },
+    { id: 11 },
+    { id: 12 },
+    { id: 13 },
+    { id: 14 },
+    { id: 15 },
+    { id: 16 },
+    { id: 17 },
+    { id: 18 },
+    { id: 19 },
+    { id: 20 },
+    { id: 21 },
+    { id: 22 },
+    { id: 23 },
+    { id: 24 },
+    { id: 25 },
+    { id: 26 },
+    { id: 27 },
+    { id: 28 },
+    { id: 29 },
+    { id: 30 },
+    { id: 31 },
+    { id: 32 },
+    { id: 33 },
+    { id: 34 },
+    { id: 35 },
+    { id: 36 },
+    { id: 37 },
+    { id: 38 },
+    { id: 39 },
+    { id: 40 },
+    { id: 41 },
+    { id: 42 },
+    { id: 43 },
+    { id: 44 },
+    { id: 45 },
+    { id: 46 },
+    { id: 47 },
+    { id: 48 },
+    { id: 49 },
+    { id: 50 }
+  ];
+  
+}])
 .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
 
     $scope.dailyHours = [0,0,0,0,0,0,0];
@@ -307,18 +378,6 @@ angular.module('workgenius.controllers', [])
     }
     $scope.gotoAnchor('empty-shift-list');
   };
-  $scope.truncateShiftsList = function (event) {
-    var eventDate = moment(event.date);
-
-    var grouped = groupBy($scope.shifts, function(item){return [item.date];});
-    for (var i = 0; i< grouped.length; i++) {
-      if (!eventDate.isAfter(grouped[i][0].date)) {
-        $scope.groupedShifts = grouped.splice(i);
-        return;
-      }
-    }
-    $scope.groupedShifts = [];
-  };
 
   // Flex cal error displays one day behind
   $scope.shifts = [
@@ -363,20 +422,35 @@ angular.module('workgenius.controllers', [])
       endsAt: new Date("November 29, 2015 11:30:00"),
     },
   ];
-  $scope.cancelShift = function (shift, group, shifts) {
-    var idx = group.indexOf(shift);
-    if (group.length === 1) {
-      
-      idx = shifts.indexOf(group);
-      shifts.splice(idx, 1);
-      group.splice(idx, 1);
-    } else {
+  $scope.cancelShift = function ($index) {
+    console.log($index);
+    $scope.groupedShifts.splice($index, 1);
 
-      group.splice(idx, 1);
+    if ($index !== 0 && 
+      $scope.groupedShifts[$index-1].divider &&
+      $scope.groupedShifts[$index+1].divider) {
+      console.log('test');
+      $scope.groupedShifts.splice($index - 1, 1);
     }
-  };
-  $scope.groupedShifts = groupBy($scope.shifts, function(item){return [item.date];});
+    // var idx = group.indexOf(shift);
+    // if (group.length === 1) {
+      
+    //   idx = shifts.indexOf(group);
+    //   shifts.splice(idx, 1);
+    //   group.splice(idx, 1);
+    // } else {
 
+    //   group.splice(idx, 1);
+    // }
+  };
+  $scope.injectHeaders = function (shifts) {
+    var grouped = angular.copy(shifts);
+    var prevDate = null;
+    for (var i = 0; i < grouped.length; i+=2) {
+      grouped.splice(i, 0, {divider: "div"});
+    }
+    return grouped;
+  };
   $scope.shiftEarnings = function (shift) {
     return (shift.endsAt.getTime() - shift.startsAt.getTime())/3600000 * $rootScope.hourlyRate;
   };
@@ -388,6 +462,8 @@ angular.module('workgenius.controllers', [])
     }
     return earnings;
   };
+
+  $scope.groupedShifts = $scope.injectHeaders($scope.shifts);
 }])
 
 .controller('ScheduleListCtrl', ['$scope', function($scope) {
