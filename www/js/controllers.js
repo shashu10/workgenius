@@ -244,7 +244,7 @@ angular.module('workgenius.controllers', [])
 .controller('EarningsController', function() {
 })
 
-.controller('ScheduleCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', function($scope, $rootScope, $ionicScrollDelegate, $location) {
 
   $scope.adjustCalendarHeight = function (argument) {
     
@@ -267,48 +267,59 @@ angular.module('workgenius.controllers', [])
     // mondayIsFirstDay: true,//set monday as first day of week. Default is false
 
     eventClick: function(event) {
-      $scope.truncateShiftsList(event);
-      $scope.selectedMonth = moment(event.date).format('MMMM');
+
+      var m = moment(event.date);
+      $scope.scrollTo(event);
+      $scope.selectedMonth = m.format('MMMM');
     },
     dateClick: function(event) {
-      $scope.truncateShiftsList(event);
-      $scope.selectedMonth = moment(event.date).format('MMMM');
+
+      var m = moment(event.date);
+      $scope.scrollTo(event);
+      $scope.selectedMonth = m.format('MMMM');
     },
     changeMonth: function(month, year) {
 
       $scope.selectedMonth = month.name;
 
       if (moment(event.date).format('MM') === month.index) {
-        $scope.truncateShiftsList({date: new Date()});
+        $scope.scrollTo({date: new Date()});
       } else {
-        $scope.truncateShiftsList({date: new Date(year + "-" + month.index + "-" + 1)});
+        $scope.scrollTo({date:new Date(year + "/" + month.index + "/" + 1)});
       }
     },
   };
-  $scope.truncateShiftsList = function (event) {
-    var eventDate = new Date(event.date);
-
-    var grouped = groupBy($scope.shifts, function(item){return [item.date];});
-    for (var i = 0; i< grouped.length; i++) {
-      var thisDate = new Date(grouped[i][0].date);
-      if (eventDate.getYear() > thisDate.getYear()) {
-        $scope.groupedShifts = [];
+  $scope.anchroID = function (group) {
+    return moment(group[0].startsAt).format('YYYY-MM-DD');
+  };
+  $scope.gotoAnchor = function(anchroID) {
+    $location.hash(anchroID);
+    $ionicScrollDelegate.anchorScroll(true);
+  };
+  $scope.scrollTo = function (event) {
+    var eventDate = moment(event.date);
+    for (var i = 0; i < $scope.groupedShifts.length; i++) {
+      if (!eventDate.isAfter($scope.groupedShifts[i][0].date)) {
+        $scope.gotoAnchor(moment($scope.groupedShifts[i][0].date).format('YYYY-MM-DD'));
         return;
-      }
-      if (eventDate.getYear() < thisDate.getYear() || eventDate.getMonth() < thisDate.getMonth()) {
-        $scope.groupedShifts = grouped.splice(i);
-        return;
-      }
-      if (eventDate.getMonth() == thisDate.getMonth() && eventDate.getYear() == thisDate.getYear()) {
-        if (eventDate.getDate() <= thisDate.getDate()) {
-          $scope.groupedShifts = grouped.splice(i);
-          return;
-        }
       }
 
     }
+    $scope.gotoAnchor('empty-shift-list');
+  };
+  $scope.truncateShiftsList = function (event) {
+    var eventDate = moment(event.date);
+
+    var grouped = groupBy($scope.shifts, function(item){return [item.date];});
+    for (var i = 0; i< grouped.length; i++) {
+      if (!eventDate.isAfter(grouped[i][0].date)) {
+        $scope.groupedShifts = grouped.splice(i);
+        return;
+      }
+    }
     $scope.groupedShifts = [];
   };
+
   // Flex cal error displays one day behind
   $scope.shifts = [
     {

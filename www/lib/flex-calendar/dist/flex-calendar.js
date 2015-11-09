@@ -164,7 +164,7 @@
           $scope.options.defaultDate = new Date();
 
         else
-          $scope.options.defaultDate = new Date($scope.selectedYear + "-" + (curr.month + 1) + "-1");
+          $scope.options.defaultDate = new Date($scope.selectedYear + "/" + (curr.month + 1) + "/1");
       };
 
       /////////////////
@@ -172,7 +172,7 @@
       function onClick(date, index, domEvent) {
         if (!date || date.disabled) { return; }
         $scope.options.defaultDate = date.date;
-        if (date.event.length != 0) {
+        if (date.event.length) {
           $scope.options.eventClick(date, domEvent);
         }
         else

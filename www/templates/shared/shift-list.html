@@ -1,13 +1,12 @@
 <!-- Schedule of shifts -->
 <ion-list ng-controller="ScheduleListCtrl">
     <div ng-repeat="group in groupedShifts">
-        <ion-item class="item-divider">
+        <ion-item id="{{anchroID(group)}}" class="item-divider">
             {{dividerFunction(group[0].startsAt)}}
             <span class="light-green">{{groupEarnings(group) | currency:undefined:0}}</span>
         </ion-item>
         <ion-item class="item-avatar item-company-icon" ng-repeat="shift in group" can-swipe="true">
             <img ng-src="img/companies/{{shift.company.toLowerCase()}}.png">
-            <!-- <i class="icon ion-earth"></i> -->
             <div class="schedule-text">
                 <div>
                     {{shift.company}}
@@ -31,4 +30,7 @@
             </ion-option-button>
         </ion-item>
     </div>
+    <ion-item id="empty-shift-list" class="item-avatar" ng-repeat="empty in [1,2,3,4,5,6]">
+        {{$first && !groupedShifts.length ? 'No shifts to show' : ''}}
+    </ion-item>
 </ion-list>
