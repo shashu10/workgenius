@@ -9202,15 +9202,6 @@ a.button {
   font-size: small;
   line-height: 12px; }
 
-.earnings, .hours {
-  text-align: center; }
-
-.earnings h4 {
-  color: #53ADF0; }
-
-.hours h4 {
-  color: #F0C330; }
-
 .item-company-icon > img:first-child {
   border-radius: 0; }
 
@@ -9357,6 +9348,33 @@ span.wg-dash {
 .wg-pager-selected .wg-pager-label {
   display: block;
   color: #2D98CB !important; }
+
+.center-text {
+  text-align: center; }
+
+.wg-line-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .wg-line-header h4 {
+    padding: 0 10px; }
+  .wg-line-header span.wg-dot {
+    height: 3px;
+    width: 3px;
+    border-radius: 50%;
+    margin: auto;
+    background-color: #69BFF8; }
+  .wg-line-header span.wg-dash {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -moz-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    height: 1px;
+    margin: auto;
+    background-color: #69BFF8; }
 
 .wg-buttons-line {
   display: -webkit-box;

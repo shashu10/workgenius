@@ -100,6 +100,15 @@ angular.module('workgenius', [
          }
      }
   })
+  .state('app.hours-page', {
+     url: '/hours-page',
+     views: {
+         'menuContent': {
+             templateUrl: 'templates/main/hours-page.html',
+             controller: "EarningsController"
+         }
+     }
+  })
   .state('app.available-shifts-page', {
     url: '/available-shifts-page',
     views: {

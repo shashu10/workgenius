@@ -14,12 +14,7 @@ angular.module('workgenius.controllers', [])
       
       getUserData();
 
-      $ionicHistory.nextViewOptions({
-          historyRoot: true
-      });
-      $state.go('tab.login', {
-          clear: true
-      });
+      $scope.toggleWithoutAnimation('tab.login');
   };
 
   // Schedule calendar / list toggle
@@ -37,17 +32,17 @@ angular.module('workgenius.controllers', [])
   });
 
   $scope.showScheduleCalendar = function () {
-    $scope.toggleWithoutAnimation('schedule-calendar-page');
+    $scope.toggleWithoutAnimation('app.schedule-calendar-page');
   };
   $scope.showScheduleList = function () {
-    $scope.toggleWithoutAnimation('schedule-list-page');
+    $scope.toggleWithoutAnimation('app.schedule-list-page');
   };
   $scope.toggleWithoutAnimation = function(state) {
     $ionicHistory.nextViewOptions({
         historyRoot: true,
         disableAnimate: true
     });
-    $state.go('app.' + state, {
+    $state.go(state, {
         clear: true
     });
   };
@@ -241,9 +236,8 @@ angular.module('workgenius.controllers', [])
   };
 
 }])
-.controller('EarningsController', function() {
-})
-
+.controller('EarningsController', [ '$scope', '$ionicHistory', '$state', function($scope, $ionicHistory, $state) {
+}])
 .controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', function($scope, $rootScope, $ionicScrollDelegate, $location) {
 
   $scope.adjustCalendarHeight = function (argument) {

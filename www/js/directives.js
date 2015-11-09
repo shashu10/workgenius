@@ -35,6 +35,14 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/wg-pager.html'
   };
 })
+.directive('wgLineHeader', function() {
+  return {
+    templateUrl: 'templates/shared/wg-line-header.html',
+    scope: {
+      title: '@'
+    },
+  };
+})
 .directive('flexCalendarSubheader', function() {
   return {
     link: function(scope, element, attrs) {

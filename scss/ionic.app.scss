@@ -120,15 +120,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 	font-size: small;
     line-height: 12px;
 }
-.earnings, .hours {
-	text-align: center;
-}
-.earnings h4 {
-	color: #53ADF0;
-}
-.hours h4 {
-	color: #F0C330;
-}
 .item-company-icon > img:first-child {
     border-radius: 0;
 }
@@ -253,6 +244,33 @@ span.wg-dash {
 	display: block;
     color: #2D98CB !important;
 }
+
+.center-text {
+	text-align: center;
+}
+.wg-line-header {
+	@include flexbox();
+
+	h4 {
+		padding: 0 10px;
+	}
+
+	span.wg-dot {
+		height: 3px;
+		width: 3px;
+		border-radius: 50%;
+	    margin: auto;
+	    background-color: $positive;
+	}
+	span.wg-dash {
+		@include flex-grow(1);
+	    height: 1px;
+	    margin: auto;
+	    background-color: $positive;
+	}
+}
+
+
 .wg-buttons-line {
 	@include flexbox();
 }

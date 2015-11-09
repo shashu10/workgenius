@@ -1,33 +1,30 @@
-<ion-view view-title="Earnings">
+<ion-view view-title="Hours">
     <ion-content class="has-header has-tabs">
 
         <div class="center-text">
             <wg-line-header title="Today"> </wg-line-header>
             <h2>
-                {{188 | currency:undefined:0}}
-            </h2>
-
+                {{8}}
+        </h2>
             <wg-line-header title="This Week"> </wg-line-header>
             <h2>
-                {{ 720 | currency:undefined:0}}
-            </h2>
-
+                {{31}}
+        </h2>
             <wg-line-header title="This Month"> </wg-line-header>
             <h2>
-                {{ 2410 | currency:undefined:0}}
-            </h2>
-
+                {{130}}
+        </h2>
             <wg-line-header title="Lifetime"> </wg-line-header>
             <h2>
-                {{ 11002 | currency:undefined:0}}
-            </h2>
+                {{846}}
+        </h2>
         </div>
     </ion-content>
     <div class="tabs tabs-icon-left">
-        <a class="tab-item active">
+        <a class="tab-item" ng-click="toggleWithoutAnimation('app.earnings-page')">
             <i class="icon ion-cash"></i> Earnings
         </a>
-        <a class="tab-item" ng-click="toggleWithoutAnimation('app.hours-page')">
+        <a class="tab-item active">
             <i class="icon ion-clock"></i> Hours
         </a>
     </div>
