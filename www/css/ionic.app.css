@@ -9082,6 +9082,51 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.center-text {
+  text-align: center; }
+
+.wg-line-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex; }
+  .wg-line-header h4 {
+    padding: 0 10px; }
+  .wg-line-header span.wg-dot {
+    height: 3px;
+    width: 3px;
+    border-radius: 50%;
+    margin: auto;
+    background-color: #69BFF8; }
+  .wg-line-header span.wg-dash {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -moz-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    height: 1px;
+    margin: auto;
+    background-color: #69BFF8; }
+
+.wg-company-footer {
+  height: 100px;
+  transform: translate3d(0, 100%, 0);
+  transition: all 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  /* Safari */
+  transition-timing-function: ease-out; }
+  .wg-company-footer img {
+    position: absolute;
+    top: 24px;
+    left: 20px;
+    max-width: 50px; }
+  .wg-company-footer p {
+    padding: 10px 10px 10px 80px; }
+
+.wg-company-footer.company-selected {
+  transform: none; }
+
 .shift {
   padding: 20px 20px 0 20px; }
   .shift .left-top {
@@ -9349,33 +9394,6 @@ span.wg-dash {
   display: block;
   color: #2D98CB !important; }
 
-.center-text {
-  text-align: center; }
-
-.wg-line-header {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex; }
-  .wg-line-header h4 {
-    padding: 0 10px; }
-  .wg-line-header span.wg-dot {
-    height: 3px;
-    width: 3px;
-    border-radius: 50%;
-    margin: auto;
-    background-color: #69BFF8; }
-  .wg-line-header span.wg-dash {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    -moz-flex-grow: 1;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    height: 1px;
-    margin: auto;
-    background-color: #69BFF8; }
-
 .wg-buttons-line {
   display: -webkit-box;
   display: -webkit-flex;
@@ -9457,3 +9475,10 @@ span.wg-dash {
   -webkit-transition-timing-function: ease-out;
   /* Safari */
   transition-timing-function: ease-out; }
+
+.wg-bottom-up-slider {
+  background-color: black;
+  color: white; }
+
+.companies {
+  height: 100%; }
