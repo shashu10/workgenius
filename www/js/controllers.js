@@ -161,6 +161,18 @@ angular.module('workgenius.controllers', [])
       "workgenius",
     ];
 
+    var companyDescription = {
+      bento: "Company description",
+      caviar: "Company description",
+      instacart: "Company description",
+      luxe: "Company description",
+      munchery: "Company description",
+      saucey: "Company description",
+      shyp: "Company description",
+      sprig: "Company description",
+      workgenius: "Company description",
+    };
+
     var chunk = function (arr, size) {
       var newArr = [];
       for (var i=0; i<arr.length; i+=size) {
@@ -172,12 +184,17 @@ angular.module('workgenius.controllers', [])
     $scope.chunkedCompanies = chunk(companyList, 3);
 
     $scope.update = setUserData.companies;
+    $scope.selectedCompany = null;
 
     $scope.select = function(name) {
-      if ($rootScope.currentUser.companies[name])
+      if ($rootScope.currentUser.companies[name]) {
         delete $rootScope.currentUser.companies[name];
-      else
+      } else {
         $rootScope.currentUser.companies[name] = true;
+      }
+      $scope.selectedCompany = {selected:true, name: name, description: companyDescription[name]};
+      var footer = document.getElementsByClassName("wg-company-footer");
+      angular.element(footer).removeAttr('style');
 
       $scope.update();
     };
@@ -284,7 +301,7 @@ angular.module('workgenius.controllers', [])
     },
   };
   $scope.anchroID = function (group) {
-    return moment(group[0].startsAt).format('YYYY-MM-DD');
+    return "id" + moment(group[0].startsAt).format('YYYY-MM-DD');
   };
   $scope.gotoAnchor = function(anchroID) {
     $location.hash(anchroID);

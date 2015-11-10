@@ -43,6 +43,38 @@ angular.module('workgenius.directives', [])
     },
   };
 })
+.directive('wgCompanyFooter', function($document) {
+  return function(scope, element, attr) {
+    var startY = 0, y = 0;
+
+    element.on('touchstart mousedown', function(event) {
+      // Prevent default dragging of selected content
+      event.preventDefault();
+      startY = event.screenY;
+      $document.on('touchmove mousemove', mousemove);
+      $document.on('touchend mouseup', mouseup);
+    });
+
+    function mousemove(event) {
+
+      y = Math.max(event.screenY - startY, 0);
+      console.log(y);
+      element.css({
+        transform: "translate3d(0, " + y + "px, 0)"
+      });
+    }
+
+    function mouseup() {
+      $document.off('touchmove mousemove', mousemove);
+      $document.off('touchend mouseup', mouseup);
+      if (y > 10) {
+        element.css({
+          transform: "translate3d(0, 100%, 0)"
+        });
+      }
+    }
+  };
+})
 .directive('flexCalendarSubheader', function() {
   return {
     link: function(scope, element, attrs) {

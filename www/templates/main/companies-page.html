@@ -1,5 +1,9 @@
-<ion-view view-title="Availability">
-	<ion-content>
-		<companies/>
-	</ion-content>
+<ion-view view-title="Copmanies">
+    <ion-content>
+        <companies/>
+    </ion-content>
+    <ion-footer-bar wg-company-footer ng-click="selectedCompany.selected = false" class="wg-company-footer" ng-class="selectedCompany.selected && !hidden ? 'company-selected' : ''">
+	    <img ng-src="img/companies/{{selectedCompany.name}}.png" alt="">
+        <p>{{selectedCompany.description}}</p>
+    </ion-footer-bar>
 </ion-view>
