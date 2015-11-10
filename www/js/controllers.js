@@ -311,24 +311,12 @@ angular.module('workgenius.controllers', [])
     var eventDate = moment(event.date);
     for (var i = 0; i < $scope.groupedShifts.length; i++) {
       if (!eventDate.isAfter($scope.groupedShifts[i][0].date)) {
-        $scope.gotoAnchor(moment($scope.groupedShifts[i][0].date).format('YYYY-MM-DD'));
+        $scope.gotoAnchor("id" + moment($scope.groupedShifts[i][0].date).format('YYYY-MM-DD'));
         return;
       }
 
     }
     $scope.gotoAnchor('empty-shift-list');
-  };
-  $scope.truncateShiftsList = function (event) {
-    var eventDate = moment(event.date);
-
-    var grouped = groupBy($scope.shifts, function(item){return [item.date];});
-    for (var i = 0; i< grouped.length; i++) {
-      if (!eventDate.isAfter(grouped[i][0].date)) {
-        $scope.groupedShifts = grouped.splice(i);
-        return;
-      }
-    }
-    $scope.groupedShifts = [];
   };
 
   // Flex cal error displays one day behind
@@ -399,9 +387,6 @@ angular.module('workgenius.controllers', [])
     }
     return earnings;
   };
-}])
-
-.controller('ScheduleListCtrl', ['$scope', function($scope) {
   $scope.dividerFunction = function(date){
     return moment(date).format('dddd Do');
   };

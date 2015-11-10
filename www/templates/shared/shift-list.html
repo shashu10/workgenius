@@ -1,36 +1,34 @@
-<!-- Schedule of shifts -->
-<ion-list ng-controller="ScheduleListCtrl">
-    <div ng-repeat="group in groupedShifts">
-        <ion-item id="{{anchroID(group)}}" class="item-divider">
-            {{dividerFunction(group[0].startsAt)}}
-            <span class="light-green">{{groupEarnings(group) | currency:undefined:0}}</span>
-        </ion-item>
-        <ion-item class="item-avatar item-company-icon" ng-repeat="shift in group" can-swipe="true">
-            <img ng-src="img/companies/{{shift.company.toLowerCase()}}.png">
-            <div class="schedule-text">
-                <div>
-                    {{shift.company}}
+<div ng-repeat="group in groupedShifts">
+    <div class="group-list">
+        <ion-list>
+            <ion-item id="{{anchroID(group)}}" class="item-divider" ion-affix data-affix-within-parent-with-class="group-list">
+                {{dividerFunction(group[0].startsAt)}}
+                <!-- <span>Total est: <i class="light-green">{{groupEarnings(group) | currency:undefined:0}}</i></span> -->
+            </ion-item>
+            <ion-item class="item-avatar item-company-icon" ng-repeat="shift in group" can-swipe="true">
+                <img ng-src="img/companies/{{shift.company.toLowerCase()}}.png">
+                <div class="schedule-text">
+                    <p>
+                        {{shift.company}}
+                    </p>
+                    <p class="schedule-time">
+                        <standard-time-meridian etime='shift.startsAt.getHours()*3600'></standard-time-meridian> -
+                        <standard-time-meridian etime='shift.endsAt.getHours()*3600'></standard-time-meridian>
+                    </p>
                 </div>
-                <div class="schedule-time">
-                    <standard-time-meridian etime='shift.startsAt.getHours()*3600'></standard-time-meridian> -
-                    <standard-time-meridian etime='shift.endsAt.getHours()*3600'></standard-time-meridian>
-                </div>
-            </div>
-            <span class="item-note">
-              earnings est: <i class="light-green">{{(shift.endsAt.getTime() - shift.startsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</i>
-            </span>
-            <ion-option-button class="button-info" ng-click="goToApp(shift)">
-                App
-            </ion-option-button>
-            <ion-option-button class="button-positive" ng-click="tradeShift(shift)">
-                Trade
-            </ion-option-button>
-            <ion-option-button class="button-assertive" ng-click="cancelShift(shift, group, groupedShifts)">
-                Cancel
-            </ion-option-button>
-        </ion-item>
+                <span class="item-note">
+                  earnings est: <i class="light-green">{{(shift.endsAt.getTime() - shift.startsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</i>
+                </span>
+                <ion-option-button class="button-info" ng-click="goToApp(shift)">
+                    App
+                </ion-option-button>
+                <ion-option-button class="button-positive" ng-click="tradeShift(shift)">
+                    Trade
+                </ion-option-button>
+                <ion-option-button class="button-assertive" ng-click="cancelShift(shift, group, groupedShifts)">
+                    Cancel
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
     </div>
-    <ion-item id="empty-shift-list" class="item-avatar" ng-repeat="empty in [1,2,3,4,5,6]">
-        {{$first && !groupedShifts.length ? 'No shifts to show' : ''}}
-    </ion-item>
-</ion-list>
+</div>

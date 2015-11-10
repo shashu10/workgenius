@@ -35,6 +35,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Available Shifts
 @import 'shift';
 
+.item-company-icon .item-content{
+    padding: 16px 16px 16px 72px;
+}
 
 .wg-profile-photo {
 	width: 150px;
@@ -325,4 +328,11 @@ span.wg-dash {
 }
 .companies {
 	height: 100%;
+}
+.item-divider {
+    border-top: 0;
+    padding: 2px 10px 0px 16px;
+    min-height: 23px;
+    color: #A7A7A7;
+    font-size: 11px;
 }

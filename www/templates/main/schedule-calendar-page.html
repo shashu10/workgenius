@@ -4,15 +4,12 @@
 		<flex-calendar options="options" events="shifts"></flex-calendar>
 	</ion-header-bar>
 
-    <ion-content class="has-flex-calendar-subheader">
+    <ion-content class="has-flex-calendar-subheader" >
+	        <shift-list></shift-list>
 
-        <!-- Schedule of events -->
-        <shift-list/>
+		    <ion-item id="empty-shift-list" class="item-avatar" ng-repeat="empty in [1,2,3,4,5]">
+		        {{$first && !groupedShifts.length ? 'No shifts to show' : ''}}
+		    </ion-item>
 
-    </ion-content>
+	</ion-content>
 </ion-view>
-
-
-<!-- <button class='button calendar-nav-buttons button-icon button-clear ion-chevron-left' ng-click='flexCtrl.prevMonth()'></button>
-	{{flexCtrl.selectedMonth | translate}}
-<button class='button calendar-nav-buttons button-icon button-clear ion-chevron-right' ng-click='flexCtrl.nextMonth()'></button> -->

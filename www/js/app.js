@@ -5,25 +5,26 @@
 // the 2nd parameter is an array of 'requires'
 // 'workgenius.controllers' is found in controllers.js
 angular.module('workgenius', [
-    'ionic','ionic.service.core',
+    'ionic',
     'ngCordova',
     'workgenius.onboarding',
     'workgenius.controllers',
     'workgenius.directives',
-    'parseData',
+    'workgenius.services',
     'workgenius.filters',
+    'parseData',
     'ionic-timepicker',
     'angles',
     'flexcalendar',
     'pascalprecht.translate',
     'ngIOS9UIWebViewPatch',
     'templatescache',
-    'ionic.service.core',
-    'ionic.service.analytics'
+    // 'ionic.service.core',
+    // 'ionic.service.analytics'
   ])
 
-.run(['$ionicPlatform', '$rootScope', '$state', '$cordovaStatusbar', 'getUserData', '$ionicAnalytics',
-  function($ionicPlatform, $rootScope, $state, $cordovaStatusbar, getUserData, $ionicAnalytics) {
+.run(['$ionicPlatform', '$rootScope', '$state', '$cordovaStatusbar', 'getUserData',
+  function($ionicPlatform, $rootScope, $state, $cordovaStatusbar, getUserData) {
     $ionicPlatform.ready(function() {
 
       // $ionicAnalytics.register();
