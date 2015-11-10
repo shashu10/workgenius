@@ -20,13 +20,19 @@ $positive:                        #69BFF8;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
-// Flexbox Mixins
-@import 'flexbox';
-
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-// Available Shifts styling
+// Flexbox Mixins
+@import 'flexbox';
+
+// Earnings and Hours Page
+@import 'earnings_hours';
+
+// Company description footer
+@import 'company_footer';
+
+// Available Shifts
 @import 'shift';
 
 
@@ -244,33 +250,6 @@ span.wg-dash {
 	display: block;
     color: #2D98CB !important;
 }
-
-.center-text {
-	text-align: center;
-}
-.wg-line-header {
-	@include flexbox();
-
-	h4 {
-		padding: 0 10px;
-	}
-
-	span.wg-dot {
-		height: 3px;
-		width: 3px;
-		border-radius: 50%;
-	    margin: auto;
-	    background-color: $positive;
-	}
-	span.wg-dash {
-		@include flex-grow(1);
-	    height: 1px;
-	    margin: auto;
-	    background-color: $positive;
-	}
-}
-
-
 .wg-buttons-line {
 	@include flexbox();
 }
@@ -339,4 +318,11 @@ span.wg-dash {
     transition: all 0.3s;
     -webkit-transition-timing-function: ease-out; /* Safari */
     transition-timing-function: ease-out;
+}
+.wg-bottom-up-slider {
+	background-color: black;
+	color: white;
+}
+.companies {
+	height: 100%;
 }
