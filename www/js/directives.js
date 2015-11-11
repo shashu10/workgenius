@@ -57,38 +57,36 @@ angular.module('workgenius.directives', ['workgenius.services'])
     });
   };
 }])
-.directive('wgCompanyFooter', function($document) {
+.directive('wgCompanyFooter', ['$document', '$ionicGesture', function($document, $ionicGesture) {
 
   var link = function (scope, element, attr) {
     var el = angular.element(element.children()[0]);
     var startY = 0, y = 0;
-
-    el.on('touchstart mousedown', function(event) {
+    var dragGesture = null, dragendGesture = null;
+    $ionicGesture.on('tap', hide, element);
+    $ionicGesture.on('touch', function(event) {
       // Prevent default dragging of selected content
-      event.preventDefault();
-      startY = event.screenY;
-      $document.on('touchmove mousemove', mousemove);
-      $document.on('touchend mouseup', mouseup);
-    });
-    el.on('click', function (event) {
-      hide();
-    });
+      startY = event.gesture.center.pageY;
+      dragGesture = $ionicGesture.on('drag', drag, element);
+      dragendGesture = $ionicGesture.on('dragend', dragend, element);
+    }, element);
 
-    function mousemove(event) {
+    function drag (event) {
 
-      y = Math.max(event.screenY - startY, 0);
+      y = Math.max(event.gesture.center.pageY - startY, 0);
       el.css({
         transform: "translate3d(0, " + y + "px, 0)"
       });
     }
 
-    function mouseup() {
-      $document.off('touchmove mousemove', mousemove);
-      $document.off('touchend mouseup', mouseup);
+    function dragend (event) {
+      $ionicGesture.off(dragGesture, 'drag', drag);
+      $ionicGesture.off(dragendGesture, 'dragend', dragend);
       if (y > 10) {
         hide();
       }
     }
+
     function hide () {
       el.css({
         transform: "translate3d(0, 100%, 0)"
@@ -101,7 +99,7 @@ angular.module('workgenius.directives', ['workgenius.services'])
     restrict: 'E',
     link: link
   };
-})
+}])
 .directive('flexCalendarSubheader', function() {
   return {
     link: function(scope, element, attrs) {
