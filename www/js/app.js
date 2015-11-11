@@ -229,6 +229,7 @@ angular.module('workgenius', [
       views: {
           'tab-register': {
               templateUrl: 'templates/login/register-companies.html',
+              controller: 'CompaniesCtrl'
           }
       }
   })

@@ -43,22 +43,41 @@ angular.module('workgenius.directives', ['workgenius.services'])
     },
   };
 })
-.directive('wgCompanyFooter', function($document) {
+.directive('bounceLeft', ['$document', '$interval', function($document, $interval) {
   return function(scope, element, attr) {
+    element.on('click', function(event) {
+      // Prevent default dragging of selected content
+      if (element.hasClass('bounce-left')) return;
+      event.preventDefault();
+      element.addClass('bounce-left');
+      $interval(function() {
+        element.removeClass('bounce-left');
+      }, 1000, 1);
+
+    });
+  };
+}])
+.directive('wgCompanyFooter', function($document) {
+
+  var link = function (scope, element, attr) {
+    var el = angular.element(element.children()[0]);
     var startY = 0, y = 0;
 
-    element.on('touchstart mousedown', function(event) {
+    el.on('touchstart mousedown', function(event) {
       // Prevent default dragging of selected content
       event.preventDefault();
       startY = event.screenY;
       $document.on('touchmove mousemove', mousemove);
       $document.on('touchend mouseup', mouseup);
     });
+    el.on('click', function (event) {
+      hide();
+    });
 
     function mousemove(event) {
 
       y = Math.max(event.screenY - startY, 0);
-      element.css({
+      el.css({
         transform: "translate3d(0, " + y + "px, 0)"
       });
     }
@@ -67,11 +86,20 @@ angular.module('workgenius.directives', ['workgenius.services'])
       $document.off('touchmove mousemove', mousemove);
       $document.off('touchend mouseup', mouseup);
       if (y > 10) {
-        element.css({
-          transform: "translate3d(0, 100%, 0)"
-        });
+        hide();
       }
     }
+    function hide () {
+      el.css({
+        transform: "translate3d(0, 100%, 0)"
+      });
+    }
+  };
+
+  return  {
+    templateUrl: 'templates/shared/wg-company-footer.html',
+    restrict: 'E',
+    link: link
   };
 })
 .directive('flexCalendarSubheader', function() {

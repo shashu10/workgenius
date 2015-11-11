@@ -15,32 +15,25 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 
-$positive:                        #69BFF8;
-
+$positive: #69BFF8;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
-
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
-
 // Flexbox Mixins
 @import 'flexbox';
-
 // Earnings and Hours Page
 @import 'earnings_hours';
-
 // Company description footer
 @import 'company_footer';
-
 // Available Shifts
 @import 'shift';
-
-.item-company-icon .item-content{
+.item-company-icon .item-content {
     padding: 16px 16px 16px 72px;
 }
 
 .wg-profile-photo {
-	width: 150px;
+    width: 150px;
     height: 150px;
     border-radius: 50%;
     background-repeat: no-repeat;
@@ -48,132 +41,154 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     background-size: cover;
     margin: auto;
 }
+
 .wg-profile-wrapper {
-	padding: 30px;
+    padding: 30px;
 }
 
 .companies {
-
-	.col {
-		text-align: center;
-
-		img {
-			width: 33%;
-			height: auto;
-			opacity: 0.3;
-			-webkit-filter: grayscale(1);
-			filter: grayscale(1);
-			transition: filter 0.5s, -webkit-filter 0.5s, opacity 0.5s;
-		    -webkit-transition-timing-function: ease-out; /* Safari */
-		    transition-timing-function: ease-out;	
-		}
-		img.selected {
-			opacity: 1;
-			-webkit-filter: grayscale(0);
-			filter: grayscale(0);
-		}
-	}
+    .col {
+        text-align: center;
+        img {
+            width: 33%;
+            height: auto;
+            opacity: 0.3;
+            -webkit-filter: grayscale(1);
+            filter: grayscale(1);
+            transition: filter 0.5s, -webkit-filter 0.5s, opacity 0.5s;
+            -webkit-transition-timing-function: ease-out;
+            /* Safari */
+            transition-timing-function: ease-out;
+        }
+        img.selected {
+            opacity: 1;
+            -webkit-filter: grayscale(0);
+            filter: grayscale(0);
+        }
+    }
 }
 
 
 /* Empty. Add your own CSS if you like */
 
 .days .icon {
-	font-size: large;
+    font-size: large;
 }
 
 .days .title {
-	text-align: center;
-	padding-top: 10px;
+    text-align: center;
+    padding-top: 10px;
 }
+
 .days .title p {
-	margin: 0;
+    margin: 0;
 }
+
 .wg-red {
-	line-height: 40px;
-	color: #B30000;
+    line-height: 40px;
+    color: #B30000;
 }
+
 .wg-blue {
-	line-height: 40px;
-	color: #2D98CB;
+    line-height: 40px;
+    color: #2D98CB;
 }
+
 .weeklyTarget {
-	text-align: center;
+    text-align: center;
 }
+
 .weekly-hours {
     font-size: 56px;
     padding: 30px;
     font-weight: 500;
 }
+
 .currency-estimate {
     font-size: 40px;
     font-weight: 400;
 }
+
 .light-green {
     color: #40C06C;
 }
+
 .light-blue {
-    color: #53ADF0;	
+    color: #53ADF0;
 }
+
 .light-blue-background {
     background-color: #53ADF0;
 }
+
 .small-light {
-	padding: 20px;
-	color: #BCBCBC;
+    padding: 20px;
+    color: #BCBCBC;
 }
+
 .schedule-text {
-	float: left;
+    float: left;
 }
+
 .schedule-text div {
-	font-size: small;
+    font-size: small;
     line-height: 12px;
 }
+
 .item-company-icon > img:first-child {
     border-radius: 0;
 }
+
 div.color-divider {
-	@include flexbox();
+    @include flexbox();
 }
+
 .color-divider span {
     height: 1px;
     margin: 0;
     padding: 0;
     @include flex-grow(1);
 }
+
 .color-divider span:nth-child(2n) {
     background-color: #F0C330;
 }
+
 .color-divider span:nth-child(2n+1) {
     background-color: #53ADF0;
 }
+
+
 /*form input.ng-valid.ng-touched {
     border-bottom: 1px solid #78FA89;
 }
 */
-.left-top {
-	float: left;
-}
-.right-top {
-	float:right;
-}
-.wrkgns-small-light-text {
 
+.left-top {
+    float: left;
 }
+
+.right-top {
+    float: right;
+}
+
+.wrkgns-small-light-text {}
 
 .box-outline {
-	border: 1px solid lightGray;
-	border-bottom: 0;
+    border: 1px solid lightGray;
+    border-bottom: 0;
 }
-.box-outline:not(:last-child) {
-	border-right: 0;
-}
-.item-avatar img {
-	height: auto !important;
-}
-.wg-earnings-toggler {
 
-	@include flexbox();
+.box-outline:not(:last-child) {
+    border-right: 0;
+}
+
+.item-avatar img {
+    height: auto !important;
+}
+
+.wg-earnings-toggler {
+    @include flexbox();
     background-color: #F8F8F8;
     height: 40px;
     font-size: larger;
@@ -183,49 +198,51 @@ div.color-divider {
     margin-top: -1px;
     text-align: center;
     line-height: 38px;
-
-	span {
-		@include flex-grow(1);
-	}
-	span:first-child {
-		border-right: 0.1em solid #D5D5D5;
-	}
-	span.wgBlueBack{
-	    background-color: $positive;
-	    color: white;
-	}
-	span.wgYellowBack{
-	    background-color: #F0C330;
-	    color: white;
-	}
+    span {
+        @include flex-grow(1);
+    }
+    span:first-child {
+        border-right: 0.1em solid #D5D5D5;
+    }
+    span.wgBlueBack {
+        background-color: $positive;
+        color: white;
+    }
+    span.wgYellowBack {
+        background-color: #F0C330;
+        color: white;
+    }
 }
+
 .item.range {
-	border: none;
+    border: none;
 }
+
 .wg-pager {
-
-	@include flexbox();
-
+    @include flexbox();
     margin: auto;
     padding: 7px 0;
     width: 250px;
     text-align: center;
 }
-.wg-pager>span{
 
-	@include flexbox();
-	@include flex-grow(2);
+.wg-pager>span {
+    @include flexbox();
+    @include flex-grow(2);
 }
-.wg-pager>span:last-child{
-	@include flex-grow(0);
-	@include flex-basis('21px');
+
+.wg-pager>span:last-child {
+    @include flex-grow(0);
+    @include flex-basis('21px');
 }
-.wg-pager-selected{
-	.wg-dash,
-	.wg-circle {
-	    background-color: $positive !important;
-	}
+
+.wg-pager-selected {
+    .wg-dash,
+    .wg-circle {
+        background-color: $positive !important;
+    }
 }
+
 span.wg-circle {
     background-color: #DDDDDD;
     border-radius: 100px;
@@ -235,11 +252,12 @@ span.wg-circle {
 }
 
 span.wg-dash {
-	@include flex-grow(1);
+    @include flex-grow(1);
     height: 2px;
     margin: auto;
     background-color: #DDDDDD;
 }
+
 .wg-pager-label {
     position: absolute;
     top: -22px;
@@ -249,90 +267,145 @@ span.wg-dash {
     font-size: smaller;
     display: none;
 }
+
 .wg-pager-selected .wg-pager-label {
-	display: block;
+    display: block;
     color: #2D98CB !important;
 }
+
 .wg-buttons-line {
-	@include flexbox();
+    @include flexbox();
 }
+
 .wg-buttons-line button {
-	margin: 10px;
-	@include flex-grow(1);
+    margin: 10px;
+    @include flex-grow(1);
 }
+
 .wg-center-header {
-	text-align: center;
+    text-align: center;
 }
+
 .wg-blue {
-	color: #2D98CB;
+    color: #2D98CB;
 }
+
 .wg-tiny {
-	/*font-size: medium;*/
+    /*font-size: medium;*/
 }
+
 .item-company-icon img {
-	border-radius: 0 !important;
+    border-radius: 0 !important;
 }
+
 .wg-user-name {
-	text-align: center;
-	padding-bottom: 30px;
+    text-align: center;
+    padding-bottom: 30px;
 }
+
 .custom-subheader {
-  height: auto !important;
-  padding: 0;
+    height: auto !important;
+    padding: 0;
 }
+
 .wg-flex {
-	@include flexbox();
-	.wg-flex-item {
-		@include flex-grow(1);
-	}
+    @include flexbox();
+    .wg-flex-item {
+        @include flex-grow(1);
+    }
 }
+
 .align-center {
-	text-align: center;
+    text-align: center;
 }
-.item-divider span{
-	position:absolute;
-	right:10px;
+
+.item-divider span {
+    position: absolute;
+    right: 10px;
 }
+
 .tabs {
     transition: all 0.3s;
-    -webkit-transition-timing-function: ease-out; /* Safari */
-    transition-timing-function: ease-out;		
+    -webkit-transition-timing-function: ease-out;
+    /* Safari */
+    transition-timing-function: ease-out;
 }
+
 .tabs-hide {
-	.tabs {
-	    transform: translate3d(0, 50px, 0);
+    .tabs {
+        transform: translate3d(0, 50px, 0);
+    }
+    .has-tabs, .bar-footer.has-tabs {
+	    bottom: 0;
 	}
 }
+
 .has-pager {
-	transition: all 0.3s;
-    -webkit-transition-timing-function: ease-out; /* Safari */
+    transition: all 0.3s;
+    -webkit-transition-timing-function: ease-out;
+    /* Safari */
     transition-timing-function: ease-out;
 }
+
 .slide-down {
-	transform: translate3d(0, 44px, 0);
+    transform: translate3d(0, 44px, 0);
 }
+
 .slide-up {
-	transform: translate3d(0, -44px, 0);
+    transform: translate3d(0, -44px, 0);
 }
+
 .hidden {
-	// opacity: 0;
+    // opacity: 0;
 }
+
 .bar-subheader {
     transition: all 0.3s;
-    -webkit-transition-timing-function: ease-out; /* Safari */
+    -webkit-transition-timing-function: ease-out;
+    /* Safari */
     transition-timing-function: ease-out;
 }
+
 .wg-bottom-up-slider {
-	background-color: black;
-	color: white;
+    background-color: black;
+    color: white;
 }
+
 .companies {
-	height: 100%;
+    height: 100%;
 }
+
 .item-divider {
     border-top: 0;
     padding: 2px 10px 0px 16px;
     min-height: 23px;
     color: #A7A7A7;
     font-size: 11px;
+}
+
+
+/* The animation code */
+@keyframes bounce-left {
+
+    40%,
+    80% {
+        @include transform(translateX(0));
+    }
+    20% {
+        @include transform(translateX(-12px));
+    }
+    60% {
+        @include transform(translateX(-5px));
+    }
+}
+
+/* The element to apply the animation to */
+.bounce-left {
+	.item-content {
+	    animation-name: bounce-left;
+	    animation-duration: 1s;
+	}
+	.invisible {
+	    visibility: visible;
+	}
 }
