@@ -68,7 +68,9 @@ angular.module('workgenius.controllers', [])
   // End
 
 }])
+.controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
 
+}])
 .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
 
     $scope.dailyHours = [0,0,0,0,0,0,0];

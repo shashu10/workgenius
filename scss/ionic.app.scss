@@ -52,13 +52,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     font-size: large;
 }
 
-.days .title {
+.title {
     text-align: center;
     padding-top: 10px;
-}
-
-.days .title p {
-    margin: 0;
+    p {
+        margin: 0;
+    }
 }
 
 .wg-red {

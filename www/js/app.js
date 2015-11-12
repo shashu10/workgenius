@@ -187,6 +187,15 @@ angular.module('workgenius', [
       }
     }
   })
+  .state('app.block-days-page', {
+    url: '/block-days-page',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main/block-days-page.html',
+        controller: 'BlockDaysCtrl'
+      }
+    }
+  })
   .state('app.vehicles-page', {
     url: '/vehicles-page',
     views: {

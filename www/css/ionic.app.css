@@ -9206,12 +9206,11 @@ a.button {
 .days .icon {
   font-size: large; }
 
-.days .title {
+.title {
   text-align: center;
   padding-top: 10px; }
-
-.days .title p {
-  margin: 0; }
+  .title p {
+    margin: 0; }
 
 .wg-red {
   line-height: 40px;
