@@ -7,7 +7,7 @@ angular.module('workgenius.onboarding', [])
     };
     $scope.error = {};
     $scope.loginDemoUser = function () {
-        $scope.user.email    = "john@gmail.com";
+        $scope.user.email    = "aj@workgeni.us";
         $scope.user.password = "1234";
         $scope.login();
     };
@@ -91,7 +91,7 @@ angular.module('workgenius.onboarding', [])
     };
 })
 
-.controller('RegisterCtrl', function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, getUserData, formatUploadData) {
+.controller('RegisterCtrl', function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, $ionicLoading, getUserData, formatUploadData) {
 
     $rootScope.user = {
         name: '',
@@ -152,7 +152,7 @@ angular.module('workgenius.onboarding', [])
         user.set('vehicles', formatUploadData.vehicles());
         user.set('companies', formatUploadData.companies());
         user.set('workTypes', formatUploadData.workTypes());
-        user.set('target', $rootScope.currentUser.hourlyTarget);
+        user.set('target', Number($rootScope.currentUser.hourlyTarget));
 
         user.signUp(null, {
             success: function(user) {
@@ -190,5 +190,43 @@ angular.module('workgenius.onboarding', [])
         } else {
             $scope.error.message = error.message;
         }
+    };
+
+    $scope.loginDemoUser = function () {
+        $scope.user.email    = "aj@workgeni.us";
+        $scope.user.password = "1234";
+
+        $scope.loading = $ionicLoading.show({
+            content: 'Logging in',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+        });
+
+        Parse.User.logIn(('' + $scope.user.email).toLowerCase(), $scope.user.password, {
+            success: function(user) {
+                $ionicLoading.hide();
+
+                getUserData();
+
+                $ionicHistory.nextViewOptions({
+                    historyRoot: true
+                });
+                $state.go('app.schedule-calendar-page', {
+                    clear: true
+                });
+            },
+            error: function(user, err) {
+                $ionicLoading.hide();
+                // The login failed. Check error to see why.
+                if (err.code === 101) {
+                    $scope.error.message = 'Invalid login credentials';
+                } else {
+                    $scope.error.message = 'An unexpected error has ' +
+                        'occurred, please try again.';
+                }
+            }
+        });
     };
 });

@@ -13,6 +13,7 @@ angular.module('workgenius', [
     'workgenius.services',
     'workgenius.filters',
     'parseData',
+    'phoneFormatting',
     'ionic-timepicker',
     'angles',
     'flexcalendar',
@@ -52,12 +53,17 @@ angular.module('workgenius', [
 
     $rootScope.currentUser = Parse.User.current() || {};
     if ($rootScope.currentUser && Parse.User.current()) {
-      $rootScope.currentUser.email = Parse.User.current().get('email');
       $rootScope.currentUser.hourlyTarget = 40;
       $state.go('app.schedule-calendar-page');
     } else {
       $rootScope.currentUser.hourlyTarget = 40;
       $rootScope.currentUser.name = 'John Smith';
+    }
+    if (!$rootScope.currentUser.email) {
+      if (Parse.User.current())
+      $rootScope.currentUser.email = Parse.User.current().get('email');
+    else
+      $rootScope.currentUser.email = "aj@workgeni.us"
     }
     if (!$rootScope.hourlyRate) {
       $rootScope.hourlyRate = 15;
@@ -78,7 +84,7 @@ angular.module('workgenius', [
     if ($rootScope.cancellations === undefined)
       $rootScope.cancellations = 0;
     getUserData();
-
+    $rootScope.phoneVal = "4159365883";
   }])
 
 .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {

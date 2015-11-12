@@ -9130,7 +9130,7 @@ a.button {
   filter: grayscale(0); }
 
 .wg-company-footer {
-  height: 100px;
+  height: 108px;
   transform: translate3d(0, 100%, 0);
   transition: all 0.3s;
   -webkit-transition-timing-function: ease-out;
@@ -9138,11 +9138,11 @@ a.button {
   transition-timing-function: ease-out; }
   .wg-company-footer img {
     position: absolute;
-    top: 24px;
-    left: 20px;
+    top: 29px;
+    left: 25px;
     max-width: 50px; }
   .wg-company-footer p {
-    padding: 10px 10px 10px 80px; }
+    padding: 10px 10px 10px 90px; }
 
 .wg-footer-selected {
   transform: none; }
@@ -9206,10 +9206,11 @@ a.button {
 .days .icon {
   font-size: large; }
 
-.title {
+.wg-title {
   text-align: center;
-  padding-top: 10px; }
-  .title p {
+  padding: 10px;
+  margin: 0; }
+  .wg-title p {
     margin: 0; }
 
 .wg-red {
@@ -9543,3 +9544,33 @@ span.wg-dash {
   text-align: center;
   padding-top: 10px;
   color: #8A8A8A; }
+
+.readonly {
+  background-color: #f8f8f8; }
+
+textarea {
+  resize: none; }
+
+.extra-padding-bottom {
+  padding-bottom: 20px; }
+
+.extra-padding-top {
+  padding-top: 20px; }
+
+.item-company-icon .item-note {
+  margin-top: 9px; }
+
+.wg-preferences-page {
+  background-color: #f8f8f8;
+  padding-top: 20px; }
+  .wg-preferences-page input {
+    height: 52px; }
+  .wg-preferences-page .item-input-element {
+    padding-top: 0;
+    padding-bottom: 0; }
+  .wg-preferences-page .list.card {
+    margin-top: 10px;
+    margin-bottom: 25px; }
+  .wg-preferences-page .wg-list-title {
+    padding-left: 10px;
+    font-weight: 500; }

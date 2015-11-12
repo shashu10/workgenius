@@ -7,22 +7,24 @@
         </div>
         <h1 class="title">Contact Us</h1>
         <div class="buttons">
-            <button class="button button-positive button-clear" ng-click="sendMessage()">Send</button>
+            <button class="button button-positive" ng-click="sendMessage()">Send</button>
         </div>
     </ion-header-bar>
     <ion-content>
-        <h4 class="padding">Put anything you want to ask us in here and hit send!</h4>
-        <label class="item item-input item-stacked-label" readonly="true">
-	        <span class="input-label">First Name</span>
+        <p class="wg-title extra-padding-top">
+            Put anything you want to ask us in here and hit send!
+        </p>
+        <label class="item item-input item-stacked-label readonly">
+	        <span class="input-label">From</span>
             <input type="text" placeholder="First Name" value="{{currentUser.name}}" readonly="true">
         </label>
         <label class="item item-input item-floating-label">
-            <textarea rows="5" placeholder="comments"></textarea>
+            <span class="input-label">Message</span>
+            <textarea rows="5" placeholder="Type your message here. Any questions, comments or concerns you may have."></textarea>
         </label>
-
-        <button href="tel:5103055860" class="button icon-left button-full button-assertive">
-          <i class="icon ion-ios-telephone"></i>
-		  Full Width Block Button
-		</button>
+        <div class="wg-title extra-padding-top">
+            <p>Is it an emergency?</p>
+            <a href="tel:+14153471890"><button class="button button-clear button-assertive icon-left ion-ios-telephone">Call Us</button></a>
+        </div>
     </ion-content>
 </ion-modal-view>

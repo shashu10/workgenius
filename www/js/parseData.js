@@ -144,7 +144,7 @@ angular.module('parseData', [])
   var setTarget = debounce(function (target) {
 
       if (Parse.User.current())
-        $rootScope.currentUser.save({'target': target});
+        $rootScope.currentUser.save({'target': Number(target)});
 
     }, interval, false);
 
@@ -221,7 +221,8 @@ angular.module('parseData', [])
 
     if (!Parse.User.current()) {
       $rootScope.currentUser = {
-        name : '',
+        name : 'AJ Shewki',
+        email : 'aj@workgeni.us',
         hourlyTarget : 40,
         companies : {},
         workTypes : {},
@@ -238,6 +239,7 @@ angular.module('parseData', [])
 
       angular.extend($rootScope.currentUser, {
         name : user.get('name'),
+        email : user.get('email'),
         hourlyTarget : user.get('target'),
         companies : getCompanies(user),
         workTypes : getWorkTypes(user),

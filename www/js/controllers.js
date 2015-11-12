@@ -171,27 +171,27 @@ angular.module('workgenius.controllers', [])
 .controller('CompaniesCtrl', ['$rootScope', '$scope', 'setUserData', function($rootScope, $scope, setUserData) {
   
     var companyList = [
-      "bento",
-      "caviar",
       "instacart",
-      "luxe",
-      "munchery",
       "saucey",
+      "bento",
       "shyp",
+      "caviar",
+      "luxe",
       "sprig",
-      "workgenius",
+      "munchery",
+      "doordash",
     ];
 
     var companyDescription = {
-      bento: "Company description",
-      caviar: "Company description",
-      instacart: "Company description",
-      luxe: "Company description",
-      munchery: "Company description",
-      saucey: "Company description",
-      shyp: "Company description",
-      sprig: "Company description",
-      workgenius: "Company description",
+      instacart: "Instacart is an on-demand grocery delivery company. The job consists of purchasing, packing and delivering groceries. A car is required.",
+      saucey: "Saucey is an on-demand Alcohol and tobacco delivery service. Drivers must be over 21 and have exceptional people skills. Any vehicle is OK.",
+      bento: "Bento is an on-demand delivery startup for delicious Asian meals. The job involves delivering meals from our kitchens. A car is required.",
+      shyp: "Shyp is an on-demand . Must be able to package and handle items with care and have great people skills. Various vehicle are accepted.",
+      caviar: "Caviar is a restaurant delivery services for individuals and businesses. Must have a customer-service mentality. Most vehicles are OK.",
+      luxe: "Luxe is an on-demand parkign service. You will be responsible for driving cars to an from garages to drivers. A valid license is required.",
+      sprig: "Sprig is an on-demand organic and locally sourced meal delivery service. Deliveries will be from kitchens to customers. Most vehicles are OK.",
+      munchery: "Munchery is an on-demand food delivery service that hires world class chefs to prepare meals. A bike is required.",
+      doordash: "DoorDash is an on-demand restaurant delivery service. You will pick up food items and deliver them to customers in an efficient manner.",
     };
 
     var chunk = function (arr, size) {
