@@ -1,6 +1,6 @@
 angular.module('workgenius.controllers', [])
 
-.controller('MenuCtrl', ['$scope', '$state', '$ionicHistory', 'getUserData', function( $scope, $state, $ionicHistory, getUserData) {
+.controller('MenuCtrl', ['$scope', '$state', '$ionicHistory', '$ionicModal', 'getUserData', function( $scope, $state, $ionicHistory, $ionicModal, getUserData) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -46,6 +46,25 @@ angular.module('workgenius.controllers', [])
         clear: true
     });
   };
+  // End
+
+  // Contact Us Modal
+
+  // Create the login modal that we will use later
+  $ionicModal.fromTemplateUrl('templates/shared/contact-us.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.contactModal = modal;
+  });
+
+  $scope.cancelMessage = function () {
+    $scope.contactModal.hide();
+  };
+
+  $scope.sendMessage = function (shift) {
+    $scope.contactModal.hide();
+  };
+
   // End
 
 }])

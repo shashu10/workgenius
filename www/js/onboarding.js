@@ -151,6 +151,7 @@ angular.module('workgenius.onboarding', [])
         user.set('availability', formatUploadData.availability());
         user.set('vehicles', formatUploadData.vehicles());
         user.set('companies', formatUploadData.companies());
+        user.set('workTypes', formatUploadData.workTypes());
         user.set('target', $rootScope.currentUser.hourlyTarget);
 
         user.signUp(null, {

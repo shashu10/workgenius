@@ -42,19 +42,13 @@
           Preferences
         </ion-item>
 
-        <p class="menu-note">For questions, comments and feedback</p>
+        <p class="menu-note">Need some help?</p>
 
-        <ion-item class="item-icon-left item-positive" menu-close href="#/app/preferences-page">
+        <ion-item class="item-icon-left item-positive" menu-close ng-click="contactModal.show()">
           <i class="icon ion-email"></i>
           Contact Us
         </ion-item>
-
-        <p class="menu-note">Need to talk to someone? Give us a call</p>
-
-        <ion-item href="tel:5103055860" class="item-icon-left item-assertive" menu-close href="#/app/preferences-page">
-          <i class="icon ion-ios-telephone"></i>
-          Emergency Call
-        </ion-item>
+        
       </ion-list>
     </ion-content>
   </ion-side-menu>
