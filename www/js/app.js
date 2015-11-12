@@ -51,39 +51,20 @@ angular.module('workgenius', [
     // Initialize Parse here with AppID and JavascriptID
     Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
 
-    $rootScope.currentUser = Parse.User.current() || {};
-    if ($rootScope.currentUser && Parse.User.current()) {
-      $rootScope.currentUser.hourlyTarget = 40;
+    if (Parse.User.current()) {
       $state.go('app.schedule-calendar-page');
-    } else {
-      $rootScope.currentUser.hourlyTarget = 40;
-      $rootScope.currentUser.name = 'John Smith';
     }
-    if (!$rootScope.currentUser.email) {
-      if (Parse.User.current())
-      $rootScope.currentUser.email = Parse.User.current().get('email');
-    else
-      $rootScope.currentUser.email = "aj@workgeni.us"
-    }
+    getUserData();
+
     if (!$rootScope.hourlyRate) {
       $rootScope.hourlyRate = 15;
-    }
-    if (!$rootScope.currentUser.availability) {
-      $rootScope.currentUser.availability = {};
-      $rootScope.totalHours = 0;
     }
     if (!$rootScope.imageURL)
       $rootScope.imageURL = "img/profile_default.jpg";
 
-    if (!$rootScope.currentUser.companies) {
-      $rootScope.currentUser.companies = {};
-    }
-    if (!$rootScope.currentUser.workTypes) {
-      $rootScope.currentUser.workTypes = {};
-    }
     if ($rootScope.cancellations === undefined)
       $rootScope.cancellations = 0;
-    getUserData();
+
     $rootScope.phoneVal = "4159365883";
   }])
 

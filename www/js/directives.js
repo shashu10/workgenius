@@ -49,8 +49,26 @@ angular.module('workgenius.directives', ['workgenius.services'])
   };
 })
 .directive('bounceLeft', ['$document', '$interval', function($document, $interval) {
+  var isOpen = function (element) {
+    var children = element.children();
+    if (children && children[0] && children[0].style.transform) {
+      if (children[0].style.transform.indexOf('translate3d') > -1) {
+        return children[0].style;
+      }
+    }
+    return false;
+  }
+  var close = function (style) {
+    style.transform = '';
+  }
   return function(scope, element, attr) {
     element.on('click', function(event) {
+      var open = isOpen(element);
+      if (open) {
+        close(open);
+        return;
+      }
+
       // Prevent default dragging of selected content
       if (element.hasClass('bounce-left')) return;
       event.preventDefault();

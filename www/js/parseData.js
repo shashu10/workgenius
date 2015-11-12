@@ -221,14 +221,15 @@ angular.module('parseData', [])
 
     if (!Parse.User.current()) {
       $rootScope.currentUser = {
-        name : 'AJ Shewki',
-        email : 'aj@workgeni.us',
-        hourlyTarget : 40,
-        companies : {},
-        workTypes : {},
-        vehicles : getVehicles(),
-        availability : {},
-        totalHours : 0,
+        name          : 'AJ Shewki',
+        email         : 'aj@workgeni.us',
+        hourlyTarget  : 40,
+        cancellations : 0,
+        vehicles      : getVehicles(),
+        companies     : {},
+        workTypes     : {},
+        availability  : {},
+        totalHours    : 0,
       };
       return;
     }
@@ -238,14 +239,15 @@ angular.module('parseData', [])
       var schedule = getSchedule(user);
 
       angular.extend($rootScope.currentUser, {
-        name : user.get('name'),
-        email : user.get('email'),
-        hourlyTarget : user.get('target'),
-        companies : getCompanies(user),
-        workTypes : getWorkTypes(user),
-        vehicles : getVehicles(user),
-        availability : schedule.availability,
-        totalHours : schedule.totalHours,
+        name          : user.get('name'),
+        email         : user.get('email'),
+        hourlyTarget  : user.get('target'),
+        cancellations : user.get('cancellations'),
+        vehicles      : getVehicles(user),
+        companies     : getCompanies(user),
+        workTypes     : getWorkTypes(user),
+        availability  : schedule.availability,
+        totalHours    : schedule.totalHours,
       });
     });
   };

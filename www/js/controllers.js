@@ -1,6 +1,6 @@
 angular.module('workgenius.controllers', [])
 
-.controller('MenuCtrl', ['$scope', '$state', '$ionicHistory', '$ionicModal', 'getUserData', function( $scope, $state, $ionicHistory, $ionicModal, getUserData) {
+.controller('MenuCtrl', ['$scope', '$state', '$ionicHistory', '$ionicModal', 'getUserData', '$rootScope', function( $scope, $state, $ionicHistory, $ionicModal, getUserData, $rootScope) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -183,15 +183,15 @@ angular.module('workgenius.controllers', [])
     ];
 
     var companyDescription = {
-      instacart: "Instacart is an on-demand grocery delivery company. The job consists of purchasing, packing and delivering groceries. A car is required.",
-      saucey: "Saucey is an on-demand Alcohol and tobacco delivery service. Drivers must be over 21 and have exceptional people skills. Any vehicle is OK.",
-      bento: "Bento is an on-demand delivery startup for delicious Asian meals. The job involves delivering meals from our kitchens. A car is required.",
-      shyp: "Shyp is an on-demand . Must be able to package and handle items with care and have great people skills. Various vehicle are accepted.",
-      caviar: "Caviar is a restaurant delivery services for individuals and businesses. Must have a customer-service mentality. Most vehicles are OK.",
-      luxe: "Luxe is an on-demand parkign service. You will be responsible for driving cars to an from garages to drivers. A valid license is required.",
-      sprig: "Sprig is an on-demand organic and locally sourced meal delivery service. Deliveries will be from kitchens to customers. Most vehicles are OK.",
+      instacart: "Instacart is an on-demand grocery delivery company. The job consists of purchasing, packing and delivering groceries.",
+      saucey: "Saucey is an on-demand Alcohol and tobacco delivery service. Drivers must be over 21 and have exceptional people skills.",
+      bento: "Bento is an on-demand delivery startup for delicious Asian meals. The job involves delivering meals from our kitchens.",
+      shyp: "Shyp is an on-demand . Must be able to package and handle items with care and have great people skills.",
+      caviar: "Caviar is a restaurant delivery services for individuals and businesses. Must have a customer-service mentality.",
+      luxe: "Luxe is an on-demand parkign service. Drive cars to and from garages to drivers. A valid license is required.",
+      sprig: "Sprig is an on-demand organic and locally sourced meal delivery service. Deliver meals from our kitchens to customers.",
       munchery: "Munchery is an on-demand food delivery service that hires world class chefs to prepare meals. A bike is required.",
-      doordash: "DoorDash is an on-demand restaurant delivery service. You will pick up food items and deliver them to customers in an efficient manner.",
+      doordash: "DoorDash is an on-demand restaurant delivery service. Pick up food items and deliver them to customers efficiently.",
     };
 
     var chunk = function (arr, size) {
@@ -353,7 +353,6 @@ angular.module('workgenius.controllers', [])
 }])
 .controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup) {
 
-  $scope.cancellations = 0;
   $scope.adjustCalendarHeight = function (argument) {
     
   };
@@ -461,8 +460,8 @@ angular.module('workgenius.controllers', [])
   ];
   $scope.cancelWarning = function (shift, group, shifts) {
     $scope.shiftToCancel = shift;
-    $ionicPopup.show({
-      template: '<p>Late cancellations this quarter: {{cancellations}}/3</p><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p class="schedule-time"><standard-time-meridian etime="shiftToCancel.startsAt.getHours()*3600"></standard-time-meridian> - <standard-time-meridian etime="shiftToCancel.endsAt.getHours()*3600"></standard-time-meridian></p>',
+    $scope.cancelPopup = $ionicPopup.show({
+      template: '<p>Late cancellations this quarter: {{currentUser.cancellations}}/3</p><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p class="schedule-time"><standard-time-meridian etime="shiftToCancel.startsAt.getHours()*3600"></standard-time-meridian> - <standard-time-meridian etime="shiftToCancel.endsAt.getHours()*3600"></standard-time-meridian></p>',
       title: 'Are you sure you want to cancel the following shift?',
       scope: $scope,
       buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
@@ -470,21 +469,38 @@ angular.module('workgenius.controllers', [])
           type: 'button-default'
         }, {
           text: 'Yes, Cancel',
-          type: 'button-assertive',
+          type: 'button-assertive'
+        }]
+    }).then(function(res) {
+      if ($rootScope.currentUser.cancellations >= 3) {
+        $scope.cannotCancelWarning();
+      } else {
+        $scope.cancelShift(shift, group, shifts);
+      }
+    });
+  }
+  $scope.cannotCancelWarning = function (shift, group, shifts) {
+    $scope.shiftToCancel = shift;
+    $scope.cannotCancelPopup = $ionicPopup.show({
+      template: '<p>Sorry you cannot cancel this shift automatically. Please contact us immediately to if you are unable to fulfil this shift.</p>',
+      title: 'Maximum number of cancellations reached!',
+      scope: $scope,
+      buttons: [{
+          text: 'Contact Us',
+          type: 'button-default',
           onTap: function(e) {
             // Returning a value will cause the promise to resolve with the given value.
             // return $scope.cancellations;
-            $scope.cancelShift(shift, group, shifts);
           }
         }]
-    }).then(function(res) {
-      console.log('Tapped!', res);
+    }).then(function (e) {
+      $scope.contactModal.show();
     });
   }
 
   $scope.cancelShift = function (shift, group, shifts) {
 
-    $scope.cancellations++;
+    $rootScope.currentUser.cancellations++;
 
     var idx = group.indexOf(shift);
     if (group.length === 1) {   
