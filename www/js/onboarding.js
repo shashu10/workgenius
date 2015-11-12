@@ -107,6 +107,7 @@ angular.module('workgenius.onboarding', [])
     $scope.pages = [
       'tab.register-account-info',
       'tab.register-companies',
+      'tab.register-work-types',
       'tab.register-schedule',
       'tab.register-target-hours',
     ];

@@ -68,10 +68,15 @@ angular.module('workgenius', [
     }
     if (!$rootScope.imageURL)
       $rootScope.imageURL = "img/profile_default.jpg";
+
     if (!$rootScope.currentUser.companies) {
       $rootScope.currentUser.companies = {};
     }
-
+    if (!$rootScope.currentUser.workTypes) {
+      $rootScope.currentUser.workTypes = {};
+    }
+    if ($rootScope.cancellations === undefined)
+      $rootScope.cancellations = 0;
     getUserData();
 
   }])
@@ -155,6 +160,15 @@ angular.module('workgenius', [
       }
     }
   })
+  .state('app.work-types-page', {
+    url: '/work-types-page',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main/work-types-page.html',
+        controller: 'WorkTypesCtrl'
+      }
+    }
+  })
   .state('app.companies-page', {
     url: '/companies-page',
     views: {
@@ -221,6 +235,15 @@ angular.module('workgenius', [
       views: {
           'tab-register': {
               templateUrl: 'templates/login/register-account-info.html',
+          }
+      }
+  })
+  .state('tab.register-work-types', {
+      url: '/register-work-types',
+      views: {
+          'tab-register': {
+              templateUrl: 'templates/login/register-work-types.html',
+              controller: 'WorkTypesCtrl'
           }
       }
   })

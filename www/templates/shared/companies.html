@@ -1,10 +1,10 @@
-<div class="companies">
+<div class="wg-grid">
     <div class="center-text padding">
         <p>Select the companies you are eligible to work for.</p>
     </div>
-	<div class="row padding-top padding-top" ng-repeat="rows in chunkedCompanies">
-	    <div class="col" ng-repeat="key in rows" ng-click="select(key)">
-	        <img ng-class="currentUser.companies.{{key}} ? 'selected' : ''" ng-src="img/companies/{{key}}.png" alt="">
+	<div class="row padding-top" ng-repeat="rows in chunkedCompanies">
+	    <div class="col" ng-repeat="key in rows" ng-click="select(key)" ng-class="currentUser.companies.{{key}} ? 'selected' : ''">
+	        <img ng-src="img/companies/{{key}}.png" alt="">
 	    </div>
 	</div>
 </div>

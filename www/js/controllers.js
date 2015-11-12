@@ -199,6 +199,81 @@ angular.module('workgenius.controllers', [])
       $scope.update();
     };
 }])
+.controller('WorkTypesCtrl', ['$rootScope', '$scope', 'setUserData', function($rootScope, $scope, setUserData) {
+  
+    var workList = [
+      {
+        id: "Ridesharing",
+        name: "Ridesharing",
+        icon: "ion-android-car",
+        selected: false
+      }, {
+        id: "Grocery",
+        name: "Grocery Shopping",
+        icon: "ion-ios-nutrition",
+        selected: false
+      }, {
+        id: "Meal",
+        name: "Meal Delivery",
+        icon: "ion-pizza",
+        selected: false
+      }, {
+        id: "liquor",
+        name: "liquor Delivery",
+        icon: "ion-beer",
+        selected: false
+      }, {
+        id: "Package",
+        name: "Package Delivery",
+        icon: "ion-cube",
+        selected: false
+      }, {
+        id: "Valet",
+        name: "Valet Services",
+        icon: "ion-key",
+        selected: false
+      }
+    ];
+
+    var workDescription = {
+      bento: "Company description",
+      caviar: "Company description",
+      instacart: "Company description",
+      luxe: "Company description",
+      munchery: "Company description",
+      saucey: "Company description",
+      shyp: "Company description",
+      sprig: "Company description",
+      workgenius: "Company description",
+    };
+
+    var chunk = function (arr, size) {
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        newArr.push(arr.slice(i, i+size));
+      }
+      return newArr;
+    };
+
+    $scope.workTypes = chunk(workList, 3);
+
+    $scope.update = setUserData.workTypes;
+    $scope.selectedWorkType = null;
+
+    $scope.select = function(name) {
+
+      if ($rootScope.currentUser.workTypes[name]) {
+        delete $rootScope.currentUser.workTypes[name];
+      } else {
+        $rootScope.currentUser.workTypes[name] = true;
+      }
+      $scope.selectedWorkType = {selected:true, name: name, description: workDescription[name]};
+      var footer = document.getElementsByClassName("wg-company-footer");
+      angular.element(footer).removeAttr('style');
+
+      $scope.update();
+    };
+}])
 
 .controller('TargetCtrl', ['$scope', 'setUserData', function($scope, setUserData) {
   $scope.update = setUserData.target;
@@ -255,8 +330,9 @@ angular.module('workgenius.controllers', [])
 }])
 .controller('EarningsController', [ '$scope', '$ionicHistory', '$state', function($scope, $ionicHistory, $state) {
 }])
-.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', function($scope, $rootScope, $ionicScrollDelegate, $location) {
+.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup) {
 
+  $scope.cancellations = 0;
   $scope.adjustCalendarHeight = function (argument) {
     
   };
@@ -362,17 +438,40 @@ angular.module('workgenius.controllers', [])
       endsAt: new Date("November 29, 2015 11:30:00"),
     },
   ];
+  $scope.cancelWarning = function (shift, group, shifts) {
+    $scope.shiftToCancel = shift;
+    $ionicPopup.show({
+      template: '<p>Late cancellations this quarter: {{cancellations}}/3</p><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p class="schedule-time"><standard-time-meridian etime="shiftToCancel.startsAt.getHours()*3600"></standard-time-meridian> - <standard-time-meridian etime="shiftToCancel.endsAt.getHours()*3600"></standard-time-meridian></p>',
+      title: 'Are you sure you want to cancel the following shift?',
+      scope: $scope,
+      buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
+          text: 'No, Leave it',
+          type: 'button-default'
+        }, {
+          text: 'Yes, Cancel',
+          type: 'button-assertive',
+          onTap: function(e) {
+            // Returning a value will cause the promise to resolve with the given value.
+            // return $scope.cancellations;
+            $scope.cancelShift(shift, group, shifts);
+          }
+        }]
+    }).then(function(res) {
+      console.log('Tapped!', res);
+    });
+  }
+
   $scope.cancelShift = function (shift, group, shifts) {
+
+    $scope.cancellations++;
+
     var idx = group.indexOf(shift);
-    if (group.length === 1) {
-      
+    if (group.length === 1) {   
       idx = shifts.indexOf(group);
       shifts.splice(idx, 1);
-      group.splice(idx, 1);
-    } else {
-
-      group.splice(idx, 1);
     }
+
+    group.splice(idx, 1);
   };
   $scope.groupedShifts = groupBy($scope.shifts, function(item){return [item.date];});
 

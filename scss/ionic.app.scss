@@ -46,29 +46,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     padding: 30px;
 }
 
-.companies {
-    .col {
-        text-align: center;
-        img {
-            width: 33%;
-            height: auto;
-            opacity: 0.3;
-            -webkit-filter: grayscale(1);
-            filter: grayscale(1);
-            transition: filter 0.5s, -webkit-filter 0.5s, opacity 0.5s;
-            -webkit-transition-timing-function: ease-out;
-            /* Safari */
-            transition-timing-function: ease-out;
-        }
-        img.selected {
-            opacity: 1;
-            -webkit-filter: grayscale(0);
-            filter: grayscale(0);
-        }
-    }
-}
-
-
 /* Empty. Add your own CSS if you like */
 
 .days .icon {
@@ -408,4 +385,30 @@ span.wg-dash {
 	.invisible {
 	    visibility: visible;
 	}
+}
+.popup-body {
+    text-align: center;
+    img {
+        width: 40%;
+        padding: 16px;
+    }
+}
+.wg-logo {
+    width: 34px;
+    padding: 3px;
+}
+.earning-label-right {
+    color: #BCBCBC;
+    font-size: initial;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.currency-wrapper {
+    position: relative;
+}
+.menu-note {
+    text-align: center;
+    padding-top: 10px;
+    color: #8A8A8A;
 }

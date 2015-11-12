@@ -5,6 +5,11 @@ angular.module('workgenius.directives', ['workgenius.services'])
     templateUrl: 'templates/shared/days.html'
   };
 })
+.directive('workTypes', function() {
+  return {
+    templateUrl: 'templates/shared/work-types.html'
+  };
+})
 .directive('companies', function() {
   return {
     templateUrl: 'templates/shared/companies.html'
@@ -58,6 +63,18 @@ angular.module('workgenius.directives', ['workgenius.services'])
   };
 }])
 .directive('wgCompanyFooter', ['$document', '$ionicGesture', function($document, $ionicGesture) {
+  return  {
+    templateUrl: 'templates/shared/wg-company-footer.html',
+    restrict: 'E',
+  };
+}])
+.directive('wgWorkTypesFooter', ['$document', '$ionicGesture', function($document, $ionicGesture) {
+  return  {
+    templateUrl: 'templates/shared/wg-work-types-footer.html',
+    restrict: 'E',
+  };
+}])
+.directive('wgDraggableFooter', ['$document', '$ionicGesture', function($document, $ionicGesture) {
 
   var link = function (scope, element, attr) {
     var el = angular.element(element.children()[0]);
@@ -95,8 +112,7 @@ angular.module('workgenius.directives', ['workgenius.services'])
   };
 
   return  {
-    templateUrl: 'templates/shared/wg-company-footer.html',
-    restrict: 'E',
+    restrict: 'A',
     link: link
   };
 }])

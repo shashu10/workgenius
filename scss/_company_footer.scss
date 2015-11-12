@@ -1,3 +1,36 @@
+// All company and work type styles
+
+@mixin grayscale-with-transition {
+    opacity: 0.3;
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+    transition: filter 0.5s, -webkit-filter 0.5s, opacity 0.5s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out; /* Safari */
+}
+@mixin remove-grayscale {
+    opacity: 1;
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+}
+
+.wg-grid {
+    .col {
+        text-align: center;
+        @include grayscale-with-transition();
+        img {
+            width: 33%;
+            height: auto;
+        }
+        i.icon {
+            font-size: -webkit-xxx-large;
+        }
+    }
+    .col.selected {
+        @include remove-grayscale();
+    }
+}
+
 .wg-company-footer {
 	height: 100px;
 	transform: translate3d(0, 100%, 0);
@@ -17,6 +50,6 @@
 		padding: 10px 10px 10px 80px;
 	}
 }
-.wg-company-footer.company-selected {
+.wg-footer-selected {
 	transform: none;
 }

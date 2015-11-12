@@ -80,6 +80,16 @@ angular.module('parseData', [])
       return selected;
     };
 
+  var formatWorkTypes = function () {
+    
+      var selected = [];
+      for (var type in $rootScope.currentUser.workTypes) {
+        if ($rootScope.currentUser.workTypes[type])
+          selected.push(type);
+      }
+      return selected;
+    };
+
   var formatVehicles = function () {
 
     var filtered = $rootScope.currentUser.vehicles.filter(function(vehicle) {
@@ -94,6 +104,7 @@ angular.module('parseData', [])
   return {
     vehicles: formatVehicles,
     companies: formatCompanies,
+    workTypes: formatWorkTypes,
     availability: formatAvailability,
   };
 }])
@@ -123,6 +134,13 @@ angular.module('parseData', [])
 
     }, interval, false);
 
+  var setWorkTypes = debounce(function () {
+
+      if (Parse.User.current())
+        $rootScope.currentUser.save({'workTypes': formatUploadData.workTypes()});
+
+    }, interval, false);
+
   var setTarget = debounce(function (target) {
 
       if (Parse.User.current())
@@ -134,11 +152,20 @@ angular.module('parseData', [])
     vehicles: setVehicles,
     companies: setCompanies,
     availability: setAvailability,
+    workTypes: setWorkTypes,
     target: setTarget,
   };
 }])
 
 .factory('getUserData', ['$rootScope', 'timePicker', function ($rootScope, timePicker) {
+
+  var getWorkTypes = function (user) {
+    var workTypes = {};
+    for (var type in user.get('workTypes')) {
+      workTypes[user.get('workTypes')[type]] = true;
+    }
+    return workTypes;
+  };
 
   var getCompanies = function (user) {
     var companies = {};
@@ -197,6 +224,7 @@ angular.module('parseData', [])
         name : '',
         hourlyTarget : 40,
         companies : {},
+        workTypes : {},
         vehicles : getVehicles(),
         availability : {},
         totalHours : 0,
@@ -212,6 +240,7 @@ angular.module('parseData', [])
         name : user.get('name'),
         hourlyTarget : user.get('target'),
         companies : getCompanies(user),
+        workTypes : getWorkTypes(user),
         vehicles : getVehicles(user),
         availability : schedule.availability,
         totalHours : schedule.totalHours,
