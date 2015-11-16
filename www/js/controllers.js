@@ -480,21 +480,29 @@ angular.module('workgenius.controllers', [])
       scope: $scope,
       buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
           text: 'No, Leave it',
-          type: 'button-default'
+          type: 'button-default',
+          onTap: function(e) {
+            return false;
+          }
         }, {
           text: 'Yes, Cancel',
-          type: 'button-assertive'
+          type: 'button-assertive',
+          onTap: function(e) {
+            return true;
+          }
         }]
-    }).then(function(res) {
-      if ($rootScope.currentUser.cancellations >= 3) {
-        $scope.cannotCancelWarning();
-      } else {
-        $scope.cancelShift(shift, group, shifts);
+    }).then(function(cancel) {
+      if (cancel) {
+        if ($rootScope.currentUser.cancellations >= 3) {
+          $scope.cannotCancelWarning();
+        } else {
+          $scope.cancelShift(shift, group, shifts);
+        }
       }
     });
   }
-  $scope.cannotCancelWarning = function (shift, group, shifts) {
-    $scope.shiftToCancel = shift;
+  $scope.cannotCancelWarning = function () {
+
     $scope.cannotCancelPopup = $ionicPopup.show({
       template: '<p>Sorry you cannot cancel this shift automatically. Please contact us immediately to if you are unable to fulfil this shift.</p>',
       title: 'Maximum number of cancellations reached!',
