@@ -5,10 +5,16 @@
             <canvas barchart responsive=true options="chartOptions" data="chart"></canvas>
             <days/>
         </div>
-		<div class="padding">
-	        <button ng-click="next()" class="button button-block button-positive">
-	            Continue >>
-	        </button>
+        <!-- Signup -->
+        <div>
+            <div class="assertive" ng-show="error.message">{{error.message}}</div>
+            <button class="button button-block button-positive" ng-click="register()">
+                Finish >>
+            </button>
+            By creating an account you agree to the Terms of Use and Privacy Policy.
+            <button class="button button-block button-clear button-calm" ng-click="loginDemoUser()">
+                Skip
+            </button>
         </div>
     </ion-content>
 </ion-view>

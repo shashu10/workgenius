@@ -169,7 +169,35 @@ angular.module('workgenius.controllers', [])
     $scope.update = setUserData.vehicles;
 }])
 .controller('CompaniesCtrl', ['$rootScope', '$scope', 'setUserData', function($rootScope, $scope, setUserData) {
-  
+
+    var chunk = function (arr, size) {
+      var newArr = [];
+      for (var i=0; i<arr.length; i+=size) {
+        newArr.push(arr.slice(i, i+size));
+      }
+      return newArr;
+    };
+    $scope.select = function(name) {
+      if ($rootScope.currentUser.companies[name]) {
+        delete $rootScope.currentUser.companies[name];
+        $scope.hideFooter();
+      } else {
+        $rootScope.currentUser.companies[name] = true;
+        $scope.showFooter(name);
+      }
+
+      $scope.update();
+    };
+    $scope.hideFooter = function () {
+      if ($scope.selectedCompany)
+        $scope.selectedCompany.selected = false;
+    }
+    $scope.showFooter = function (name) {
+      $scope.selectedCompany = {selected:true, name: name, description: companyDescription[name]};
+      var footer = document.getElementsByClassName("wg-company-footer");
+      angular.element(footer).removeAttr('style');
+    }
+
     var companyList = [
       "instacart",
       "saucey",
@@ -193,32 +221,10 @@ angular.module('workgenius.controllers', [])
       munchery: "Munchery is an on-demand food delivery service that hires world class chefs to prepare meals. A bike is required.",
       doordash: "DoorDash is an on-demand restaurant delivery service. Pick up food items and deliver them to customers efficiently.",
     };
-
-    var chunk = function (arr, size) {
-      var newArr = [];
-      for (var i=0; i<arr.length; i+=size) {
-        newArr.push(arr.slice(i, i+size));
-      }
-      return newArr;
-    };
-
     $scope.chunkedCompanies = chunk(companyList, 3);
 
     $scope.update = setUserData.companies;
-    $scope.selectedCompany = null;
-
-    $scope.select = function(name) {
-      if ($rootScope.currentUser.companies[name]) {
-        delete $rootScope.currentUser.companies[name];
-      } else {
-        $rootScope.currentUser.companies[name] = true;
-      }
-      $scope.selectedCompany = {selected:true, name: name, description: companyDescription[name]};
-      var footer = document.getElementsByClassName("wg-company-footer");
-      angular.element(footer).removeAttr('style');
-
-      $scope.update();
-    };
+    $scope.hideFooter();
 }])
 .controller('WorkTypesCtrl', ['$rootScope', '$scope', 'setUserData', function($rootScope, $scope, setUserData) {
   
@@ -490,10 +496,11 @@ angular.module('workgenius.controllers', [])
           type: 'button-default',
           onTap: function(e) {
             // Returning a value will cause the promise to resolve with the given value.
-            // return $scope.cancellations;
+            // return shift;
           }
         }]
     }).then(function (e) {
+      // From parent scope
       $scope.contactModal.show();
     });
   }

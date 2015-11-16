@@ -112,10 +112,10 @@ angular.module('workgenius.onboarding', [])
 
     $scope.pages = [
       'tab.register-account-info',
+      'tab.register-target-hours',
       'tab.register-companies',
       'tab.register-work-types',
       'tab.register-schedule',
-      'tab.register-target-hours',
     ];
     $scope.syncPagerState = function () {
       $scope.currentPage = $scope.pages.indexOf($state.current.name);
