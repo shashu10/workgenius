@@ -31,7 +31,8 @@
     }
 }
 
-.wg-company-footer {
+.wg-company-footer,
+.wg-work-types-footer {
 	height: 108px;
 	transform: translate3d(0, 100%, 0);
 
@@ -39,7 +40,12 @@
     -webkit-transition-timing-function: ease-out; /* Safari */
     transition-timing-function: ease-out;
 
-	img {
+	i.icon {
+        font-size: -webkit-xxx-large;
+    }
+    
+    i.icon,
+    img {
 	    position: absolute;
 	    top: 29px;
 	    left: 25px;

@@ -1,23 +1,6 @@
 <ion-view view-title="Preferences">
 	<ion-content class="wg-preferences-page">
 
-		<p class="wg-list-title">Personal Information</p>
-
-		<ion-list type="card">
-			<ion-item class="item-input-element">
-			   <input type="text" ng-model="currentUser.name">
-			</ion-item>
-
-			<ion-item class="item-input-element">
-			   <input class="input-phone" type='text' phone-input ng-model="phoneVal" ng-model="phoneVal"/>
-			</ion-item>
-
-			<ion-item class="item-input-element">
-			   <input type="text" ng-model="currentUser.email">
-			</ion-item>
-
-		</ion-list>
-
 		<p class="wg-list-title">Work Preferences</p>
 
 		<ion-list type="card">
@@ -35,6 +18,13 @@
 				</span>
 			</ion-item>
 
+			<ion-item href="#/app/work-types-page">
+			   Types of Work
+				<span class="item-note">
+					<span ng-repeat= "(workType, value) in currentUser.workTypes | truncateObj : 2">{{workType}}{{$last || $middle ? '' : ', '}}</span>
+				</span>
+			</ion-item>
+
 			<ion-item href="#/app/availability-page">
 			   Manage Availability
 				<span class="item-note">
@@ -49,12 +39,32 @@
 				</span>
 			</ion-item>
 
+		</ion-list>
+
+		<p class="wg-list-title">Personal Information</p>
+
+		<ion-list type="card">
+			<ion-item class="item-input-element">
+			   <input type="text" ng-model="currentUser.name">
+			</ion-item>
+
+			<ion-item class="item-input-element">
+			   <input class="input-phone" type='text' phone-input ng-model="phoneVal" ng-model="phoneVal"/>
+			</ion-item>
+
+			<ion-item class="item-input-element">
+			   <input type="text" ng-model="currentUser.email">
+			</ion-item>
+
+		</ion-list>
+
+		<ion-list type="card">
 			<!-- add ng-show="currentUser" if needed -->
 			<ion-item class="item-icon-right assertive" ng-click="logout()">
 	          Logout
 	          <i class="icon ion-log-out"></i>
 	        </ion-item>
-
 		</ion-list>
+
 	</ion-content>
 </ion-view>

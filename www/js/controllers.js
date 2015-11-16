@@ -226,37 +226,37 @@ angular.module('workgenius.controllers', [])
     $scope.update = setUserData.companies;
     $scope.hideFooter();
 }])
-.controller('WorkTypesCtrl', ['$rootScope', '$scope', 'setUserData', function($rootScope, $scope, setUserData) {
+.controller('WorkTypesCtrl', ['$rootScope', '$scope', 'setUserData', 'filterFilter', function($rootScope, $scope, setUserData, filterFilter) {
   
     var workList = [
       {
-        id: "Ridesharing",
         name: "Ridesharing",
+        description: "Ridesharing",
         icon: "ion-android-car",
         selected: false
       }, {
-        id: "Grocery",
-        name: "Grocery Shopping",
+        name: "Grocery",
+        description: "Grocery Shopping",
         icon: "ion-ios-nutrition",
         selected: false
       }, {
-        id: "Meal",
-        name: "Meal Delivery",
+        name: "Meal",
+        description: "Meal Delivery",
         icon: "ion-pizza",
         selected: false
       }, {
-        id: "liquor",
-        name: "liquor Delivery",
+        name: "liquor",
+        description: "liquor Delivery",
         icon: "ion-beer",
         selected: false
       }, {
-        id: "Package",
-        name: "Package Delivery",
+        name: "Package",
+        description: "Package Delivery",
         icon: "ion-cube",
         selected: false
       }, {
-        id: "Valet",
-        name: "Valet Services",
+        name: "Valet",
+        description: "Valet Services",
         icon: "ion-key",
         selected: false
       }
@@ -288,18 +288,26 @@ angular.module('workgenius.controllers', [])
     $scope.selectedWorkType = null;
 
     $scope.select = function(name) {
-
       if ($rootScope.currentUser.workTypes[name]) {
         delete $rootScope.currentUser.workTypes[name];
+        $scope.hideFooter();
       } else {
         $rootScope.currentUser.workTypes[name] = true;
+        $scope.showFooter(name);
       }
-      $scope.selectedWorkType = {selected:true, name: name, description: workDescription[name]};
-      var footer = document.getElementsByClassName("wg-company-footer");
-      angular.element(footer).removeAttr('style');
 
       $scope.update();
     };
+    $scope.hideFooter = function () {
+      if ($scope.selectedWorkType)
+        $scope.selectedWorkType.selected = false;
+    }
+    $scope.showFooter = function (name) {
+      $scope.selectedWorkType = filterFilter(workList, {name: name})[0];
+      $scope.selectedWorkType.selected = true;
+      var footer = document.getElementsByClassName("wg-work-types-footer");
+      angular.element(footer).removeAttr('style');
+    }
 }])
 
 .controller('TargetCtrl', ['$scope', 'setUserData', function($scope, setUserData) {
