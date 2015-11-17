@@ -16,18 +16,28 @@ $dark:                            #444 !default;
 */
 
 $positive: #69BFF8;
+
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
+
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
 // Flexbox Mixins
 @import 'flexbox';
+
 // Earnings and Hours Page
 @import 'earnings_hours';
+
 // Company description footer
 @import 'company_footer';
+
+// Availability Grid
+@import 'grid_days';
+
 // Available Shifts
 @import 'shift';
+
 .item-company-icon .item-content {
     padding: 16px 16px 16px 72px;
 }
@@ -446,4 +456,17 @@ textarea {
         padding-left: 10px;
         font-weight: 500;
     }
+}
+.contact-us-content {
+    .scroll {
+        @include flexbox();
+        flex-direction: column;
+        height: 100%;
+    }
+    .scroll > * {
+        @include flex-shrink(0);
+    }
+}
+.contact-message {
+    @include flex-grow(1);
 }

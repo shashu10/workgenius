@@ -1,0 +1,42 @@
+$wg-header: #f5f5f5;
+$wg-header-border: #DDD;
+$grid-text-color: #898989;
+
+.wg-grid-days {
+	text-align: center;
+    color: $grid-text-color;
+	font-size: smaller;
+	font-weight: 500;
+	
+	.row + .row {
+		margin: 0;
+	}
+
+	// @include flexbox();
+	.row {
+		// @include flex-grow(1);
+		padding: 0;
+		border-bottom: 1px solid $wg-header-border;
+		
+		.col:not(:first-child) {
+			border-left: 1px solid $wg-header-border;
+		}
+	}
+	.row:first-child {
+		line-height: 16px;
+		border-top: 1px solid $wg-header-border;
+	    background-color: $wg-header;
+	}
+	.row:not(:first-child) {
+		line-height: 40px;
+		.col:first-child {
+		    background-color: #F1ECE6;
+		}
+		.col:not(:first-child){
+			transition: background-color 0.5s;
+		}
+		.col:not(:first-child).selected {
+			background-color: $positive;
+		}
+	}
+}

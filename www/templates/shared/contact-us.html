@@ -6,11 +6,11 @@
             </button>
         </div>
         <h1 class="title">Contact Us</h1>
-        <div class="buttons">
+        <!-- <div class="buttons">
             <button menu-toggle="left" class="button button-positive" ng-click="sendMessage()">Send</button>
-        </div>
+        </div> -->
     </ion-header-bar>
-    <ion-content>
+    <ion-content class="contact-us-content">
         <p class="wg-title extra-padding-top">
             Put anything you want to ask us in here and hit send!
         </p>
@@ -18,11 +18,14 @@
 	        <span class="input-label">From</span>
             <input type="text" placeholder="First Name" value="{{currentUser.name}}" readonly="true">
         </label>
-        <label class="item item-input item-floating-label">
+        <label class="item item-input item-floating-label contact-message">
             <span class="input-label">Message</span>
             <textarea rows="5" placeholder="Type your message here. Any questions, comments or concerns you may have."></textarea>
         </label>
-        <div class="wg-title extra-padding-top">
+        <div class="padding">
+            <button class="button button-positive button-block" ng-click="sendMessage()">Send</button>
+        </div>
+        <div class="wg-title">
             <p>Is it an emergency?</p>
             <a href="tel:+14153471890"><button class="button button-clear button-assertive icon-left ion-ios-telephone">Call Us</button></a>
         </div>

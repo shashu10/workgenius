@@ -113,12 +113,31 @@ angular.module('parseData', [])
 
   // Update instantly
   var setAvailability = function () {
-    if (Parse.User.current())
+    if (Parse.User.current()) {
       $rootScope.currentUser.save({'availability': formatUploadData.availability()});
+    }
   };
 
   // For items that are easy to toggle quickly, update after an interval
-  var interval = 2000; // ms
+  var interval = 1000; // ms
+
+  var setAvailabilityGrid = debounce(function () {
+
+      if (Parse.User.current()) {
+        $rootScope.currentUser.save({'availabilityGrid': $rootScope.currentUser.availabilityGrid});
+      }
+      var totalHours = 0;
+      for (var i = 0; i < $rootScope.days.length; i++) {
+        var day = $rootScope.days[i];
+        for (var j = 0; j < $rootScope.intervals.length; j++) {
+          if ($rootScope.currentUser.availabilityGrid[day][j]) {
+            totalHours += 1;
+          }
+        }
+      }
+      $rootScope.currentUser.totalHours = totalHours;
+
+    }, interval, false);
 
   var setCompanies = debounce(function () {
 
@@ -154,6 +173,7 @@ angular.module('parseData', [])
     availability: setAvailability,
     workTypes: setWorkTypes,
     target: setTarget,
+    availabilityGrid: setAvailabilityGrid
   };
 }])
 
@@ -217,19 +237,51 @@ angular.module('parseData', [])
     return {availability: availability, totalHours: totalHours};
   };
   
+  var getAvailabilityGrid = function (user) {
+    var availability = user.get('availabilityGrid');
+    if (!availability) {
+      return {availability: initAvailability(), totalHours: 0};
+    } else {
+      var totalHours = 0;
+      for (var i = 0; i < $rootScope.days.length; i++) {
+        var day = $rootScope.days[i];
+        for (var j = 0; j < $rootScope.intervals.length; j++) {
+          if (availability[day][j]) {
+            totalHours += 1;
+          }
+        }
+      }
+      return {availability: availability, totalHours: totalHours};
+    }
+  };
+
+  var initAvailability = function (avail) {
+
+    var availabilityGrid = {}
+    for (var i = 0; i < $rootScope.days.length; i++) {
+      var day = $rootScope.days[i];
+      availabilityGrid[day] = [];
+      for (var j = 0; j < $rootScope.intervals.length; j++) {
+        availabilityGrid[day][j] = false;
+      }
+    }
+    return availabilityGrid;
+  }
+
   return function () {
 
     if (!Parse.User.current()) {
       $rootScope.currentUser = {
-        name          : 'AJ Shewki',
-        email         : 'aj@workgeni.us',
-        hourlyTarget  : 40,
-        cancellations : 0,
-        vehicles      : getVehicles(),
-        companies     : {},
-        workTypes     : {},
-        availability  : {},
-        totalHours    : 0,
+        name             : 'AJ Shewki',
+        email            : 'aj@workgeni.us',
+        hourlyTarget     : 40,
+        cancellations    : 0,
+        vehicles         : getVehicles(),
+        companies        : {},
+        workTypes        : {},
+        availability     : {},
+        totalHours       : 0,
+        availabilityGrid : initAvailability()
       };
       return;
     }
@@ -237,17 +289,18 @@ angular.module('parseData', [])
     Parse.User.current().fetch().then(function (user) {
 
       var schedule = getSchedule(user);
-
+      var scheduleGrid = getAvailabilityGrid(user);
       angular.extend($rootScope.currentUser, {
-        name          : user.get('name'),
-        email         : user.get('email'),
-        hourlyTarget  : user.get('target'),
-        cancellations : user.get('cancellations'),
-        vehicles      : getVehicles(user),
-        companies     : getCompanies(user),
-        workTypes     : getWorkTypes(user),
-        availability  : schedule.availability,
-        totalHours    : schedule.totalHours,
+        name             : user.get('name'),
+        email            : user.get('email'),
+        hourlyTarget     : user.get('target'),
+        cancellations    : user.get('cancellations'),
+        vehicles         : getVehicles(user),
+        companies        : getCompanies(user),
+        workTypes        : getWorkTypes(user),
+        availability     : schedule.availability,
+        totalHours       : scheduleGrid.totalHours,
+        availabilityGrid : scheduleGrid.availability
       });
     });
   };

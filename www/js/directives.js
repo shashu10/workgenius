@@ -5,6 +5,11 @@ angular.module('workgenius.directives', ['workgenius.services'])
     templateUrl: 'templates/shared/days.html'
   };
 })
+.directive('gridDays', function() {
+  return {
+    templateUrl: 'templates/shared/grid-days.html',
+  };
+})
 .directive('workTypes', function() {
   return {
     templateUrl: 'templates/shared/work-types.html'

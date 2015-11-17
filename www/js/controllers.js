@@ -73,97 +73,103 @@ angular.module('workgenius.controllers', [])
 }])
 .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
 
-    $scope.dailyHours = [0,0,0,0,0,0,0];
+    // $scope.dailyHours = [0,0,0,0,0,0,0];
 
-    $scope.chart = {
-        labels : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        scaleShowHorizontalLines: false,
-        scaleShowVerticalLines: false,
-        datasets : [
-            {
-                fillColor : "#69BFF8",
-                strokeColor : "#69BFF8",
-                data : $scope.dailyHours
-            }
-        ], 
-    };
-    $scope.chartOptions = {
-        scaleShowGridLines: false,
-        scaleShowLabels: false,
-        showScale: false,
-        tooltipTemplate: "<%= value %> Hour<%if (value !== 1){%>s<%}%>",
-    };
+    // $scope.chart = {
+    //     labels : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    //     scaleShowHorizontalLines: false,
+    //     scaleShowVerticalLines: false,
+    //     datasets : [
+    //         {
+    //             fillColor : "#69BFF8",
+    //             strokeColor : "#69BFF8",
+    //             data : $scope.dailyHours
+    //         }
+    //     ], 
+    // };
+    // $scope.chartOptions = {
+    //     scaleShowGridLines: false,
+    //     scaleShowLabels: false,
+    //     showScale: false,
+    //     tooltipTemplate: "<%= value %> Hour<%if (value !== 1){%>s<%}%>",
+    // };
 
-    $scope.update = setUserData.availability;
+    // $scope.update = setUserData.availability;
 
-    $scope.editSchedule = function (day, schedule) {
+    // $scope.editSchedule = function (day, schedule) {
 
-      $scope.schedule = schedule || {
-        id: Math.random().toString().slice(2),
-        startsAt: timePicker(),
-        endsAt: timePicker(),
-        day: day,
-      };
+    //   $scope.schedule = schedule || {
+    //     id: Math.random().toString().slice(2),
+    //     startsAt: timePicker(),
+    //     endsAt: timePicker(),
+    //     day: day,
+    //   };
 
-      $scope.modal.show();
-    };
-    $scope.deleteSchedule = function (schedule) {
-      delete $rootScope.currentUser.availability[schedule.day][schedule.id];
-      if (angular.equals({}, $rootScope.currentUser.availability[schedule.day])) {
-        delete $rootScope.currentUser.availability[schedule.day];
-      }
-      $scope.recalculateHours();
-    };
-    $scope.saveDay = function () {
-      if (!$rootScope.currentUser.availability[$scope.schedule.day]) {
-        $rootScope.currentUser.availability[$scope.schedule.day] = {};
-      }
-      $rootScope.currentUser.availability[$scope.schedule.day][$scope.schedule.id] = $scope.schedule;
-      $scope.modal.hide();
-      $scope.recalculateHours();
-    };
-    $scope.recalculateHours = function () {
-      var totalHours = 0;
-      $scope.dailyHours.every(function (el, idx, arr) {
-        arr[idx] = 0;
-      });
+    //   $scope.modal.show();
+    // };
+    // $scope.deleteSchedule = function (schedule) {
+    //   delete $rootScope.currentUser.availability[schedule.day][schedule.id];
+    //   if (angular.equals({}, $rootScope.currentUser.availability[schedule.day])) {
+    //     delete $rootScope.currentUser.availability[schedule.day];
+    //   }
+    //   $scope.recalculateHours();
+    // };
+    // $scope.saveDay = function () {
+    //   if (!$rootScope.currentUser.availability[$scope.schedule.day]) {
+    //     $rootScope.currentUser.availability[$scope.schedule.day] = {};
+    //   }
+    //   $rootScope.currentUser.availability[$scope.schedule.day][$scope.schedule.id] = $scope.schedule;
+    //   $scope.modal.hide();
+    //   $scope.recalculateHours();
+    // };
+    // $scope.recalculateHours = function () {
+    //   var totalHours = 0;
+    //   $scope.dailyHours.every(function (el, idx, arr) {
+    //     arr[idx] = 0;
+    //   });
       
-      for (var day in $rootScope.currentUser.availability) {
-        var hours = 0;
-        for (var sched in $rootScope.currentUser.availability[day]) {
-          var entry = $rootScope.currentUser.availability[day][sched];
-          hours += (entry.endsAt.inputEpochTime - entry.startsAt.inputEpochTime)/3600;
-        }
-        totalHours += hours;
-        $scope.dailyHours[$scope.days.indexOf(day)] = hours;
-      }
-      $rootScope.currentUser.totalHours = totalHours;
+    //   for (var day in $rootScope.currentUser.availability) {
+    //     var hours = 0;
+    //     for (var sched in $rootScope.currentUser.availability[day]) {
+    //       var entry = $rootScope.currentUser.availability[day][sched];
+    //       hours += (entry.endsAt.inputEpochTime - entry.startsAt.inputEpochTime)/3600;
+    //     }
+    //     totalHours += hours;
+    //     $scope.dailyHours[$scope.days.indexOf(day)] = hours;
+    //   }
+    //   $rootScope.currentUser.totalHours = totalHours;
+    //   $scope.update();
+    // };
+    // $scope.discardDay = function () {
+    //   $scope.modal.hide();
+    // };
+
+
+    // $scope.days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
+    
+    // // Required for modal initialization
+    // $scope.schedule = {
+    //   id: "",
+    //   editing: false,
+    //   startsAt: timePicker(),
+    //   endsAt: timePicker(),
+    //   day: "",
+    // };
+
+    // // Create the login modal that we will use later
+    // $ionicModal.fromTemplateUrl('templates/shared/newSchedule.html', {
+    //   scope: $scope
+    // }).then(function(modal) {
+    //   $scope.modal = modal;
+    // });
+
+    $scope.update = setUserData.availabilityGrid;
+
+    $scope.select = function(day, int) {
+      $rootScope.currentUser.availabilityGrid[day][int] = !$rootScope.currentUser.availabilityGrid[day][int];
       $scope.update();
     };
-    $scope.discardDay = function () {
-      $scope.modal.hide();
-    };
 
-
-    $scope.days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
-    
-    // Required for modal initialization
-    $scope.schedule = {
-      id: "",
-      editing: false,
-      startsAt: timePicker(),
-      endsAt: timePicker(),
-      day: "",
-    };
-
-    // Create the login modal that we will use later
-    $ionicModal.fromTemplateUrl('templates/shared/newSchedule.html', {
-      scope: $scope
-    }).then(function(modal) {
-      $scope.modal = modal;
-    });
-
-    $scope.recalculateHours();
 }])
 .controller('VehiclesCtrl', ['$scope', 'setUserData', function( $scope, setUserData) {
     $scope.update = setUserData.vehicles;
@@ -491,7 +497,11 @@ angular.module('workgenius.controllers', [])
             return true;
           }
         }]
-    }).then(function(cancel) {
+    })
+    
+    // Must call cannotCancelWarning in .then 
+    .then(function(cancel) {
+
       if (cancel) {
         if ($rootScope.currentUser.cancellations >= 3) {
           $scope.cannotCancelWarning();

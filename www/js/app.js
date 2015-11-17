@@ -35,7 +35,6 @@ angular.module('workgenius', [
       if (window.cordova && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         cordova.plugins.Keyboard.disableScroll(true);
-
       }
       if (window.StatusBar) {
         // org.apache.cordova.statusbar required
@@ -54,7 +53,6 @@ angular.module('workgenius', [
     if (Parse.User.current()) {
       $state.go('app.schedule-calendar-page');
     }
-    getUserData();
 
     if (!$rootScope.hourlyRate) {
       $rootScope.hourlyRate = 15;
@@ -65,7 +63,12 @@ angular.module('workgenius', [
     if ($rootScope.cancellations === undefined)
       $rootScope.cancellations = 0;
 
+    $rootScope.intervals = ['7-10A','10A-2P','2-5P','2-8P','8-11P'];
+    $rootScope.days = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+
     $rootScope.phoneVal = "4159365883";
+
+    getUserData();
   }])
 
 .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
@@ -252,11 +255,12 @@ angular.module('workgenius', [
           }
       }
   })
-  .state('tab.register-schedule', {
-      url: '/register-schedule',
+  .state('tab.register-availability', {
+      url: '/register-availability',
       views: {
           'tab-register': {
-              templateUrl: 'templates/login/register-schedule.html',
+              templateUrl: 'templates/login/register-availability.html',
+              controller: 'AvailabilityCtrl'
           }
       }
   })
