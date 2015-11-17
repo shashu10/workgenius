@@ -52,24 +52,6 @@ angular.module('parseData', [])
 // Remove redundant data and format it to minimize storage
 .factory('formatUploadData', ['$rootScope', function ($rootScope) {
 
-  var formatAvailability = function () {
-
-    var avail = angular.copy($rootScope.currentUser.availability);
-    for (var day in avail) {
-      for (var sched in avail[day]) {
-        // remove redundant info
-        
-        avail[day][sched].startsAt = avail[day][sched].startsAt.inputEpochTime;
-        avail[day][sched].endsAt = avail[day][sched].endsAt.inputEpochTime;
-
-        delete avail[day][sched].id;
-        delete avail[day][sched].day;
-      }
-    }
-
-    return avail;
-  };
-
   var formatCompanies = function () {
     
       var selected = [];
@@ -105,18 +87,10 @@ angular.module('parseData', [])
     vehicles: formatVehicles,
     companies: formatCompanies,
     workTypes: formatWorkTypes,
-    availability: formatAvailability,
   };
 }])
 
 .factory('setUserData', ['$rootScope', 'timePicker', 'formatUploadData', 'debounce', function ($rootScope, timePicker, formatUploadData, debounce) {
-
-  // Update instantly
-  var setAvailability = function () {
-    if (Parse.User.current()) {
-      $rootScope.currentUser.save({'availability': formatUploadData.availability()});
-    }
-  };
 
   // For items that are easy to toggle quickly, update after an interval
   var interval = 1000; // ms
@@ -170,7 +144,6 @@ angular.module('parseData', [])
   return {
     vehicles: setVehicles,
     companies: setCompanies,
-    availability: setAvailability,
     workTypes: setWorkTypes,
     target: setTarget,
     availabilityGrid: setAvailabilityGrid
@@ -211,30 +184,6 @@ angular.module('parseData', [])
         selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('motorbike') > -1
       },
     ];
-  };
-
-  var getSchedule = function (user) {
-    var availability = user.get('availability');
-    var totalHours = 0;
-
-    for (var day in availability) {
-      for (var schedule in availability[day]) {
-        var s = availability[day][schedule];
-
-        // add redundant info
-        
-        totalHours += (s.endsAt - s.startsAt)/3600;
-
-        if (typeof s.startsAt == 'number')
-          s.startsAt = timePicker(s.startsAt);
-        if (typeof s.endsAt == 'number')
-          s.endsAt = timePicker(s.endsAt);
-
-        s.id = schedule;
-        s.day = day;
-      }
-    }
-    return {availability: availability, totalHours: totalHours};
   };
   
   var getAvailabilityGrid = function (user) {
@@ -279,7 +228,6 @@ angular.module('parseData', [])
         vehicles         : getVehicles(),
         companies        : {},
         workTypes        : {},
-        availability     : {},
         totalHours       : 0,
         availabilityGrid : initAvailability()
       };
@@ -288,7 +236,6 @@ angular.module('parseData', [])
     $rootScope.currentUser = Parse.User.current();
     Parse.User.current().fetch().then(function (user) {
 
-      var schedule = getSchedule(user);
       var scheduleGrid = getAvailabilityGrid(user);
       angular.extend($rootScope.currentUser, {
         name             : user.get('name'),
@@ -298,7 +245,6 @@ angular.module('parseData', [])
         vehicles         : getVehicles(user),
         companies        : getCompanies(user),
         workTypes        : getWorkTypes(user),
-        availability     : schedule.availability,
         totalHours       : scheduleGrid.totalHours,
         availabilityGrid : scheduleGrid.availability
       });

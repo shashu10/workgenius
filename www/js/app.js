@@ -15,7 +15,6 @@ angular.module('workgenius', [
     'parseData',
     'phoneFormatting',
     'ionic-timepicker',
-    'angles',
     'flexcalendar',
     'pascalprecht.translate',
     'ngIOS9UIWebViewPatch',
