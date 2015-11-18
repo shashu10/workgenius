@@ -101,8 +101,9 @@ angular.module('workgenius.controllers', [])
 
     $scope.update = setUserData.availabilityGrid;
 
-    $scope.select = function(day, int) {
-      $rootScope.currentUser.availabilityGrid[day][int] = !$rootScope.currentUser.availabilityGrid[day][int];
+    $scope.select = function(day, i) {
+      // 3 options: Yes, Maybe, Blank
+      $rootScope.currentUser.availabilityGrid[day][i] = ($rootScope.currentUser.availabilityGrid[day][i] + 1)%3;
       $scope.update();
     };
 

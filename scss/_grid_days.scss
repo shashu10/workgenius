@@ -1,3 +1,5 @@
+$wg-yes: $positive;
+$wg-maybe: #bdc3c7;
 
 .wg-grid-days {
 	text-align: center;
@@ -15,9 +17,12 @@
 		padding: 0;
 		border-bottom: 1px solid $wg-gray-border;
 		
-		.col:not(:first-child) {
+		.col {
 			border-left: 1px solid $wg-gray-border;
 		}
+	}
+	.first {
+		width: 26px;
 	}
 	.row:first-child {
 		line-height: 16px;
@@ -26,14 +31,18 @@
 	}
 	.row:not(:first-child) {
 		line-height: 40px;
-		.col:first-child {
-		    background-color: $wg-cream;
+		.first {
+			background-color: $wg-cream;
 		}
-		.col:not(:first-child){
+		.col {
 			transition: background-color 0.5s;
+			color: white;
 		}
-		.col:not(:first-child).selected {
-			background-color: $positive;
+		.col.selected {
+			background-color: $wg-yes;
+		}
+		.col.maybe {
+			background-color: $wg-maybe;
 		}
 	}
 }

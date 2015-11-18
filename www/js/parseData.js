@@ -211,7 +211,7 @@ angular.module('parseData', [])
       var day = $rootScope.days[i];
       availabilityGrid[day] = [];
       for (var j = 0; j < $rootScope.intervals.length; j++) {
-        availabilityGrid[day][j] = false;
+        availabilityGrid[day][j] = 0;
       }
     }
     return availabilityGrid;
