@@ -62,7 +62,7 @@ angular.module('workgenius', [
     if ($rootScope.cancellations === undefined)
       $rootScope.cancellations = 0;
 
-    $rootScope.intervals = ['7-10A','10A-2P','2-5P','2-8P','8-11P'];
+    $rootScope.intervals = ['7-10A','10A-2P','2-5P','5-8P','8-11P'];
     $rootScope.days = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
 
     $rootScope.phoneVal = "4159365883";

@@ -4,6 +4,9 @@
             <ion-item id="{{anchroID(group)}}" class="item-divider" ion-affix data-affix-within-parent-with-class="group-list">
                 {{dividerFunction(group[0].startsAt)}}
                 <!-- <span>Total est: <i class="light-green">{{groupEarnings(group) | currency:undefined:0}}</i></span> -->
+                <span>
+                    earnings est: <i class="light-green">{{groupEarnings(group) | currency:undefined:0}}</i>
+                </span>
             </ion-item>
             <ion-item class="item-avatar item-company-icon" bounce-left ng-repeat="shift in group" can-swipe="true">
                 <img ng-src="img/companies/{{shift.company.toLowerCase()}}.png">
@@ -17,7 +20,7 @@
                     </p>
                 </div>
                 <span class="item-note">
-                  earnings est: <i class="light-green">{{(shift.endsAt.getTime() - shift.startsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</i>
+                    <strong><</strong>
                 </span>
                 <ion-option-button class="button-info" ng-click="goToApp(shift)">
                     App

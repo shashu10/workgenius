@@ -9165,20 +9165,25 @@ a.button {
   .wg-grid-days .row {
     padding: 0;
     border-bottom: 1px solid #DDD; }
-    .wg-grid-days .row .col:not(:first-child) {
+    .wg-grid-days .row .col {
       border-left: 1px solid #DDD; }
+  .wg-grid-days .first {
+    width: 26px; }
   .wg-grid-days .row:first-child {
     line-height: 16px;
     border-top: 1px solid #DDD;
     background-color: #f5f5f5; }
   .wg-grid-days .row:not(:first-child) {
     line-height: 40px; }
-    .wg-grid-days .row:not(:first-child) .col:first-child {
+    .wg-grid-days .row:not(:first-child) .first {
       background-color: #F1ECE6; }
-    .wg-grid-days .row:not(:first-child) .col:not(:first-child) {
-      transition: background-color 0.5s; }
-    .wg-grid-days .row:not(:first-child) .col:not(:first-child).selected {
+    .wg-grid-days .row:not(:first-child) .col {
+      transition: background-color 0.5s;
+      color: white; }
+    .wg-grid-days .row:not(:first-child) .col.selected {
       background-color: #69BFF8; }
+    .wg-grid-days .row:not(:first-child) .col.maybe {
+      background-color: #bdc3c7; }
 
 .wg-block-days .month {
   border-top: 1px solid #DDD;
