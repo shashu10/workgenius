@@ -9180,6 +9180,20 @@ a.button {
     .wg-grid-days .row:not(:first-child) .col:not(:first-child).selected {
       background-color: #69BFF8; }
 
+.wg-block-days .month {
+  border-top: 1px solid #DDD;
+  background-color: #f5f5f5;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  color: #898989;
+  font-weight: 500; }
+
+.wg-block-days .week {
+  font-weight: 500;
+  border-top: 1px solid #DDD;
+  background-color: #F1ECE6; }
+
 .shift {
   padding: 20px 20px 0 20px; }
   .shift .left-top {

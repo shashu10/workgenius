@@ -50,7 +50,7 @@ angular.module('workgenius', [
     Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
 
     if (Parse.User.current()) {
-      $state.go('app.schedule-calendar-page');
+      // $state.go('app.schedule-calendar-page');
     }
 
     if (!$rootScope.hourlyRate) {
@@ -167,30 +167,42 @@ angular.module('workgenius', [
       }
     }
   })
-  .state('app.availability-page', {
-    url: '/availability-page',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/main/availability-page.html',
-        controller: 'AvailabilityCtrl'
-      }
-    }
-  })
-  .state('app.block-days-page', {
-    url: '/block-days-page',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/main/block-days-page.html',
-        controller: 'BlockDaysCtrl'
-      }
-    }
-  })
   .state('app.vehicles-page', {
     url: '/vehicles-page',
     views: {
       'menuContent': {
         templateUrl: 'templates/main/vehicles-page.html',
         controller: 'VehiclesCtrl'
+      }
+    }
+  })
+
+  .state('app.availability-tabs', {
+    url: "/availability-tabs",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/availability/availability-tabs.html",
+      }
+    }
+  })
+
+  // Each tab has its own nav history stack:
+
+  .state('app.availability-tabs.availability', {
+    url: '/availability',
+    views: {
+      'inception': {
+        templateUrl: 'templates/availability/availability.html',
+        controller: 'AvailabilityCtrl'
+      }
+    }
+  })
+  .state('app.availability-tabs.block-days', {
+    url: '/block-days',
+    views: {
+      'inception': {
+        templateUrl: 'templates/availability/block-days.html',
+        controller: 'BlockDaysCtrl'
       }
     }
   })

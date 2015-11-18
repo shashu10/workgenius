@@ -17,6 +17,12 @@ $dark:                            #444 !default;
 
 $positive: #69BFF8;
 
+// Colors
+$wg-light-gray: #f5f5f5;
+$wg-gray-border: #DDD;
+$wg-gray-text: #898989;
+$wg-cream: #F1ECE6;
+
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
@@ -34,6 +40,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Availability Grid
 @import 'grid_days';
+
+// Block Days
+@import 'block_days';
 
 // Available Shifts
 @import 'shift';

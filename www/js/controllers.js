@@ -69,7 +69,33 @@ angular.module('workgenius.controllers', [])
 
 }])
 .controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
+  $scope.showMonth = true;
 
+  setCurrentMoment(moment());
+  
+  $scope.options = {
+
+    showHeader: true,
+    minDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+    maxDate: moment().add(3, 'months').format('YYYY-MM-DD'),
+    disabledDates: [],
+    disableClickedDates: true,
+
+    eventClick: function(event) {
+      setCurrentMoment(moment(event.date));
+    },
+    dateClick: function(event) {
+      setCurrentMoment(moment(event.date));
+    },
+    changeMonth: function(month, year) {
+      $scope.selectedYear = year;
+      $scope.selectedMonth = month.name;
+    },
+  };
+  function setCurrentMoment (moment) {
+    $scope.selectedYear = moment.format('YYYY');
+    $scope.selectedMonth = moment.format('MMMM');
+  }
 }])
 .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
 

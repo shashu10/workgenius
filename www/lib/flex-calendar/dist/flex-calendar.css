@@ -187,7 +187,7 @@
 }
 
 .flex-calendar .days .day.disabled {
-    border: none;
+    /*border: none;*/ /* does not look nice */
 }
 
 .flex-calendar .days .day.disabled .number {

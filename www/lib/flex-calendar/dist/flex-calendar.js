@@ -56,7 +56,12 @@
       $scope.options.dayNamesLength = $scope.options.dayNamesLength || 1;
       $scope.options.mondayIsFirstDay = $scope.options.mondayIsFirstDay || false;
 
-      $scope.onClick = onClick;
+      if ($scope.options.disableClickedDates) {
+        $scope.onClick = onClickDisable;
+      } else {
+        $scope.onClick = onClick;
+      }
+
       $scope.allowedPrevMonth = allowedPrevMonth;
       $scope.allowedNextMonth = allowedNextMonth;
       $scope.weekDays = weekDays;
@@ -181,6 +186,26 @@
         }
       }
 
+      function onClickDisable(date, index, domEvent) {
+        date.disabled = !date.disabled;
+        clickHandler(date, domEvent);
+      }
+
+      function onClick(date, index, domEvent) {
+        if (!date || date.disabled) { return; }
+        $scope.options.defaultDate = date.date;
+        clickHandler(date, domEvent);
+      }
+
+      function clickHandler (date, domEvent) {
+        if (date.event && date.event.length) {
+          $scope.options.eventClick(date, domEvent);
+        }
+        else
+        {
+          $scope.options.dateClick(date, domEvent);
+        }
+      }
       function bindEvent(date) {
         if (!date || !$scope.mappedEvents) { return; }
         date.event = [];

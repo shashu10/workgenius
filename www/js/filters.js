@@ -8,6 +8,10 @@ angular.module('workgenius.filters', [])
 
 .filter('truncateObj', [function(){
     return function(obj, limit){
+        if (!obj) {
+            return [];
+        }
+        
         var keys = Object.keys(obj);
         if(keys.length < 1){
             return [];
