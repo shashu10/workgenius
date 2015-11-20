@@ -116,14 +116,6 @@ angular.module('workgenius', [
       }
     }
   })
-  .state('app.schedule-list-page', {
-    url: '/schedule-list-page',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/main/schedule-list-page.html'
-      }
-    }
-  })
   .state('app.preferences-page', {
     url: '/preferences-page',
     views: {
