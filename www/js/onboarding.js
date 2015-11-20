@@ -154,7 +154,7 @@ angular.module('workgenius.onboarding', [])
         user.set("password", $rootScope.user.password);
         user.set("email", $rootScope.user.email);
 
-        user.set('availability', formatUploadData.availability());
+        // user.set('availability', formatUploadData.availability());
         user.set('vehicles', formatUploadData.vehicles());
         user.set('companies', formatUploadData.companies());
         user.set('workTypes', formatUploadData.workTypes());

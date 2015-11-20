@@ -53,20 +53,15 @@ angular.module('workgenius', [
       // $state.go('app.schedule-calendar-page');
     }
 
-    if (!$rootScope.hourlyRate) {
-      $rootScope.hourlyRate = 15;
-    }
-    if (!$rootScope.imageURL)
-      $rootScope.imageURL = "img/profile_default.jpg";
-
-    if ($rootScope.cancellations === undefined)
-      $rootScope.cancellations = 0;
-
+    // Setup variables used through out the app
+    $rootScope.hourlyRate = 15;
+    $rootScope.imageURL = "img/profile_default.jpg";
+    $rootScope.cancellations = 0;
     $rootScope.intervals = ['7-10A','10A-2P','2-5P','5-8P','8-11P'];
     $rootScope.days = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
-
     $rootScope.phoneVal = "4159365883";
 
+    // Get user data and store it in the rootscope.
     getUserData();
   }])
 
