@@ -479,3 +479,10 @@ textarea {
 .contact-message {
     @include flex-grow(1);
 }
+
+.flex-calendar {
+    i.left-icon,
+    i.right-icon {
+      color: $positive;
+    }
+}

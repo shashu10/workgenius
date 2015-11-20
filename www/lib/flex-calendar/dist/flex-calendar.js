@@ -2,17 +2,48 @@
   "use strict";
   angular
     .module('flexcalendar', [])
-    .directive('flexCalendar', flexCalendar);
+    .directive('flexCalendar', flexCalendar)
+    .directive('flexWeek', flexWeek);
 
     function flexCalendar() {
 
+      var directive = {
+        restrict: 'E',
+        scope: {
+          options: '=?',
+          events: '=?'
+        },
+        template: template,
+        controller: Controller
+      };
+
+      return directive;
+
+    }
+
+    function flexWeek() {
+
+      var directive = {
+        restrict: 'E',
+        scope: {
+          options: '=?',
+          events: '=?'
+        },
+        template: weekTemplate,
+        controller: Controller
+      };
+
+      return directive;
+
+    }
+
       var template =
       '<div class="flex-calendar">'+
-        // '<div class="month">'+
-        //   '<div class="arrow {{arrowPrevClass}}" ng-click="prevMonth()"></div>'+
-        //   '<div class="label">{{ selectedMonth | translate }} {{selectedYear}}</div>'+
-        //   '<div class="arrow {{arrowNextClass}}" ng-click="nextMonth()"></div>'+
-        // '</div>'+
+        '<div class="month">'+
+          // '<div class="arrow {{arrowPrevClass}}" ng-click="prevMonth()"></div>'+
+          '<div class="label">{{ selectedMonth | translate }} {{selectedYear}}</div>'+
+          // '<div class="arrow {{arrowNextClass}}" ng-click="nextMonth()"></div>'+
+        '</div>'+
         '<div class="week">'+
           '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
         '</div>'+
@@ -32,23 +63,30 @@
         '</ion-slide-box>' +
       '</div>';
 
-      var directive = {
-        restrict: 'E',
-        scope: {
-          options: '=?',
-          events: '=?'
-        },
-        template: template,
-        controller: Controller
-      };
+      var weekTemplate =
+      '<div class="flex-calendar padding-bottom">'+
+        '<div class="week">'+
+          '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
+        '</div>'+
 
-      return directive;
+        '<ion-slide-box active-slide="activeSlide" class="week-view" show-pager="false" on-slide-changed="weekHasChanged($index)">' +
+            '<ion-slide class="days" ng-repeat="week in allWeeks">'+
+              '<div class="day"'+
+                'ng-repeat="day in week track by $index"'+
+                'ng-class="{selected: isDefaultDate(day), event: day.event[0], disabled: day.disabled, out: !day}"'+
+                'ng-click="onClick(day, $index, $event)"'+
+              '>'+
+                '<div class="number">{{day.day}}</div>'+
+              '</div>'+
+            '</ion-slide>'+
+        '</ion-slide-box>' +
+        '<i class="icon ion-arrow-left-c left-icon" ng-click="prevSlide()"></i>' +
+        '<i class="icon ion-arrow-right-c right-icon" ng-click="nextSlide()"></i>' +
+      '</div>';
 
-    }
+    Controller.$inject = ['$scope' , '$filter', '$ionicSlideBoxDelegate'];
 
-    Controller.$inject = ['$scope' , '$filter'];
-
-    function Controller($scope , $filter) {
+    function Controller($scope , $filter, $ionicSlideBoxDelegate) {
 
       $scope.days = [];
       $scope.options = $scope.options || {};
@@ -101,6 +139,32 @@
       }
 
       calculateMonths();
+      slideToCurrentWeek();
+
+      $scope.nextSlide = function () {
+        $ionicSlideBoxDelegate.next();
+      }
+      $scope.prevSlide = function () {
+        $ionicSlideBoxDelegate.previous();
+      }
+
+      function slideToCurrentWeek () {
+        console.log($scope.selectedDay);
+        var today = new Date();
+        for (var j = 0; j < $scope.allWeeks.length; j++) {
+          var week = $scope.allWeeks[j];
+          for (var i = 0; i < week.length; i++) {
+            if (!week[i]) continue;
+            
+            if (week[i].date.getFullYear() === today.getFullYear() &&
+              week[i].date.getMonth() === today.getMonth() &&
+              week[i].date.getDate() === today.getDate()) {
+              $scope.activeSlide = j
+              return;
+            }
+          }
+        }
+      }
 
       function createMappedDisabledDates(){
         if(!$scope.options.disabledDates) return;
@@ -170,6 +234,23 @@
 
         else
           $scope.options.defaultDate = new Date($scope.selectedYear + "/" + (curr.month + 1) + "/1");
+      };
+      $scope.weekHasChanged = function ($index) {
+
+        var week = $scope.allWeeks[$index];
+
+        for (var i = 0; i < week.length; i++) {
+          var curr = week[i];
+          if (curr) {
+            if ($scope.selectedMonth === MONTHS[curr.month])
+              return;
+            $scope.selectedYear = curr.year;
+            $scope.selectedMonth = MONTHS[curr.month];
+            var month = {name: $scope.selectedMonth, index: curr.month + 1, _index: curr.month+2 };
+            $scope.options.changeMonth(month, $scope.selectedYear);
+            console.log($scope.selectedYear);
+          }
+        }
       };
 
       /////////////////
@@ -290,10 +371,13 @@
       }
       function calculateMonths() {
         $scope.months = [];
+        $scope.allWeeks = [];
         var curr = newMonth($scope.options.minDate.getMonth(), $scope.options.minDate.getFullYear());
 
         while (curr) {
           $scope.months.push(curr);
+          $scope.allWeeks = $scope.allWeeks.concat(curr.weeks);
+
           curr = allowedNextMonth(curr.month, curr.year);
         }
       }

@@ -9648,3 +9648,7 @@ textarea {
   -moz-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1; }
+
+.flex-calendar i.left-icon,
+.flex-calendar i.right-icon {
+  color: #69BFF8; }

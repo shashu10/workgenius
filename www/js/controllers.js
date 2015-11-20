@@ -94,7 +94,7 @@ angular.module('workgenius.controllers', [])
   };
   function setCurrentMoment (moment) {
     $scope.selectedYear = moment.format('YYYY');
-    $scope.selectedMonth = moment.format('MMMM');
+    // $scope.selectedMonth = moment.format('MMMM');
   }
 }])
 .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
@@ -314,6 +314,8 @@ angular.module('workgenius.controllers', [])
     
   };
   $scope.selectedMonth = moment().format('MMMM');
+  $scope.selectedYear = moment().format('YYYY');
+
   $scope.Math = window.Math;
   $scope.options = {
     // Start calendar from current day
@@ -345,6 +347,7 @@ angular.module('workgenius.controllers', [])
     changeMonth: function(month, year) {
 
       $scope.selectedMonth = month.name;
+      $scope.selectedYear = year;
 
       if (moment(event.date).format('MM') === month.index) {
         $scope.scrollTo({date: new Date()});
