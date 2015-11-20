@@ -11,5 +11,6 @@
     "moment": "~2.10.6",
     "parse": "~1.6.7",
     "ngCordova": "~0.1.20-alpha",
+    "Swiper": "swiper#~3.2.0",
   }
 }

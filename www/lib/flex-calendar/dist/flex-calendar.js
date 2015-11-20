@@ -7,30 +7,27 @@
     function flexCalendar() {
 
       var template =
-      '<div class="flex-calendar">'+
-        // '<div class="month">'+
-        //   '<div class="arrow {{arrowPrevClass}}" ng-click="prevMonth()"></div>'+
-        //   '<div class="label">{{ selectedMonth | translate }} {{selectedYear}}</div>'+
-        //   '<div class="arrow {{arrowNextClass}}" ng-click="nextMonth()"></div>'+
-        // '</div>'+
-        '<div class="week">'+
-          '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
-        '</div>'+
-        '<ion-slide-box show-pager="false" on-slide-changed="monthHasChanged($index)">' +
-
-          '<ion-slide ng-repeat="curr in months">' +
-            '<div class="days" ng-repeat="week in curr.weeks">'+
-              '<div class="day"'+
-                'ng-repeat="day in week track by $index"'+
-                'ng-class="{selected: isDefaultDate(day), event: day.event[0], disabled: day.disabled, out: !day}"'+
-                'ng-click="onClick(day, $index, $event)"'+
-              '>'+
-                '<div class="number">{{day.day}}</div>'+
-              '</div>'+
-            '</div>'+
-          '</ion-slide>' +
-        '</ion-slide-box>' +
+      '<div class="flex-calendar">' +
+          '<div class="week">' +
+              '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>' +
+          '</div>' +
+          // '<div class="month-container">' +
+          //     '<div class="swiper-wrapper">' +
+          //         '<div class="swiper-slide" ng-repeat="curr in months">' +
+                      '<div class="week-container">' +
+                          '<div class="swiper-wrapper">' +
+                              '<div class="days swiper-slide" ng-repeat="week in allWeeks">' +
+                                  '<div class="day" ng-repeat="day in week track by $index" ng-class="{selected: isDefaultDate(day), event: day.event[0], disabled: day.disabled, out: !day}" ng-click="onClick(day, $index, $event)">' +
+                                      '<div class="number">{{day.day}}</div>' +
+                                  '</div>' +
+                              '</div>' +
+                          '</div>' +
+                      '</div>' +
+          //         '</div>' +
+          //     '</div>' +
+          // '</div>' +
       '</div>';
+
 
       var directive = {
         restrict: 'E',
@@ -46,9 +43,26 @@
 
     }
 
-    Controller.$inject = ['$scope' , '$filter'];
+    Controller.$inject = ['$scope' , '$filter', '$interval'];
 
-    function Controller($scope , $filter) {
+    function Controller($scope , $filter, $interval) {
+
+      $interval(function() {
+          // var swiper = new Swiper('.month-container', {
+          //   // slidesPerView: 1,
+          //   // centeredSlides: true,
+          //   direction: 'vertical',
+          //   onSlideChangeStart : function (swiper) {
+          //     $scope.monthHasChanged(swiper.activeIndex);
+          //   }
+          // });
+          var swiper2 = new Swiper('.week-container', {
+            slidesPerView: 3,
+            // centeredSlides: true,
+            direction: 'vertical',
+            nested: true
+          });
+        }, 100, 1);
 
       $scope.days = [];
       $scope.options = $scope.options || {};
@@ -290,10 +304,13 @@
       }
       function calculateMonths() {
         $scope.months = [];
+        $scope.allWeeks = [];
         var curr = newMonth($scope.options.minDate.getMonth(), $scope.options.minDate.getFullYear());
 
         while (curr) {
           $scope.months.push(curr);
+          console.log(curr.weeks);
+          $scope.allWeeks = $scope.allWeeks.concat(curr.weeks);
           curr = allowedNextMonth(curr.month, curr.year);
         }
       }
