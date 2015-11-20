@@ -19,24 +19,24 @@ angular.module('workgenius.controllers', [])
 
   // Schedule calendar / list toggle
 
-  $scope.showRightIcon = ($state.current.name == "app.schedule-calendar-page" || $state.current.name == "app.schedule-list-page");
-  $scope.showCalendarIcon = $state.current.name == "app.schedule-list-page";
+  // $scope.showRightIcon = ($state.current.name == "app.schedule-calendar-page" || $state.current.name == "app.schedule-list-page");
+  // $scope.showCalendarIcon = $state.current.name == "app.schedule-list-page";
 
-  $scope.$on('$stateChangeSuccess', function(event, current) {
-    if (current.name == "app.schedule-calendar-page" || current.name == "app.schedule-list-page") {
-      $scope.showRightIcon = true;
-      $scope.showCalendarIcon = (current.name !== "app.schedule-calendar-page");
-    } else {
-      $scope.showRightIcon = false;
-    }
-  });
+  // $scope.$on('$stateChangeSuccess', function(event, current) {
+  //   if (current.name == "app.schedule-calendar-page" || current.name == "app.schedule-list-page") {
+  //     $scope.showRightIcon = true;
+  //     $scope.showCalendarIcon = (current.name !== "app.schedule-calendar-page");
+  //   } else {
+  //     $scope.showRightIcon = false;
+  //   }
+  // });
 
-  $scope.showScheduleCalendar = function () {
-    $scope.toggleWithoutAnimation('app.schedule-calendar-page');
-  };
-  $scope.showScheduleList = function () {
-    $scope.toggleWithoutAnimation('app.schedule-list-page');
-  };
+  // $scope.showScheduleCalendar = function () {
+  //   $scope.toggleWithoutAnimation('app.schedule-calendar-page');
+  // };
+  // $scope.showScheduleList = function () {
+  //   $scope.toggleWithoutAnimation('app.schedule-list-page');
+  // };
   $scope.toggleWithoutAnimation = function(state) {
     $ionicHistory.nextViewOptions({
         historyRoot: true,
@@ -94,7 +94,7 @@ angular.module('workgenius.controllers', [])
   };
   function setCurrentMoment (moment) {
     $scope.selectedYear = moment.format('YYYY');
-    // $scope.selectedMonth = moment.format('MMMM');
+    $scope.selectedMonth = moment.format('MMMM');
   }
 }])
 .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
