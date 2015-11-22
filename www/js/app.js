@@ -7,6 +7,7 @@
 angular.module('workgenius', [
     'ionic',
     'ngCordova',
+    'workgenius.registration',
     'workgenius.onboarding',
     'workgenius.controllers',
     'workgenius.directives',
@@ -199,6 +200,33 @@ angular.module('workgenius', [
   // Login/Registration Tabs
 
   // setup an abstract state for the tabs directive
+  .state('registration', {
+    url: '/registration',
+    abstract: true,
+    templateUrl: 'templates/registration/registration.html',
+    controller: 'RegisterCtrl' // Needs to persist across register pages
+  })
+
+  .state('registration.login', {
+    url: '/login',
+    views: {
+      'content': {
+        templateUrl: 'templates/login/login-tab.html',
+        controller: 'LoginCtrl'
+      }
+    }
+  })
+
+  .state('registration.forgot-password-page', {
+      url: '/forgot-password-page',
+      views: {
+          'content': {
+              templateUrl: 'templates/main/forgot-password-page.html',
+              controller: 'ForgotCtrl'
+          }
+      }
+  })
+  // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
     abstract: true,
@@ -275,5 +303,5 @@ angular.module('workgenius', [
   //  - - - - End Login/Registration Tabs - - - -
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/login');
+  $urlRouterProvider.otherwise('/registration/login');
 }]);
