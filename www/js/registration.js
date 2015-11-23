@@ -1,11 +1,7 @@
 angular.module('workgenius.registration', [])
-
-.controller('LoginCtrl', function($scope, $state, $rootScope, $ionicLoading, $ionicHistory, getUserData) {
-    $scope.user = {
-        email: '',
-        password: '',
-    };
-    $scope.error = {};
+.controller('RegisterCtrl', function($scope, $state, $rootScope, $ionicLoading, $ionicHistory, getUserData) {
+    $scope.signupActive = false;
+    
     $scope.loginDemoUser = function () {
 
         getUserData();
@@ -13,10 +9,18 @@ angular.module('workgenius.registration', [])
         $ionicHistory.nextViewOptions({
             historyRoot: true
         });
-        $state.go('app.schedule-calendar-page', {
+        $state.go('onboarding.target-hours', {
             clear: true
         });
     };
+})
+.controller('LoginCtrl', function($scope, $state, $rootScope, $ionicLoading, $ionicHistory, getUserData) {
+    $scope.user = {
+        email: '',
+        password: '',
+    };
+    $scope.error = {};
+
     $scope.login = function() {
         $scope.loading = $ionicLoading.show({
             content: 'Logging in',
@@ -53,7 +57,7 @@ angular.module('workgenius.registration', [])
     };
 
     $scope.forgot = function() {
-        $state.go('tab.forgot-password-page');
+        $state.go('registration.forgot-password-page');
     };
 })
 
@@ -93,11 +97,13 @@ angular.module('workgenius.registration', [])
     };
 
     $scope.login = function() {
-        $state.go('tab.login');
+        $state.go('registration.login');
     };
 })
 
-.controller('RegisterCtrl', ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', '$ionicLoading', 'getUserData', 'formatUploadData', function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, $ionicLoading, getUserData, formatUploadData) {
+.controller('SignupCtrl',
+    ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', 'getUserData', 'formatUploadData',
+    function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, getUserData, formatUploadData) {
 
     $rootScope.user = {
         name: '',
@@ -168,16 +174,5 @@ angular.module('workgenius.registration', [])
         } else {
             $scope.error.message = error.message;
         }
-    };
-
-    $scope.loginDemoUser = function () {
-        getUserData();
-
-        $ionicHistory.nextViewOptions({
-            historyRoot: true
-        });
-        $state.go('app.schedule-calendar-page', {
-            clear: true
-        });
     };
 }]);

@@ -47,6 +47,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Available Shifts
 @import 'shift';
 
+// Registration Custom Tabs
+@import 'registration';
+
 .item-company-icon .item-content {
     padding: 16px 16px 16px 72px;
 }
@@ -240,6 +243,7 @@ div.color-divider {
 }
 
 span.wg-circle {
+    transition: all 0.5s;
     background-color: #DDDDDD;
     border-radius: 100px;
     width: 21px;
@@ -248,6 +252,7 @@ span.wg-circle {
 }
 
 span.wg-dash {
+    transition: all 0.5s;
     @include flex-grow(1);
     height: 2px;
     margin: auto;
@@ -484,23 +489,5 @@ textarea {
     i.left-icon,
     i.right-icon {
       color: $positive;
-    }
-}
-
-.login-register-bar {
-    background-image: none !important;
-    .title {
-        @include flexbox();
-        font-size: medium;
-
-        span {
-            @include flex-grow(1);
-            color: $wg-gray-text;
-        }
-        span.selected {
-            color: $positive;
-            // margin-bottom: -1px;
-            border-bottom: 2px solid $positive;
-        }
     }
 }

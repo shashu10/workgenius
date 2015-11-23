@@ -9239,6 +9239,44 @@ a.button {
   .shift .shift-earnings {
     color: #505050; }
 
+.wg-register-bar {
+  background-image: none !important; }
+  .wg-register-bar .title {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: medium; }
+    .wg-register-bar .title span {
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+      -moz-flex-grow: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+      color: #898989;
+      transition: all 0.1s;
+      border-bottom: 0px solid transparent;
+      position: relative; }
+      .wg-register-bar .title span .arrow {
+        transition: all 0.1s;
+        margin-left: -3px;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        margin-left: -3px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0;
+        border-color: transparent; }
+    .wg-register-bar .title span.selected {
+      color: #69BFF8;
+      border-bottom: 2px solid #69BFF8; }
+      .wg-register-bar .title span.selected .arrow {
+        border-width: 0 6px 6px 6px;
+        border-color: transparent transparent #69BFF8 transparent; }
+
 .item-company-icon .item-content {
   padding: 16px 16px 16px 72px; }
 
@@ -9423,6 +9461,7 @@ div.color-divider {
   background-color: #69BFF8 !important; }
 
 span.wg-circle {
+  transition: all 0.5s;
   background-color: #DDDDDD;
   border-radius: 100px;
   width: 21px;
@@ -9430,6 +9469,7 @@ span.wg-circle {
   position: relative; }
 
 span.wg-dash {
+  transition: all 0.5s;
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -moz-flex-grow: 1;
@@ -9622,23 +9662,3 @@ textarea {
 .flex-calendar i.left-icon,
 .flex-calendar i.right-icon {
   color: #69BFF8; }
-
-.login-register-bar {
-  background-image: none !important; }
-  .login-register-bar .title {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: flex;
-    font-size: medium; }
-    .login-register-bar .title span {
-      -webkit-box-flex: 1;
-      -webkit-flex-grow: 1;
-      -moz-flex-grow: 1;
-      -ms-flex-positive: 1;
-      flex-grow: 1;
-      color: #898989; }
-    .login-register-bar .title span.selected {
-      color: #69BFF8;
-      border-bottom: 2px solid #69BFF8; }

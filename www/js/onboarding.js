@@ -1,17 +1,16 @@
 angular.module('workgenius.onboarding', [])
 
 .controller('OnboardingCtrl',
-    ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', '$ionicLoading', 'getUserData', 'formatUploadData',
-    function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, $ionicLoading, getUserData, formatUploadData) {
+    ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', 'getUserData', 'formatUploadData',
+    function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, getUserData, formatUploadData) {
 
     $scope.showPager = true;
 
     $scope.pages = [
-      'tab.register-account-info',
-      'tab.register-target-hours',
-      'tab.register-companies',
-      'tab.register-work-types',
-      'tab.register-availability',
+      'onboarding.target-hours',
+      'onboarding.companies',
+      'onboarding.work-types',
+      'onboarding.availability',
     ];
     $scope.syncPagerState = function () {
       $scope.currentPage = $scope.pages.indexOf($state.current.name);
@@ -27,9 +26,22 @@ angular.module('workgenius.onboarding', [])
         $scope.syncPagerState();
     });
     $scope.next = function() {
-      var nextPage = $scope.getNextPage(true);
+      var nextPage = $scope.getNextPage();
       $state.go(nextPage, {
           clear: true
       });
     };
+
+    $scope.finish = function () {
+      $state.go('app.schedule-calendar-page');
+    }
+
+    $scope.goToPage = function (id) {
+      // Allow only backward navigation when tapping pager
+      var idx = $scope.pages.indexOf($state.current.name);
+      var stepsBack = id - idx;
+      if (stepsBack < 0) {
+        $ionicHistory.goBack(id - idx);
+      }
+    }
 }]);

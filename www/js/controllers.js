@@ -14,7 +14,7 @@ angular.module('workgenius.controllers', [])
       
       getUserData();
 
-      $scope.toggleWithoutAnimation('tab.login');
+      $scope.toggleWithoutAnimation('registration.login');
   };
 
   // Schedule calendar / list toggle

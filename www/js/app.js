@@ -206,6 +206,16 @@ angular.module('workgenius', [
     templateUrl: 'templates/registration/registration.html',
     controller: 'RegisterCtrl' // Needs to persist across register pages
   })
+  
+  .state('registration.signup', {
+    url: '/signup',
+    views: {
+      'content': {
+        templateUrl: 'templates/login/signup-tab.html',
+        controller: 'SignupCtrl'
+      }
+    }
+  })
 
   .state('registration.login', {
     url: '/login',
@@ -226,75 +236,50 @@ angular.module('workgenius', [
           }
       }
   })
+  
+  //  - - - - End - - - -
+
+  // Onboarding Views
+
   // setup an abstract state for the tabs directive
-  .state('tab', {
-    url: '/tab',
+  .state('onboarding', {
+    url: '/onboarding',
     abstract: true,
-    templateUrl: 'templates/login/tabs.html',
-    controller: 'RegisterCtrl' // Needs to persist across register pages
+    templateUrl: 'templates/onboarding/onboarding.html',
+    controller: 'OnboardingCtrl' // Needs to persist across register pages
   })
-
-  // Each tab has its own nav history stack:
-
-  .state('tab.login', {
-    url: '/login',
-    views: {
-      'tab-login': {
-        templateUrl: 'templates/login/login-tab.html',
-        controller: 'LoginCtrl'
-      }
-    }
-  })
-
-  .state('tab.forgot-password-page', {
-      url: '/forgot-password-page',
+  .state('onboarding.work-types', {
+      url: '/work-types',
       views: {
-          'tab-login': {
-              templateUrl: 'templates/main/forgot-password-page.html',
-              controller: 'ForgotCtrl'
-          }
-      }
-  })
-  .state('tab.register-account-info', {
-      url: '/register-account-info',
-      views: {
-          'tab-register': {
-              templateUrl: 'templates/login/register-account-info.html',
-          }
-      }
-  })
-  .state('tab.register-work-types', {
-      url: '/register-work-types',
-      views: {
-          'tab-register': {
-              templateUrl: 'templates/login/register-work-types.html',
+          'content': {
+              templateUrl: 'templates/onboarding/work-types.html',
               controller: 'WorkTypesCtrl'
           }
       }
   })
-  .state('tab.register-companies', {
-      url: '/register-companies',
+  .state('onboarding.companies', {
+      url: '/companies',
       views: {
-          'tab-register': {
-              templateUrl: 'templates/login/register-companies.html',
+          'content': {
+              templateUrl: 'templates/onboarding/companies.html',
               controller: 'CompaniesCtrl'
           }
       }
   })
-  .state('tab.register-availability', {
-      url: '/register-availability',
+  .state('onboarding.availability', {
+      url: '/availability',
       views: {
-          'tab-register': {
-              templateUrl: 'templates/login/register-availability.html',
+          'content': {
+              templateUrl: 'templates/onboarding/availability.html',
               controller: 'AvailabilityCtrl'
           }
       }
   })
-  .state('tab.register-target-hours', {
-      url: '/register-target-hours',
+  .state('onboarding.target-hours', {
+      url: '/target-hours',
       views: {
-          'tab-register': {
-              templateUrl: 'templates/login/register-target-hours.html',
+          'content': {
+              templateUrl: 'templates/onboarding/target-hours.html',
               controller: 'TargetCtrl'
           }
       }

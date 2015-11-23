@@ -1,0 +1,31 @@
+<ion-view class="register">
+    <!-- Set scroll to false because navigatig to the next input item causes the whole view with the nav-bars to jump -->
+    <ion-content class="has-header">
+        <div class="list">
+            <label class="item item-input">
+                <i class="icon ion-person placeholder-icon"></i>
+                <input type="text" ng-model="user.name" placeholder="Full Name">
+            </label>
+            <label class="item item-input">
+                <i class="icon ion-email placeholder-icon"></i>
+                <input type="email" ng-model="user.email" placeholder="Email">
+            </label>
+            <label class="item item-input">
+                <i class="icon ion-lock-combination placeholder-icon"></i>
+                <input type="password" ng-model="user.password" placeholder="Password">
+            </label>
+            <label class="item item-input">
+                <i class="icon ion-lock-combination placeholder-icon"></i>
+                <input type="password" ng-model="user.password1" placeholder="Confirm Password">
+            </label>
+            <div class="padding">
+                <button ng-click="next()" class="button button-block button-positive">
+                    SIGN UP
+                </button>
+                <button class="button button-block button-clear button-calm" ng-click="loginDemoUser()">
+                    Skip
+                </button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
