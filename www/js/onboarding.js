@@ -34,7 +34,7 @@ angular.module('workgenius.onboarding', [])
 
     $scope.finish = function () {
       $state.go('app.schedule-calendar-page');
-    }
+    };
 
     $scope.goToPage = function (id) {
       // Allow only backward navigation when tapping pager
@@ -43,5 +43,5 @@ angular.module('workgenius.onboarding', [])
       if (stepsBack < 0) {
         $ionicHistory.goBack(id - idx);
       }
-    }
+    };
 }]);

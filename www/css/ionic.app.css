@@ -9192,7 +9192,8 @@ a.button {
   line-height: 44px;
   text-align: center;
   color: #898989;
-  font-weight: 500; }
+  font-weight: 500;
+  font-size: medium; }
 
 .wg-block-days .week {
   font-weight: 500;
