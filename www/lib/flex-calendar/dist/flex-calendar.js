@@ -104,8 +104,6 @@
       $scope.allowedNextMonth = allowedNextMonth;
       $scope.weekDays = weekDays;
       $scope.isDefaultDate = isDefaultDate;
-      $scope.prevMonth = prevMonth;
-      $scope.nextMonth = nextMonth;
 
       $scope.arrowPrevClass = "visible";
       $scope.arrowNextClass = "visible";
@@ -477,34 +475,6 @@
           date.month === $scope.options._defaultDate.getMonth() &&
           date.day === $scope.options._defaultDate.getDate();
         return result;
-      }
-
-      function prevMonth() {
-        // if (!$scope.allowedPrevMonth()) { return; }
-        // var currIndex = MONTHS.indexOf($scope.selectedMonth);
-        // if (currIndex === 0) {
-        //   $scope.selectedYear -= 1;
-        //   $scope.selectedMonth = MONTHS[11];
-        // } else {
-        //   $scope.selectedMonth = MONTHS[currIndex - 1];
-        // }
-        // var month = {name: $scope.selectedMonth, index: currIndex - 1, _index: currIndex+2 };
-        // $scope.options.changeMonth(month, $scope.selectedYear);
-        // calculateWeeks();
-      }
-
-      function nextMonth() {
-        // if (!$scope.allowedNextMonth()) { return; }
-        // var currIndex = MONTHS.indexOf($scope.selectedMonth);
-        // if (currIndex === 11) {
-        //   $scope.selectedYear += 1;
-        //   $scope.selectedMonth = MONTHS[0];
-        // } else {
-        //   $scope.selectedMonth = MONTHS[currIndex + 1];
-        // }
-        // var month = {name: $scope.selectedMonth, index: currIndex + 1, _index: currIndex+2 };
-        // $scope.options.changeMonth(month, $scope.selectedYear);
-        // calculateWeeks();
       }
     }
 

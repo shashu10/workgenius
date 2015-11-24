@@ -11,7 +11,7 @@ angular.module('workgenius', [
     'workgenius.onboarding',
     'workgenius.controllers',
     'workgenius.directives',
-    'workgenius.services',
+    // 'workgenius.services',
     'workgenius.filters',
     'parseData',
     'phoneFormatting',

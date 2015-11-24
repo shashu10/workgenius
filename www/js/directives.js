@@ -1,4 +1,4 @@
-angular.module('workgenius.directives', ['workgenius.services'])
+angular.module('workgenius.directives', [])
 
 .directive('days', function() {
   return {
