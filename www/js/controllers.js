@@ -102,9 +102,26 @@ angular.module('workgenius.controllers', [])
     $scope.update = setUserData.availabilityGrid;
     var YES_NO = 2;
     var YES_MAYBE_NO = 3;
-    $scope.select = function(day, i) {
+    
+    $scope.select = function(day, interval) {
       // 3 options: Yes, Maybe, Blank
-      $rootScope.currentUser.availabilityGrid[day][i] = ($rootScope.currentUser.availabilityGrid[day][i] + 1)%YES_NO;
+
+      if (day && interval !== null && interval !== undefined) {
+
+        $rootScope.currentUser.availabilityGrid[day][interval] = ($rootScope.currentUser.availabilityGrid[day][interval] + 1) % YES_NO;
+
+      } else if (!day && interval !== null && interval !== undefined) {
+
+        for (var i = 0; i < $rootScope.days.length; i++) {
+          day = $rootScope.days[i]
+          $rootScope.currentUser.availabilityGrid[day][interval] = ($rootScope.currentUser.availabilityGrid[day][interval] + 1) % YES_NO;
+        }
+      } else if (day && (interval === null || interval === undefined)) {
+
+        for (var i = 0; i < $rootScope.intervals.length; i++) {
+          $rootScope.currentUser.availabilityGrid[day][i] = ($rootScope.currentUser.availabilityGrid[day][i] + 1) % YES_NO;
+        }
+      }
       $scope.update();
     };
 

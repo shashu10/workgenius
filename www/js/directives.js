@@ -354,12 +354,23 @@ angular.module('workgenius.directives', [])
 
             // creates the affix clone and adds it to DOM. by default it is put to top
             var createAffixClone = function () {
-                var clone = element.clone().css({
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0
-                });
+                var clone;
+                if (attr.template == 'daysHeader') {
+                  clone = angular.element('<div class="wg-grid-days" ng-controller="AvailabilityCtrl"><div class="row wg-grid-header"><div class="first"></div><div class="col" ng-click="select(\'MON\', null)">M</div><div class="col" ng-click="select(\'TUE\', null)">T</div><div class="col" ng-click="select(\'WED\', null)">W</div><div class="col" ng-click="select(\'THU\', null)">T</div><div class="col" ng-click="select(\'FRI\', null)">F</div><div class="col" ng-click="select(\'SAT\', null)">S</div><div class="col" ng-click="select(\'SUN\', null)">S</div></div></div>')
+                  .css({
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0
+                  });
+                } else {
+                  clone = element.clone().css({
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0
+                  });
+                }
 
                 // if directive is given an additional CSS class to apply to the clone, then apply it
                 if (attr.affixClass) {
