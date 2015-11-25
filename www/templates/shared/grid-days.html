@@ -1,15 +1,19 @@
 <div class="days">
     <div class="wg-title">
-        <p>This is your availability matrix. Simply tap on the fields that you are available to work and it'll let our scheduler know when to best assign your shifts. To block out specific days, tap on "block out days" below.</p>
+        <p>Use this to customize exactly what hours you can and can't work. You can come back to change this later in your preferences. When you are done press the check mark on your top right.</p>
     </div>
     <div class="wg-grid-days">
         <div class="row">
             <div class="first"></div>
-            <div class="col" ng-repeat="int in intervals">{{int}}</div>
+            <div class="col" ng-repeat="day in days">{{day | limitTo: 1}}</div>
         </div>
-        <div class="row" ng-repeat="day in days">
-            <div class="first">{{day | limitTo: 1}}</div>
-            <div class="col" ng-class="currentUser.availabilityGrid[day][i] == 1 ? 'selected' : currentUser.availabilityGrid[day][i] == 2 ? 'maybe' : ''" ng-repeat="(i, v) in intervals" ng-click="select(day, i)">{{currentUser.availabilityGrid[day][i] == 1 ? 'YES' : currentUser.availabilityGrid[day][i] == 2 ? 'MAYBE' : 'NO'}}</div>
+        <div class="row" ng-repeat="(i, int) in intervals">
+            <div class="first">{{int}}</div>
+            <div class="col" ng-class="currentUser.availabilityGrid[day][i] == 1 ? 'selected' : currentUser.availabilityGrid[day][i] == 2 ? 'maybe' : ''" ng-repeat="day in days" ng-click="select(day, i)">
+                <span>
+                    {{currentUser.availabilityGrid[day][i] == 1 ? 'YES' : currentUser.availabilityGrid[day][i] == 2 ? 'MAYBE' : 'NO'}}
+                </span>
+            </div>
         </div>
     </div>
 </div>

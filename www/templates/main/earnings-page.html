@@ -1,26 +1,41 @@
 <ion-view view-title="Earnings">
     <ion-content class="has-header has-tabs">
+        <div class="wg-title">
+            <p>This is an estimate of your earnings based on the hours you've worked</p>
+        </div>
 
         <div class="center-text">
-            <wg-line-header title="Today"> </wg-line-header>
-            <h2>
-                {{188 | currency:undefined:0}}
-            </h2>
+            <div class="wg-earnings-block">
+                <h4>Today</h4>
+                <h1>
+                    {{188 | currency:undefined:0}}
+                </h1>
+                <h3>avg {{17 | currency:undefined:0}}/hr</h3>
+            </div>
 
-            <wg-line-header title="This Week"> </wg-line-header>
-            <h2>
-                {{ 720 | currency:undefined:0}}
-            </h2>
+            <div class="wg-earnings-block">
+                <h4>This Week</h4>
+                <h1>
+                    {{ 720 | currency:undefined:0}}
+                </h1>
+                <h3>avg {{19 | currency:undefined:0}}/hr</h3>
+            </div>
 
-            <wg-line-header title="This Month"> </wg-line-header>
-            <h2>
-                {{ 2410 | currency:undefined:0}}
-            </h2>
+            <div class="wg-earnings-block">
+                <h4>This Month</h4>
+                <h1>
+                    {{ 2410 | currency:undefined:0}}
+                </h1>
+                <h3>avg {{18 | currency:undefined:0}}/hr</h3>
+            </div>
 
-            <wg-line-header title="Lifetime"> </wg-line-header>
-            <h2>
-                {{ 11002 | currency:undefined:0}}
-            </h2>
+            <div class="wg-earnings-block">
+                <h4>Lifetime</h4>
+                <h1>
+                    {{ 11002 | currency:undefined:0}}
+                </h1>
+                <h3>avg {{17 | currency:undefined:0}}/hr</h3>
+            </div>
         </div>
     </ion-content>
     <div class="tabs tabs-icon-left">

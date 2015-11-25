@@ -21,6 +21,7 @@ $positive: #69BFF8;
 $wg-light-gray: #f5f5f5;
 $wg-gray-border: #DDD;
 $wg-gray-text: #898989;
+$wg-light-gray-text: #E1E1E1;
 $wg-cream: #F1ECE6;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
@@ -489,5 +490,31 @@ textarea {
     i.left-icon,
     i.right-icon {
       color: $positive;
+    }
+}
+
+
+.wg-earnings-block {
+    padding: 10px;
+    h4 {
+        color: #898989;
+    }
+    h1 {
+        color: #27AE60;
+        margin-top: 0;
+    }
+    h3 {
+        color: #DEDEDE;
+        font-size: small
+    }
+}
+.wg-hours-block {
+    padding: 10px;
+    h4 {
+        color: #898989;
+    }
+    h1 {
+        color: $positive;
+        margin-top: 0;
     }
 }

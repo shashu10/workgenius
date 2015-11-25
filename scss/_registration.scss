@@ -4,13 +4,16 @@
     .title {
         @include flexbox();
         font-size: medium;
+        margin: 0;
 
         span {
             @include flex-grow(1);
-            color: $wg-gray-text;
+            color: $wg-light-gray-text;
             transition: all 0.1s;
             border-bottom: 0px solid transparent;
             position: relative;
+            border-bottom: 2px solid $wg-light-gray-text;
+
             .arrow {
                 transition: all 0.1s;
                 margin-left: -3px;
@@ -32,6 +35,21 @@
                 border-width: 0 6px 6px 6px;
                 border-color: transparent transparent $positive transparent;
             }
+        }
+    }
+}
+
+// Registration input fields
+.wg-register-content {
+    .list-inset {
+        margin-left: 20px;
+        margin-right: 20px;
+        .item {
+            border-right: 0;
+            border-left: 0;
+        }
+        .item:first-child {
+            border: 0;
         }
     }
 }

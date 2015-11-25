@@ -100,10 +100,11 @@ angular.module('workgenius.controllers', [])
 .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
 
     $scope.update = setUserData.availabilityGrid;
-
+    var YES_NO = 2;
+    var YES_MAYBE_NO = 3;
     $scope.select = function(day, i) {
       // 3 options: Yes, Maybe, Blank
-      $rootScope.currentUser.availabilityGrid[day][i] = ($rootScope.currentUser.availabilityGrid[day][i] + 1)%3;
+      $rootScope.currentUser.availabilityGrid[day][i] = ($rootScope.currentUser.availabilityGrid[day][i] + 1)%YES_NO;
       $scope.update();
     };
 

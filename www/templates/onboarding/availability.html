@@ -4,12 +4,14 @@
         <grid-days></grid-days>
         
         <!-- Signup -->
-        <div class="padding">
+        <div>
             <div class="assertive" ng-show="error.message">{{error.message}}</div>
-            <button class="button button-block button-positive" ng-click="finish()">
+            <button class="button button-full button-positive" ng-click="finish()">
                 Finish >>
             </button>
-            By creating an account you agree to the Terms of Use and Privacy Policy.
+            <p class="padding">
+                By creating an account you agree to the Terms of Use and Privacy Policy.
+            </p>
         </div>
     </ion-content>
 </ion-view>

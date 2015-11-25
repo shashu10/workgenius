@@ -11,7 +11,7 @@ angular.module('workgenius', [
     'workgenius.onboarding',
     'workgenius.controllers',
     'workgenius.directives',
-    // 'workgenius.services',
+    'workgenius.services',
     'workgenius.filters',
     'parseData',
     'phoneFormatting',
@@ -58,7 +58,7 @@ angular.module('workgenius', [
     $rootScope.hourlyRate = 15;
     $rootScope.imageURL = "img/profile_default.jpg";
     $rootScope.cancellations = 0;
-    $rootScope.intervals = ['7-10A','10A-2P','2-5P','5-8P','8-11P'];
+    $rootScope.intervals = ['6a','7a','8a','9a','10a','11a','12p','1p','2p','3p','4p','5p','6p','7p','8','9p','10p','11p','12a','1a'];
     $rootScope.days = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
     $rootScope.phoneVal = "4159365883";
 

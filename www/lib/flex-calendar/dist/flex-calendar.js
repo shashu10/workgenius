@@ -141,13 +141,12 @@
 
       $scope.nextSlide = function () {
         $ionicSlideBoxDelegate.next();
-      }
+      };
       $scope.prevSlide = function () {
         $ionicSlideBoxDelegate.previous();
-      }
+      };
 
       function slideToCurrentWeek () {
-        console.log($scope.selectedDay);
         var today = new Date();
         for (var j = 0; j < $scope.allWeeks.length; j++) {
           var week = $scope.allWeeks[j];
@@ -157,7 +156,7 @@
             if (week[i].date.getFullYear() === today.getFullYear() &&
               week[i].date.getMonth() === today.getMonth() &&
               week[i].date.getDate() === today.getDate()) {
-              $scope.activeSlide = j
+              $scope.activeSlide = j;
               return;
             }
           }

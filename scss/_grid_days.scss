@@ -35,14 +35,23 @@ $wg-maybe: #bdc3c7;
 			background-color: $wg-cream;
 		}
 		.col {
-			transition: background-color 0.5s;
-			color: white;
+			padding: 3px;
+			span {
+				display: block;
+				border-radius: 4px;
+				transition: background-color 0.5s;
+				color: white;
+			}
 		}
 		.col.selected {
-			background-color: $wg-yes;
+			span {
+				background-color: $wg-yes;
+			}
 		}
 		.col.maybe {
-			background-color: $wg-maybe;
+			span {
+				background-color: $wg-maybe;
+			}
 		}
 	}
 }
