@@ -48,27 +48,34 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Available Shifts
 @import 'shift';
 
+// Earnings and Hours stats
+@import 'earnings';
+
+// Earnings and Hours stats
+@import 'contact_us';
+
+// Earnings and Hours stats
+@import 'profile_photo';
+
 // Registration Custom Tabs
 @import 'registration';
 
-.item-company-icon .item-content {
-    padding: 16px 16px 16px 72px;
+.item-company-icon {
+    .item-content {
+        // For placing right arrow closer to the right border
+        padding: 16px 16px 16px 72px;
+    }
+    .item-note {
+        // for placing right arrow in the middle
+        margin-top: 9px;
+    }
+    img {
+        border-radius: 0 !important;
+    }
+    > img:first-child {
+        border-radius: 0;
+    }
 }
-
-.wg-profile-photo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    margin: auto;
-}
-
-.wg-profile-wrapper {
-    padding: 30px;
-}
-
 /* Empty. Add your own CSS if you like */
 
 .days .icon {
@@ -135,9 +142,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     line-height: 12px;
 }
 
-.item-company-icon > img:first-child {
-    border-radius: 0;
-}
 
 div.color-divider {
     @include flexbox();
@@ -296,10 +300,6 @@ span.wg-dash {
     /*font-size: medium;*/
 }
 
-.item-company-icon img {
-    border-radius: 0 !important;
-}
-
 .wg-user-name {
     text-align: center;
     padding-bottom: 20px;
@@ -325,48 +325,6 @@ span.wg-dash {
     position: absolute;
     right: 10px;
 }
-
-// .tabs {
-//     transition: all 0.3s;
-//     -webkit-transition-timing-function: ease-out;
-//     /* Safari */
-//     transition-timing-function: ease-out;
-// }
-
-// .tabs-hide {
-//     .tabs {
-//         transform: translate3d(0, 50px, 0);
-//     }
-//     .has-tabs, .bar-footer.has-tabs {
-// 	    bottom: 0;
-// 	}
-// }
-
-// .has-pager {
-//     transition: all 0.3s;
-//     -webkit-transition-timing-function: ease-out;
-//     /* Safari */
-//     transition-timing-function: ease-out;
-// }
-
-// .slide-down {
-//     transform: translate3d(0, 44px, 0);
-// }
-
-// .slide-up {
-//     transform: translate3d(0, -44px, 0);
-// }
-
-// .hidden {
-//     // opacity: 0;
-// }
-
-// .bar-subheader {
-//     transition: all 0.3s;
-//     -webkit-transition-timing-function: ease-out;
-//     /* Safari */
-//     transition-timing-function: ease-out;
-// }
 
 .wg-bottom-up-slider {
     background-color: black;
@@ -418,10 +376,6 @@ span.wg-dash {
         padding: 16px;
     }
 }
-.wg-logo {
-    width: 34px;
-    padding: 3px;
-}
 .earning-label-right {
     color: #BCBCBC;
     font-size: initial;
@@ -437,20 +391,11 @@ span.wg-dash {
     padding-top: 10px;
     color: #8A8A8A;
 }
-.readonly {
-    background-color: #f8f8f8;
-}
-textarea {
-    resize: none;
-}
 .extra-padding-bottom {
     padding-bottom: 20px;
 }
 .extra-padding-top {
     padding-top: 20px;
-}
-.item-company-icon .item-note {
-  margin-top: 9px;
 }
 .wg-preferences-page {
     background-color: #f8f8f8;
@@ -472,49 +417,12 @@ textarea {
         font-weight: 500;
     }
 }
-.contact-us-content {
-    .scroll {
-        @include flexbox();
-        flex-direction: column;
-        height: 100%;
-    }
-    .scroll > * {
-        @include flex-shrink(0);
-    }
-}
-.contact-message {
-    @include flex-grow(1);
-}
+
+// FLEX Calendar
 
 .flex-calendar {
     i.left-icon,
     i.right-icon {
       color: $positive;
-    }
-}
-
-
-.wg-earnings-block {
-    padding: 10px;
-    h4 {
-        color: #898989;
-    }
-    h1 {
-        color: #27AE60;
-        margin-top: 0;
-    }
-    h3 {
-        color: #DEDEDE;
-        font-size: small
-    }
-}
-.wg-hours-block {
-    padding: 10px;
-    h4 {
-        color: #898989;
-    }
-    h1 {
-        color: $positive;
-        margin-top: 0;
     }
 }

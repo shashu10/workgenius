@@ -135,8 +135,8 @@
   min-height: 34px;
   box-sizing: border-box;
   position: relative;
-  line-height: 30px;
-  border-top:1px solid #FCFCFC;
+  line-height: 34px;
+  /*border-top:1px solid #FCFCFC;*/
   background-color: #fff;
   color: #8B8B8B;
 
@@ -200,7 +200,7 @@
 
 .flex-calendar .days .day.disabled .number {
   background-color: #EFEFEF;
-  background-image: url('data:image/gif;base64,R0lGODlhBQAFAOMAAP/14////93uHt3uHt3uHt3uHv///////////wAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAFAAUAAAQL0ACAzpG0YnonNxEAOw==');
+  /*background-image: url('data:image/gif;base64,R0lGODlhBQAFAOMAAP/14////93uHt3uHt3uHt3uHv///////////wAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAFAAUAAAQL0ACAzpG0YnonNxEAOw==');*/
 }
 
 .flex-calendar .days .day.event:before {

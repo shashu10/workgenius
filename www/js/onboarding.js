@@ -35,7 +35,8 @@ angular.module('workgenius.onboarding', [])
     $scope.finish = function () {
       $state.go('app.schedule-calendar-page');
     };
-
+    $scope.skipOnboarding = $scope.finish;
+    
     $scope.goToPage = function (id) {
       // Allow only backward navigation when tapping pager
       var idx = $scope.pages.indexOf($state.current.name);

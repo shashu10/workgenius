@@ -20,7 +20,8 @@
             </label>
         </div>
 
-        <button ng-click="next()" class="button button-full button-positive">
+        <div class="assertive padding" ng-show="error.message">{{error.message}}</div>
+        <button ng-click="register()" class="button button-full button-positive">
             SIGN UP
         </button>
         <button class="button button-block button-clear button-calm" ng-click="loginDemoUser()">

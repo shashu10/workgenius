@@ -1,11 +1,11 @@
 <div class="bar bar-header bar-light wg-register-bar">
   <div class="title">
-    <span ng-class="signupActive ? '' : 'selected'" ui-sref="registration.login" ng-click="signupActive = false">
-      Log in
+    <span ng-class="signupActive ? 'selected' : ''" ui-sref="registration.signup">
+      Sign up
       <div class="arrow"></div>
     </span>
-    <span ng-class="signupActive ? 'selected' : ''" ui-sref="registration.signup" ng-click="signupActive = true">
-      Sign up
+    <span ng-class="signupActive ? '' : 'selected'" ui-sref="registration.login">
+      Log in
       <div class="arrow"></div>
     </span>
   </div>

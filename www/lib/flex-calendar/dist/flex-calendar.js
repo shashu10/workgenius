@@ -265,7 +265,7 @@
       }
 
       function onClickDisable(date, index, domEvent) {
-        if (afterToday(date.date)) {
+        if (date && afterToday(date.date)) {
           date.disabled = !date.disabled;
           clickHandler(date, domEvent);
         }

@@ -9244,6 +9244,66 @@ a.button {
   .shift .shift-earnings {
     color: #505050; }
 
+.wg-earnings-block {
+  padding: 10px; }
+  .wg-earnings-block h4 {
+    color: #898989; }
+  .wg-earnings-block h1 {
+    color: #27AE60;
+    margin-top: 0; }
+  .wg-earnings-block h3 {
+    color: #DEDEDE;
+    font-size: small; }
+
+.wg-hours-block {
+  padding: 10px; }
+  .wg-hours-block h4 {
+    color: #898989; }
+  .wg-hours-block h1 {
+    color: #69BFF8;
+    margin-top: 0; }
+
+.contact-us-content .scroll {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  height: 100%; }
+
+.contact-us-content .scroll > * {
+  -webkit-flex-shrink: 0;
+  -moz-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0; }
+
+.contact-message {
+  border-top: 0 !important;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -moz-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1; }
+
+.readonly {
+  background-color: #f8f8f8; }
+
+textarea {
+  resize: none; }
+
+.wg-profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  margin: auto; }
+
+.wg-profile-wrapper {
+  padding: 30px; }
+
 .wg-register-bar {
   background-image: none !important; }
   .wg-register-bar .title {
@@ -9291,22 +9351,19 @@ a.button {
     border-right: 0;
     border-left: 0; }
   .wg-register-content .list-inset .item:first-child {
-    border: 0; }
+    border-top-width: 0; }
 
 .item-company-icon .item-content {
   padding: 16px 16px 16px 72px; }
 
-.wg-profile-photo {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  margin: auto; }
+.item-company-icon .item-note {
+  margin-top: 9px; }
 
-.wg-profile-wrapper {
-  padding: 30px; }
+.item-company-icon img {
+  border-radius: 0 !important; }
+
+.item-company-icon > img:first-child {
+  border-radius: 0; }
 
 /* Empty. Add your own CSS if you like */
 .days .icon {
@@ -9358,9 +9415,6 @@ a.button {
 .schedule-text div {
   font-size: small;
   line-height: 12px; }
-
-.item-company-icon > img:first-child {
-  border-radius: 0; }
 
 div.color-divider {
   display: -webkit-box;
@@ -9532,9 +9586,6 @@ span.wg-dash {
 .wg-tiny {
   /*font-size: medium;*/ }
 
-.item-company-icon img {
-  border-radius: 0 !important; }
-
 .wg-user-name {
   text-align: center;
   padding-bottom: 20px; }
@@ -9604,10 +9655,6 @@ span.wg-dash {
     width: 40%;
     padding: 16px; }
 
-.wg-logo {
-  width: 34px;
-  padding: 3px; }
-
 .earning-label-right {
   color: #BCBCBC;
   font-size: initial;
@@ -9623,20 +9670,11 @@ span.wg-dash {
   padding-top: 10px;
   color: #8A8A8A; }
 
-.readonly {
-  background-color: #f8f8f8; }
-
-textarea {
-  resize: none; }
-
 .extra-padding-bottom {
   padding-bottom: 20px; }
 
 .extra-padding-top {
   padding-top: 20px; }
-
-.item-company-icon .item-note {
-  margin-top: 9px; }
 
 .wg-preferences-page {
   background-color: #f8f8f8;
@@ -9653,47 +9691,6 @@ textarea {
     padding-left: 10px;
     font-weight: 500; }
 
-.contact-us-content .scroll {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex;
-  flex-direction: column;
-  height: 100%; }
-
-.contact-us-content .scroll > * {
-  -webkit-flex-shrink: 0;
-  -moz-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0; }
-
-.contact-message {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -moz-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1; }
-
 .flex-calendar i.left-icon,
 .flex-calendar i.right-icon {
   color: #69BFF8; }
-
-.wg-earnings-block {
-  padding: 10px; }
-  .wg-earnings-block h4 {
-    color: #898989; }
-  .wg-earnings-block h1 {
-    color: #27AE60;
-    margin-top: 0; }
-  .wg-earnings-block h3 {
-    color: #DEDEDE;
-    font-size: small; }
-
-.wg-hours-block {
-  padding: 10px; }
-  .wg-hours-block h4 {
-    color: #898989; }
-  .wg-hours-block h1 {
-    color: #69BFF8;
-    margin-top: 0; }

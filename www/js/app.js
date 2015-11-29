@@ -288,5 +288,5 @@ angular.module('workgenius', [
   //  - - - - End Login/Registration Tabs - - - -
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/registration/login');
+  $urlRouterProvider.otherwise('/registration/signup');
 }]);

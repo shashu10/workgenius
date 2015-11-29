@@ -13,6 +13,16 @@ angular.module('workgenius.registration', [])
             clear: true
         });
     };
+
+    // Manually change tab state
+    $scope.$on('$stateChangeSuccess', function(event, current) {
+        console.log(current.name);
+      if (current.name == "registration.login" || current.name == "registration.forgot-password-page") {
+        $scope.signupActive = false;
+      } else if (current.name == "registration.signup"){
+        $scope.signupActive = true;
+      }
+    });
 })
 .controller('LoginCtrl', function($scope, $state, $rootScope, $ionicLoading, $ionicHistory, getUserData) {
     $scope.user = {
@@ -126,6 +136,11 @@ angular.module('workgenius.registration', [])
             showDelay: 0
         });
 
+        if ($rootScope.user.password != $rootScope.user.password1) {
+            $scope.errorHandler(null, {code: 1000});
+            return;
+        }
+
         var user = new Parse.User();
         user.set("name", $rootScope.user.name);
         user.set("username", $rootScope.user.email);
@@ -145,7 +160,7 @@ angular.module('workgenius.registration', [])
                 $ionicHistory.nextViewOptions({
                     historyRoot: true
                 });
-                $state.go('app.schedule-calendar-page', {
+                $state.go('onboarding.target-hours', {
                     clear: true
                 });
             },
@@ -167,9 +182,8 @@ angular.module('workgenius.registration', [])
 
         // Workgenius error messages: please select availability, target, companies, etc
 
-        // } else if (error.code === 1000) {
-        //     $scope.error.message = 'The email address is already ' +
-        //         'registered';
+        } else if (error.code === 1000) {
+            $scope.error.message = 'Passwords do not match';
 
         } else {
             $scope.error.message = error.message;

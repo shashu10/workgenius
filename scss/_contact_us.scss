@@ -1,0 +1,21 @@
+// Expand message box to fit screenand keep everything else in view
+.contact-us-content {
+    .scroll {
+        @include flexbox();
+        flex-direction: column;
+        height: 100%;
+    }
+    .scroll > * {
+        @include flex-shrink(0);
+    }
+}
+.contact-message {
+	border-top: 0 !important;
+    @include flex-grow(1);
+}
+.readonly {
+    background-color: #f8f8f8;
+}
+textarea {
+    resize: none;
+}
