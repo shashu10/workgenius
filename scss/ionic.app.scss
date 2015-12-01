@@ -33,9 +33,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Flexbox Mixins
 @import 'flexbox';
 
-// Earnings and Hours Page
-@import 'earnings_hours';
-
 // Company description footer
 @import 'company_footer';
 
@@ -59,6 +56,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Registration Custom Tabs
 @import 'registration';
+
+// Content banner
+@import '../www/lib/ionic-content-banner/scss/ionic.content.banner';
+.content-banner.success {
+    background-color: $balanced;
+}
 
 .item-company-icon {
     .item-content {

@@ -4,14 +4,15 @@
         @include flexbox();
         flex-direction: column;
         height: 100%;
-    }
-    .scroll > * {
-        @include flex-shrink(0);
+        
+        > * {
+            @include flex-shrink(0);
+        }
     }
 }
 .contact-message {
-	border-top: 0 !important;
     @include flex-grow(1);
+    margin: 10px;
 }
 .readonly {
     background-color: #f8f8f8;

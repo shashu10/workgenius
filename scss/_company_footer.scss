@@ -25,9 +25,9 @@
         i.icon {
             font-size: -webkit-xxx-large;
         }
-    }
-    .col.selected {
-        @include remove-grayscale();
+        &.selected {
+            @include remove-grayscale();
+        }
     }
 }
 

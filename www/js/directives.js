@@ -311,6 +311,7 @@ angular.module('workgenius.directives', [])
         }
     };
 })
+// Only one instance of ionAffix works at a time.
  .directive('ionAffix', ['$compile', 'utils', function ($compile, utils) {
     // keeping the Ionic specific stuff separated so that they can be changed and used within another context
 

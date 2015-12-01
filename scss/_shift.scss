@@ -38,11 +38,13 @@
 		padding: 2px 10px;
 	}
 
-	.shift-title div:first-child {
-		text-transform: uppercase;
-	}
-	.shift-title div:last-child {
-		right: 0;
+	.shift-title {
+		div:first-child {
+			text-transform: uppercase;
+		}
+		div:last-child {
+			right: 0;
+		}
 	}
 
 	.shift-name,

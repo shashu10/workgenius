@@ -7,7 +7,7 @@
 			<ion-item href="#/app/target-page">
 			   Weekly Hours Target
 				<span class="item-note">
-					Set at: {{currentUser.hourlyTarget}}
+					{{currentUser.hourlyTarget}} {{currentUser.hourlyTarget <= 1 ? 'Hour' : 'Hours'}}
 				</span>
 			</ion-item>
 

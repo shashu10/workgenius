@@ -245,7 +245,6 @@
             $scope.selectedMonth = MONTHS[curr.month];
             var month = {name: $scope.selectedMonth, index: curr.month + 1, _index: curr.month+2 };
             $scope.options.changeMonth(month, $scope.selectedYear);
-            console.log($scope.selectedYear);
           }
         }
       };

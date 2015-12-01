@@ -16,7 +16,6 @@ angular.module('workgenius.registration', [])
 
     // Manually change tab state
     $scope.$on('$stateChangeSuccess', function(event, current) {
-        console.log(current.name);
       if (current.name == "registration.login" || current.name == "registration.forgot-password-page") {
         $scope.signupActive = false;
       } else if (current.name == "registration.signup"){

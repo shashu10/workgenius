@@ -27,13 +27,13 @@
                 border-width: 0;
                 border-color: transparent;
             }
-        }
-        span.selected {
-            color: $positive;
-            border-bottom: 2px solid $positive;
-            .arrow {
-                border-width: 0 6px 6px 6px;
-                border-color: transparent transparent $positive transparent;
+            &.selected {
+                color: $positive;
+                border-bottom: 2px solid $positive;
+                .arrow {
+                    border-width: 0 6px 6px 6px;
+                    border-color: transparent transparent $positive transparent;
+                }
             }
         }
     }

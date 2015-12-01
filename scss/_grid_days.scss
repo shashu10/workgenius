@@ -20,38 +20,38 @@ $wg-maybe: #bdc3c7;
 		.col {
 			border-left: 1px solid $wg-gray-border;
 		}
+		&:first-child {
+			line-height: 16px;
+			border-top: 1px solid $wg-gray-border;
+		    background-color: $wg-light-gray;
+		}
+		&:not(:first-child) {
+			line-height: 40px;
+			.first {
+				background-color: $wg-cream;
+			}
+			.col {
+				padding: 3px;
+				span {
+					display: block;
+					border-radius: 4px;
+					transition: background-color 0.5s;
+					color: white;
+				}
+				&.selected {
+					span {
+						background-color: $wg-yes;
+					}
+				}
+				&.maybe {
+					span {
+						background-color: $wg-maybe;
+					}
+				}
+			}
+		}
 	}
 	.first {
 		width: 26px;
-	}
-	.row:first-child {
-		line-height: 16px;
-		border-top: 1px solid $wg-gray-border;
-	    background-color: $wg-light-gray;
-	}
-	.row:not(:first-child) {
-		line-height: 40px;
-		.first {
-			background-color: $wg-cream;
-		}
-		.col {
-			padding: 3px;
-			span {
-				display: block;
-				border-radius: 4px;
-				transition: background-color 0.5s;
-				color: white;
-			}
-		}
-		.col.selected {
-			span {
-				background-color: $wg-yes;
-			}
-		}
-		.col.maybe {
-			span {
-				background-color: $wg-maybe;
-			}
-		}
 	}
 }
