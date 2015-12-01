@@ -217,72 +217,50 @@ angular.module('parseData', [])
     return availabilityGrid;
   };
 
-  return function (newUser, name, email) {
-
-    if (!Parse.User.current()) {
-      $rootScope.currentUser = {
-        name             : 'AJ Shewki',
-        email            : 'aj@workgeni.us',
-        hourlyTarget     : 40,
-        cancellations    : 0,
-        vehicles         : getVehicles(),
-        companies        : {},
-        workTypes        : {},
-        totalHours       : 0,
-        availabilityGrid : initAvailability()
-      };
-      return;
-    } else if (newUser) {
-      $rootScope.currentUser = Parse.User.current();
-
-      angular.extend($rootScope.currentUser, {
-        name             : name,
-        email            : email,
-        hourlyTarget     : 40,
-        cancellations    : 0,
-        vehicles         : getVehicles(),
-        companies        : {},
-        workTypes        : {},
-        totalHours       : 0,
-        availabilityGrid : initAvailability()
-      });
-      return;
-    }
-    $rootScope.currentUser = Parse.User.current();
-    Parse.User.current().fetch().then(function (user) {
-
-      var scheduleGrid = getAvailabilityGrid(user);
-      angular.extend($rootScope.currentUser, {
-        name             : user.get('name'),
-        email            : user.get('email'),
-        hourlyTarget     : user.get('target'),
-        cancellations    : user.get('cancellations'),
-        vehicles         : getVehicles(user),
-        companies        : getCompanies(user),
-        workTypes        : getWorkTypes(user),
-        totalHours       : scheduleGrid.totalHours,
-        availabilityGrid : scheduleGrid.availability
-      });
+  var setDefaultPrefs = function (name, email) {
+    angular.extend($rootScope.currentUser, {
+      name             : name,
+      email            : email,
+      hourlyTarget     : 40,
+      cancellations    : 0,
+      vehicles         : getVehicles(),
+      companies        : {},
+      workTypes        : {},
+      totalHours       : 0,
+      availabilityGrid : initAvailability()
     });
   };
+  
+  return function (newUser, name, email) {
+
+    $rootScope.currentUser = Parse.User.current() || {};
+
+    // Only for demo purposes
+    if (!Parse.User.current()) {
+
+      setDefaultPrefs('AJ Shewki', 'aj@workgeni.us');
+
+    // New use needs default values immediately for onboarding flow
+    } else if (newUser) {
+      setDefaultPrefs(name, email);
+
+    // Existing user must have their preferences fetched
+    } else {
+      Parse.User.current().fetch().then(function (user) {
+
+        var scheduleGrid = getAvailabilityGrid(user);
+        angular.extend($rootScope.currentUser, {
+          name             : user.get('name'),
+          email            : user.get('email'),
+          hourlyTarget     : user.get('target'),
+          cancellations    : user.get('cancellations'),
+          vehicles         : getVehicles(user),
+          companies        : getCompanies(user),
+          workTypes        : getWorkTypes(user),
+          totalHours       : scheduleGrid.totalHours,
+          availabilityGrid : scheduleGrid.availability
+        });
+      });
+    }
+  };
 }]);
-
-
-// .factory('Preferences', function() {
-
-//   var Preferences = Parse.Object.extend("Preferences", {
-//     // Instance methods
-//   }, {
-//     // Class methods
-//   });
-
-//   // Title property
-//   Preferences.prototype.__defineGetter__("title", function() {
-//     return this.get("title");
-//   });
-//   Preferences.prototype.__defineSetter__("title", function(aValue) {
-//     return this.set("title", aValue);
-//   });
-
-//   return Preferences;
-// })
