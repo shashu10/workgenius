@@ -214,12 +214,12 @@ angular.module('workgenius.controllers', [])
     $scope.hideFooter = function () {
       if ($scope.selectedCompany)
         $scope.selectedCompany.selected = false;
-    }
+    };
     $scope.showFooter = function (name) {
       $scope.selectedCompany = {selected:true, name: name, description: companyDescription[name]};
       var footer = document.getElementsByClassName("wg-company-footer");
       angular.element(footer).removeAttr('style');
-    }
+    };
 
     var companyList = [
       "instacart",
@@ -530,7 +530,7 @@ angular.module('workgenius.controllers', [])
         }
       }
     });
-  }
+  };
   $scope.cannotCancelWarning = function () {
 
     $scope.cannotCancelPopup = $ionicPopup.show({
@@ -549,7 +549,7 @@ angular.module('workgenius.controllers', [])
       // From parent scope
       $scope.contactModal.show();
     });
-  }
+  };
 
   $scope.cancelShift = function (shift, group, shifts) {
 
@@ -593,5 +593,5 @@ function groupBy( array , f )
   return Object.keys(groups).map( function( group )
   {
     return groups[group]; 
-  })
+  });
 }
