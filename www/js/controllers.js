@@ -17,26 +17,6 @@ angular.module('workgenius.controllers', [])
       $scope.toggleWithoutAnimation('registration.login');
   };
 
-  // Schedule calendar / list toggle
-
-  // $scope.showRightIcon = ($state.current.name == "app.schedule-calendar-page" || $state.current.name == "app.schedule-list-page");
-  // $scope.showCalendarIcon = $state.current.name == "app.schedule-list-page";
-
-  // $scope.$on('$stateChangeSuccess', function(event, current) {
-  //   if (current.name == "app.schedule-calendar-page" || current.name == "app.schedule-list-page") {
-  //     $scope.showRightIcon = true;
-  //     $scope.showCalendarIcon = (current.name !== "app.schedule-calendar-page");
-  //   } else {
-  //     $scope.showRightIcon = false;
-  //   }
-  // });
-
-  // $scope.showScheduleCalendar = function () {
-  //   $scope.toggleWithoutAnimation('app.schedule-calendar-page');
-  // };
-  // $scope.showScheduleList = function () {
-  //   $scope.toggleWithoutAnimation('app.schedule-list-page');
-  // };
   $scope.toggleWithoutAnimation = function(state) {
     $ionicHistory.nextViewOptions({
         historyRoot: true,
@@ -157,7 +137,7 @@ angular.module('workgenius.controllers', [])
     };
 
     function inIntervalInTimeslot (interval, timeSlot) {
-      var intMoment   = moment(interval,       "ha");
+      var intMoment   = moment(interval, "ha");
       var firstDayMoment = moment($rootScope.intervals[0], "ha");
 
       // consider late night as next day for comparison
@@ -478,44 +458,44 @@ angular.module('workgenius.controllers', [])
   // Flex cal error displays one day behind
   $scope.shifts = [
     {
-      company: 'Instacart', date: "2015-11-23",
-      startsAt: new Date("November 22, 2015 07:00:00"),
-      endsAt: new Date("November 22, 2015 10:00:00"),
+      company: 'Luxe', date: "2015-12-5",
+      startsAt: new Date("December 5, 2015 8:00:00"),
+      endsAt: new Date("December 5, 2015 11:30:00"),
     },
     {
-      company: 'Caviar', date: "2015-11-23",
-      startsAt: new Date("November 22, 2015 11:00:00"),
-      endsAt: new Date("November 22, 2015 14:00:00"),
+      company: 'Instacart', date: "2015-12-13",
+      startsAt: new Date("December 12, 2015 07:00:00"),
+      endsAt: new Date("December 12, 2015 10:00:00"),
     },
     {
-      company: 'Luxe', date: "2015-11-25",
-      startsAt: new Date("November 24, 2015 12:00:00"),
-      endsAt: new Date("November 24, 2015 15:30:00"),
+      company: 'Caviar', date: "2015-12-13",
+      startsAt: new Date("December 12, 2015 11:00:00"),
+      endsAt: new Date("December 12, 2015 14:00:00"),
     },
     {
-      company: 'Caviar', date: "2015-11-26",
-      startsAt: new Date("November 25, 2015 8:00:00"),
-      endsAt: new Date("November 25, 2015 11:00:00"),
+      company: 'Luxe', date: "2015-12-15",
+      startsAt: new Date("December 14, 2015 12:00:00"),
+      endsAt: new Date("December 14, 2015 15:30:00"),
     },
     {
-      company: 'Instacart', date: "2015-11-27",
-      startsAt: new Date("November 26, 2015 07:00:00"),
-      endsAt: new Date("November 26, 2015 10:00:00"),
+      company: 'Caviar', date: "2015-12-16",
+      startsAt: new Date("December 15, 2015 8:00:00"),
+      endsAt: new Date("December 15, 2015 11:00:00"),
     },
     {
-      company: 'Luxe', date: "2015-11-27",
-      startsAt: new Date("November 26, 2015 11:00:00"),
-      endsAt: new Date("November 26, 2015 14:00:00"),
+      company: 'Instacart', date: "2015-12-17",
+      startsAt: new Date("December 16, 2015 07:00:00"),
+      endsAt: new Date("December 16, 2015 10:00:00"),
     },
     {
-      company: 'Caviar', date: "2015-11-29",
-      startsAt: new Date("November 28, 2015 12:00:00"),
-      endsAt: new Date("November 28, 2015 16:00:00"),
+      company: 'Luxe', date: "2015-12-17",
+      startsAt: new Date("December 16, 2015 11:00:00"),
+      endsAt: new Date("December 16, 2015 14:00:00"),
     },
     {
-      company: 'Luxe', date: "2015-11-30",
-      startsAt: new Date("November 29, 2015 8:00:00"),
-      endsAt: new Date("November 29, 2015 11:30:00"),
+      company: 'Caviar', date: "2015-12-19",
+      startsAt: new Date("December 18, 2015 12:00:00"),
+      endsAt: new Date("December 18, 2015 16:00:00"),
     },
   ];
   $scope.cancelWarning = function (shift, group, shifts) {

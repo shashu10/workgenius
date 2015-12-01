@@ -137,15 +137,6 @@ angular.module('workgenius', [
       }
     }
   })
-  .state('app.work-types-page', {
-    url: '/work-types-page',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/main/work-types-page.html',
-        controller: 'WorkTypesCtrl'
-      }
-    }
-  })
   .state('app.companies-page', {
     url: '/companies-page',
     views: {
@@ -173,8 +164,6 @@ angular.module('workgenius', [
       }
     }
   })
-
-  // Each tab has its own nav history stack:
 
   .state('app.availability-tabs.availability', {
     url: '/availability',
@@ -211,7 +200,7 @@ angular.module('workgenius', [
     url: '/signup',
     views: {
       'content': {
-        templateUrl: 'templates/login/signup-tab.html',
+        templateUrl: 'templates/registration/signup-tab.html',
         controller: 'SignupCtrl'
       }
     }
@@ -221,7 +210,7 @@ angular.module('workgenius', [
     url: '/login',
     views: {
       'content': {
-        templateUrl: 'templates/login/login-tab.html',
+        templateUrl: 'templates/registration/login-tab.html',
         controller: 'LoginCtrl'
       }
     }
@@ -231,13 +220,13 @@ angular.module('workgenius', [
       url: '/forgot-password-page',
       views: {
           'content': {
-              templateUrl: 'templates/main/forgot-password-page.html',
+              templateUrl: 'templates/registration/forgot-password-page.html',
               controller: 'ForgotCtrl'
           }
       }
   })
   
-  //  - - - - End - - - -
+  //  - - - - End Registration - - - -
 
   // Onboarding Views
 
@@ -248,21 +237,21 @@ angular.module('workgenius', [
     templateUrl: 'templates/onboarding/onboarding.html',
     controller: 'OnboardingCtrl' // Needs to persist across register pages
   })
+  .state('onboarding.target-hours', {
+      url: '/target-hours',
+      views: {
+          'content': {
+              templateUrl: 'templates/onboarding/target-hours.html',
+              controller: 'TargetCtrl'
+          }
+      }
+  })
   .state('onboarding.work-types', {
       url: '/work-types',
       views: {
           'content': {
               templateUrl: 'templates/onboarding/work-types.html',
               controller: 'WorkTypesCtrl'
-          }
-      }
-  })
-  .state('onboarding.companies', {
-      url: '/companies',
-      views: {
-          'content': {
-              templateUrl: 'templates/onboarding/companies.html',
-              controller: 'CompaniesCtrl'
           }
       }
   })
@@ -283,18 +272,9 @@ angular.module('workgenius', [
               controller: 'AvailabilityCtrl'
           }
       }
-  })
-  .state('onboarding.target-hours', {
-      url: '/target-hours',
-      views: {
-          'content': {
-              templateUrl: 'templates/onboarding/target-hours.html',
-              controller: 'TargetCtrl'
-          }
-      }
   });
 
-  //  - - - - End Login/Registration Tabs - - - -
+  //  - - - - End Onboarding - - - -
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/registration/signup');

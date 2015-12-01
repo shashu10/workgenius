@@ -1,6 +1,7 @@
 // Registration tabs
 .wg-register-bar {
     background-image: none !important;
+    border-color: white !important;
     .title {
         @include flexbox();
         font-size: medium;

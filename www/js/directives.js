@@ -1,10 +1,5 @@
 angular.module('workgenius.directives', [])
 
-.directive('days', function() {
-  return {
-    templateUrl: 'templates/shared/days.html'
-  };
-})
 .directive('gridDays', function() {
   return {
     templateUrl: 'templates/shared/grid-days.html',
@@ -45,14 +40,6 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/wg-pager.html'
   };
 })
-.directive('wgLineHeader', function() {
-  return {
-    templateUrl: 'templates/shared/wg-line-header.html',
-    scope: {
-      title: '@'
-    },
-  };
-})
 .directive('bounceLeft', ['$document', '$interval', function($document, $interval) {
   var isOpen = function (element) {
     var children = element.children();
@@ -62,10 +49,10 @@ angular.module('workgenius.directives', [])
       }
     }
     return false;
-  }
+  };
   var close = function (style) {
     style.transform = '';
-  }
+  };
   return function(scope, element, attr) {
     element.on('click', function(event) {
       var open = isOpen(element);
@@ -154,6 +141,20 @@ angular.module('workgenius.directives', [])
     }
   };
 })
+.directive('focusOnTap', ['$ionicGesture', '$timeout', function($ionicGesture, $timeout) {
+  return function(scope, element, attr) {
+
+    var gesture = $ionicGesture.on('tap', function (event) {
+      $timeout(function() {
+        element.children()[0].focus(); 
+      });
+    }, element);
+
+    scope.$on('$destroy', function() {
+      $ionicGesture.off(gesture, 'tap', listener);
+    });
+  };
+}])
 .directive('wgProfilePhoto', function() {
   return {
       templateUrl: 'templates/shared/wg-profile-photo.html',
@@ -464,5 +465,5 @@ angular.module('workgenius.directives', [])
 
             setScrollListener();
         }
-    }
+    };
 }]);

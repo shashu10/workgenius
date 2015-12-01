@@ -7,7 +7,14 @@
 			<ion-item href="#/app/target-page">
 			   Weekly Hours Target
 				<span class="item-note">
-					{{currentUser.hourlyTarget}} {{currentUser.hourlyTarget <= 1 ? 'Hour' : 'Hours'}}
+					{{currentUser.hourlyTarget}} {{currentUser.hourlyTarget == 1 ? 'Hour' : 'Hours'}}
+				</span>
+			</ion-item>
+
+			<ion-item href="#/app/availability-tabs/availability">
+			   Manage Availability
+				<span class="item-note">
+					{{currentUser.totalHours}} {{currentUser.totalHours == 1 ? 'Hour' : 'Hours'}}
 				</span>
 			</ion-item>
 
@@ -18,19 +25,12 @@
 				</span>
 			</ion-item>
 
-			<ion-item href="#/app/work-types-page">
+			<!-- <ion-item href="#/app/work-types-page">
 			   Types of Work
 				<span class="item-note">
 					<span ng-repeat= "(workType, value) in currentUser.workTypes | truncateObj : 2">{{workType}}{{$last || $middle ? '' : ', '}}</span>
 				</span>
-			</ion-item>
-
-			<ion-item href="#/app/availability-tabs/availability">
-			   Manage Availability
-				<span class="item-note">
-					{{currentUser.totalHours}} {{currentUser.totalHours == 1 ? 'Hour' : 'Hours'}}
-				</span>
-			</ion-item>
+			</ion-item> -->
 
 			<ion-item href="#/app/vehicles-page">
 			   Vehicle Type
@@ -45,21 +45,22 @@
 
 		<ion-list type="card">
 			<ion-item class="item-input-element">
-			   <input type="text" ng-model="currentUser.name">
+			   <input type="text" ng-model="currentUser.name" readonly="readonly">
 			</ion-item>
 
-			<ion-item class="item-input-element">
-			   <input class="input-phone" type='text' phone-input ng-model="phoneVal" ng-model="phoneVal"/>
+			<ion-item focus-on-tap class="item-input-element">
+			   <input class="input-phone" type='text' phone-input ng-model="phoneVal" ng-model="phoneVal">
+			   <span class="item-note wg-floating-note">Edit</span>
 			</ion-item>
 
-			<ion-item class="item-input-element">
+			<ion-item focus-on-tap class="item-input-element">
 			   <input type="text" ng-model="currentUser.email">
+			   <span class="item-note wg-floating-note">Edit</span>
 			</ion-item>
 
 		</ion-list>
 
 		<ion-list type="card">
-			<!-- add ng-show="currentUser" if needed -->
 			<ion-item class="item-icon-right assertive" ng-click="logout()">
 	          Logout
 	          <i class="icon ion-log-out"></i>

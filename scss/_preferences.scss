@@ -1,0 +1,31 @@
+.wg-preferences-page {
+    background-color: #f8f8f8;
+    padding-top: 20px;
+    
+    .item-content {
+        padding-right: 20px;
+    }
+    .item-input-element {
+        padding: 0 0 0 16px;
+        input {
+            height: 52px;
+
+            &[readonly] {
+                background-color: #fff;
+            }
+        }
+    }
+    .list.card {
+        margin-top: 10px;
+        margin-bottom: 25px;
+    }
+    .wg-list-title {
+        padding-left: 10px;
+        font-weight: 500;
+    }
+    .wg-floating-note {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+    }
+}

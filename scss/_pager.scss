@@ -1,0 +1,40 @@
+
+.wg-pager {
+    @include flexbox();
+    margin: auto;
+    padding: 7px 0;
+    width: 250px;
+    text-align: center;
+    > span {
+        @include flexbox();
+        @include flex-grow(2);
+
+        &:last-child {
+            @include flex-grow(0);
+            @include flex-basis('21px');
+        }
+        &.selected {
+            .wg-dash,
+            .wg-circle {
+                background-color: $positive !important;
+            }
+        }
+
+        .wg-circle {
+            transition: all 0.5s;
+            background-color: #DDDDDD;
+            border-radius: 100px;
+            width: 21px;
+            color: white;
+            position: relative;
+        }
+
+        .wg-dash {
+            transition: all 0.5s;
+            @include flex-grow(1);
+            height: 2px;
+            margin: auto;
+            background-color: #DDDDDD;
+        }
+    }
+}

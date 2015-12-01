@@ -7,9 +7,6 @@
 	.left-top {
 		float: left;
 	}
-	.right-top {
-		float: right;
-	}
 	.row:last-child {
 		padding: 0;
 	}
@@ -62,4 +59,34 @@
 	.shift-earnings {
 		color: #505050;
 	}
+}
+
+
+.box-outline {
+    border: 1px solid lightGray;
+    border-bottom: 0;
+}
+
+.box-outline:not(:last-child) {
+    border-right: 0;
+}
+
+.color-divider {
+    @include flexbox();
+
+	span {
+	    height: 1px;
+	    margin: 0;
+	    padding: 0;
+	    @include flex-grow(1);
+
+		&:nth-child(2n) {
+		    background-color: #F0C330;
+		}
+
+		&:nth-child(2n+1) {
+		    background-color: #53ADF0;
+		}
+	}
+
 }

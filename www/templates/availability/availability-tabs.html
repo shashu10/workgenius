@@ -1,4 +1,4 @@
-<ion-view view-title="Availability">
+<ion-view view-title="{{availActive ? 'Time Off' : 'Availability'}}">
 	<ion-content class="has-tabs">
 		<div ui-view name="inception"></div>
 	</ion-content>
@@ -9,7 +9,7 @@
         </a>
         <a class="tab-item" ui-sref="app.availability-tabs.block-days" ng-class="availActive ? 'active' : ''" ng-click="availActive = true">
             <i class="icon ion-close-circled"></i>
-			Block out days
+			Time Off
         </a>
     </div>
 </ion-view>

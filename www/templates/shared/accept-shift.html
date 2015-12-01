@@ -9,23 +9,23 @@
   <ion-content class="padding">
 
   <ul >
-    <h2 class="wg-center-header">Are you sure you want to accept this shift?</h1>
-    <h4 class="wg-blue wg-tiny">Requested By</h4>
+    <h2 class="center-text">Are you sure you want to accept this shift?</h1>
+    <h4>Requested By</h4>
     <h3>{{selectedShift.name}}</h3>
 
-    <h4 class="wg-blue wg-tiny">Shift Information</h4>
+    <h4>Shift Information</h4>
     <p>
         {{selectedShift.startsAt.getTime() | date:'mediumDate'}} | {{selectedShift.startsAt.getTime() | date:'shortTime'}} - {{selectedShift.endsAt.getTime() | date:'shortTime'}}
     </p>
 
     <p>Earnings Est: <span class="light-green">{{(selectedShift.endsAt.getTime() - selectedShift.startsAt.getTime())/3600000 * hourlyRate | currency:undefined:0}}</span></p>
 
-    <h4 class="wg-blue wg-tiny">Company</h4>
+    <h4>Company</h4>
     <h3>{{selectedShift.company | capitalize}}</h3>
 
-    <div class="wg-buttons-line">
-      <button class="button button-positive" ng-click="acceptShift(currentShift)">Accept</button>
-      <button class="button button-assertive button-outline" ng-click="declineShift(currentShift)">
+    <div class="button-bar">
+      <button class="button button-block button-positive" ng-click="acceptShift(currentShift)">Accept</button>
+      <button class="button button-block button-assertive" ng-click="declineShift(currentShift)">
         Decline
       </button>
     </div>

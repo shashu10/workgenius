@@ -23,17 +23,17 @@
 
     <ion-content class="padding-top">
       <div><wg-profile-photo/></div>
-      <h4 class="wg-user-name">{{currentUser.name}}</h4>
+      <h4 class="center-text">{{currentUser.name}}</h4>
       <ion-list>
         <ion-item class="item-icon-left" menu-close href="#/app/schedule-calendar-page">
           <i class="icon ion-calendar"></i>
           Schedule
         </ion-item>
         <!-- Functionality hidden -->
-        <!-- <ion-item class="item-icon-left" menu-close href="#/app/available-shifts-page">
+        <ion-item class="item-icon-left" menu-close href="#/app/available-shifts-page">
           <i class="icon ion-network"></i>
           Shift trades
-        </ion-item> -->
+        </ion-item>
         <ion-item class="item-icon-left" menu-close href="#/app/earnings-page">
           <i class="icon ion-cash"></i>
           Earnings
@@ -43,7 +43,7 @@
           Preferences
         </ion-item>
 
-        <p class="menu-note">Need some help?</p>
+        <p class="menu-note center-text">Need some help?</p>
 
         <ion-item class="item-icon-left item-positive" ng-click="contactModal.show()">
           <i class="icon ion-email"></i>
