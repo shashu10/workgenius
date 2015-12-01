@@ -9327,57 +9327,36 @@ textarea {
   .wg-register-content .list-inset .item:first-child {
     border-top-width: 0; }
 
-.content-banner {
-  width: 100%;
-  color: white;
-  height: 30px;
-  line-height: 30px;
-  position: absolute;
-  top: 0;
-  opacity: 0.7; }
-  .content-banner.error {
-    background-color: red; }
-  .content-banner.info {
-    background-color: #333; }
-  .content-banner .content-banner-text {
-    -webkit-transition: opacity 500ms linear;
-    transition: opacity 500ms linear;
-    position: absolute;
-    top: 0;
-    right: 41px;
-    left: 41px;
-    text-align: center; }
-    .content-banner .content-banner-text.active {
-      opacity: 1; }
-    .content-banner .content-banner-text:not(.active) {
-      opacity: 0; }
-  .content-banner .content-banner-close {
-    position: absolute;
-    right: 5px;
-    top: 0;
-    padding: 0 12px;
-    height: 100%;
-    line-height: 30px;
-    min-height: 0;
-    color: white; }
-    .content-banner .content-banner-close:before {
-      line-height: 30px; }
+.availability-questions .row {
+  padding: 0; }
 
-.content-banner-transition-vertical {
-  -webkit-transition: -webkit-transform linear 250ms;
-  transition: transform linear 250ms;
-  -webkit-transform: translate3d(0, -100%, 0);
-  transform: translate3d(0, -100%, 0); }
+.availability-questions .roundLabel {
+  padding-right: 10px; }
+  .availability-questions .roundLabel:first-child {
+    padding-left: 10px; }
+  .availability-questions .roundLabel button, .availability-questions .roundLabel button:hover {
+    line-height: 18px;
+    transition: all 0.1s;
+    border-color: #D4D4D4;
+    color: #D4D4D4; }
+    .availability-questions .roundLabel button.selected:not(.activated), .availability-questions .roundLabel button:hover.selected:not(.activated) {
+      color: #fff;
+      border-color: #38aaf6;
+      background-color: #69BFF8;
+      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1); }
 
-.content-banner-transition-fade {
-  -webkit-transition: opacity 400ms linear;
-  transition: opacity 400ms linear;
-  opacity: 0; }
+.availability-questions p {
+  text-align: center; }
 
-.content-banner-in {
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-  opacity: 0.7; }
+.availability-questions .label1 {
+  padding-top: 20px; }
+
+.availability-questions .label2 {
+  padding-top: 10px; }
+  .availability-questions .label2 p:first-child {
+    margin: 0; }
+  .availability-questions .label2 p:last-child {
+    font-size: small; }
 
 .content-banner.success {
   background-color: #33cd5f; }

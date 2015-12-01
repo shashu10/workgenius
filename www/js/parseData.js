@@ -206,7 +206,7 @@ angular.module('parseData', [])
 
   var initAvailability = function (avail) {
 
-    var availabilityGrid = {}
+    var availabilityGrid = {};
     for (var i = 0; i < $rootScope.days.length; i++) {
       var day = $rootScope.days[i];
       availabilityGrid[day] = [];
@@ -215,9 +215,9 @@ angular.module('parseData', [])
       }
     }
     return availabilityGrid;
-  }
+  };
 
-  return function () {
+  return function (newUser, name, email) {
 
     if (!Parse.User.current()) {
       $rootScope.currentUser = {
@@ -231,6 +231,21 @@ angular.module('parseData', [])
         totalHours       : 0,
         availabilityGrid : initAvailability()
       };
+      return;
+    } else if (newUser) {
+      $rootScope.currentUser = Parse.User.current();
+
+      angular.extend($rootScope.currentUser, {
+        name             : name,
+        email            : email,
+        hourlyTarget     : 40,
+        cancellations    : 0,
+        vehicles         : getVehicles(),
+        companies        : {},
+        workTypes        : {},
+        totalHours       : 0,
+        availabilityGrid : initAvailability()
+      });
       return;
     }
     $rootScope.currentUser = Parse.User.current();

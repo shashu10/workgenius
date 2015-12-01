@@ -9,7 +9,11 @@ angular.module('workgenius.registration', [])
         $ionicHistory.nextViewOptions({
             historyRoot: true
         });
-        $state.go('onboarding.target-hours', {
+        var next = 'onboarding.target-hours';
+        if ($state.current.name === 'registration.login') {
+            next = 'app.schedule-calendar-page';
+        }
+        $state.go(next, {
             clear: true
         });
     };
@@ -142,20 +146,21 @@ angular.module('workgenius.registration', [])
 
         var user = new Parse.User();
         user.set("name", $rootScope.user.name);
+        user.set("email", $rootScope.user.email);
         user.set("username", $rootScope.user.email);
         user.set("password", $rootScope.user.password);
-        user.set("email", $rootScope.user.email);
 
         // user.set('availability', formatUploadData.availability());
-        user.set('vehicles', formatUploadData.vehicles());
-        user.set('companies', formatUploadData.companies());
-        user.set('workTypes', formatUploadData.workTypes());
-        user.set('target', Number($rootScope.currentUser.hourlyTarget));
+        // user.set('vehicles', formatUploadData.vehicles());
+        // user.set('companies', formatUploadData.companies());
+        // user.set('workTypes', formatUploadData.workTypes());
+        // user.set('target', 40); // Default
 
         user.signUp(null, {
             success: function(user) {
                 $ionicLoading.hide();
-                getUserData();
+                getUserData(true, $rootScope.user.name, $rootScope.user.email);
+
                 $ionicHistory.nextViewOptions({
                     historyRoot: true
                 });

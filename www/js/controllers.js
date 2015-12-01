@@ -99,6 +99,88 @@ angular.module('workgenius.controllers', [])
 }])
 .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
 
+    $scope.availQuestions = {
+      days: [{
+          name: 'monday', selected: false
+        }, {
+          name: 'tuesday', selected: false
+        }, {
+          name: 'wednesday', selected: false
+        }, {
+          name: 'thursday', selected: false
+        }, {
+          name: 'friday', selected: false
+        }, {
+          name: 'saturday', selected: false
+        }, {
+          name: 'sunday', selected: false
+        }],
+      timeSlots: [{
+          name: 'mornings', start: '6am', end: '10am', selected: false
+        }, {
+          name: 'lunch', start: '10am', end: '2pm', selected: false
+        }, {
+          name: 'afternoons', start: '2pm', end: '5pm', selected: false
+        }, {
+          name: 'evenings', start: '5pm', end: '9pm', selected: false
+        }, {
+          name: 'nights', start: '9pm', end: '2am', selected: false,
+        }],
+    };
+    $scope.setAvailWithQuestions = function () {
+      var availabilityGrid = {};
+
+      // For each day
+      for (var i = 0; i < $rootScope.days.length; i++) {
+        var day = $rootScope.days[i];
+        availabilityGrid[day] = [];
+
+        // For each interval in that day
+        for (var j = 0; j < $rootScope.intervals.length; j++) {
+          availabilityGrid[day][j] = 0;
+
+          if ($scope.availQuestions.days[i].selected) {
+            for (var k = 0; k < $scope.availQuestions.timeSlots.length; k++) {
+              if ( $scope.availQuestions.timeSlots[k].selected) {
+                if (inIntervalInTimeslot($rootScope.intervals[j], $scope.availQuestions.timeSlots[k])) {
+                  availabilityGrid[day][j] = 1;
+                  break;
+                }
+              }
+            }
+          } else {
+            availabilityGrid[day][j] = 0;
+          }
+        }
+      }
+      $rootScope.currentUser.availabilityGrid = availabilityGrid;
+    };
+
+    function inIntervalInTimeslot (interval, timeSlot) {
+      var intMoment   = moment(interval,       "ha");
+      var firstDayMoment = moment($rootScope.intervals[0], "ha");
+
+      // consider late night as next day for comparison
+      if (intMoment.isBefore(firstDayMoment)) {
+        intMoment.add(1, 'day');
+      }
+      intMoment.add(1, 'minute'); // Easier for .between() comparison
+
+      var startMoment = moment(timeSlot.start, "ha");
+      var endMoment   = moment(timeSlot.end,   "ha");
+      var firstTimeSlotMoment = moment($scope.availQuestions.timeSlots[0].start, "ha");
+
+      // Late night as next day
+      if (endMoment.isBefore(firstTimeSlotMoment)) {
+        endMoment.add(1, 'day');
+      }
+
+      if (intMoment.isBetween(startMoment, endMoment)) {
+        return true;
+      }
+      return false;
+    }
+
     $scope.update = setUserData.availabilityGrid;
     var YES_NO = 2;
     var YES_MAYBE_NO = 3;

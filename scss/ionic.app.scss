@@ -57,8 +57,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Registration Custom Tabs
 @import 'registration';
 
-// Content banner
-@import '../www/lib/ionic-content-banner/scss/ionic.content.banner';
+// Availability question tabs
+@import 'availability_questions';
+
 .content-banner.success {
     background-color: $balanced;
 }

@@ -58,7 +58,7 @@ angular.module('workgenius', [
     $rootScope.hourlyRate = 15;
     $rootScope.imageURL = "img/profile_default.jpg";
     $rootScope.cancellations = 0;
-    $rootScope.intervals = ['6a','7a','8a','9a','10a','11a','12p','1p','2p','3p','4p','5p','6p','7p','8','9p','10p','11p','12a','1a'];
+    $rootScope.intervals = ['6a','7a','8a','9a','10a','11a','12p','1p','2p','3p','4p','5p','6p','7p','8p','9p','10p','11p','12a','1a'];
     $rootScope.days = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
     $rootScope.phoneVal = "4159365883";
 
@@ -263,6 +263,15 @@ angular.module('workgenius', [
           'content': {
               templateUrl: 'templates/onboarding/companies.html',
               controller: 'CompaniesCtrl'
+          }
+      }
+  })
+  .state('onboarding.availability-questions', {
+      url: '/availability-questions',
+      views: {
+          'content': {
+              templateUrl: 'templates/onboarding/availability-questions.html',
+              controller: 'AvailabilityCtrl'
           }
       }
   })

@@ -8,8 +8,8 @@ angular.module('workgenius.onboarding', [])
 
     $scope.pages = [
       'onboarding.target-hours',
-      'onboarding.companies',
       'onboarding.work-types',
+      'onboarding.availability-questions',
       'onboarding.availability',
     ];
     $scope.syncPagerState = function () {
