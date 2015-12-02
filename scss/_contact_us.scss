@@ -9,14 +9,11 @@
             @include flex-shrink(0);
         }
     }
-}
-.contact-message {
-    @include flex-grow(1);
-    margin: 10px;
-}
-.readonly {
-    background-color: #f8f8f8;
-}
-textarea {
-    resize: none;
+    .contact-message {
+        @include flex-grow(1);
+        margin: 10px;
+    }
+    textarea {
+        resize: none;
+    }
 }

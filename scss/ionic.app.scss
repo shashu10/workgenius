@@ -58,8 +58,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 @import 'shift'; // Available Shifts. Not used right now
 
-/* Empty. Add your own CSS if you like */
 
+html *
+{
+   // font-family: 'Avenir', sans-serif !important;
+}
 
 // Menu
 

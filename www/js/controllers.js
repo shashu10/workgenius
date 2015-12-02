@@ -400,14 +400,11 @@ angular.module('workgenius.controllers', [])
   $scope.options = {
     // Start calendar from current day
 
-    minDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+    minDate: moment('2015-12-01').format('YYYY-MM-DD'),
     maxDate: moment().add(3, 'months').format('YYYY-MM-DD'),
-    disabledDates: [
-        "2015-06-22",
-        "2015-07-27",
-        "2015-08-13",
-        "2015-08-15"
-    ],
+    // disabledDates: [
+    //     "2015-06-22"
+    // ],
 
     // dayNamesLength: 1, // 1 for "M", 2 for "Mo", 3 for "Mon"; 9 will show full day names. Default is 1.
     // mondayIsFirstDay: true,//set monday as first day of week. Default is false
