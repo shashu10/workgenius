@@ -239,54 +239,8 @@ angular.module('workgenius.controllers', [])
     $scope.hideFooter();
 }])
 .controller('WorkTypesCtrl',
-  ['$rootScope', '$scope', 'setUserData', 'filterFilter', '$ionicModal',
-  function($rootScope, $scope, setUserData, filterFilter, $ionicModal) {
-  
-    var workList = [
-      {
-        name: "Rideshare",
-        description: "Ridesharing",
-        icon: "ion-android-car",
-        selected: false
-      }, {
-        name: "Grocery",
-        description: "Grocery Shopping",
-        icon: "ion-ios-nutrition",
-        selected: false
-      }, {
-        name: "Meal",
-        description: "Meal Delivery",
-        icon: "ion-pizza",
-        selected: false
-      }, {
-        name: "Alcohol",
-        description: "Alcohol Delivery",
-        icon: "ion-beer",
-        selected: false
-      }, {
-        name: "Package",
-        description: "Package Delivery",
-        icon: "ion-cube",
-        selected: false
-      }, {
-        name: "Valet",
-        description: "Valet Services",
-        icon: "ion-key",
-        selected: false
-      }
-    ];
-
-    var workDescription = {
-      bento: "Company description",
-      caviar: "Company description",
-      instacart: "Company description",
-      luxe: "Company description",
-      munchery: "Company description",
-      saucey: "Company description",
-      shyp: "Company description",
-      sprig: "Company description",
-      workgenius: "Company description",
-    };
+  ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'filterFilter', 'workTypes',
+  function($rootScope, $scope, $ionicModal, setUserData, filterFilter, workTypes) {
 
     var chunk = function (arr, size) {
       var newArr = [];
@@ -296,7 +250,7 @@ angular.module('workgenius.controllers', [])
       return newArr;
     };
 
-    $scope.workTypes = chunk($rootScope.workTypes, 3);
+    $scope.workTypes = chunk(workTypes, 3);
 
     $scope.update = setUserData.workTypes;
     $scope.selectedWorkType = null;
@@ -308,13 +262,15 @@ angular.module('workgenius.controllers', [])
     });
 
     $scope.select = function(wType) {
-      $scope.selectedWorkType = wType;
-      $scope.modal.show();
-    };
-    $scope.hideModal = function () {
-      // if ($scope.selectedWorkType)
-      //   $scope.selectedWorkType.selected = false;
-      $scope.modal.hide();
+      // Unselect type if it's already selected
+      if ($rootScope.currentUser.workTypes[wType.name]) {
+        delete $rootScope.currentUser.workTypes[wType.name];
+
+      // Open detailed modal when unselected option is clicked
+      } else {
+        $scope.selectedWorkType = wType;
+        $scope.modal.show();
+      }
     };
     $scope.decline = function (workType) {
       $scope.modal.hide();
