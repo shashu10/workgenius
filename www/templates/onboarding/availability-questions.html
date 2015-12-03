@@ -25,17 +25,16 @@
             </div>
             <div class="row" ng-repeat="i in [0, 1, 2]">
                 <span class="roundLabel col-33" ng-repeat="timeSlot in availQuestions.timeSlots | limitTo : 3 : i*3">
-                    <button class="button button-block button-light" ng-class="{selected: timeSlot.selected}" ng-click="timeSlot.selected = !timeSlot.selected">
+                    <button class="button button-block button-light" ng-class="{selected : timeSlot.selected}" ng-click="timeSlot.selected = !timeSlot.selected">
                         {{timeSlot.name | capitalize}} <br>
                         {{timeSlot.start}} - {{timeSlot.end}}
                     </button>
                 </span>
             </div>
         </div>
-        
-        <!-- Finish Onboarding -->
-        <button ng-click="next(); setAvailWithQuestions()" class="button button-full button-positive">
-            Continue >>
-        </button>
     </ion-content>
+
+    <ion-footer-bar align-title="left" class="bar-positive" ng-click="next(); setAvailWithQuestions()" ng-show="didSelectOption()">
+      <h1 class="title">Continue >></h1>
+    </ion-footer-bar>
 </ion-view>

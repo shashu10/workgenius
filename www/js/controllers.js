@@ -77,7 +77,9 @@ angular.module('workgenius.controllers', [])
     $scope.selectedMonth = moment.format('MMMM');
   }
 }])
-.controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
+.controller('AvailabilityCtrl',
+  ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', '$filter',
+  function($rootScope, $scope, $ionicModal, timePicker, setUserData, $filter) {
 
     $scope.availQuestions = {
       days: [{
@@ -107,6 +109,12 @@ angular.module('workgenius.controllers', [])
           name: 'nights', start: '9pm', end: '2am', selected: false,
         }],
     };
+
+    $scope.didSelectOption = function () {
+      return $filter('filter')($scope.availQuestions.days, {selected:true}).length &&
+             $filter('filter')($scope.availQuestions.timeSlots, {selected:true}).length;
+    };
+
     $scope.setAvailWithQuestions = function () {
       var availabilityGrid = {};
 
