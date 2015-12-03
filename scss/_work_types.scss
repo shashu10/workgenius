@@ -1,0 +1,61 @@
+// Modal
+.work-types-header {
+    border-bottom: 1px solid #ddd;
+    @include flexbox();
+
+    div {
+        @include flex-grow(1);
+        text-align: center;
+        padding-bottom: 10px;
+
+        .light-green {
+            margin: 0;
+        }
+        .small-light {
+            padding: 0;
+        }
+    }
+
+    i {
+        vertical-align: top;
+        padding: 8px;
+        color: $positive;
+        font-size: 30px;
+
+        &.icon-text {
+            background-color: $positive;
+            color: white;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            padding: 5px 0;
+            font-size: 14px;
+        }
+    }
+}
+
+.work-types-content {
+    .item {
+        border: 0;
+        margin: 0;
+        padding-left: 70px;
+        position: relative;
+
+        &.disabled {
+            @include grayscale();
+        }
+
+        img {
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            left: 14px;
+            margin-top: -20px;
+            vertical-align: center;
+
+        }
+    }
+}
+
+// See _company_footer.scss for image grayscale stuff

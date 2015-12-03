@@ -193,6 +193,7 @@ angular.module('workgenius.controllers', [])
 }])
 .controller('CompaniesCtrl', ['$rootScope', '$scope', 'setUserData', function($rootScope, $scope, setUserData) {
 
+    // Gropus array into smaller arrays of certain size
     var chunk = function (arr, size) {
       var newArr = [];
       for (var i=0; i<arr.length; i+=size) {
@@ -221,18 +222,6 @@ angular.module('workgenius.controllers', [])
       angular.element(footer).removeAttr('style');
     };
 
-    var companyList = [
-      "instacart",
-      "saucey",
-      "bento",
-      "shyp",
-      "caviar",
-      "luxe",
-      "sprig",
-      "munchery",
-      "doordash",
-    ];
-
     var companyDescription = {
       instacart: "Instacart is an on-demand grocery delivery company. The job consists of purchasing, packing and delivering groceries.",
       saucey: "Saucey is an on-demand Alcohol and tobacco delivery service. Drivers must be over 21 and have exceptional people skills.",
@@ -244,16 +233,18 @@ angular.module('workgenius.controllers', [])
       munchery: "Munchery is an on-demand food delivery service that hires world class chefs to prepare meals. A bike is required.",
       doordash: "DoorDash is an on-demand restaurant delivery service. Pick up food items and deliver them to customers efficiently.",
     };
-    $scope.chunkedCompanies = chunk(companyList, 3);
+    $scope.chunkedCompanies = chunk($rootScope.companyList, 3);
 
     $scope.update = setUserData.companies;
     $scope.hideFooter();
 }])
-.controller('WorkTypesCtrl', ['$rootScope', '$scope', 'setUserData', 'filterFilter', function($rootScope, $scope, setUserData, filterFilter) {
+.controller('WorkTypesCtrl',
+  ['$rootScope', '$scope', 'setUserData', 'filterFilter', '$ionicModal',
+  function($rootScope, $scope, setUserData, filterFilter, $ionicModal) {
   
     var workList = [
       {
-        name: "Ridesharing",
+        name: "Rideshare",
         description: "Ridesharing",
         icon: "ion-android-car",
         selected: false
@@ -268,8 +259,8 @@ angular.module('workgenius.controllers', [])
         icon: "ion-pizza",
         selected: false
       }, {
-        name: "liquor",
-        description: "liquor Delivery",
+        name: "Alcohol",
+        description: "Alcohol Delivery",
         icon: "ion-beer",
         selected: false
       }, {
@@ -305,31 +296,33 @@ angular.module('workgenius.controllers', [])
       return newArr;
     };
 
-    $scope.workTypes = chunk(workList, 3);
+    $scope.workTypes = chunk($rootScope.workTypes, 3);
 
     $scope.update = setUserData.workTypes;
     $scope.selectedWorkType = null;
 
-    $scope.select = function(name) {
-      if ($rootScope.currentUser.workTypes[name]) {
-        delete $rootScope.currentUser.workTypes[name];
-        $scope.hideFooter();
-      } else {
-        $rootScope.currentUser.workTypes[name] = true;
-        $scope.showFooter(name);
-      }
+    $ionicModal.fromTemplateUrl('templates/shared/work-types-modal.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
 
-      $scope.update();
+    $scope.select = function(wType) {
+      $scope.selectedWorkType = wType;
+      $scope.modal.show();
     };
-    $scope.hideFooter = function () {
-      if ($scope.selectedWorkType)
-        $scope.selectedWorkType.selected = false;
+    $scope.hideModal = function () {
+      // if ($scope.selectedWorkType)
+      //   $scope.selectedWorkType.selected = false;
+      $scope.modal.hide();
+    };
+    $scope.decline = function (workType) {
+      $scope.modal.hide();
     }
-    $scope.showFooter = function (name) {
-      $scope.selectedWorkType = filterFilter(workList, {name: name})[0];
-      $scope.selectedWorkType.selected = true;
-      var footer = document.getElementsByClassName("wg-work-types-footer");
-      angular.element(footer).removeAttr('style');
+    $scope.accept = function (workType) {
+      $rootScope.currentUser.workTypes[workType.name] = true;
+      $scope.update();
+      $scope.modal.hide();
     }
 }])
 

@@ -3,9 +3,9 @@
         <p>Select the types of work that you are interested in. bear in mind that Ridesharing and certain delivery jobs require a car!</p>
     </div>
     <div class="row padding-top" ng-repeat="rows in workTypes">
-        <div class="col light-blue" ng-repeat="item in rows" ng-click="select(item.name)" ng-class="currentUser.workTypes.{{item.name}} ? 'selected' : ''">
-            <i class="icon" ng-class="item.icon"></i>
-            <p>{{item.name}}</p>
+        <div class="col light-blue" ng-repeat="wType in rows" ng-click="select(wType)" ng-class="currentUser.workTypes.{{wType.name}} ? 'selected' : ''">
+            <i class="icon" ng-class="wType.icon"></i>
+            <p>{{wType.name}}</p>
         </div>
     </div>
 </div>

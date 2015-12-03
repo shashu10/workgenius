@@ -1,12 +1,9 @@
 // All company and work type styles
 
-@mixin grayscale-with-transition {
-    opacity: 0.3;
+@mixin grayscale($opacity: 0.3) {
+    opacity: $opacity;
     -webkit-filter: grayscale(1);
     filter: grayscale(1);
-    transition: filter 0.5s, -webkit-filter 0.5s, opacity 0.5s;
-    -webkit-transition-timing-function: ease-out;
-    transition-timing-function: ease-out; /* Safari */
 }
 @mixin remove-grayscale {
     opacity: 1;
@@ -17,7 +14,11 @@
 .wg-grid {
     .col {
         text-align: center;
-        @include grayscale-with-transition();
+        transition: filter 0.5s, -webkit-filter 0.5s, opacity 0.5s;
+        -webkit-transition-timing-function: ease-out;
+        transition-timing-function: ease-out; /* Safari */
+
+        @include grayscale();
         img {
             width: 33%;
             height: auto;

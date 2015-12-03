@@ -1,0 +1,39 @@
+<ion-modal-view>
+  <ion-header-bar>
+
+    <h1 class="title">{{selectedWorkType.title}}</h1>
+
+  </ion-header-bar>
+  <ion-content>
+
+  <div class="work-types-header">
+    <div>
+      <h4>Requirements</h4>
+      <i class="icon ion-android-car"></i>
+      <i class="icon ion-android-bicycle"></i>
+      <i class="icon icon-text"> 18+</i>
+    </div>
+    <div>
+      <h4>Earnings Estimate</h4>
+      <h4 class="light-green">$16-$20</h4>
+      <p class="small-light">/hour</p>
+    </div>
+  </div>
+  
+  <ul class="work-types-content">
+  <!-- {{selectedWorkType}} -->
+    <ion-item class="item-text-wrap" ng-class="{disabled : !company.available}" ng-repeat="(name, company) in selectedWorkType.companies">
+      <img ng-src="img/companies/{{name}}.png" alt="">
+      <p>{{company.longInfo}}</p>
+    </ion-item>
+    <div class="button-bar padding">
+      <button class="button button-stable" ng-click="decline(selectedWorkType)">Go Back</button>
+      <button class="button button-positive" ng-click="accept(selectedWorkType)">
+        I'm In
+      </button>
+    </div>
+
+  </ul>
+
+  </ion-content>
+</ion-modal-view>
