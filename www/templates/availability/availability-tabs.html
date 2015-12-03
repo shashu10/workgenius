@@ -3,11 +3,11 @@
 		<div ui-view name="inception"></div>
 	</ion-content>
 	<div class="tabs tabs-positive tabs-icon-left">
-        <a class="tab-item" ui-sref="app.availability-tabs.availability" ng-class="availActive ? '' : 'active'" ng-click="availActive = false">
+        <a class="tab-item" ui-sref="app.availability-tabs.availability" ng-class="{active : !availActive}" ng-click="availActive = false">
             <i class="icon ion-checkmark-circled"></i>
 			{{path}} Availability
         </a>
-        <a class="tab-item" ui-sref="app.availability-tabs.block-days" ng-class="availActive ? 'active' : ''" ng-click="availActive = true">
+        <a class="tab-item" ui-sref="app.availability-tabs.block-days" ng-class="{active: availActive}" ng-click="availActive = true">
             <i class="icon ion-close-circled"></i>
 			Time Off
         </a>

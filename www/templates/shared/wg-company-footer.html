@@ -1,4 +1,4 @@
-<div class="bar bar-footer wg-company-footer" ng-class="selectedCompany.selected ? 'wg-footer-selected' : ''">
+<div class="bar bar-footer wg-company-footer" ng-class="{'wg-footer-selected' : selectedCompany.selected}">
     <img ng-src="img/companies/{{selectedCompany.name}}.png" alt="">
     <p>{{selectedCompany.description}}</p>
 </div>

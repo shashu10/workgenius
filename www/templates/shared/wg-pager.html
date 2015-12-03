@@ -1,5 +1,5 @@
 <div class="wg-pager">
-    <span ng-repeat="(id, item) in pages" ng-class="currentPage == id ? 'selected' : ''" ng-click="goToPage(id)">
+    <span ng-repeat="(id, item) in pages" ng-class="{selected: currentPage == id}" ng-click="goToPage(id)">
       <span class="wg-circle">
         {{id + 1}}
       </span>

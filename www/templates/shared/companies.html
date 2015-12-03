@@ -3,7 +3,7 @@
         <p>Select the companies you are eligible to work for.</p>
     </div>
 	<div class="row padding-top" ng-repeat="rows in chunkedCompanies">
-	    <div class="col" ng-repeat="key in rows" ng-click="select(key)" ng-class="currentUser.companies.{{key}} ? 'selected' : ''">
+	    <div class="col" ng-repeat="key in rows" ng-click="select(key)" ng-class="{selected: currentUser.companies.{{key}}}">
 	        <img ng-src="img/companies/{{key}}.png" alt="">
 	    </div>
 	</div>
