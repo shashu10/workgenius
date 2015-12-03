@@ -3,7 +3,8 @@
 	<p class= "weekly-hours light-blue">{{currentUser.hourlyTarget}}</p>
 	<div class="item range">
 		0
-		<input type="range" ng-model="currentUser.hourlyTarget" name="hours" ng-change="update(currentUser.hourlyTarget)" min="0" max="80">
+		<!-- ng-change="update(currentUser.hourlyTarget)" -->
+		<input type="range" ng-model="currentUser.hourlyTarget" name="hours" min="0" max="80">
 		80
 	</div>
 	<p class="small-light">Earnings estimate</p>

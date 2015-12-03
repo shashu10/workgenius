@@ -54,6 +54,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 @import 'availability_questions'; // Question tags
 
+@import 'availability_tabs'; // Custom tab subheader
+
 @import 'target_hours';
 
 @import 'shift'; // Available Shifts. Not used right now
@@ -111,3 +113,6 @@ html *
 // Other
 
 // ...
+.spinner {
+    vertical-align: -webkit-baseline-middle;
+}

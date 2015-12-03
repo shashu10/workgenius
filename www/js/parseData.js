@@ -90,15 +90,22 @@ angular.module('parseData', [])
   };
 }])
 
-.factory('setUserData', ['$rootScope', 'timePicker', 'formatUploadData', 'debounce', function ($rootScope, timePicker, formatUploadData, debounce) {
+.factory('setUserData',
+  ['$rootScope', 'timePicker', 'formatUploadData',
+  function ($rootScope, timePicker, formatUploadData) {
 
-  // For items that are easy to toggle quickly, update after an interval
-  var interval = 1000; // ms
-
-  var setAvailabilityGrid = debounce(function () {
+  var setAvailabilityGrid = function (success, error) {
 
       if (Parse.User.current()) {
-        $rootScope.currentUser.save({'availabilityGrid': $rootScope.currentUser.availabilityGrid});
+        $rootScope.currentUser.save({'availabilityGrid': $rootScope.currentUser.availabilityGrid}, {
+          success: function(obj) {
+            success();
+          },
+          error: function(obj, error) {
+            error();
+            alert('Failed to create new object, with error code: ' + error.message);
+          }
+        });
       }
       var totalHours = 0;
       for (var i = 0; i < $rootScope.days.length; i++) {
@@ -111,35 +118,71 @@ angular.module('parseData', [])
       }
       $rootScope.currentUser.totalHours = totalHours;
 
-    }, interval, false);
+    };
 
-  var setCompanies = debounce(function () {
+  var setCompanies = function (success, error) {
 
-      if (Parse.User.current())
-        $rootScope.currentUser.save({'companies': formatUploadData.companies()});
+      if (Parse.User.current()) {
+        $rootScope.currentUser.save({'companies': formatUploadData.companies()}, {
+          success: function(obj) {
+            success();
+          },
+          error: function(obj, error) {
+            error();
+            alert('Failed to create new object, with error code: ' + error.message);
+          }
+        });
+      }
 
-    }, interval, false);
+    };
 
-  var setVehicles = debounce(function () {
+  var setVehicles = function (success, error) {
 
-      if (Parse.User.current())
-        $rootScope.currentUser.save({'vehicles': formatUploadData.vehicles()});
+      if (Parse.User.current()) {
+        $rootScope.currentUser.save({'vehicles': formatUploadData.vehicles()}, {
+          success: function(obj) {
+            success();
+          },
+          error: function(obj, error) {
+            error();
+            alert('Failed to create new object, with error code: ' + error.message);
+          }
+        });
+      }
 
-    }, interval, false);
+    };
 
-  var setWorkTypes = debounce(function () {
+  var setWorkTypes = function (success, error) {
 
-      if (Parse.User.current())
-        $rootScope.currentUser.save({'workTypes': formatUploadData.workTypes()});
+      if (Parse.User.current()) {
+        $rootScope.currentUser.save({'workTypes': formatUploadData.workTypes()}, {
+          success: function(obj) {
+            success();
+          },
+          error: function(obj, error) {
+            error();
+            alert('Failed to create new object, with error code: ' + error.message);
+          }
+        });
+      }
 
-    }, interval, false);
+    };
 
-  var setTarget = debounce(function (target) {
+  var setTarget = function (target, success, error) {
 
-      if (Parse.User.current())
-        $rootScope.currentUser.save({'target': Number(target)});
+      if (Parse.User.current()) {
+        $rootScope.currentUser.save({'target': Number(target)}, {
+          success: function(obj) {
+            success();
+          },
+          error: function(obj, error) {
+            error();
+            alert('Failed to create new object, with error code: ' + error.message);
+          }
+        });
+      }
 
-    }, interval, false);
+    };
 
   return {
     vehicles: setVehicles,

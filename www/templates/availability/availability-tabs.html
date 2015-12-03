@@ -1,15 +1,17 @@
-<ion-view view-title="{{availActive ? 'Time Off' : 'Availability'}}">
-	<ion-content class="has-tabs">
-		<div ui-view name="inception"></div>
-	</ion-content>
-	<div class="tabs tabs-positive tabs-icon-left">
-        <a class="tab-item" ui-sref="app.availability-tabs.availability" ng-class="{active : !availActive}" ng-click="availActive = false">
-            <i class="icon ion-checkmark-circled"></i>
-			{{path}} Availability
-        </a>
-        <a class="tab-item" ui-sref="app.availability-tabs.block-days" ng-class="{active: availActive}" ng-click="availActive = true">
-            <i class="icon ion-close-circled"></i>
-			Time Off
-        </a>
+<ion-view view-title="Manage Availability">
+    <div class="bar bar-subheader availability-tabs">
+        <span class="" ui-sref="app.availability-tabs.availability" ng-class="{active : !availActive}" ng-click="availActive = false">
+			{{'Availability' | uppercase}}
+        </span>
+        <span class="" ui-sref="app.availability-tabs.block-days" ng-class="{active: availActive}" ng-click="availActive = true">
+			{{'Time Off' | uppercase}}
+        </span>
+    </div>
+    <ion-content class="has-subheader" ng-class="{'has-footer' : gridChanged}">
+        <div ui-view name="inception"></div>
+    </ion-content>
+
+    <div class="bar bar-footer bar-positive" ng-show="gridChanged" ng-click="save()">
+      <h1 class="title">Save</h1>
     </div>
 </ion-view>

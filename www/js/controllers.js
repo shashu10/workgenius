@@ -81,35 +81,6 @@ angular.module('workgenius.controllers', [])
   ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', '$filter',
   function($rootScope, $scope, $ionicModal, timePicker, setUserData, $filter) {
 
-    $scope.availQuestions = {
-      days: [{
-          name: 'monday', selected: false
-        }, {
-          name: 'tuesday', selected: false
-        }, {
-          name: 'wednesday', selected: false
-        }, {
-          name: 'thursday', selected: false
-        }, {
-          name: 'friday', selected: false
-        }, {
-          name: 'saturday', selected: false
-        }, {
-          name: 'sunday', selected: false
-        }],
-      timeSlots: [{
-          name: 'mornings', start: '6am', end: '10am', selected: false
-        }, {
-          name: 'lunch', start: '10am', end: '2pm', selected: false
-        }, {
-          name: 'afternoons', start: '2pm', end: '5pm', selected: false
-        }, {
-          name: 'evenings', start: '5pm', end: '9pm', selected: false
-        }, {
-          name: 'nights', start: '9pm', end: '2am', selected: false,
-        }],
-    };
-
     $scope.didSelectOption = function () {
       return $filter('filter')($scope.availQuestions.days, {selected:true}).length &&
              $filter('filter')($scope.availQuestions.timeSlots, {selected:true}).length;
@@ -173,26 +144,50 @@ angular.module('workgenius.controllers', [])
     var YES_NO = 2;
     var YES_MAYBE_NO = 3;
     
+    // Check for change in values to show save button
+    $scope.savedAvailability = angular.copy($rootScope.currentUser.availabilityGrid); 
+    $scope.gridChanged = false;
+
+    function gridsAreEqual (grid1, grid2) {
+      console.log('gridHasChanged');
+      for (var i = 0; i < $rootScope.days.length; i++) {
+        var day = $rootScope.days[i];
+        for (var j = 0; j < $rootScope.intervals.length; j++) {
+          if (grid1[day][j] != grid2[day][j])
+            return false;
+        }
+      }
+      return true;
+    }
     $scope.select = function(day, interval) {
-      // 3 options: Yes, Maybe, Blank
+      // 2 options: Yes, Blank
 
+      // Selected specific timeslot
       if (day && interval !== null && interval !== undefined) {
-
         $rootScope.currentUser.availabilityGrid[day][interval] = ($rootScope.currentUser.availabilityGrid[day][interval] + 1) % YES_NO;
 
+      // Select hour
       } else if (!day && interval !== null && interval !== undefined) {
-
         for (var i = 0; i < $rootScope.days.length; i++) {
-          day = $rootScope.days[i]
+          day = $rootScope.days[i];
           $rootScope.currentUser.availabilityGrid[day][interval] = ($rootScope.currentUser.availabilityGrid[day][interval] + 1) % YES_NO;
         }
-      } else if (day && (interval === null || interval === undefined)) {
 
+      // Select day
+      } else if (day && (interval === null || interval === undefined)) {
         for (var i = 0; i < $rootScope.intervals.length; i++) {
           $rootScope.currentUser.availabilityGrid[day][i] = ($rootScope.currentUser.availabilityGrid[day][i] + 1) % YES_NO;
         }
       }
+
+      $scope.gridChanged = !gridsAreEqual($scope.savedAvailability, $rootScope.currentUser.availabilityGrid);
+      // $scope.update();
+    };
+
+    $scope.save = function () {
       $scope.update();
+      $scope.savedAvailability = angular.copy($rootScope.currentUser.availabilityGrid); 
+      $scope.gridChanged = false;
     };
 
 }])
@@ -282,16 +277,22 @@ angular.module('workgenius.controllers', [])
     };
     $scope.decline = function (workType) {
       $scope.modal.hide();
-    }
+    };
     $scope.accept = function (workType) {
       $rootScope.currentUser.workTypes[workType.name] = true;
       $scope.update();
       $scope.modal.hide();
-    }
+    };
 }])
 
-.controller('TargetCtrl', ['$scope', 'setUserData', function($scope, setUserData) {
-  $scope.update = setUserData.target;
+.controller('TargetCtrl', ['$scope', '$rootScope', 'setUserData', function($scope, $rootScope, setUserData) {
+
+  $scope.savedHourlyTarget = $rootScope.currentUser.hourlyTarget;
+
+  $scope.update = function (target) {
+    setUserData.target(target);
+    $scope.savedHourlyTarget = $rootScope.currentUser.hourlyTarget;
+  };
 }])
 
 .controller('ShiftsCtrl', ['$scope', '$ionicModal', function($scope, $ionicModal) {

@@ -1,0 +1,20 @@
+.availability-tabs {
+    @include flexbox();
+    text-align: center;
+    padding: 0;
+    border-top: 0;
+
+    span {
+        @include flex-grow(1);
+        transition: all 0.2s;
+        background-color: $wg-light-gray;
+        color: $wg-gray-text;
+        vertical-align: center;
+        padding-top: 12px;
+
+        &.active {
+            color: white;
+            background-color: $positive;
+        }
+    }
+}

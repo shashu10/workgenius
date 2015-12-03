@@ -1,5 +1,11 @@
 <ion-view view-title="Weekly Target">
+
 	<ion-content>
 		<target-controls/>
 	</ion-content>
+
+	<ion-footer-bar class="bar-positive ng-hide-animate" ng-click="update(currentUser.hourlyTarget)" ng-hide="savedHourlyTarget == currentUser.hourlyTarget">
+	  <h1 class="title">Save</h1>
+	</ion-footer-bar>
+	
 </ion-view>

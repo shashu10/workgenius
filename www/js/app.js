@@ -75,6 +75,35 @@ angular.module('workgenius', [
       "doordash",
     ];
     
+    $rootScope.availQuestions = {
+      days: [{
+          name: 'monday', selected: false
+        }, {
+          name: 'tuesday', selected: false
+        }, {
+          name: 'wednesday', selected: false
+        }, {
+          name: 'thursday', selected: false
+        }, {
+          name: 'friday', selected: false
+        }, {
+          name: 'saturday', selected: false
+        }, {
+          name: 'sunday', selected: false
+        }],
+      timeSlots: [{
+          name: 'mornings', start: '6am', end: '10am', selected: false
+        }, {
+          name: 'lunch', start: '10am', end: '2pm', selected: false
+        }, {
+          name: 'afternoons', start: '2pm', end: '5pm', selected: false
+        }, {
+          name: 'evenings', start: '5pm', end: '9pm', selected: false
+        }, {
+          name: 'nights', start: '9pm', end: '2am', selected: false,
+        }],
+    };
+
     // Get user data and store it in the rootscope.
     getUserData();
   }])
@@ -174,6 +203,7 @@ angular.module('workgenius', [
     views: {
       'menuContent': {
         templateUrl: "templates/availability/availability-tabs.html",
+        controller: 'AvailabilityCtrl'
       }
     }
   })
@@ -183,7 +213,6 @@ angular.module('workgenius', [
     views: {
       'inception': {
         templateUrl: 'templates/availability/availability.html',
-        controller: 'AvailabilityCtrl'
       }
     }
   })
