@@ -4,8 +4,10 @@
         <div class="padding">
             <work-types/>
         </div>
-        <button ng-click="next()" class="button button-full button-positive">
-            Continue >>
-        </button>
+
     </ion-content>
+
+    <ion-footer-bar align-title="left" class="bar-positive" ng-click="next()" ng-hide="currentUser.workTypes | isEmpty">
+	  <h1 class="title">Continue >></h1>
+	</ion-footer-bar>
 </ion-view>
