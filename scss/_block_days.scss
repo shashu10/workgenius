@@ -14,4 +14,14 @@
 		border-top: 1px solid $wg-gray-border;
 		background-color: $wg-cream;
 	}
+	.item-divider {
+		text-align: center;
+		border-top: 1px solid #ddd;
+	}
+	.total-time-off {
+		margin-top: 10px;
+		h1, p {
+			color: $wg-gray-text;
+		}
+	}
 }

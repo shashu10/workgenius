@@ -54,6 +54,13 @@ angular.module('workgenius.directives', [])
     style.transform = '';
   };
   return function(scope, element, attr) {
+    var bounce;
+    // stops bounce when dragging left
+    element.on('drag', function(event) {
+      element.removeClass('bounce-left');
+      $interval.cancel(bounce);
+      bounce = undefined;
+    });
     element.on('click', function(event) {
       var open = isOpen(element);
       if (open) {
@@ -65,7 +72,7 @@ angular.module('workgenius.directives', [])
       if (element.hasClass('bounce-left')) return;
       event.preventDefault();
       element.addClass('bounce-left');
-      $interval(function() {
+      bounce = $interval(function() {
         element.removeClass('bounce-left');
       }, 1000, 1);
 
