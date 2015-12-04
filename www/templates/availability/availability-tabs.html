@@ -7,11 +7,11 @@
 			{{'Time Off' | uppercase}}
         </span>
     </div>
-    <ion-content class="has-subheader" ng-class="{'has-footer' : gridChanged}">
+    <ion-content class="has-subheader">
         <div ui-view name="inception"></div>
     </ion-content>
 
-    <div class="bar bar-footer bar-positive" ng-show="gridChanged" ng-click="save()">
+    <div class="bar bar-footer bar-positive" ng-show="changed" ng-click="save()">
       <h1 class="title">Save</h1>
     </div>
 </ion-view>

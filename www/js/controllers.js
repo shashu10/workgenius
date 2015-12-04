@@ -48,7 +48,9 @@ angular.module('workgenius.controllers', [])
   // End
 
 }])
-.controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
+.controller('BlockDaysCtrl',
+  ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData',
+  function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
   $scope.showMonth = true;
 
   setCurrentMoment(moment());
@@ -78,30 +80,12 @@ angular.module('workgenius.controllers', [])
   }
 }])
 .controller('AvailabilityCtrl',
-  ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData',
-  function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
-
-    $scope.update = function () {
-      setUserData.save('availability');
-    };
+  ['$rootScope', '$scope', '$ionicModal', '$timeout', 'timePicker', 'setUserData',
+  function($rootScope, $scope, $ionicModal, $timeout, timePicker, setUserData) {
 
     var YES_NO = 2;
     var YES_MAYBE_NO = 3;
     
-    // Check for change in values to show save button
-    $scope.savedAvailability = angular.copy($rootScope.currentUser.availability); 
-    $scope.gridChanged = false;
-
-    function gridsAreEqual (grid1, grid2) {
-      for (var i = 0; i < $rootScope.days.length; i++) {
-        var day = $rootScope.days[i];
-        for (var j = 0; j < $rootScope.intervals.length; j++) {
-          if (grid1[day][j] != grid2[day][j])
-            return false;
-        }
-      }
-      return true;
-    }
     $scope.select = function(day, interval) {
       // 2 options: Yes, Blank
 
@@ -123,29 +107,55 @@ angular.module('workgenius.controllers', [])
         }
       }
 
-      $scope.gridChanged = !gridsAreEqual($scope.savedAvailability, $rootScope.currentUser.availability);
-      // $scope.update();
+      $scope.onChange();
     };
+
+    var copy = angular.copy($rootScope.currentUser.availability);
+    $scope.changed = false;
 
     $scope.save = function () {
-      $scope.update();
-      $scope.savedAvailability = angular.copy($rootScope.currentUser.availability); 
-      $scope.gridChanged = false;
+
+      setUserData.save('availability', function success () {
+        // Will not work with when you Skip login
+        // copy = angular.copy($rootScope.currentUser.availability);
+        // $scope.onChange();
+      });
+      copy = angular.copy($rootScope.currentUser.availability);
+      $scope.onChange();
     };
 
+    $scope.onChange = function () {
+      if (angular.equals(copy, $rootScope.currentUser.availability)) {
+        $timeout(function() {
+          $scope.changed = false;
+        });
+      } else {
+        $timeout(function() {
+          $scope.changed = true;
+        });
+      }
+    };
 }])
-.controller('VehiclesCtrl', ['$scope', 'setUserData', function($scope, setUserData) {
-    $scope.update = function () {
-      setUserData.save('vehicles');
+.controller('VehiclesCtrl', ['$scope', '$rootScope', 'setUserData', function($scope, $rootScope, setUserData) {
+    var copy = angular.copy($rootScope.currentUser.vehicles);
+    $scope.changed = false;
+
+    $scope.save = function () {
+      setUserData.save('vehicles', function success () {
+        // Will not work with when you Skip login
+        // copy = angular.copy($rootScope.currentUser.vehicles);
+        // $scope.onChange();
+      });
+      copy = angular.copy($rootScope.currentUser.vehicles);
+      $scope.onChange();
     };
 
-    // - save data copy on load
-    // var vehicles = $rootScope.currentUser.vehicles;
-
-    // - on change, check data copy with data
-    //   - if changed, trigger
-
-    // - on save, save data copy again
+    $scope.onChange = function () {
+      if (angular.equals(copy, $rootScope.currentUser.vehicles))
+        $scope.changed = false;
+      else
+        $scope.changed = true;
+    };
 }])
 .controller('CompaniesCtrl', ['$rootScope', '$scope', 'setUserData', function($rootScope, $scope, setUserData) {
 

@@ -121,7 +121,9 @@ angular.module('workgenius.onboarding', [])
 
     $scope.workTypes = chunk(workTypes, 3);
 
-    $scope.update = setUserData.workTypes;
+    $scope.update = function () {
+      setUserData.save('vehicles');
+    };
     $scope.selectedWorkType = null;
 
     $ionicModal.fromTemplateUrl('templates/shared/work-types-modal.html', {
