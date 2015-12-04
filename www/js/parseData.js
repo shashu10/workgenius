@@ -1,32 +1,5 @@
 angular.module('parseData', [])
 
-.factory('debounce', ['$timeout', '$q', function($timeout, $q) {
-  return function(func, wait, immediate) {
-    var timeout;
-    var deferred = $q.defer();
-    return function() {
-      var context = this, args = arguments;
-      var later = function() {
-        timeout = null;
-        if(!immediate) {
-          deferred.resolve(func.apply(context, args));
-          deferred = $q.defer();
-        }
-      };
-      var callNow = immediate && !timeout;
-      if ( timeout ) {
-        $timeout.cancel(timeout);
-      }
-      timeout = $timeout(later, wait);
-      if (callNow) {
-        deferred.resolve(func.apply(context,args));
-        deferred = $q.defer();
-      }
-      return deferred.promise;
-    };
-  };
-}])
-
 .factory('timePicker', function () {
   return function (inputEpochTime) {
     return {
@@ -83,10 +56,20 @@ angular.module('parseData', [])
     return filtered;
   };
 
+  var formatTargetHours = function () {
+    return Number($rootScope.currentUser.target);
+  };
+
+  var formatAvailability = function () {
+    return $rootScope.currentUser.availability;
+  };
+
   return {
-    vehicles: formatVehicles,
-    companies: formatCompanies,
-    workTypes: formatWorkTypes,
+    target       : formatTargetHours,
+    vehicles     : formatVehicles,
+    companies    : formatCompanies,
+    workTypes    : formatWorkTypes,
+    availability : formatAvailability,
   };
 }])
 
@@ -94,102 +77,32 @@ angular.module('parseData', [])
   ['$rootScope', 'timePicker', 'formatUploadData',
   function ($rootScope, timePicker, formatUploadData) {
 
-  var setAvailabilityGrid = function (success, error) {
+  var save = function (data, success, failure) {
 
-      if (Parse.User.current()) {
-        $rootScope.currentUser.save({'availabilityGrid': $rootScope.currentUser.availabilityGrid}, {
-          success: function(obj) {
+    if (Parse.User.current()) {
+      $rootScope.currentUser.save(data, {
+        success: function(obj) {
+          if (success)
             success();
-          },
-          error: function(obj, error) {
-            error();
-            alert('Failed to create new object, with error code: ' + error.message);
-          }
-        });
-      }
-      var totalHours = 0;
-      for (var i = 0; i < $rootScope.days.length; i++) {
-        var day = $rootScope.days[i];
-        for (var j = 0; j < $rootScope.intervals.length; j++) {
-          if ($rootScope.currentUser.availabilityGrid[day][j]) {
-            totalHours += 1;
-          }
+
+          console.log('saved');
+        },
+        error: function(obj, error) {
+          if (failure)
+            failure();
+
+          console.log('Failed to create new object, with error code: ' + error.message);
         }
-      }
-      $rootScope.currentUser.totalHours = totalHours;
-
-    };
-
-  var setCompanies = function (success, error) {
-
-      if (Parse.User.current()) {
-        $rootScope.currentUser.save({'companies': formatUploadData.companies()}, {
-          success: function(obj) {
-            success();
-          },
-          error: function(obj, error) {
-            error();
-            alert('Failed to create new object, with error code: ' + error.message);
-          }
-        });
-      }
-
-    };
-
-  var setVehicles = function (success, error) {
-
-      if (Parse.User.current()) {
-        $rootScope.currentUser.save({'vehicles': formatUploadData.vehicles()}, {
-          success: function(obj) {
-            success();
-          },
-          error: function(obj, error) {
-            error();
-            alert('Failed to create new object, with error code: ' + error.message);
-          }
-        });
-      }
-
-    };
-
-  var setWorkTypes = function (success, error) {
-
-      if (Parse.User.current()) {
-        $rootScope.currentUser.save({'workTypes': formatUploadData.workTypes()}, {
-          success: function(obj) {
-            success();
-          },
-          error: function(obj, error) {
-            error();
-            alert('Failed to create new object, with error code: ' + error.message);
-          }
-        });
-      }
-
-    };
-
-  var setTarget = function (target, success, error) {
-
-      if (Parse.User.current()) {
-        $rootScope.currentUser.save({'target': Number(target)}, {
-          success: function(obj) {
-            success();
-          },
-          error: function(obj, error) {
-            error();
-            alert('Failed to create new object, with error code: ' + error.message);
-          }
-        });
-      }
-
-    };
+      });
+    }
+  };
 
   return {
-    vehicles: setVehicles,
-    companies: setCompanies,
-    workTypes: setWorkTypes,
-    target: setTarget,
-    availabilityGrid: setAvailabilityGrid
+    save : function (type, success, error) {
+      var data = {};
+      data[type] = formatUploadData[type]();
+      save(data, success, error);
+    }
   };
 }])
 
@@ -229,8 +142,8 @@ angular.module('parseData', [])
     ];
   };
   
-  var getAvailabilityGrid = function (user) {
-    var availability = user.get('availabilityGrid');
+  var getAvailability = function (user) {
+    var availability = user.get('availability');
     if (!availability) {
       return {availability: initAvailability(), totalHours: 0};
     } else {
@@ -249,28 +162,28 @@ angular.module('parseData', [])
 
   var initAvailability = function (avail) {
 
-    var availabilityGrid = {};
+    var availability = {};
     for (var i = 0; i < $rootScope.days.length; i++) {
       var day = $rootScope.days[i];
-      availabilityGrid[day] = [];
+      availability[day] = [];
       for (var j = 0; j < $rootScope.intervals.length; j++) {
-        availabilityGrid[day][j] = 0;
+        availability[day][j] = 0;
       }
     }
-    return availabilityGrid;
+    return availability;
   };
 
   var setDefaultPrefs = function (name, email) {
     angular.extend($rootScope.currentUser, {
       name             : name,
       email            : email,
-      hourlyTarget     : 40,
+      target           : 40,
       cancellations    : 0,
       vehicles         : getVehicles(),
       companies        : {},
       workTypes        : {},
       totalHours       : 0,
-      availabilityGrid : initAvailability()
+      availability     : initAvailability()
     });
   };
   
@@ -291,17 +204,17 @@ angular.module('parseData', [])
     } else {
       Parse.User.current().fetch().then(function (user) {
 
-        var scheduleGrid = getAvailabilityGrid(user);
+        var scheduleGrid = getAvailability(user);
         angular.extend($rootScope.currentUser, {
           name             : user.get('name'),
           email            : user.get('email'),
-          hourlyTarget     : user.get('target'),
+          target           : user.get('target'),
           cancellations    : user.get('cancellations'),
           vehicles         : getVehicles(user),
           companies        : getCompanies(user),
           workTypes        : getWorkTypes(user),
           totalHours       : scheduleGrid.totalHours,
-          availabilityGrid : scheduleGrid.availability
+          availability     : scheduleGrid.availability
         });
       });
     }

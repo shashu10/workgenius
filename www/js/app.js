@@ -302,7 +302,7 @@ angular.module('workgenius', [
       views: {
           'content': {
               templateUrl: 'templates/onboarding/availability-questions.html',
-              controller: 'AvailabilityCtrl'
+              controller: 'AvailabilityQuestionsCtrl'
           }
       }
   })

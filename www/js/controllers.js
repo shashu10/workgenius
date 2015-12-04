@@ -78,78 +78,21 @@ angular.module('workgenius.controllers', [])
   }
 }])
 .controller('AvailabilityCtrl',
-  ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData', '$filter',
-  function($rootScope, $scope, $ionicModal, timePicker, setUserData, $filter) {
+  ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData',
+  function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
 
-    $scope.didSelectOption = function () {
-      return $filter('filter')($scope.availQuestions.days, {selected:true}).length &&
-             $filter('filter')($scope.availQuestions.timeSlots, {selected:true}).length;
+    $scope.update = function () {
+      setUserData.save('availability');
     };
 
-    $scope.setAvailWithQuestions = function () {
-      var availabilityGrid = {};
-
-      // For each day
-      for (var i = 0; i < $rootScope.days.length; i++) {
-        var day = $rootScope.days[i];
-        availabilityGrid[day] = [];
-
-        // For each interval in that day
-        for (var j = 0; j < $rootScope.intervals.length; j++) {
-          availabilityGrid[day][j] = 0;
-
-          if ($scope.availQuestions.days[i].selected) {
-            for (var k = 0; k < $scope.availQuestions.timeSlots.length; k++) {
-              if ( $scope.availQuestions.timeSlots[k].selected) {
-                if (inIntervalInTimeslot($rootScope.intervals[j], $scope.availQuestions.timeSlots[k])) {
-                  availabilityGrid[day][j] = 1;
-                  break;
-                }
-              }
-            }
-          } else {
-            availabilityGrid[day][j] = 0;
-          }
-        }
-      }
-      $rootScope.currentUser.availabilityGrid = availabilityGrid;
-    };
-
-    function inIntervalInTimeslot (interval, timeSlot) {
-      var intMoment   = moment(interval, "ha");
-      var firstDayMoment = moment($rootScope.intervals[0], "ha");
-
-      // consider late night as next day for comparison
-      if (intMoment.isBefore(firstDayMoment)) {
-        intMoment.add(1, 'day');
-      }
-      intMoment.add(1, 'minute'); // Easier for .between() comparison
-
-      var startMoment = moment(timeSlot.start, "ha");
-      var endMoment   = moment(timeSlot.end,   "ha");
-      var firstTimeSlotMoment = moment($scope.availQuestions.timeSlots[0].start, "ha");
-
-      // Late night as next day
-      if (endMoment.isBefore(firstTimeSlotMoment)) {
-        endMoment.add(1, 'day');
-      }
-
-      if (intMoment.isBetween(startMoment, endMoment)) {
-        return true;
-      }
-      return false;
-    }
-
-    $scope.update = setUserData.availabilityGrid;
     var YES_NO = 2;
     var YES_MAYBE_NO = 3;
     
     // Check for change in values to show save button
-    $scope.savedAvailability = angular.copy($rootScope.currentUser.availabilityGrid); 
+    $scope.savedAvailability = angular.copy($rootScope.currentUser.availability); 
     $scope.gridChanged = false;
 
     function gridsAreEqual (grid1, grid2) {
-      console.log('gridHasChanged');
       for (var i = 0; i < $rootScope.days.length; i++) {
         var day = $rootScope.days[i];
         for (var j = 0; j < $rootScope.intervals.length; j++) {
@@ -164,35 +107,45 @@ angular.module('workgenius.controllers', [])
 
       // Selected specific timeslot
       if (day && interval !== null && interval !== undefined) {
-        $rootScope.currentUser.availabilityGrid[day][interval] = ($rootScope.currentUser.availabilityGrid[day][interval] + 1) % YES_NO;
+        $rootScope.currentUser.availability[day][interval] = ($rootScope.currentUser.availability[day][interval] + 1) % YES_NO;
 
       // Select hour
       } else if (!day && interval !== null && interval !== undefined) {
         for (var i = 0; i < $rootScope.days.length; i++) {
           day = $rootScope.days[i];
-          $rootScope.currentUser.availabilityGrid[day][interval] = ($rootScope.currentUser.availabilityGrid[day][interval] + 1) % YES_NO;
+          $rootScope.currentUser.availability[day][interval] = ($rootScope.currentUser.availability[day][interval] + 1) % YES_NO;
         }
 
       // Select day
       } else if (day && (interval === null || interval === undefined)) {
         for (var i = 0; i < $rootScope.intervals.length; i++) {
-          $rootScope.currentUser.availabilityGrid[day][i] = ($rootScope.currentUser.availabilityGrid[day][i] + 1) % YES_NO;
+          $rootScope.currentUser.availability[day][i] = ($rootScope.currentUser.availability[day][i] + 1) % YES_NO;
         }
       }
 
-      $scope.gridChanged = !gridsAreEqual($scope.savedAvailability, $rootScope.currentUser.availabilityGrid);
+      $scope.gridChanged = !gridsAreEqual($scope.savedAvailability, $rootScope.currentUser.availability);
       // $scope.update();
     };
 
     $scope.save = function () {
       $scope.update();
-      $scope.savedAvailability = angular.copy($rootScope.currentUser.availabilityGrid); 
+      $scope.savedAvailability = angular.copy($rootScope.currentUser.availability); 
       $scope.gridChanged = false;
     };
 
 }])
-.controller('VehiclesCtrl', ['$scope', 'setUserData', function( $scope, setUserData) {
-    $scope.update = setUserData.vehicles;
+.controller('VehiclesCtrl', ['$scope', 'setUserData', function($scope, setUserData) {
+    $scope.update = function () {
+      setUserData.save('vehicles');
+    };
+
+    // - save data copy on load
+    // var vehicles = $rootScope.currentUser.vehicles;
+
+    // - on change, check data copy with data
+    //   - if changed, trigger
+
+    // - on save, save data copy again
 }])
 .controller('CompaniesCtrl', ['$rootScope', '$scope', 'setUserData', function($rootScope, $scope, setUserData) {
 
@@ -238,60 +191,19 @@ angular.module('workgenius.controllers', [])
     };
     $scope.chunkedCompanies = chunk($rootScope.companyList, 3);
 
-    $scope.update = setUserData.companies;
+    $scope.update = function () {
+      setUserData.save('companies');
+    };
     $scope.hideFooter();
-}])
-.controller('WorkTypesCtrl',
-  ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'filterFilter', 'workTypes',
-  function($rootScope, $scope, $ionicModal, setUserData, filterFilter, workTypes) {
-
-    var chunk = function (arr, size) {
-      var newArr = [];
-      for (var i=0; i<arr.length; i+=size) {
-        newArr.push(arr.slice(i, i+size));
-      }
-      return newArr;
-    };
-
-    $scope.workTypes = chunk(workTypes, 3);
-
-    $scope.update = setUserData.workTypes;
-    $scope.selectedWorkType = null;
-
-    $ionicModal.fromTemplateUrl('templates/shared/work-types-modal.html', {
-      scope: $scope
-    }).then(function(modal) {
-      $scope.modal = modal;
-    });
-
-    $scope.select = function(wType) {
-      // Unselect type if it's already selected
-      if ($rootScope.currentUser.workTypes[wType.name]) {
-        delete $rootScope.currentUser.workTypes[wType.name];
-
-      // Open detailed modal when unselected option is clicked
-      } else {
-        $scope.selectedWorkType = wType;
-        $scope.modal.show();
-      }
-    };
-    $scope.decline = function (workType) {
-      $scope.modal.hide();
-    };
-    $scope.accept = function (workType) {
-      $rootScope.currentUser.workTypes[workType.name] = true;
-      $scope.update();
-      $scope.modal.hide();
-    };
 }])
 
 .controller('TargetCtrl', ['$scope', '$rootScope', 'setUserData', function($scope, $rootScope, setUserData) {
 
-  $scope.savedHourlyTarget = $rootScope.currentUser.hourlyTarget;
+  $scope.savedTarget = $rootScope.currentUser.target;
 
   $scope.update = function (target) {
-    setUserData.target(target);
-    $scope.savedHourlyTarget = $rootScope.currentUser.hourlyTarget;
+    setUserData.save('target');
+    $scope.savedTarget = $rootScope.currentUser.target;
   };
 }])
 
