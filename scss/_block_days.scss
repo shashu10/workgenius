@@ -24,4 +24,21 @@
 			color: $wg-gray-text;
 		}
 	}
+
+	.flex-calendar {
+	    i.left-icon,
+	    i.right-icon {
+	      color: $positive;
+	    }
+	    .days .day {
+	        border: 2px solid white;
+            border-radius: 50%;
+            transition: all 0.1s;
+	        &.blocked {
+	            border-radius: 4px; // inner radius is -2px of current value
+	            background-color: #F86969;
+	            color: white;
+	        }
+	    }
+	}
 }

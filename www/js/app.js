@@ -61,6 +61,7 @@ angular.module('workgenius', [
     $rootScope.cancellations = 0;
     $rootScope.intervals = ['6a','7a','8a','9a','10a','11a','12p','1p','2p','3p','4p','5p','6p','7p','8p','9p','10p','11p','12a','1a'];
     $rootScope.days = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+    $rootScope.months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
     $rootScope.phoneVal = "4159365883";
 
     $rootScope.companyList = [
@@ -104,6 +105,49 @@ angular.module('workgenius', [
         }],
     };
 
+    // Flex cal error displays one day behind
+    $rootScope.shifts = [
+      {
+        company: 'Luxe', date: "2015-12-5",
+        startsAt: new Date("December 5, 2015 8:00:00"),
+        endsAt: new Date("December 5, 2015 11:30:00"),
+      },
+      {
+        company: 'Instacart', date: "2015-12-13",
+        startsAt: new Date("December 12, 2015 07:00:00"),
+        endsAt: new Date("December 12, 2015 10:00:00"),
+      },
+      {
+        company: 'Caviar', date: "2015-12-13",
+        startsAt: new Date("December 12, 2015 11:00:00"),
+        endsAt: new Date("December 12, 2015 14:00:00"),
+      },
+      {
+        company: 'Luxe', date: "2015-12-15",
+        startsAt: new Date("December 14, 2015 12:00:00"),
+        endsAt: new Date("December 14, 2015 15:30:00"),
+      },
+      {
+        company: 'Caviar', date: "2015-12-16",
+        startsAt: new Date("December 15, 2015 8:00:00"),
+        endsAt: new Date("December 15, 2015 11:00:00"),
+      },
+      {
+        company: 'Instacart', date: "2015-12-17",
+        startsAt: new Date("December 16, 2015 07:00:00"),
+        endsAt: new Date("December 16, 2015 10:00:00"),
+      },
+      {
+        company: 'Luxe', date: "2015-12-17",
+        startsAt: new Date("December 16, 2015 11:00:00"),
+        endsAt: new Date("December 16, 2015 14:00:00"),
+      },
+      {
+        company: 'Caviar', date: "2015-12-19",
+        startsAt: new Date("December 18, 2015 12:00:00"),
+        endsAt: new Date("December 18, 2015 16:00:00"),
+      },
+    ];
     // Get user data and store it in the rootscope.
     getUserData();
   }])
@@ -203,7 +247,6 @@ angular.module('workgenius', [
     views: {
       'menuContent': {
         templateUrl: "templates/availability/availability-tabs.html",
-        controller: 'AvailabilityCtrl'
       }
     }
   })
@@ -211,15 +254,16 @@ angular.module('workgenius', [
   .state('app.availability-tabs.availability', {
     url: '/availability',
     views: {
-      'inception': {
+      'content': {
         templateUrl: 'templates/availability/availability.html',
+        controller: 'AvailabilityCtrl'
       }
     }
   })
   .state('app.availability-tabs.block-days', {
     url: '/block-days',
     views: {
-      'inception': {
+      'content': {
         templateUrl: 'templates/availability/block-days.html',
         controller: 'BlockDaysCtrl'
       }

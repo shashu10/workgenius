@@ -1,6 +1,8 @@
 angular.module('workgenius.controllers', [])
 
-.controller('MenuCtrl', ['$scope', '$state', '$ionicHistory', '$ionicModal', 'getUserData', '$rootScope', function( $scope, $state, $ionicHistory, $ionicModal, getUserData, $rootScope) {
+.controller('MenuCtrl',
+  ['$scope', '$state', '$ionicHistory', '$ionicModal', 'getUserData',
+  function( $scope, $state, $ionicHistory, $ionicModal, getUserData) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -49,18 +51,22 @@ angular.module('workgenius.controllers', [])
 
 }])
 .controller('BlockDaysCtrl',
-  ['$rootScope', '$scope', '$ionicModal', 'timePicker', 'setUserData',
-  function($rootScope, $scope, $ionicModal, timePicker, setUserData) {
+  ['$rootScope', '$scope',
+  function($rootScope, $scope) {
   $scope.showMonth = true;
 
   setCurrentMoment(moment());
   
+  $rootScope.currentUser.blockedDays = [];
+  $scope.blockedCount = 0;
+
   $scope.options = {
 
     showHeader: true,
-    minDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+    minDate: moment().format('YYYY-MM-DD'),
     maxDate: moment().add(3, 'months').format('YYYY-MM-DD'),
     disabledDates: [],
+    blockedDays: $scope.currentUser.blockedDays,
     disableClickedDates: true,
 
     eventClick: function(event) {
@@ -69,19 +75,41 @@ angular.module('workgenius.controllers', [])
     dateClick: function(event) {
       setCurrentMoment(moment(event.date));
     },
-    changeMonth: function(month, year) {
+    blockClick: function (event, blockedDays) {
+      $rootScope.currentUser.blockedDays = blockedDays;
+      $scope.blockedCount = getBlockedInNext30Days();
+      $scope.onChange();
+    },
+    changeMonth: function(month, year, blockedDays) {
       $scope.selectedYear = year;
       $scope.selectedMonth = month.name;
+      $rootScope.currentUser.blockedDays = blockedDays;
+      $scope.blockedCount = getBlockedInNext30Days();
     },
   };
   function setCurrentMoment (moment) {
     $scope.selectedYear = moment.format('YYYY');
     $scope.selectedMonth = moment.format('MMMM');
   }
+  function getBlockedInNext30Days () {
+    var thirtyDays = moment().add(30, 'days');
+
+    for (var i = 0; i < $rootScope.currentUser.blockedDays.length; i++) {
+
+      var day = $rootScope.currentUser.blockedDays[i];
+      var mom = moment(day.day + "-" + day.month + "-" + day.year, 'D-M-YYYY');
+
+      if (mom.isAfter(thirtyDays)) {
+        // index is number of elements before first mom
+        return i;
+      }
+    }
+    return $rootScope.currentUser.blockedDays.length;
+  }
 }])
 .controller('AvailabilityCtrl',
-  ['$rootScope', '$scope', '$ionicModal', '$timeout', 'timePicker', 'setUserData',
-  function($rootScope, $scope, $ionicModal, $timeout, timePicker, setUserData) {
+  ['$rootScope', '$scope',
+  function($rootScope, $scope) {
 
     var YES_NO = 2;
     var YES_MAYBE_NO = 3;
@@ -107,57 +135,12 @@ angular.module('workgenius.controllers', [])
         }
       }
 
-      $scope.onChange();
-    };
-
-    var copy = angular.copy($rootScope.currentUser.availability);
-    $scope.changed = false;
-
-    $scope.save = function () {
-
-      setUserData.save('availability', function success () {
-        // Will not work with when you Skip login
-        // copy = angular.copy($rootScope.currentUser.availability);
-        // $scope.onChange();
-      });
-      copy = angular.copy($rootScope.currentUser.availability);
-      $scope.onChange();
-    };
-
-    $scope.onChange = function () {
-      if (angular.equals(copy, $rootScope.currentUser.availability)) {
-        $timeout(function() {
-          $scope.changed = false;
-        });
-      } else {
-        $timeout(function() {
-          $scope.changed = true;
-        });
-      }
+      if ($scope.onChange) $scope.onChange();
     };
 }])
-.controller('VehiclesCtrl', ['$scope', '$rootScope', 'setUserData', function($scope, $rootScope, setUserData) {
-    var copy = angular.copy($rootScope.currentUser.vehicles);
-    $scope.changed = false;
-
-    $scope.save = function () {
-      setUserData.save('vehicles', function success () {
-        // Will not work with when you Skip login
-        // copy = angular.copy($rootScope.currentUser.vehicles);
-        // $scope.onChange();
-      });
-      copy = angular.copy($rootScope.currentUser.vehicles);
-      $scope.onChange();
-    };
-
-    $scope.onChange = function () {
-      if (angular.equals(copy, $rootScope.currentUser.vehicles))
-        $scope.changed = false;
-      else
-        $scope.changed = true;
-    };
+.controller('VehiclesCtrl', ['$scope', function($scope) {
 }])
-.controller('CompaniesCtrl', ['$rootScope', '$scope', 'setUserData', function($rootScope, $scope, setUserData) {
+.controller('CompaniesCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
 
     // Gropus array into smaller arrays of certain size
     var chunk = function (arr, size) {
@@ -170,22 +153,13 @@ angular.module('workgenius.controllers', [])
     $scope.select = function(name) {
       if ($rootScope.currentUser.companies[name]) {
         delete $rootScope.currentUser.companies[name];
-        $scope.hideFooter();
+        // $scope.hideFooter();
       } else {
         $rootScope.currentUser.companies[name] = true;
-        $scope.showFooter(name);
+        // $scope.showFooter(name);
       }
 
       $scope.update();
-    };
-    $scope.hideFooter = function () {
-      if ($scope.selectedCompany)
-        $scope.selectedCompany.selected = false;
-    };
-    $scope.showFooter = function (name) {
-      $scope.selectedCompany = {selected:true, name: name, description: companyDescription[name]};
-      var footer = document.getElementsByClassName("wg-company-footer");
-      angular.element(footer).removeAttr('style');
     };
 
     var companyDescription = {
@@ -202,19 +176,11 @@ angular.module('workgenius.controllers', [])
     $scope.chunkedCompanies = chunk($rootScope.companyList, 3);
 
     $scope.update = function () {
-      setUserData.save('companies');
+      // setUserData.save('companies');
     };
-    $scope.hideFooter();
 }])
 
-.controller('TargetCtrl', ['$scope', '$rootScope', 'setUserData', function($scope, $rootScope, setUserData) {
-
-  $scope.savedTarget = $rootScope.currentUser.target;
-
-  $scope.update = function (target) {
-    setUserData.save('target');
-    $scope.savedTarget = $rootScope.currentUser.target;
-  };
+.controller('TargetCtrl', ['$scope', function($scope) {
 }])
 
 .controller('ShiftsCtrl', ['$scope', '$ionicModal', function($scope, $ionicModal) {
@@ -266,9 +232,11 @@ angular.module('workgenius.controllers', [])
   };
 
 }])
-.controller('EarningsController', [ '$scope', '$ionicHistory', '$state', function($scope, $ionicHistory, $state) {
+.controller('EarningsController', [ '$scope', function($scope) {
 }])
-.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup) {
+.controller('ScheduleCtrl',
+  ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup',
+  function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup) {
 
   $scope.adjustCalendarHeight = function (argument) {
     
@@ -306,7 +274,7 @@ angular.module('workgenius.controllers', [])
       $scope.selectedMonth = month.name;
       $scope.selectedYear = year;
 
-      if (moment(event.date).format('MM') === month.index) {
+      if (moment(event.date).format('M') === month.index) {
         $scope.scrollTo({date: new Date()});
       } else {
         $scope.scrollTo({date:new Date(year + "/" + month.index + "/" + 1)});
@@ -332,49 +300,6 @@ angular.module('workgenius.controllers', [])
     $scope.gotoAnchor('empty-shift-list');
   };
 
-  // Flex cal error displays one day behind
-  $scope.shifts = [
-    {
-      company: 'Luxe', date: "2015-12-5",
-      startsAt: new Date("December 5, 2015 8:00:00"),
-      endsAt: new Date("December 5, 2015 11:30:00"),
-    },
-    {
-      company: 'Instacart', date: "2015-12-13",
-      startsAt: new Date("December 12, 2015 07:00:00"),
-      endsAt: new Date("December 12, 2015 10:00:00"),
-    },
-    {
-      company: 'Caviar', date: "2015-12-13",
-      startsAt: new Date("December 12, 2015 11:00:00"),
-      endsAt: new Date("December 12, 2015 14:00:00"),
-    },
-    {
-      company: 'Luxe', date: "2015-12-15",
-      startsAt: new Date("December 14, 2015 12:00:00"),
-      endsAt: new Date("December 14, 2015 15:30:00"),
-    },
-    {
-      company: 'Caviar', date: "2015-12-16",
-      startsAt: new Date("December 15, 2015 8:00:00"),
-      endsAt: new Date("December 15, 2015 11:00:00"),
-    },
-    {
-      company: 'Instacart', date: "2015-12-17",
-      startsAt: new Date("December 16, 2015 07:00:00"),
-      endsAt: new Date("December 16, 2015 10:00:00"),
-    },
-    {
-      company: 'Luxe', date: "2015-12-17",
-      startsAt: new Date("December 16, 2015 11:00:00"),
-      endsAt: new Date("December 16, 2015 14:00:00"),
-    },
-    {
-      company: 'Caviar', date: "2015-12-19",
-      startsAt: new Date("December 18, 2015 12:00:00"),
-      endsAt: new Date("December 18, 2015 16:00:00"),
-    },
-  ];
   $scope.cancelWarning = function (shift, group, shifts) {
     $scope.shiftToCancel = shift;
     $scope.cancelPopup = $ionicPopup.show({
@@ -457,6 +382,8 @@ angular.module('workgenius.controllers', [])
     return moment(date).format('dddd Do');
   };
 }]);
+
+// - END -
 
 function groupBy( array , f )
 {

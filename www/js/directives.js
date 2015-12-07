@@ -40,6 +40,54 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/wg-pager.html'
   };
 })
+.directive('wgSaveBar', function() {
+  return {
+    templateUrl: 'templates/shared/wg-save-bar.html',
+    scope: {
+        wgOnChange: '=',
+        wgProp: '='
+    },
+    controller: ['$scope', '$rootScope', '$timeout', 'setUserData',
+    function($scope, $rootScope, $timeout, setUserData) {
+
+      var copy = angular.copy($rootScope.currentUser[$scope.wgProp]);
+      $scope.changed = false;
+      $scope.state = 'Save';
+
+      $scope.save = function () {
+        // Too fast.
+        // $scope.state = 'Saving...';
+
+        setUserData.save($scope.wgProp, function success () {
+          $scope.state = 'Saved!';
+          copy = angular.copy($rootScope.currentUser[$scope.wgProp]);
+          $scope.wgOnChange();
+        });
+      };
+
+      $scope.wgOnChange = function () {
+        if (angular.equals(copy, $rootScope.currentUser[$scope.wgProp])) {
+          $timeout(function() {
+            $scope.changed = false;
+          });
+        } else {
+          $timeout(function() {
+            $scope.state = 'Save';
+            $scope.changed = true;
+          });
+        }
+      };
+      $scope.$on('$stateChangeSuccess', function(event, current) {
+        console.log(current);
+        $rootScope.currentUser[$scope.wgProp] = copy;
+      });
+      $scope.$on('$destroy', function() {
+        $rootScope.currentUser[$scope.wgProp] = copy;
+        console.log('destroy:' + $scope.wgProp);
+      });
+    }]
+  };
+})
 .directive('bounceLeft', ['$document', '$interval', function($document, $interval) {
   var isOpen = function (element) {
     var children = element.children();

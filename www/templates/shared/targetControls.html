@@ -4,7 +4,7 @@
 	<div class="item range">
 		0
 		<!-- ng-change="update(currentUser.target)" -->
-		<input type="range" ng-model="currentUser.target" name="hours" min="0" max="80">
+		<input type="range" ng-change="onChange()" ng-model="currentUser.target" name="hours" min="0" max="80">
 		80
 	</div>
 	<p class="small-light">Earnings estimate</p>

@@ -7,5 +7,12 @@
 		</div>
 		<flex-calendar options="options" events="shifts"></flex-calendar>
 
+		<div class="item item-divider">Total Time Off</div>
+		<div class="center-text total-time-off">
+			<h1>{{blockedCount}}</h1>
+			<p>{{blockedCount == 1 ? 'day': 'days'}} in the next 30 days</p>
+		</div>
 	</div>
 </ion-content>
+
+<wg-save-bar wg-on-change="onChange" wg-prop='"blockedDays"'></wg-save-bar>

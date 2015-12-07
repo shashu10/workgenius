@@ -3,9 +3,7 @@
 	<ion-content>
 		<target-controls/>
 	</ion-content>
-
-	<ion-footer-bar class="bar-positive ng-hide-animate" ng-click="update(currentUser.target)" ng-hide="savedTarget == currentUser.target">
-	  <h1 class="title">Save</h1>
-	</ion-footer-bar>
 	
+	<wg-save-bar wg-on-change="onChange" wg-prop='"target"'> </wg-save-bar>
+
 </ion-view>

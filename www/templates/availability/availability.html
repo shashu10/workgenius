@@ -1,6 +1,5 @@
 <ion-content class="has-subheader">
     <grid-days></grid-days>
 </ion-content>
-<div class="bar bar-footer bar-positive" ng-show="changed" ng-click="save()">
-  <h1 class="title">Save</h1>
-</div>
+
+<wg-save-bar wg-on-change="onChange" wg-prop='"availability"'></wg-save-bar>

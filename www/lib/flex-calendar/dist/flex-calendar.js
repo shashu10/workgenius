@@ -53,7 +53,7 @@
             '<div class="days" ng-repeat="week in curr.weeks">'+
               '<div class="day"'+
                 'ng-repeat="day in week track by $index"'+
-                'ng-class="{selected: isDefaultDate(day), event: day.event[0], disabled: day.disabled, out: !day}"'+
+                'ng-class="{selected: isDefaultDate(day), event: day.event[0], disabled: day.disabled, blocked: day.blocked, out: !day}"'+
                 'ng-click="onClick(day, $index, $event)"'+
               '>'+
                 '<div class="number">{{day.day}}</div>'+
@@ -95,7 +95,7 @@
       $scope.options.mondayIsFirstDay = $scope.options.mondayIsFirstDay || false;
 
       if ($scope.options.disableClickedDates) {
-        $scope.onClick = onClickDisable;
+        $scope.onClick = onClickBlock;
       } else {
         $scope.onClick = onClick;
       }
@@ -198,8 +198,8 @@
       $scope.$watch('weeks', function(weeks) {
         var filteredEvents = [];
         angular.forEach(weeks, function(week) {
-          angular.forEach(week, function (day){
-            if(day && day.event){
+          angular.forEach(week, function (day) {
+            if(day && day.event) {
               angular.forEach(day.event, function(event) {
                 filteredEvents.push(event);
               });
@@ -224,13 +224,15 @@
         $scope.selectedYear = curr.year;
         $scope.selectedMonth = MONTHS[curr.month];
         var month = {name: $scope.selectedMonth, index: curr.month + 1, _index: curr.month+2 };
-        $scope.options.changeMonth(month, $scope.selectedYear);
 
-        if ($index === 0)
-          $scope.options.defaultDate = new Date();
+        var blockedDays = getBlockedDays();
+        $scope.options.changeMonth(month, $scope.selectedYear, blockedDays);
 
-        else
-          $scope.options.defaultDate = new Date($scope.selectedYear + "/" + (curr.month + 1) + "/1");
+        // if ($index === 0)
+        //   $scope.options.defaultDate = new Date();
+
+        // else
+        //   $scope.options.defaultDate = new Date($scope.selectedYear + "/" + (curr.month + 1) + "/1");
       };
       $scope.weekHasChanged = function ($index) {
 
@@ -251,23 +253,40 @@
 
       /////////////////
 
-      function onClick(date, index, domEvent) {
-        if (!date || date.disabled) { return; }
-        $scope.options.defaultDate = date.date;
-        if (date.event.length) {
-          $scope.options.eventClick(date, domEvent);
-        }
-        else
-        {
-          $scope.options.dateClick(date, domEvent);
+      function onClickBlock(date, index, domEvent) {
+        if (date && !date.disabled && isAfterToday(date.date)) {
+          if (date.event.length) {
+            return;
+          }
+          date.blocked = !date.blocked;
+          var blockedDays = getBlockedDays();
+
+          $scope.options.blockClick(date, blockedDays, domEvent);
         }
       }
 
-      function onClickDisable(date, index, domEvent) {
-        if (date && afterToday(date.date)) {
-          date.disabled = !date.disabled;
-          clickHandler(date, domEvent);
+      function getBlockedDays () {
+        var blockedDays = [];
+        for (var i = 0; i < $scope.months.length; i++) {
+          var month = $scope.months[i];
+
+          for (var j = 0; j < month.weeks.length; j++) {
+            var week = month.weeks[j];
+
+            for (var k = 0; k < week.length; k++) {
+              var day = week[k];
+
+              if (day && day.blocked) {
+                blockedDays.push({
+                  day: day.day,
+                  month: Number(day.month) + 1,
+                  year: day.year,
+                });
+              }
+            }
+          }
         }
+        return blockedDays;
       }
 
       function onClick(date, index, domEvent) {
@@ -277,11 +296,11 @@
       }
 
       function clickHandler (date, domEvent) {
+
         if (date.event && date.event.length) {
           $scope.options.eventClick(date, domEvent);
-        }
-        else
-        {
+
+        } else {
           $scope.options.dateClick(date, domEvent);
         }
       }
@@ -303,7 +322,7 @@
         }
         return false;
       }
-      function afterToday (date) {
+      function isAfterToday (date) {
         var current = new Date(date).setHours(0, 0, 0, 0);
         var today = new Date().setHours(0, 0, 0, 0);
 
@@ -329,6 +348,15 @@
             return true;
           }
         }
+      }
+
+      function blockedDate(date) {
+        if (!$scope.blockedDates) return false;
+        // for(var i = 0; i < $scope.blockedDates.length; i++){
+        //   if(date.year === $scope.blockedDates[i].getFullYear() && date.month === $scope.blockedDates[i].getMonth() && date.day === $scope.blockedDates[i].getDate()){
+            return true;
+        //   }
+        // }
       }
 
       function allowedPrevMonth(currMonth, currYear) {
@@ -425,6 +453,10 @@
           if (week[dayNumber] && disabledDate(week[dayNumber])) {
             week[dayNumber].disabled = true;
           }
+
+          if (week[dayNumber] && blockedDate(week[dayNumber])) {
+            week[dayNumber].blocked = true;
+          }          
 
           if (dayNumber === 6 || day === daysInCurrentMonth) {
             currWeeks.push(week);

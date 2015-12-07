@@ -64,12 +64,17 @@ angular.module('parseData', [])
     return $rootScope.currentUser.availability;
   };
 
+  var formatBlockedDays = function () {
+    return $rootScope.currentUser.availability;
+  };
+
   return {
     target       : formatTargetHours,
     vehicles     : formatVehicles,
     companies    : formatCompanies,
     workTypes    : formatWorkTypes,
     availability : formatAvailability,
+    blockedDays  : formatBlockedDays,
   };
 }])
 
@@ -77,31 +82,34 @@ angular.module('parseData', [])
   ['$rootScope', 'timePicker', 'formatUploadData',
   function ($rootScope, timePicker, formatUploadData) {
 
-  var save = function (data, success, failure) {
-
-    if (Parse.User.current()) {
-      $rootScope.currentUser.save(data, {
-        success: function(obj) {
-          if (success)
-            success();
-
-          console.log('saved');
-        },
-        error: function(obj, error) {
-          if (failure)
-            failure();
-
-          console.log('Failed to create new object, with error code: ' + error.message);
-        }
-      });
-    }
-  };
-
   return {
-    save : function (type, success, error) {
+    save : function (type, success, failure) {
       var data = {};
       data[type] = formatUploadData[type]();
-      save(data, success, error);
+
+      if (Parse.User.current()) {
+        $rootScope.currentUser.save(data, {
+          success: function(obj) {
+            if (success)
+              success();
+
+            console.log('saved');
+          },
+          error: function(obj, error) {
+            if (failure)
+              failure();
+
+            console.log('Failed to create new object, with error code: ' + error.message);
+          }
+        });
+
+
+      // Demo
+      } else {
+        console.log('User not logged in.');
+        if (success)
+          success();
+      }
     }
   };
 }])
@@ -142,6 +150,14 @@ angular.module('parseData', [])
     ];
   };
   
+  var getBlockedDays = function (user) {
+    // var companies = {};
+    // for (var day in user.get('blockedDays')) {
+    //   companies[user.get('companies')[company]] = true;
+    // }
+    return user.get('blockedDays') || [];
+  };
+
   var getAvailability = function (user) {
     var availability = user.get('availability');
     if (!availability) {
@@ -182,8 +198,9 @@ angular.module('parseData', [])
       vehicles         : getVehicles(),
       companies        : {},
       workTypes        : {},
+      blockedDays      : [],
       totalHours       : 0,
-      availability     : initAvailability()
+      availability     : initAvailability(),
     });
   };
   
@@ -213,8 +230,9 @@ angular.module('parseData', [])
           vehicles         : getVehicles(user),
           companies        : getCompanies(user),
           workTypes        : getWorkTypes(user),
+          blockedDays      : getBlockedDays(user),
           totalHours       : scheduleGrid.totalHours,
-          availability     : scheduleGrid.availability
+          availability     : scheduleGrid.availability,
         });
       });
     }
