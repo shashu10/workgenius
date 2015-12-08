@@ -1,16 +1,16 @@
 // Expand message box to fit screenand keep everything else in view
 .contact-us-content {
     .scroll {
-        @include flexbox();
+        display: flex;
         flex-direction: column;
         height: 100%;
         
         > * {
-            @include flex-shrink(0);
+            flex-shrink: 0;
         }
     }
     .contact-message {
-        @include flex-grow(1);
+        flex-grow: 1;
         margin: 10px;
     }
     textarea {

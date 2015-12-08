@@ -9,12 +9,12 @@
     background-image: none !important;
     border-color: white !important;
     .title {
-        @include flexbox();
+        display: flex;
         font-size: medium;
         margin: 0;
 
         span {
-            @include flex-grow(1);
+            flex-grow: 1;
             color: $wg-light-gray-text;
             transition: all 0.1s;
             border-bottom: 0px solid transparent;

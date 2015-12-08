@@ -1,11 +1,11 @@
 .availability-tabs {
-    @include flexbox();
+    display: flex;
     text-align: center;
     padding: 0;
     border-top: 0;
 
     span {
-        @include flex-grow(1);
+        flex-grow: 1;
         transition: all 0.2s;
         background-color: $wg-light-gray;
         color: $wg-gray-text;

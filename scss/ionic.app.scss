@@ -28,9 +28,7 @@ $wg-cream: #F1ECE6;
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
-@import "www/lib/ionic/scss/ionic";
-
-@import 'flexbox';
+@import "../www/lib/ionic/scss/ionic";
 
 @import 'company_footer';
 
@@ -115,6 +113,3 @@ html *
 // Other
 
 // ...
-.spinner {
-    vertical-align: -webkit-baseline-middle;
-}

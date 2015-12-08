@@ -2,21 +2,18 @@
 
 @mixin grayscale($opacity: 0.3) {
     opacity: $opacity;
-    -webkit-filter: grayscale(1);
     filter: grayscale(1);
 }
 @mixin remove-grayscale {
     opacity: 1;
-    -webkit-filter: grayscale(0);
     filter: grayscale(0);
 }
 
 .wg-grid {
     .col {
         text-align: center;
-        transition: filter 0.5s, -webkit-filter 0.5s, opacity 0.5s;
-        -webkit-transition-timing-function: ease-out;
-        transition-timing-function: ease-out; /* Safari */
+        transition: filter 0.5s, opacity 0.5s;
+        transition-timing-function: ease-out;
 
         @include grayscale();
         img {
@@ -38,7 +35,6 @@
 	transform: translate3d(0, 100%, 0);
 
     transition: transform 0.3s;
-    -webkit-transition-timing-function: ease-out; /* Safari */
     transition-timing-function: ease-out;
 
 	i.icon {

@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var bower = require('bower');
 var concat = require('gulp-concat');
-var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
@@ -10,6 +9,12 @@ var templateCache = require('gulp-angular-templatecache');
 var watch = require('gulp-watch');
 var shell = require('gulp-shell');
 
+// Sass maps
+// http://fettblog.eu/blog/2014/04/10/gulp-sass-autoprefixer-sourcemaps/
+var gulp = require('gulp');
+var sass = require('gulp-ruby-sass');
+var sourcemaps = require('gulp-sourcemaps');
+var prefix = require('gulp-autoprefixer');
 
 var paths = {
   sass: ['./scss/**/*.scss'],
@@ -27,16 +32,14 @@ gulp.task('cache', function () {
 gulp.task('default', ['serve', 'watch']);
 
 gulp.task('sass', function(done) {
-  gulp.src('./scss/ionic.app.scss')
-    .pipe(sass())
-    .on('error', sass.logError)
-    .pipe(gulp.dest('./www/css/'))
-    .pipe(minifyCss({
-      keepSpecialComments: 0
-    }))
-    .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest('./www/css/'))
-    .on('end', done);
+    sass('./scss/ionic.app.scss', {sourcemap: true, style: 'compact'})
+        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"))
+        .pipe(sourcemaps.write('.'))
+        // .pipe(minifyCss({
+        //   keepSpecialComments: 0
+        // }))
+        // .pipe(rename({ extname: '.min.css' }))
+        .pipe(gulp.dest('./www/css/'));
 });
 
 gulp.task('watch', function() {

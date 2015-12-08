@@ -72,13 +72,13 @@
 }
 
 .color-divider {
-    @include flexbox();
+	display: flex;
 
 	span {
 	    height: 1px;
 	    margin: 0;
 	    padding: 0;
-	    @include flex-grow(1);
+	    flex-grow: 1;
 
 		&:nth-child(2n) {
 		    background-color: #F0C330;
