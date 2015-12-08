@@ -267,6 +267,7 @@ angular.module('workgenius.controllers', [])
 
       var m = moment(event.date);
       $scope.scrollTo(event);
+      console.log(event);
       $scope.selectedMonth = m.format('MMMM');
     },
     changeMonth: function(month, year) {
@@ -286,10 +287,11 @@ angular.module('workgenius.controllers', [])
   };
   $scope.gotoAnchor = function(anchroID) {
     $location.hash(anchroID);
-    $ionicScrollDelegate.$getByHandle('scheduleScroll').anchorScroll(true);
+    $ionicScrollDelegate.anchorScroll(true);
   };
   $scope.scrollTo = function (event) {
     var eventDate = moment(event.date);
+    console.log(eventDate);
     for (var i = 0; i < $scope.groupedShifts.length; i++) {
       if (!eventDate.isAfter($scope.groupedShifts[i][0].date)) {
         $scope.gotoAnchor("id" + moment($scope.groupedShifts[i][0].date).format('YYYY-MM-DD'));
@@ -365,7 +367,7 @@ angular.module('workgenius.controllers', [])
 
     group.splice(idx, 1);
   };
-  $scope.groupedShifts = groupBy($scope.shifts, function(item){return [item.date];});
+  $scope.groupedShifts = groupBy($rootScope.shifts, function(item){return [item.date];});
 
   $scope.shiftEarnings = function (shift) {
     return (shift.endsAt.getTime() - shift.startsAt.getTime())/3600000 * $rootScope.hourlyRate;
