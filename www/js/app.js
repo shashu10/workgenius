@@ -106,10 +106,11 @@ angular.module('workgenius', [
     };
 
     // Flex cal error displays one day behind
-    console.log(new Date("December 5, 2015 8:00:00"));
+    // .date needs to be in YYYY-MM-DD format like 2015-01-01
+
     $rootScope.shifts = [
       {
-        company: 'Luxe', date: "2015-12-5",
+        company: 'Luxe', date: "2015-12-05",
         startsAt: new Date("December 5, 2015 8:00:00"),
         endsAt: new Date("December 5, 2015 11:30:00"),
       },
