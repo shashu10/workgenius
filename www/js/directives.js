@@ -40,6 +40,60 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/wg-pager.html'
   };
 })
+.directive('wgCompanyFooter', function() {
+  return  {
+    templateUrl: 'templates/shared/wg-company-footer.html',
+    restrict: 'E',
+  };
+})
+.directive('wgWorkTypesFooter', function() {
+  return  {
+    templateUrl: 'templates/shared/wg-work-types-footer.html',
+    restrict: 'E',
+  };
+})
+.directive('wgDraggableFooter', ['$ionicGesture', function($ionicGesture) {
+
+  var link = function (scope, element, attr) {
+    var el = angular.element(element.children()[0]);
+    var startY = 0, y = 0;
+    var dragGesture = null, dragendGesture = null;
+    $ionicGesture.on('tap', hide, element);
+    $ionicGesture.on('touch', function(event) {
+      // Prevent default dragging of selected content
+      startY = event.gesture.center.pageY;
+      dragGesture = $ionicGesture.on('drag', drag, element);
+      dragendGesture = $ionicGesture.on('dragend', dragend, element);
+    }, element);
+
+    function drag (event) {
+
+      y = Math.max(event.gesture.center.pageY - startY, 0);
+      el.css({
+        transform: "translate3d(0, " + y + "px, 0)"
+      });
+    }
+
+    function dragend (event) {
+      $ionicGesture.off(dragGesture, 'drag', drag);
+      $ionicGesture.off(dragendGesture, 'dragend', dragend);
+      if (y > 10) {
+        hide();
+      }
+    }
+
+    function hide () {
+      el.css({
+        transform: "translate3d(0, 100%, 0)"
+      });
+    }
+  };
+
+  return  {
+    restrict: 'A',
+    link: link
+  };
+}])
 .directive('wgSaveBar', function() {
   return {
     templateUrl: 'templates/shared/wg-save-bar.html',
@@ -85,7 +139,7 @@ angular.module('workgenius.directives', [])
     }]
   };
 })
-.directive('bounceLeft', ['$document', '$interval', function($document, $interval) {
+.directive('bounceLeft', ['$interval', function($interval) {
   var isOpen = function (element) {
     var children = element.children();
     if (children && children[0] && children[0].style.transform) {
@@ -122,60 +176,6 @@ angular.module('workgenius.directives', [])
       }, 1000, 1);
 
     });
-  };
-}])
-.directive('wgCompanyFooter', ['$document', '$ionicGesture', function($document, $ionicGesture) {
-  return  {
-    templateUrl: 'templates/shared/wg-company-footer.html',
-    restrict: 'E',
-  };
-}])
-.directive('wgWorkTypesFooter', ['$document', '$ionicGesture', function($document, $ionicGesture) {
-  return  {
-    templateUrl: 'templates/shared/wg-work-types-footer.html',
-    restrict: 'E',
-  };
-}])
-.directive('wgDraggableFooter', ['$document', '$ionicGesture', function($document, $ionicGesture) {
-
-  var link = function (scope, element, attr) {
-    var el = angular.element(element.children()[0]);
-    var startY = 0, y = 0;
-    var dragGesture = null, dragendGesture = null;
-    $ionicGesture.on('tap', hide, element);
-    $ionicGesture.on('touch', function(event) {
-      // Prevent default dragging of selected content
-      startY = event.gesture.center.pageY;
-      dragGesture = $ionicGesture.on('drag', drag, element);
-      dragendGesture = $ionicGesture.on('dragend', dragend, element);
-    }, element);
-
-    function drag (event) {
-
-      y = Math.max(event.gesture.center.pageY - startY, 0);
-      el.css({
-        transform: "translate3d(0, " + y + "px, 0)"
-      });
-    }
-
-    function dragend (event) {
-      $ionicGesture.off(dragGesture, 'drag', drag);
-      $ionicGesture.off(dragendGesture, 'dragend', dragend);
-      if (y > 10) {
-        hide();
-      }
-    }
-
-    function hide () {
-      el.css({
-        transform: "translate3d(0, 100%, 0)"
-      });
-    }
-  };
-
-  return  {
-    restrict: 'A',
-    link: link
   };
 }])
 .directive('flexCalendarSubheader', function() {

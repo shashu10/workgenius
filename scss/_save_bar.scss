@@ -1,11 +1,13 @@
 .wg-save-bar {
 	bottom: -44px;
+	-webkit-transition: bottom 0.3s;
 	transition: bottom 0.3s;
-	transition-timing-function: ease-out;
-	&.show {
+	&.wg-save-up {
 		bottom: 0;
 	}
-	&.saved {
-		transition-delay: 1s;
+	&.wg-save-down-delay {
+		-webkit-transition: bottom 0.3s ease-out 1s;
+		transition: bottom 0.3s ease-out 1s;
+		bottom: -44px;
 	}
 }
