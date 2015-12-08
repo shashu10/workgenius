@@ -1,4 +1,18 @@
 <ion-view>
+    <ion-nav-title>
+        <div class="bar bar-header bar-light wg-register-bar">
+            <div class="title">
+                <span ng-class="{selected: signupActive}" ng-click="toggleWithoutAnimation('registration.signup')">
+              Sign up
+              <div class="arrow"></div>
+            </span>
+                <span ng-class="{selected: !signupActive}" ng-click="toggleWithoutAnimation('registration.login')">
+              Log in
+              <div class="arrow"></div>
+            </span>
+            </div>
+        </div>
+    </ion-nav-title>
     <ion-content class="has-header">
         <div class="list list-inset">
             <label class="item item-input">

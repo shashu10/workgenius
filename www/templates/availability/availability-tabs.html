@@ -1,13 +1,12 @@
-<ion-view view-title="Manage Availability">
+<div view-title="Manage Availability">
     <div class="bar bar-subheader availability-tabs">
-        <span class="" ui-sref="app.availability-tabs.availability" ng-class="{active : !availActive}" ng-click="availActive = false">
+        <span ng-class="{active : !availActive}" ng-click="availActive = false; toggleWithoutAnimation('app.availability-tabs.availability')">
 			{{'Availability' | uppercase}}
         </span>
-        <span class="" ui-sref="app.availability-tabs.block-days" ng-class="{active: availActive}" ng-click="availActive = true">
+        <span ng-class="{active: availActive}" ng-click="availActive = true; toggleWithoutAnimation('app.availability-tabs.block-days')">
 			{{'Time Off' | uppercase}}
         </span>
     </div>
-    <ion-view>
-        <div ui-view name="content"></div>
-    </ion-view>
-</ion-view>
+
+</div>
+<ion-nav-view name="content"></ion-nav-view>

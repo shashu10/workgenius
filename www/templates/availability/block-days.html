@@ -1,18 +1,20 @@
-<ion-content class="has-subheader">
-	<div class="wg-block-days">
-		<div class="wg-title">
-		    <p>
-		        Tap on the dates you can't work and we'll block them out for you. Any shifts within 72 hours of their start time have to be cancelled individually through your schedule.
-		    </p>
-		</div>
-		<flex-calendar options="options" events="shifts"></flex-calendar>
+<ion-view view-title="Manage Availability">
+	<ion-content class="has-subheader">
+		<div class="wg-block-days">
+			<div class="wg-title">
+			    <p>
+			        Tap on the dates you can't work and we'll block them out for you. Any shifts within 72 hours of their start time have to be cancelled individually through your schedule.
+			    </p>
+			</div>
+			<flex-calendar options="options" events="shifts"></flex-calendar>
 
-		<div class="item item-divider">Total Time Off</div>
-		<div class="center-text total-time-off">
-			<h1>{{blockedCount}}</h1>
-			<p>{{blockedCount == 1 ? 'day': 'days'}} in the next 30 days</p>
+			<div class="item item-divider">Total Time Off</div>
+			<div class="center-text total-time-off">
+				<h1>{{blockedCount}}</h1>
+				<p>{{blockedCount == 1 ? 'day': 'days'}} in the next 30 days</p>
+			</div>
 		</div>
-	</div>
-</ion-content>
+	</ion-content>
 
-<wg-save-bar wg-on-change="onChange" wg-prop='"blockedDays"'></wg-save-bar>
+	<wg-save-bar wg-on-change="onChange" wg-prop='"blockedDays"'></wg-save-bar>
+</ion-view>

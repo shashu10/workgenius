@@ -1,4 +1,10 @@
 // Registration tabs
+.wg-registration-bar-container {
+    border: 0;
+    .title {
+        margin: 0;
+    }
+}
 .wg-register-bar {
     background-image: none !important;
     border-color: white !important;

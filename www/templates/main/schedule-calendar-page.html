@@ -4,7 +4,7 @@
 		<flex-week options="options" events="shifts"></flex-week>
 	</ion-header-bar>
 
-    <ion-content class="has-flex-calendar-subheader" >
+    <ion-content delegate-handle="scheduleScroll" class="has-flex-calendar-subheader" >
 	        <shift-list></shift-list>
 
 		    <ion-item id="empty-shift-list" class="item-avatar" ng-repeat="empty in [1,2]">

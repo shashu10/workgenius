@@ -1,5 +1,13 @@
 <ion-view class="register" title="Availability">
-    <ion-content class="has-header has-subheader">
+
+	<div class="wg-grid-days has-header has-subheader" ng-show="showHeader">
+	    <div class="row wg-grid-header">
+	        <div class="first"></div>
+	        <div class="col" ng-click="select(day, null)" ng-repeat="day in days">{{day | limitTo: 1}}</div>
+	    </div>
+	</div>
+
+    <ion-content class="has-header has-subheader" delegate-handle="availabilityScroll" on-scroll="onScroll()">
 
         <grid-days></grid-days>
         

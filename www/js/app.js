@@ -243,6 +243,7 @@ angular.module('workgenius', [
   })
 
   .state('app.availability-tabs', {
+    abstract: true,
     url: "/availability-tabs",
     views: {
       'menuContent': {

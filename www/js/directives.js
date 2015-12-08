@@ -67,23 +67,20 @@ angular.module('workgenius.directives', [])
 
       $scope.wgOnChange = function () {
         if (angular.equals(copy, $rootScope.currentUser[$scope.wgProp])) {
-          $timeout(function() {
             $scope.changed = false;
-          });
         } else {
-          $timeout(function() {
             $scope.state = 'Save';
             $scope.changed = true;
-          });
         }
       };
       $scope.$on('$stateChangeSuccess', function(event, current) {
         console.log(current);
         $rootScope.currentUser[$scope.wgProp] = copy;
+        $scope.wgOnChange();
       });
       $scope.$on('$destroy', function() {
         $rootScope.currentUser[$scope.wgProp] = copy;
-        console.log('destroy:' + $scope.wgProp);
+        $scope.wgOnChange();
       });
     }]
   };

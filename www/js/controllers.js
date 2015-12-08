@@ -286,7 +286,7 @@ angular.module('workgenius.controllers', [])
   };
   $scope.gotoAnchor = function(anchroID) {
     $location.hash(anchroID);
-    $ionicScrollDelegate.anchorScroll(true);
+    $ionicScrollDelegate.$getByHandle('scheduleScroll').anchorScroll(true);
   };
   $scope.scrollTo = function (event) {
     var eventDate = moment(event.date);
