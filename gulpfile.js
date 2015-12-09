@@ -9,7 +9,7 @@ var templateCache = require('gulp-angular-templatecache');
 var watch = require('gulp-watch');
 var shell = require('gulp-shell');
 
-// Sass maps
+// Sass + autoprefixer + sourcemaps
 // http://fettblog.eu/blog/2014/04/10/gulp-sass-autoprefixer-sourcemaps/
 var gulp = require('gulp');
 var sass = require('gulp-ruby-sass');

@@ -1,5 +1,8 @@
 // Registration tabs
 .wg-registration-bar-container {
+    // Remove the 'background-image' border at the bottom. We're setting our own border.
+    // Also the cached nav-bar is visible in ios and android which shows this below the active nav-bar.
+    background-image: none;
     border: 0;
     .title {
         margin: 0;
