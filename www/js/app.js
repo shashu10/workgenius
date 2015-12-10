@@ -26,8 +26,8 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
   ])
 
-.run(['$ionicPlatform', '$rootScope', '$state', '$cordovaStatusbar', 'getUserData',
-  function($ionicPlatform, $rootScope, $state, $cordovaStatusbar, getUserData) {
+.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData',
+  function($ionicPlatform, $rootScope, $state, getUserData) {
     $ionicPlatform.ready(function() {
 
       // $ionicAnalytics.register();
@@ -40,12 +40,8 @@ angular.module('workgenius', [
       }
       if (window.StatusBar) {
         // org.apache.cordova.statusbar required
-        console.log(StatusBar);
-        StatusBar.styleBlackOpaque();
-        
-        // Does not really work. $cordovaStatusbar not defined for some reason
-        // $cordovaStatusbar.overlaysWebView(true);
-        // $cordovaStatusBar.style(1);
+        // not working
+        // StatusBar.styleBlackOpaque();
       }
       // Variables defined here are hidden in their own scope.
     });
