@@ -8,11 +8,12 @@
     span {
         flex-grow: 1;
         transition: all 0.2s;
-        background-color: $wg-light-gray;
-        color: $wg-gray-text;
+        background-color: #C8C8C8;
+        color: white;
         vertical-align: center;
         padding-top: 12px;
-
+        font-weight: 600;
+        
         &.active {
             color: white;
             background-color: $positive;
