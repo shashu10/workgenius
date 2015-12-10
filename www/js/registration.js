@@ -8,7 +8,7 @@ angular.module('workgenius.registration', [])
 
             var next = 'onboarding.target-hours';
             if ($state.current.name === 'registration.login') {
-                next = 'app.schedule-calendar-page';
+                next = 'app.schedule';
             }
             $scope.toggleWithoutAnimation(next);
         };
@@ -25,7 +25,7 @@ angular.module('workgenius.registration', [])
 
         // Manually change tab state
         $scope.$on('$stateChangeSuccess', function(event, current) {
-            if (current.name == "registration.login" || current.name == "registration.forgot-password-page") {
+            if (current.name == "registration.login" || current.name == "registration.forgot-password") {
                 $scope.signupActive = false;
             } else if (current.name == "registration.signup") {
                 $scope.signupActive = true;
@@ -57,7 +57,7 @@ angular.module('workgenius.registration', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     });
-                    $state.go('app.schedule-calendar-page', {
+                    $state.go('app.schedule', {
                         clear: true
                     });
                 },
@@ -75,7 +75,7 @@ angular.module('workgenius.registration', [])
         };
 
         $scope.forgot = function() {
-            $scope.toggleWithoutAnimation('registration.forgot-password-page');
+            $scope.toggleWithoutAnimation('registration.forgot-password');
         };
     })
 

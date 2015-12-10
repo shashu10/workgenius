@@ -113,3 +113,17 @@ html *
 // Other
 
 // ...
+
+.has-wg-save-bar {
+    .scroll {
+        padding-bottom: 44px;
+    }
+}
+.has-flex-calendar-subheader {
+    .scroll > shift-list > div:first-child {
+        .item-divider {
+            border-top: 1px solid $wg-gray-border;
+            margin-top: -2px;
+        }
+    }
+}

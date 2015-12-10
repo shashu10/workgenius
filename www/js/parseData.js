@@ -90,9 +90,10 @@ angular.module('parseData', [])
       if (Parse.User.current()) {
         $rootScope.currentUser.save(data, {
           success: function(obj) {
-            if (success)
+            if (success) {
               success();
-
+              $rootScope.$apply();
+            }
             console.log('saved');
           },
           error: function(obj, error) {

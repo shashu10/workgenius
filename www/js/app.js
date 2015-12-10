@@ -14,6 +14,7 @@ angular.module('workgenius', [
     'workgenius.services',
     'workgenius.constants',
     'workgenius.filters',
+    'workgenius.tracker',
     'parseData',
     'phoneFormatting',
     'ionic-timepicker',
@@ -39,11 +40,12 @@ angular.module('workgenius', [
       }
       if (window.StatusBar) {
         // org.apache.cordova.statusbar required
-        // StatusBar.styleDefault();
+        console.log(StatusBar);
+        StatusBar.styleBlackOpaque();
         
-        // Does not really work
-        $cordovaStatusbar.overlaysWebView(true);
-        $cordovaStatusBar.style(1);
+        // Does not really work. $cordovaStatusbar not defined for some reason
+        // $cordovaStatusbar.overlaysWebView(true);
+        // $cordovaStatusBar.style(1);
       }
       // Variables defined here are hidden in their own scope.
     });
@@ -52,7 +54,7 @@ angular.module('workgenius', [
     Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
 
     if (Parse.User.current()) {
-      // $state.go('app.schedule-calendar-page');
+      // $state.go('app.schedule');
     }
 
     // Setup variables used through out the app
@@ -152,6 +154,7 @@ angular.module('workgenius', [
     ];
     // Get user data and store it in the rootscope.
     getUserData();
+    
   }])
 
 .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
@@ -170,75 +173,75 @@ angular.module('workgenius', [
 
   // Main Pages
 
-  .state('app.earnings-page', {
-     url: '/earnings-page',
+  .state('app.earnings', {
+     url: '/earnings',
      views: {
          'menuContent': {
-             templateUrl: 'templates/main/earnings-page.html',
+             templateUrl: 'templates/main/earnings.html',
              controller: "EarningsController"
          }
      }
   })
-  .state('app.hours-page', {
-     url: '/hours-page',
+  .state('app.hours', {
+     url: '/hours',
      views: {
          'menuContent': {
-             templateUrl: 'templates/main/hours-page.html',
+             templateUrl: 'templates/main/hours.html',
              controller: "EarningsController"
          }
      }
   })
-  .state('app.available-shifts-page', {
-    url: '/available-shifts-page',
+  .state('app.available-shifts', {
+    url: '/available-shifts',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/available-shifts-page.html',
+        templateUrl: 'templates/main/available-shifts.html',
         controller: "ShiftsCtrl"
       }
     }
   })
-  .state('app.schedule-calendar-page', {
-    url: '/schedule-calendar-page',
+  .state('app.schedule', {
+    url: '/schedule',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/schedule-calendar-page.html'
+        templateUrl: 'templates/main/schedule.html'
       }
     }
   })
-  .state('app.preferences-page', {
-    url: '/preferences-page',
+  .state('app.preferences', {
+    url: '/preferences',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/preferences-page.html'
+        templateUrl: 'templates/main/preferences.html'
       }
     }
   })
 
   // Sub Views
 
-  .state('app.target-page', {
-    url: '/target-page',
+  .state('app.target', {
+    url: '/target',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/target-page.html',
+        templateUrl: 'templates/main/target.html',
         controller: 'TargetCtrl'
       }
     }
   })
-  .state('app.companies-page', {
-    url: '/companies-page',
+  .state('app.companies', {
+    url: '/companies',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/companies-page.html',
+        templateUrl: 'templates/main/companies.html',
         controller: 'CompaniesCtrl'
       }
     }
   })
-  .state('app.vehicles-page', {
-    url: '/vehicles-page',
+  .state('app.vehicles', {
+    url: '/vehicles',
     views: {
       'menuContent': {
-        templateUrl: 'templates/main/vehicles-page.html',
+        templateUrl: 'templates/main/vehicles.html',
         controller: 'VehiclesCtrl'
       }
     }
@@ -250,6 +253,7 @@ angular.module('workgenius', [
     views: {
       'menuContent': {
         templateUrl: "templates/availability/availability-tabs.html",
+        controller: 'AvailabilityTabsCtrl'
       }
     }
   })
@@ -305,11 +309,11 @@ angular.module('workgenius', [
     }
   })
 
-  .state('registration.forgot-password-page', {
-      url: '/forgot-password-page',
+  .state('registration.forgot-password', {
+      url: '/forgot-password',
       views: {
           'content': {
-              templateUrl: 'templates/registration/forgot-password-page.html',
+              templateUrl: 'templates/registration/forgot-password.html',
               controller: 'ForgotCtrl'
           }
       }

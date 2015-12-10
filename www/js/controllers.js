@@ -1,8 +1,8 @@
 angular.module('workgenius.controllers', [])
 
 .controller('MenuCtrl',
-  ['$scope', '$state', '$ionicHistory', '$ionicModal', 'getUserData',
-  function( $scope, $state, $ionicHistory, $ionicModal, getUserData) {
+  ['$scope', '$state', '$ionicHistory', '$ionicModal', '$interval', 'getUserData',
+  function( $scope, $state, $ionicHistory, $ionicModal, $interval, getUserData) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -32,6 +32,7 @@ angular.module('workgenius.controllers', [])
 
   // Contact Us Modal
 
+  $scope.contactStatus = 'Send';
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/shared/contact-us.html', {
     scope: $scope
@@ -44,7 +45,12 @@ angular.module('workgenius.controllers', [])
   };
 
   $scope.sendMessage = function (shift) {
-    $scope.contactModal.hide();
+    $scope.contactStatus = 'Sent!';
+    $interval(function() {
+        $scope.contactModal.hide().then(function () {
+          $scope.contactStatus = 'Send';
+        });
+      }, 1000, 1);
   };
 
   // End
@@ -106,6 +112,18 @@ angular.module('workgenius.controllers', [])
     }
     return $rootScope.currentUser.blockedDays.length;
   }
+}])
+.controller('AvailabilityTabsCtrl',
+  ['$scope',
+  function($scope) {
+
+    $scope.$on('$stateChangeSuccess', function(event, current) {
+        if (current.name.indexOf('block-days') > -1) {
+          $scope.availActive = false;
+        } else {
+          $scope.availActive = true;
+        }
+    });
 }])
 .controller('AvailabilityCtrl',
   ['$rootScope', '$scope',
@@ -267,7 +285,6 @@ angular.module('workgenius.controllers', [])
 
       var m = moment(event.date);
       $scope.scrollTo(event);
-      console.log(event);
       $scope.selectedMonth = m.format('MMMM');
     },
     changeMonth: function(month, year) {
@@ -291,7 +308,6 @@ angular.module('workgenius.controllers', [])
   };
   $scope.scrollTo = function (event) {
     var eventDate = moment(event.date);
-    console.log(eventDate);
     for (var i = 0; i < $scope.groupedShifts.length; i++) {
       if (!eventDate.isAfter($scope.groupedShifts[i][0].date)) {
         $scope.gotoAnchor("id" + moment($scope.groupedShifts[i][0].date).format('YYYY-MM-DD'));

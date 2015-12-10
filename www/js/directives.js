@@ -128,7 +128,6 @@ angular.module('workgenius.directives', [])
         }
       };
       $scope.$on('$stateChangeSuccess', function(event, current) {
-        console.log(current);
         $rootScope.currentUser[$scope.wgProp] = copy;
         $scope.wgOnChange();
       });
@@ -195,12 +194,12 @@ angular.module('workgenius.directives', [])
 })
 .directive('focusOnTap', ['$ionicGesture', '$timeout', function($ionicGesture, $timeout) {
   return function(scope, element, attr) {
-
-    var gesture = $ionicGesture.on('tap', function (event) {
+    var listener = function (event) {
       $timeout(function() {
         element.children()[0].focus(); 
       });
-    }, element);
+    };
+    var gesture = $ionicGesture.on('tap', listener, element);
 
     scope.$on('$destroy', function() {
       $ionicGesture.off(gesture, 'tap', listener);

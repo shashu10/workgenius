@@ -16,7 +16,7 @@
             <textarea rows="5" placeholder="Type your message here. Any questions, comments or concerns you may have."></textarea>
         </label>
         <div class="padding">
-            <button class="button button-positive button-block" ng-click="sendMessage()">Send</button>
+            <button class="button button-block" ng-class="contactStatus == 'Send' ? 'button-positive' : 'button-balanced'" ng-click="sendMessage()">{{contactStatus}}</button>
         </div>
         <div class="wg-title">
             <p>Is it an emergency?</p>

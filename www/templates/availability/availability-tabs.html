@@ -1,9 +1,9 @@
 <div view-title="Manage Availability">
     <div class="bar bar-subheader availability-tabs">
-        <span ng-class="{active : !availActive}" ng-click="availActive = false; toggleWithoutAnimation('app.availability-tabs.availability')">
+        <span ng-class="{active : availActive}" ng-click="toggleWithoutAnimation('app.availability-tabs.availability')">
 			{{'Availability' | uppercase}}
         </span>
-        <span ng-class="{active: availActive}" ng-click="availActive = true; toggleWithoutAnimation('app.availability-tabs.block-days')">
+        <span ng-class="{active: !availActive}" ng-click="toggleWithoutAnimation('app.availability-tabs.block-days')">
 			{{'Time Off' | uppercase}}
         </span>
     </div>

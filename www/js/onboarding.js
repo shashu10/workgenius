@@ -33,7 +33,7 @@ angular.module('workgenius.onboarding', [])
     };
 
     $scope.finish = function () {
-      $state.go('app.schedule-calendar-page');
+      $state.go('app.schedule');
     };
     $scope.skipOnboarding = $scope.finish;
     
