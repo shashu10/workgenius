@@ -321,7 +321,7 @@ angular.module('workgenius.controllers', [])
   $scope.cancelWarning = function (shift, group, shifts) {
     $scope.shiftToCancel = shift;
     $scope.cancelPopup = $ionicPopup.show({
-      template: '<p>Late cancellations this quarter: {{currentUser.cancellations}}/3</p><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p class="schedule-time"><standard-time-meridian etime="shiftToCancel.startsAt.getHours()*3600"></standard-time-meridian> - <standard-time-meridian etime="shiftToCancel.endsAt.getHours()*3600"></standard-time-meridian></p>',
+      template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p><div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: {{currentUser.cancellations}}/3</p></div>',
       title: 'Are you sure you want to cancel the following shift?',
       scope: $scope,
       buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
@@ -398,6 +398,13 @@ angular.module('workgenius.controllers', [])
   };
   $scope.dividerFunction = function(date){
     return moment(date).format('dddd Do');
+  };
+
+  $scope.formatAMPM = function (date) {
+    return moment(date).format('ha');
+  };
+  $scope.isWithin72Hr = function (date) {
+    return moment(date).isBefore(moment().add(72, 'hour'));
   };
 }]);
 

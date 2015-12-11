@@ -2,20 +2,26 @@
     <div class="group-list">
         <ion-list>
             <ion-item id="{{anchroID(group)}}" class="item-divider" ion-affix data-affix-within-parent-with-class="group-list">
-                {{dividerFunction(group[0].startsAt)}}
-                <span>
+                {{dividerFunction(group[0].startsAt) | uppercase}}
+                <div class="earnings-estimate">
+                    <p>ESTIMATED EARNINGS:</p>
+                    <p><i class="light-green">{{groupEarnings(group) | currency:undefined:0}}</i></p>
+                </div>
+                <!-- <span>
                     earnings est: <i class="light-green">{{groupEarnings(group) | currency:undefined:0}}</i>
-                </span>
+                </span> -->
             </ion-item>
             <ion-item class="item-avatar item-company-icon" bounce-left ng-repeat="shift in group" can-swipe="true">
                 <img ng-src="img/companies/{{shift.company.toLowerCase()}}.png">
                 <div class="schedule-text">
                     <p>
-                        {{shift.company}}
+                        <strong>{{shift.company | uppercase}}</strong>
                     </p>
                     <p class="schedule-time">
-                        <standard-time-meridian etime='shift.startsAt.getHours()*3600'></standard-time-meridian> -
-                        <standard-time-meridian etime='shift.endsAt.getHours()*3600'></standard-time-meridian>
+                        <strong>{{formatAMPM(shift.startsAt) | uppercase}}</strong> - <strong>{{formatAMPM(shift.endsAt) | uppercase}}</strong>
+
+                        <!-- <standard-time-meridian etime='shift.startsAt.getHours()*3600'></standard-time-meridian> - -->
+                        <!-- <standard-time-meridian etime='shift.endsAt.getHours()*3600'></standard-time-meridian> -->
                     </p>
                 </div>
                 <span class="item-note">

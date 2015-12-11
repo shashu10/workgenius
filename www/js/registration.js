@@ -50,16 +50,18 @@ angular.module('workgenius.registration', [])
 
             Parse.User.logIn(('' + $scope.user.email).toLowerCase(), $scope.user.password, {
                 success: function(user) {
-                    $ionicLoading.hide();
 
-                    getUserData();
+                    getUserData().then(function (onboarding) {
 
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true
+                        $ionicLoading.hide();
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true
+                        });
+                        $state.go('app.schedule', {
+                            clear: true
+                        });
                     });
-                    $state.go('app.schedule', {
-                        clear: true
-                    });
+
                 },
                 error: function(user, err) {
                     $ionicLoading.hide();

@@ -1,9 +1,0 @@
-<h1>Are you sure you want to cancel the following shift?</h1>
-
-<p>Late cancellations this quarter: {{cancellations}}/3</p>
-
-<img ng-src="img/companies/{{shift.company.toLowerCase()}}.png" alt="">
-<p class="schedule-time">
-    <standard-time-meridian etime='shift.startsAt.getHours()*3600'></standard-time-meridian> -
-    <standard-time-meridian etime='shift.endsAt.getHours()*3600'></standard-time-meridian>
-</p>

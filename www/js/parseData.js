@@ -1,29 +1,22 @@
 angular.module('parseData', [])
 
-.factory('timePicker', function () {
-  return function (inputEpochTime) {
-    return {
-      inputEpochTime: inputEpochTime || ((new Date()).getHours() * 60 * 60),  //Optional
-      step: 60,  //Optional
-      format: 12,  //Optional
-      titleLabel: 'Select Time',  //Optional
-      setLabel: 'Set',  //Optional
-      closeLabel: 'Close',  //Optional
-      setButtonType: 'button-positive',  //Optional
-      closeButtonType: 'button-stable',  //Optional
-      callback: function (val) {    //Mandatory
-        if (typeof (val) === 'undefined') {
-          console.log('Time not selected');
-        } else {
-          this.inputEpochTime = val;
-        }
-      }
-    };
-  };
-})
-
 // Remove redundant data and format it to minimize storage
 .factory('formatUploadData', ['$rootScope', function ($rootScope) {
+
+  var formatTargetHours = function () {
+    return Number($rootScope.currentUser.target);
+  };
+
+  var formatVehicles = function () {
+
+    var filtered = $rootScope.currentUser.vehicles.filter(function(vehicle) {
+      return vehicle.selected;
+    }).map(function(item) {
+      return item.name;
+    });
+
+    return filtered;
+  };
 
   var formatCompanies = function () {
     
@@ -43,21 +36,6 @@ angular.module('parseData', [])
           selected.push(type);
       }
       return selected;
-    };
-
-  var formatVehicles = function () {
-
-    var filtered = $rootScope.currentUser.vehicles.filter(function(vehicle) {
-      return vehicle.selected;
-    }).map(function(item) {
-      return item.name;
-    });
-
-    return filtered;
-  };
-
-  var formatTargetHours = function () {
-    return Number($rootScope.currentUser.target);
   };
 
   var formatAvailability = function () {
@@ -65,7 +43,11 @@ angular.module('parseData', [])
   };
 
   var formatBlockedDays = function () {
-    return $rootScope.currentUser.availability;
+    return $rootScope.currentUser.blockedDays;
+  };
+
+  var formatAppState = function () {
+    return $rootScope.currentUser.appState || {};
   };
 
   return {
@@ -75,12 +57,13 @@ angular.module('parseData', [])
     workTypes    : formatWorkTypes,
     availability : formatAvailability,
     blockedDays  : formatBlockedDays,
+    appState     : formatAppState,
   };
 }])
 
 .factory('setUserData',
-  ['$rootScope', 'timePicker', 'formatUploadData',
-  function ($rootScope, timePicker, formatUploadData) {
+  ['$rootScope', 'formatUploadData',
+  function ($rootScope, formatUploadData) {
 
   return {
     save : function (type, success, failure) {
@@ -115,7 +98,9 @@ angular.module('parseData', [])
   };
 }])
 
-.factory('getUserData', ['$rootScope', 'timePicker', function ($rootScope, timePicker) {
+.factory('getUserData',
+  ['$rootScope', '$q',
+  function ($rootScope, $q) {
 
   var getWorkTypes = function (user) {
     var workTypes = {};
@@ -202,10 +187,13 @@ angular.module('parseData', [])
       blockedDays      : [],
       totalHours       : 0,
       availability     : initAvailability(),
+      appState         : {},
     });
   };
   
   return function (newUser, name, email) {
+
+    var deferred = $q.defer();
 
     $rootScope.currentUser = Parse.User.current() || {};
 
@@ -224,10 +212,11 @@ angular.module('parseData', [])
 
         var scheduleGrid = getAvailability(user);
         angular.extend($rootScope.currentUser, {
-          name             : user.get('name'),
-          email            : user.get('email'),
-          target           : user.get('target'),
-          cancellations    : user.get('cancellations'),
+          name             : user.get('name')  || '',
+          email            : user.get('email') || '',
+          target           : user.get('target') || 40,
+          cancellations    : user.get('cancellations') || 0,
+          appState         : user.get('appState') || {},
           vehicles         : getVehicles(user),
           companies        : getCompanies(user),
           workTypes        : getWorkTypes(user),
@@ -235,7 +224,11 @@ angular.module('parseData', [])
           totalHours       : scheduleGrid.totalHours,
           availability     : scheduleGrid.availability,
         });
+
+        deferred.resolve(true);
       });
     }
+
+    return deferred.promise;
   };
 }]);

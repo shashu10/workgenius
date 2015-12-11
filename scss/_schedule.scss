@@ -2,35 +2,54 @@
     float: left;
 }
 
-.item-company-icon {
+.item-company-icon.item-avatar {
     .item-content {
         // For placing right arrow closer to the right border
-        padding: 16px 16px 16px 72px;
+        padding: 40px 16px 40px 90px;
+
+        p strong {
+
+        }
+        > img:first-child {
+            max-width: 50px;
+            max-height: 50px;
+            top: 36px;
+            left: 20px;
+            border-radius: 0;
+        }
     }
     .item-note {
         // for placing right arrow in the middle
         margin-top: 9px;
-    }
-    img {
-        border-radius: 0 !important;
-    }
-    > img:first-child {
-        border-radius: 0;
     }
 }
 
 // Shift day divider
 .item-divider {
     border-top: 0;
-    padding: 2px 10px 0px 16px;
+    padding: 5px 10px 3px 16px;
     min-height: 23px;
     color: #A7A7A7;
-    font-size: 11px;
+    font-size: 8px;
 
     // Earnings estimate
-    span {
+    .earnings-estimate {
         position: absolute;
-        right: 10px;
+        top: 0;
+        right: 0;
+        display: flex;
+        line-height: 28px;
+
+        p {
+            color: #A7A7A7;
+            vertical-align: middle;
+            font-size: 8px;
+            margin: 0;
+            .light-green {
+                padding: 0 5px;
+                font-size: large;
+            }
+        }
     }
 }
 

@@ -149,7 +149,9 @@ angular.module('workgenius', [
       },
     ];
     // Get user data and store it in the rootscope.
-    getUserData();
+    getUserData().then(function (user) {
+      // $state.go('app.schedule');
+    });
     
   }])
 
@@ -159,6 +161,11 @@ angular.module('workgenius', [
   $stateProvider
 
   // Main Side Menu pages
+
+  .state('splash', {
+    url: '/splash',
+    templateUrl: 'templates/main/splash.html',
+  })
 
   .state('app', {
     url: '/app',
@@ -367,4 +374,6 @@ angular.module('workgenius', [
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/registration/signup');
+
+  // $urlRouterProvider.otherwise('/splash');
 }]);

@@ -44,33 +44,6 @@ angular.module('workgenius.constants', [])
             // },
         }
     }, {
-        name: 'Rideshare',
-        title: 'Ridesharing Jobs',
-        icon: "ion-android-car",
-        requirements: ['car', 'bike', '18+'],
-        companies: {
-            lyft: {
-                available: true,
-                info: 'Description',
-                longInfo: 'Drive people to their desired destinations'
-            },
-            uber: {
-                available: false,
-                info: 'Description',
-                longInfo: 'Drive people to their desired destinations'
-            },
-            sidecar: {
-                available: false,
-                info: 'Description',
-                longInfo: 'Help small businesses deliver their goods to their customers'
-            },
-            carma: {
-                available: false,
-                info: 'Description',
-                longInfo: 'Drive your neighbors to their work place through carpooling'
-            },
-        }
-    }, {
         name: 'Grocery',
         title: 'Grocery Delivery',
         icon: "ion-ios-nutrition",
@@ -154,6 +127,34 @@ angular.module('workgenius.constants', [])
             },
         }
     },
+    // {
+    //     name: 'Rideshare',
+    //     title: 'Ridesharing Jobs',
+    //     icon: "ion-android-car",
+    //     requirements: ['car', 'bike', '18+'],
+    //     companies: {
+    //         lyft: {
+    //             available: true,
+    //             info: 'Description',
+    //             longInfo: 'Drive people to their desired destinations'
+    //         },
+    //         uber: {
+    //             available: false,
+    //             info: 'Description',
+    //             longInfo: 'Drive people to their desired destinations'
+    //         },
+    //         sidecar: {
+    //             available: false,
+    //             info: 'Description',
+    //             longInfo: 'Help small businesses deliver their goods to their customers'
+    //         },
+    //         carma: {
+    //             available: false,
+    //             info: 'Description',
+    //             longInfo: 'Drive your neighbors to their work place through carpooling'
+    //         },
+    //     }
+    // },
     // {
     //   name:'Marijuana',
     //   title: 'Medical Marijuana Delivery',

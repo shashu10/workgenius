@@ -30,6 +30,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "../www/lib/ionic/scss/ionic";
 
+@import 'splash';
+
 @import 'company_footer';
 
 @import 'grid_days';
@@ -124,6 +126,20 @@ html *
         .item-divider {
             border-top: 1px solid $wg-gray-border;
             margin-top: -2px;
+        }
+    }
+}
+
+.popover {
+    height: 50px;
+    p {
+        color: #444;
+        text-align: center;
+        &._2lines {
+            
+        }
+        &._1line {
+
         }
     }
 }

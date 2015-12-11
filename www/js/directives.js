@@ -128,11 +128,11 @@ angular.module('workgenius.directives', [])
         }
       };
       $scope.$on('$stateChangeSuccess', function(event, current) {
-        $rootScope.currentUser[$scope.wgProp] = copy;
+        $rootScope.currentUser[$scope.wgProp] = angular.copy(copy);
         $scope.wgOnChange();
       });
       $scope.$on('$destroy', function() {
-        $rootScope.currentUser[$scope.wgProp] = copy;
+        $rootScope.currentUser[$scope.wgProp] = angular.copy(copy);
         $scope.wgOnChange();
       });
     }]
