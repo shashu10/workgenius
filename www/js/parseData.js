@@ -23,7 +23,7 @@ angular.module('parseData', [])
       var selected = [];
       for (var company in $rootScope.currentUser.companies) {
         if ($rootScope.currentUser.companies[company])
-          selected.push(company);
+          selected.push({name: company, status: 1});
       }
       return selected;
     };
@@ -113,7 +113,7 @@ angular.module('parseData', [])
   var getCompanies = function (user) {
     var companies = {};
     for (var company in user.get('companies')) {
-      companies[user.get('companies')[company]] = true;
+      companies[user.get('companies')[company.name]] = {status: company.status};
     }
     return companies;
   };

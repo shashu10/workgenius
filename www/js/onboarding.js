@@ -1,8 +1,8 @@
 angular.module('workgenius.onboarding', [])
 
 .controller('OnboardingCtrl',
-    ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', 'getUserData', 'formatUploadData',
-    function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, getUserData, formatUploadData) {
+    ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', 'setUserData', 'getUserData', 'formatUploadData',
+    function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, setUserData, getUserData, formatUploadData) {
 
     $scope.showPager = true;
 
@@ -31,7 +31,9 @@ angular.module('workgenius.onboarding', [])
           clear: true
       });
     };
-
+    $scope.save = function (value) {
+      setUserData.save(value);
+    };
     $scope.finish = function () {
       $state.go('app.schedule');
     };

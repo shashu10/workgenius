@@ -14,14 +14,19 @@
         text-align: center;
         transition: filter 0.5s, opacity 0.5s;
         transition-timing-function: ease-out;
-
+        position: relative;
+        
+        .company-icon {
+            position: absolute;
+            bottom: 0;
+        }
         @include grayscale();
         img {
-            width: 33%;
+            width: 60%;
             height: auto;
         }
-        i.icon {
-            font-size: -webkit-xxx-large;
+        .work-type-icon {
+            font-size: 72px;
         }
         &.selected {
             @include remove-grayscale();

@@ -7,14 +7,14 @@
 	    </div>
 	</div>
 
-    <ion-content class="has-header has-subheader" delegate-handle="availabilityScroll" on-scroll="onScroll()">
+    <ion-content class="has-header has-subheader has-wg-save-bar" delegate-handle="availabilityScroll" on-scroll="onScroll()">
 
         <grid-days></grid-days>
         
     </ion-content>
 
     <!-- Finish Onboarding -->
-    <div class="bar bar-footer bar-positive" ng-click="finish()">
+    <div class="bar bar-footer bar-positive" ng-click="finish(); save('availability')">
       <h1 class="title">Finish >></h1>
     </div>
     

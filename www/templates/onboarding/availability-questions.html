@@ -1,5 +1,5 @@
 <ion-view class="availability-questions" title="Schedule Preferences">
-    <ion-content class="has-header has-subheader">
+    <ion-content class="has-header has-subheader has-wg-save-bar">
 
         <div>
             <p class="label1">
@@ -34,7 +34,7 @@
         </div>
     </ion-content>
 
-    <ion-footer-bar class="bar-positive" ng-click="next(); setAvailWithQuestions()" ng-show="didSelectOption()">
+    <div class="bar bar-footer bar-positive" ng-click="next(); setAvailWithQuestions()" ng-show="didSelectOption()">
       <h1 class="title">Continue >></h1>
-    </ion-footer-bar>
+    </div>
 </ion-view>

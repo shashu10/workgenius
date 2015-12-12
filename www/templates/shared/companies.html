@@ -5,6 +5,7 @@
 	<div class="row padding-top" ng-repeat="rows in chunkedCompanies">
 	    <div class="col" ng-repeat="key in rows" ng-click="select(key)" ng-class="{selected: currentUser.companies.{{key}}}">
 	        <img ng-src="img/companies/{{key}}.png" alt="">
+	        <i ng-if="currentUser.companies[key]" class="icon company-icon ion-android-checkmark-circle balanced"></i>
 	    </div>
 	</div>
 </div>

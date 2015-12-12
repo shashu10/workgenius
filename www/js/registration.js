@@ -157,12 +157,13 @@ angular.module('workgenius.registration', [])
             user.set("email", $rootScope.user.email);
             user.set("username", $rootScope.user.email);
             user.set("password", $rootScope.user.password);
+            console.log(user);
 
-            // user.set('availability', formatUploadData.availability());
-            // user.set('vehicles', formatUploadData.vehicles());
-            // user.set('companies', formatUploadData.companies());
-            // user.set('workTypes', formatUploadData.workTypes());
-            // user.set('target', 40); // Default
+            user.set('availability', {});
+            user.set('vehicles', []);
+            user.set('companies', []);
+            user.set('workTypes', []);
+            user.set('target', 40); // Default
 
             user.signUp(null, {
                 success: function(user) {

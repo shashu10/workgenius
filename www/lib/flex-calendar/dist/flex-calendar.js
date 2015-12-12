@@ -84,9 +84,9 @@
         '<i class="icon ion-arrow-right-c right-icon" ng-click="nextSlide()"></i>' +
       '</div>';
 
-    Controller.$inject = ['$scope' , '$filter', '$ionicSlideBoxDelegate'];
+    Controller.$inject = ['$scope' , '$filter', '$ionicSlideBoxDelegate', '$ionicPopup'];
 
-    function Controller($scope , $filter, $ionicSlideBoxDelegate) {
+    function Controller($scope , $filter, $ionicSlideBoxDelegate, $ionicPopup) {
 
       $scope.days = [];
       $scope.options = $scope.options || {};
@@ -253,9 +253,51 @@
 
       /////////////////
 
+      $scope.dividerFunction = function(date){
+        return moment(date).format('dddd Do');
+      };
+
+      $scope.formatAMPM = function (date) {
+        return moment(date).format('ha');
+      };
+
+      function blockWithEvents (date) {
+        $scope.selectedEvents = date.event;
+        return $ionicPopup.show({
+          cssClass: 'block-popup',
+          template: '<p>All your shifts on this day will be cancelled.</p><ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item></ion-list>',
+          title: 'Are you sure you want to block this day?',
+          scope: $scope,
+          buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
+              text: 'No, Leave it',
+              type: 'button-default',
+              onTap: function(e) {
+                return false;
+              }
+            }, {
+              text: 'Yes, Block',
+              type: 'button-assertive',
+              onTap: function(e) {
+                return true;
+              }
+            }]
+        });
+      }
+
       function onClickBlock(date, index, domEvent) {
         if (date && !date.disabled && isAfterToday(date.date)) {
           if (date.event.length) {
+            blockWithEvents(date)
+            .then(function(block) {
+
+              if (block) {
+                date.blocked = !date.blocked;
+                date.event = [];
+                var blockedDays = getBlockedDays();
+
+                $scope.options.blockClick(date, blockedDays, domEvent);
+              }
+            });
             return;
           }
           date.blocked = !date.blocked;

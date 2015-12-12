@@ -4,8 +4,6 @@ var tapTracker = ['$ionicGesture', function($ionicGesture) {
   return function(scope, element, attr) {
 
     var listener = function (event) {
-      console.log('tapped');
-      console.log(event);
     };
     var gesture = $ionicGesture.on('tap', listener, element);
 

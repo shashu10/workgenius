@@ -77,6 +77,7 @@ angular.module('workgenius.controllers', [])
 
     eventClick: function(event) {
       setCurrentMoment(moment(event.date));
+      console.log('test');
     },
     dateClick: function(event) {
       setCurrentMoment(moment(event.date));
@@ -158,7 +159,9 @@ angular.module('workgenius.controllers', [])
 }])
 .controller('VehiclesCtrl', ['$scope', function($scope) {
 }])
-.controller('CompaniesCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
+.controller('CompaniesCtrl',
+  ['$rootScope', '$scope', '$ionicModal', 'setUserData',
+  function($rootScope, $scope, $ionicModal, setUserData) {
 
     // Gropus array into smaller arrays of certain size
     var chunk = function (arr, size) {
@@ -168,16 +171,34 @@ angular.module('workgenius.controllers', [])
       }
       return newArr;
     };
+
     $scope.select = function(name) {
+      // Unselect type if it's already selected
       if ($rootScope.currentUser.companies[name]) {
         delete $rootScope.currentUser.companies[name];
-        // $scope.hideFooter();
-      } else {
-        $rootScope.currentUser.companies[name] = true;
-        // $scope.showFooter(name);
-      }
+        if ($scope.onChange) $scope.onChange();
 
-      $scope.update();
+      // Open detailed modal when unselected option is clicked
+      } else {
+        $scope.selectedCompany = {name: name, description: companyDescription[name]};
+        $scope.modal.show();
+      }
+    };
+
+    $scope.selectedWorkType = null;
+
+    $ionicModal.fromTemplateUrl('templates/shared/companies-modal.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    $scope.decline = function (company) {
+      $scope.modal.hide();
+    };
+    $scope.accept = function (company) {
+      $rootScope.currentUser.companies[company.name] = true;
+      $scope.modal.hide();
+      if ($scope.onChange) $scope.onChange();
     };
 
     var companyDescription = {
@@ -193,9 +214,9 @@ angular.module('workgenius.controllers', [])
     };
     $scope.chunkedCompanies = chunk($rootScope.companyList, 3);
 
-    $scope.update = function () {
-      // setUserData.save('companies');
-    };
+    // $scope.update = function () {
+    //   // setUserData.save('companies');
+    // };
 }])
 
 .controller('TargetCtrl', ['$scope', function($scope) {

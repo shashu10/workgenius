@@ -42,3 +42,19 @@
 	    }
 	}
 }
+.block-popup {
+	.popup-body {
+		.item {
+			border-color: transparent;
+			background-color: transparent;
+			padding-left: 35px;
+		}
+		img {
+			width: 30px;
+			position: absolute;
+			left: 0;
+			top: 11px;
+			padding: 0;
+		}
+	}
+}

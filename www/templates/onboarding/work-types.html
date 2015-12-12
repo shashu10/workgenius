@@ -1,5 +1,5 @@
 <ion-view class="register" title="Types of Work">
-    <ion-content class="has-header has-subheader">
+    <ion-content class="has-header has-subheader has-wg-save-bar">
         
         <div class="padding">
             <work-types/>
@@ -7,7 +7,7 @@
 
     </ion-content>
 
-    <ion-footer-bar class="bar-positive" ng-click="next()" ng-hide="currentUser.workTypes | isEmpty">
+    <div class="bar bar-footer bar-positive" ng-click="next(); save('workTypes')" ng-hide="currentUser.workTypes | isEmpty">
 	  <h1 class="title">Continue >></h1>
-	</ion-footer-bar>
+	</div>
 </ion-view>

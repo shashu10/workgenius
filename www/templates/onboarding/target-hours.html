@@ -1,5 +1,5 @@
 <ion-view class="register" title="Target Hours">
-    <ion-content has-header="true" class="has-subheader">
+    <ion-content has-header="true" class="has-subheader has-wg-save-bar">
 
         <div class="padding">
             <target-controls/>
@@ -7,9 +7,9 @@
 
     </ion-content>
 
-	<ion-footer-bar class="bar-positive" ng-click="next()">
+	<div class="bar bar-footer bar-positive" ng-click="next(); save('target')">
 	  <h1 class="title">Continue >></h1>
-	</ion-footer-bar>
+	</div>
 </ion-view>
 
 
