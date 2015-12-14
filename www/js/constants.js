@@ -6,184 +6,209 @@ angular.module('workgenius.constants', [])
         title: 'Meal Delivery',
         icon: "ion-pizza",
         requirements: ['car', 'bike', '18+'],
-        companies: {
-            caviar: {
+        companies: [
+            {
+                name: 'caviar',
                 available: true,
                 info: 'Description',
                 longInfo: 'Deliver food from local restaurants'
             },
-            bento: {
+            {
+                name: 'bento',
                 available: true,
                 info: 'Description',
                 longInfo: 'Assemble and deliver asian Bento boxes'
             },
-            munchery: {
+            {
+                name: 'munchery',
                 available: false,
                 info: 'Description',
                 longInfo: 'Deliver meals cooked by Munchery\'s own chefs'
             },
-            doordash: {
+            {
+                name: 'doordash',
                 available: false,
                 info: 'Description',
                 longInfo: 'Deliver from local restaurants'
             },
-            sprig: {
+            {
+                name: 'sprig',
                 available: false,
                 info: 'Description',
                 longInfo: 'Healthy food delivered from Sprig\'s own chefs'
             },
-            spoonrocket: {
+            {
+                name: 'spoonrocket',
                 available: false,
                 info: 'Description',
                 longInfo: 'Chef cooked meals delivered in under 20 minutes'
             },
-            // postmates : {
+            // {
+            //   name: 'postmates',
             //   available: false,
             //   info: 'Description',
             //   longInfo: 'Deliver mostly food but also other items for poeple around the city'
             // },
-        }
+        ]
     }, {
         name: 'Grocery',
         title: 'Grocery Delivery',
         icon: "ion-ios-nutrition",
         requirements: ['car', 'bike', '18+'],
-        companies: {
-            instacart: {
+        companies: [
+            {
+                name: 'instacart',
                 available: true,
                 info: 'Description',
                 longInfo: 'Buy, pack and delkiver groceries to customers from various grocery stores'
             },
-            good_eggs: {
+            {
+                name: 'good_eggs',
                 available: false,
                 info: 'Description',
                 longInfo: 'Deliver groceries from local producers to customers'
             },
-            amazon_fresh: {
+            {
+                name: 'amazon_fresh',
                 available: false,
                 info: 'Description',
                 longInfo: 'Deliver groceries and household items to customers'
             },
-            google_express: {
+            {
+                name: 'google_express',
                 available: false,
                 info: 'Description',
                 longInfo: 'Deliver groceries and household items to customers'
             },
-        }
+        ]
     }, {
         name: 'Alcohol',
         title: 'Alcohol Delivery',
         icon: "ion-beer",
         requirements: ['car', 'bike', '18+'],
-        companies: {
-            saucey: {
+        companies: [
+            {
+                name: 'saucey',
                 available: true,
                 info: 'Description',
                 longInfo: 'Deliver alsohol, tobacco and snacks to thirsty customers. It\'s always 5pm!'
             },
-            thirstie: {
+            {
+                name: 'thirstie',
                 available: false,
                 info: 'Description',
                 longInfo: 'Deliver alcohol to thirsty customers'
             },
-            swill: {
+            {
+                name: 'swill',
                 available: false,
                 info: 'Description',
                 longInfo: 'Deliver alcohol to thirsty customers'
             },
-        }
+        ]
     }, {
         name: 'Package',
         title: 'Package Delivery',
         icon: "ion-cube",
         requirements: ['car', 'bike', '18+'],
-        companies: {
-            shyp: {
+        companies: [
+            {
+                name: 'shyp',
                 available: true,
                 info: 'Description',
                 longInfo: 'Pickup packages from customers'
             },
-            doorman: {
+            {
+                name: 'doorman',
                 available: false,
                 info: 'Description',
                 longInfo: 'Deliver packages to customers'
             },
-        }
+        ]
     }, {
         name: 'Valet',
         title: 'Valet Services',
         icon: "ion-key",
         requirements: ['car', 'bike', '18+'],
-        companies: {
-            luxe: {
+        companies: [
+            {
+                name: 'luxe',
                 available: true,
                 info: 'Description',
                 longInfo: 'Meet customers curb side, park their cars and deliver it back when requested'
             },
-            zirx: {
+            {
+                name: 'zirx',
                 available: false,
                 info: 'Description',
                 longInfo: 'Meet customers curb side, park their cars and deliver it back when requested'
             },
-        }
+        ]
     },
     // {
     //     name: 'Rideshare',
     //     title: 'Ridesharing Jobs',
     //     icon: "ion-android-car",
     //     requirements: ['car', 'bike', '18+'],
-    //     companies: {
-    //         lyft: {
+    //     companies: [
+    //         {
+    //             name: 'lyft',
     //             available: true,
     //             info: 'Description',
     //             longInfo: 'Drive people to their desired destinations'
     //         },
-    //         uber: {
+    //         {
+    //             name: 'uber',
     //             available: false,
     //             info: 'Description',
     //             longInfo: 'Drive people to their desired destinations'
     //         },
-    //         sidecar: {
+    //         {
+    //             name: 'sidecar',
     //             available: false,
     //             info: 'Description',
     //             longInfo: 'Help small businesses deliver their goods to their customers'
     //         },
-    //         carma: {
+    //         {
+    //             name: 'carma',
     //             available: false,
     //             info: 'Description',
     //             longInfo: 'Drive your neighbors to their work place through carpooling'
     //         },
-    //     }
+    //     ]
     // },
     // {
     //   name:'Marijuana',
     //   title: 'Medical Marijuana Delivery',
     //   icon: "ion-ios-flower-outline",
     //   requirements : ['car', 'bike', '18+'],
-    //   companies: {
-    //     meadow : {
+    //   companies: [
+    //     {
+    //       name: 'meadow',
     //       available: false,
     //       info: 'Description',
     //       longInfo: 'Deliver medical marijuana to patients'
     //     },
-    //     eaze : {
+    //     {
+    //       name: 'eaze',
     //       available: false,
     //       info: 'Description',
     //       longInfo: 'Deliver medical marijuana to patients'
     //     },
-    //     nugg : {
+    //     {
+    //       name: 'nugg',
     //       available: false,
     //       info: 'Description',
     //       longInfo: 'Deliver medical marijuana to patients'
     //     },
-    //   }
+    //   ]
     // },
     // {
     //   name:'Pharmacy',
     //   icon: "ion-medkit",
     //   requirements : ['car', 'bike', '18+'],
-    //   companies: {
-
-    //   }
+    //   companies: [
+    //
+    //   ]
     // }
 	]);

@@ -143,3 +143,19 @@ html *
         }
     }
 }
+
+.available-jobs {
+    padding-top: 10px;
+    color: $positive;
+}
+.coming-soon {
+    padding-top: 10px;
+    color: $wg-gray-text;
+    border-top: 1px solid #DDDDDD;
+}
+
+.has-flex-calendar-subheader {
+    .scroll {
+        padding-bottom: 200px;
+    }
+}

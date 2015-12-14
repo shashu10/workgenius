@@ -18,21 +18,35 @@
       <h4 class="light-green">$16-$20</h4>
     </div>
   </div>
+
+  <p class="center-text available-jobs"><strong> Available Jobs </strong></p>
   
   <ul class="work-types-content">
   <!-- {{selectedWorkType}} -->
-    <ion-item class="item-text-wrap" ng-class="{disabled : !company.available}" ng-repeat="(name, company) in selectedWorkType.companies">
-      <img ng-src="img/companies/{{name}}.png" alt="">
+    <ion-item class="item-text-wrap" ng-repeat="company in selectedWorkType.companies | filter:{available: true}">
+      <img ng-src="img/companies/{{company.name}}.png" alt="">
       <p>{{company.longInfo}}</p>
     </ion-item>
-    <div class="button-bar padding">
-      <button class="button button-stable" ng-click="decline(selectedWorkType)">Go Back</button>
-      <button class="button button-positive" ng-click="accept(selectedWorkType)">
-        I'm In
-      </button>
-    </div>
 
   </ul>
+
+  <p class="center-text coming-soon"><strong> Coming Soon </strong></p>
+
+  <ul class="work-types-content">
+  <!-- {{selectedWorkType}} -->
+    <ion-item class="item-text-wrap disabled" ng-repeat="company in selectedWorkType.companies | filter:{available: false}">
+      <img ng-src="img/companies/{{company.name}}.png" alt="">
+      <p>{{company.longInfo}}</p>
+    </ion-item>
+
+  </ul>
+
+  <div class="button-bar padding">
+    <button class="button button-stable" ng-click="decline(selectedWorkType)">Go Back</button>
+    <button class="button button-positive" ng-click="accept(selectedWorkType)">
+      I'm In
+    </button>
+  </div>
 
   </ion-content>
 </ion-modal-view>
