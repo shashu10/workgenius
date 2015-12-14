@@ -3,7 +3,7 @@
         <p>Use this to customize exactly what hours you can and can't work. You can come back to change this later in your preferences. When you are done press the check mark on your top right.</p>
     </div>
     <div class="wg-grid-days">
-        <div class="row" ion-affix template="daysHeader" data-affix-within-parent-with-class="wg-grid-days">
+        <div class="row" wg-availability-header>
             <div class="first"></div>
             <div class="col" ng-click="select(day, null)" ng-repeat="day in days">{{day | limitTo: 1}}</div>
         </div>
