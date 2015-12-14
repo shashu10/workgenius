@@ -407,23 +407,12 @@ angular.module('workgenius.directives', [])
 
             // creates the affix clone and adds it to DOM. by default it is put to top
             var createAffixClone = function () {
-                var clone;
-                if (attr.template == 'daysHeader') {
-                  clone = angular.element('<div class="wg-grid-days" ng-controller="AvailabilityCtrl"><div class="row wg-grid-header"><div class="first"></div><div class="col" ng-click="select(\'MON\', null)">M</div><div class="col" ng-click="select(\'TUE\', null)">T</div><div class="col" ng-click="select(\'WED\', null)">W</div><div class="col" ng-click="select(\'THU\', null)">T</div><div class="col" ng-click="select(\'FRI\', null)">F</div><div class="col" ng-click="select(\'SAT\', null)">S</div><div class="col" ng-click="select(\'SUN\', null)">S</div></div></div>')
-                  .css({
+                var clone = element.clone().css({
                       position: 'absolute',
                       top: 0,
                       left: 0,
                       right: 0
                   });
-                } else {
-                  clone = element.clone().css({
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0
-                  });
-                }
 
                 // if directive is given an additional CSS class to apply to the clone, then apply it
                 if (attr.affixClass) {
@@ -470,12 +459,12 @@ angular.module('workgenius.directives', [])
                   // this is because of some weird problem which is hard to describe.
                   // if you want to experiment, always use the throttled one and just click on the page
                   // you will see all affix elements stacked on top
-                  if (scrollTop === 0) {
+                  // if (scrollTop === 0) {
                       calculateScrollLimits(scrollTop);
-                  }
-                  else {
-                      throttledCalculateScrollLimits(scrollTop);
-                  }
+                  // }
+                  // else {
+                  //     throttledCalculateScrollLimits(scrollTop);
+                  // }
 
                   // when we scrolled to the container, create the clone of element and place it on top
                   if (scrollTop > scrollMin + 1 && scrollTop <= scrollMax) {
@@ -514,6 +503,69 @@ angular.module('workgenius.directives', [])
                 // setScrollListener();
             });
 
+            setScrollListener();
+        }
+    };
+}])
+
+  // Custom ion-affix for availability
+ .directive('wgAvailabilityHeader', ['$compile', 'utils', function ($compile, utils) {
+    // keeping the Ionic specific stuff separated so that they can be changed and used within another context
+
+    var CALCULATION_THROTTLE_MS = 500;
+
+    return {
+        restrict: 'A',
+        require: '^$ionicScroll',
+        link: function (scope, element, attr, $ionicScroll) {
+            var $container = null;
+            var affixClone = null;
+            var createAffixClone = function () {
+                var clone = angular.element('<div class="wg-grid-days" ng-controller="AvailabilityCtrl"><div class="row wg-grid-header"><div class="first"></div><div class="col" ng-click="select(\'MON\', null)">M</div><div class="col" ng-click="select(\'TUE\', null)">T</div><div class="col" ng-click="select(\'WED\', null)">W</div><div class="col" ng-click="select(\'THU\', null)">T</div><div class="col" ng-click="select(\'FRI\', null)">F</div><div class="col" ng-click="select(\'SAT\', null)">S</div><div class="col" ng-click="select(\'SUN\', null)">S</div></div></div>')
+                  .css({
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0
+                  });
+
+                angular.element($ionicScroll.element).append(clone);
+                $compile(clone)(scope);
+                return clone;
+            };
+
+            var removeAffixClone = function () {
+                if (affixClone)
+                    affixClone.remove();
+                affixClone = null;
+            };
+
+            var setScrollListener = function () {
+              if (attr.affixWithinParentWithClass) {
+                  $container = utils.getParentWithClass(element, attr.affixWithinParentWithClass);
+                  if (!$container) {
+                      $container = element.parent();
+                  }
+              } else {
+                  $container = element.parent();
+              }
+              angular.element($ionicScroll.element).on('scroll', function (event) {
+
+                  // when we scrolled to the container, create the clone of element and place it on top
+                  if (utils.position($container).top <= 0) {
+                      if (!affixClone) {
+                          affixClone = createAffixClone();
+                      }
+                  } else {
+                      removeAffixClone();
+                  }
+              });
+            };
+
+
+            scope.$on("$destroy", function () {
+                removeAffixClone();
+            });
             setScrollListener();
         }
     };
