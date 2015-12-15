@@ -213,6 +213,10 @@
   bottom: 2px;
   margin-left: -3px;
 }
+.flex-calendar .days .day.blocked.event:before {
+    margin-left: 0;
+    background-color: white;
+}
 .flex-calendar .days .day.selected.event:before {
     margin-left: 13px;
     background-color: white;

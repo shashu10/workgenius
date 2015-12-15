@@ -393,12 +393,13 @@
       }
 
       function blockedDate(date) {
-        if (!$scope.blockedDates) return false;
-        // for(var i = 0; i < $scope.blockedDates.length; i++){
-        //   if(date.year === $scope.blockedDates[i].getFullYear() && date.month === $scope.blockedDates[i].getMonth() && date.day === $scope.blockedDates[i].getDate()){
+        if (!$scope.options.blockedDays) return false;
+        for (var i = 0; i < $scope.options.blockedDays.length; i++) {
+          var d = $scope.options.blockedDays[i];
+          if (date.day === d.day && date._month === d.month && date.year === d.year)
             return true;
-        //   }
-        // }
+        }
+        return false;
       }
 
       function allowedPrevMonth(currMonth, currYear) {
