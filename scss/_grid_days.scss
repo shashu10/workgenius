@@ -35,12 +35,13 @@ $wg-maybe: #bdc3c7;
 				span {
 					display: block;
 					border-radius: 4px;
-					transition: background-color 0.5s;
+					transition: background-color 0.5s, color 2s;
 					color: white;
 				}
 				&.selected {
 					span {
 						background-color: $wg-yes;
+						color: $wg-yes;
 					}
 				}
 				&.maybe {

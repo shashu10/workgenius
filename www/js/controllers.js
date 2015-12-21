@@ -132,30 +132,36 @@ angular.module('workgenius.controllers', [])
 
     var YES_NO = 2;
     var YES_MAYBE_NO = 3;
-    
-    $scope.select = function(day, interval) {
-      // 2 options: Yes, Blank
 
-      // Selected specific timeslot
-      if (day && interval !== null && interval !== undefined) {
-        $rootScope.currentUser.availability[day][interval] = ($rootScope.currentUser.availability[day][interval] + 1) % YES_NO;
-
-      // Select hour
-      } else if (!day && interval !== null && interval !== undefined) {
-        for (var i = 0; i < $rootScope.days.length; i++) {
-          day = $rootScope.days[i];
-          $rootScope.currentUser.availability[day][interval] = ($rootScope.currentUser.availability[day][interval] + 1) % YES_NO;
-        }
-
-      // Select day
-      } else if (day && (interval === null || interval === undefined)) {
-        for (var i = 0; i < $rootScope.intervals.length; i++) {
-          $rootScope.currentUser.availability[day][i] = ($rootScope.currentUser.availability[day][i] + 1) % YES_NO;
-        }
+    // New array format
+    var toggleUniqueArray = function (day, hour) {
+      hour =  Number(hour.match(/\d+/)[0]);
+      if (!$rootScope.currentUser.availability[day]) {
+        $rootScope.currentUser.availability[day] = [hour];
+        return;
       }
+      var index = $rootScope.currentUser.availability[day].indexOf(hour);
+      if (index > -1) {
+        $rootScope.currentUser.availability[day].splice(index, 1);
+      } else {
+        $rootScope.currentUser.availability[day].push(hour);
+      }
+      $rootScope.currentUser.availability[day].sort(function(a, b){return a-b;});
+    };
+
+    $scope.select = function(day, interval, hour) {
+      toggleUniqueArray(day, hour);
 
       if ($scope.onChange) $scope.onChange();
     };
+
+    $scope.isSelected = function (day, hour) {
+      hour =  Number(hour.match(/\d+/)[0]);
+      if (!$rootScope.currentUser.availability[day]) {
+        return false;
+      }
+      return $rootScope.currentUser.availability[day].indexOf(hour) > -1;
+    }
 }])
 .controller('VehiclesCtrl', ['$scope', function($scope) {
 }])

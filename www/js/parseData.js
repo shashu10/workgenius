@@ -145,34 +145,16 @@ angular.module('parseData', [])
   };
 
   var getAvailability = function (user) {
-    var availability = user.get('availability');
-    if (!availability) {
-      return {availability: initAvailability(), totalHours: 0};
-    } else {
-      var totalHours = 0;
-      for (var i = 0; i < $rootScope.days.length; i++) {
-        var day = $rootScope.days[i];
-        for (var j = 0; j < $rootScope.intervals.length; j++) {
-          if (availability[day][j]) {
-            totalHours += 1;
-          }
-        }
-      }
-      return {availability: availability, totalHours: totalHours};
-    }
-  };
-
-  var initAvailability = function (avail) {
-
-    var availability = {};
+    var availability = user.get('availability') || {};
+  
+    var totalHours = 0;
     for (var i = 0; i < $rootScope.days.length; i++) {
       var day = $rootScope.days[i];
-      availability[day] = [];
-      for (var j = 0; j < $rootScope.intervals.length; j++) {
-        availability[day][j] = 0;
+      if (availability[day]) {
+        totalHours += availability[day].length;
       }
     }
-    return availability;
+    return {availability: availability, totalHours: totalHours};
   };
 
   var setDefaultPrefs = function (name, email) {
@@ -186,7 +168,7 @@ angular.module('parseData', [])
       workTypes        : {},
       blockedDays      : [],
       totalHours       : 0,
-      availability     : initAvailability(),
+      availability     : {},
       appState         : {},
     });
   };
@@ -208,6 +190,7 @@ angular.module('parseData', [])
 
     // Existing user must have their preferences fetched
     } else {
+      setDefaultPrefs('', '');
       Parse.User.current().fetch().then(function (user) {
 
         var scheduleGrid = getAvailability(user);

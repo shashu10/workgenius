@@ -9,9 +9,9 @@
         </div>
         <div class="row" ng-repeat="(i, int) in intervals">
             <div class="first" ng-click="select(null, i)">{{int}}</div>
-            <div class="col" ng-class="currentUser.availability[day][i] == 1 ? 'selected' : currentUser.availability[day][i] == 2 ? 'maybe' : ''" ng-repeat="day in days" ng-click="select(day, i)">
+            <div class="col" ng-class="{selected : isSelected(day, int)}" ng-repeat="day in days" ng-click="select(day, i, int)">
                 <span>
-                    {{currentUser.availability[day][i] == 1 ? 'YES' : currentUser.availability[day][i] == 2 ? 'MAYBE' : 'NO'}}
+                    {{isSelected(day, int) ? 'YES' : 'NO'}}
                 </span>
             </div>
         </div>
