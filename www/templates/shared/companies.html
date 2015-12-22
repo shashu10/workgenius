@@ -3,9 +3,9 @@
         <p>Select the companies you are eligible to work for.</p>
     </div>
 	<div class="row padding-top" ng-repeat="rows in companyList | chunkBy: 3">
-	    <div class="col" ng-repeat="company in rows" ng-click="select(company)" ng-class="{selected: currentUser.companies.{{company.name}}}">
+	    <div class="col" ng-repeat="company in rows" ng-click="select(company)" ng-class="{selected: isInterested(company.name)}">
 	        <img ng-src="img/companies/{{company.name}}.png" alt="">
-	        <i ng-if="currentUser.companies[company.name]" class="icon company-icon ion-android-checkmark-circle balanced"></i>
+	        <i ng-if="isEligible(company.name)" class="icon company-icon ion-android-checkmark-circle balanced"></i>
 	    </div>
 	</div>
 </div>

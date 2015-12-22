@@ -7,23 +7,99 @@ angular.module('parseData', ['workgenius.constants'])
 .factory('getCompanyData', ['$rootScope', '$q', 'companies', getCompanyData]);
 
 function setEligibility ($rootScope, formatUploadData) {
-  var findCompany = function (element, index, array) {
-    if (element.name === company) {
-      var eligibility = new Parse.Object("Eligibility");
-      eligibility.set("worker", Parse.User.current());
-      eligibility.set("company", Parse.User.current());
-      eligibility.set("interested", true);
-      eligibility.save();
-    }
-  };
-  return {
-    save: function () {
-      for (var company in $rootScope.currentUser.companies) {
-        if ($rootScope.currentUser.companies[company] === true) {
-          $rootScope.companyList.find(findCompany);
-        }
+
+  var findEligibility = function (name) {
+    var el = $rootScope.currentUser.eligibility;
+    for (var i = 0; i < el.length; i++) {
+      if (name === el[i].company){
+        return el[i];
       }
     }
+    return undefined;
+  };
+  var removeEligibility = function (name) {
+    var el = $rootScope.currentUser.eligibility;
+    for (var i = 0; i < el.length; i++) {
+      if (name === el[i].company){
+        el.splice(i, 1);
+        return;
+      }
+    }
+  };
+  var createEligibility = function (name) {
+      var eligibility = new Parse.Object("Eligibility");
+      eligibility.set("worker", Parse.User.current());
+      eligibility.set("company", getCompany(name));
+      eligibility.set("interested", true);
+
+      // Wrapper obj
+      var el = {
+        id         : undefined,
+        company    : name,
+        eligible   : undefined,
+        interested : true,
+        object     : eligibility
+      };
+
+      $rootScope.currentUser.eligibility.push(el);
+      return el;
+  };
+  var getCompany = function (name) {
+    for (var i = 0; i < $rootScope.companyList.length; i++) {
+      var comp = $rootScope.companyList[i];
+      if (comp.name === name) {
+        return comp.object;
+      }
+    }
+  };
+
+  return {
+    save: function (success) {
+
+      var successWrapper = function () {
+        console.log('saved eligibility');
+        if (success) success();
+      };
+
+      // Save the ones that have changed
+      for (var i = 0; i < $rootScope.currentUser.eligibility.length; i++) {
+
+        var el = $rootScope.currentUser.eligibility[i];
+
+        var changed = false;
+
+        // Save if it is a new parse object
+        if (el.id === undefined)
+          changed = true;
+
+        // Compare saved parse obj and wrapper obj
+        // Designed to work with wg-save-bar
+        if (el.eligible !== el.object.get('eligible')) {
+          changed = true;
+          el.object.set("eligible", el.eligible);
+        }
+
+        if (el.interested !== el.object.get('interested')) {
+          changed = true;
+          el.object.set("interested", el.interested);
+        }
+
+        if (changed) el.object.save().then(successWrapper);
+      }
+    },
+    toggleInterest: function (name, toggle) {
+      // If eligibility exists, get it. Else create new parse object
+      var el = findEligibility(name) || createEligibility(name);
+
+      // If unselecting parse object not in DB, just delete it
+      // Makes my life simpler with wg-save-bar
+      if (toggle === false && el.id === undefined)
+        removeEligibility(name);
+
+      else
+        el.interested = toggle;
+    },
+    findEligibility: findEligibility
   };
 }
 
@@ -92,6 +168,14 @@ function getCompanyData ($rootScope, $q, companies) {
 }
 function getUserData ($rootScope, $q) {
 
+  var Eligibility = Parse.Object.extend("Eligibility");
+
+  var getEligibility = function (user) {
+    var query = new Parse.Query(Eligibility);
+    query.equalTo("worker", Parse.User.current());
+    return query.find();
+  };
+
   var getWorkTypes = function (user) {
     var workTypes = {};
     for (var type in user.get('workTypes')) {
@@ -144,7 +228,8 @@ function getUserData ($rootScope, $q) {
       }
     }
     return totalHours;
-  }
+  };
+
   var setDefaultPrefs = function (name, email) {
     angular.extend($rootScope.currentUser, {
       name             : name,
@@ -153,10 +238,11 @@ function getUserData ($rootScope, $q) {
       cancellations    : 0,
       totalHours       : 0,
       vehicles         : getVehicles(),
-      companies        : {},
-      workTypes        : {},
+      eligibility      : [],
       blockedDays      : [],
       availability     : {},
+      companies        : {},
+      workTypes        : {},
       appState         : {},
     });
   };
@@ -178,7 +264,10 @@ function getUserData ($rootScope, $q) {
 
     // Existing user must have their preferences fetched
     } else {
+
+      // setup default values while actual values load 
       setDefaultPrefs('', '');
+
       Parse.User.current().fetch().then(function (user) {
 
         angular.extend($rootScope.currentUser, {
@@ -194,6 +283,27 @@ function getUserData ($rootScope, $q) {
           availability     : getAvailability(user),
           totalHours       : calculateTotalHours(user)
         });
+        
+        return getEligibility();
+
+      }).then(function(results) {
+
+        var eligibility = [];
+
+        for (var i = 0; i < results.length; i++) {
+          var el = results[i];
+
+
+          eligibility.push({
+            id         : el.id,
+            company    : el.get('company') && el.get('company').get('name'),
+            eligible   : el.get('eligible'),
+            interested : el.get('interested'),
+            object     : el
+          });
+        }
+
+        $rootScope.currentUser.eligibility = eligibility;
 
         deferred.resolve(true);
       });

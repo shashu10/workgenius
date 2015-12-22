@@ -171,19 +171,7 @@ angular.module('workgenius.controllers', [])
   ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'setEligibility',
   function($rootScope, $scope, $ionicModal, setUserData, setEligibility) {
 
-    $scope.select = function(company) {
-      // Unselect type if it's already selected
-      if ($rootScope.currentUser.companies[company.name]) {
-        delete $rootScope.currentUser.companies[company.name];
-        if ($scope.onChange) $scope.onChange();
-
-      // Open detailed modal when unselected option is clicked
-      } else {
-        $scope.selectedCompany = company;
-        $scope.modal.show();
-      }
-    };
-    $scope.specialSave = setEligibility.save;
+    $scope.customSave = setEligibility.save;
     $scope.selectedWorkType = null;
 
     $ionicModal.fromTemplateUrl('templates/shared/companies-modal.html', {
@@ -195,9 +183,32 @@ angular.module('workgenius.controllers', [])
       $scope.modal.hide();
     };
     $scope.accept = function (company) {
-      $rootScope.currentUser.companies[company.name] = true;
+
+      setEligibility.toggleInterest(company.name, true);
       $scope.modal.hide();
       if ($scope.onChange) $scope.onChange();
+    };
+    $scope.select = function(company) {
+      // Unselect type if it's already selected
+      if ($scope.isInterested(company.name)) {
+        setEligibility.toggleInterest(company.name, false);
+
+        if ($scope.onChange) $scope.onChange();
+
+      // Open detailed modal when unselected option is clicked
+      } else {
+        $scope.selectedCompany = company;
+        $scope.modal.show();
+      }
+    };
+
+    $scope.isEligible = function (name) {
+      var eligibility = setEligibility.findEligibility(name);
+      return eligibility && eligibility.eligible;
+    };
+    $scope.isInterested = function (name) {
+      var eligibility = setEligibility.findEligibility(name);
+      return eligibility && eligibility.interested;
     };
 }])
 

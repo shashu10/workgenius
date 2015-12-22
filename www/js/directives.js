@@ -99,7 +99,7 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/wg-save-bar.html',
     scope: {
         wgOnChange: '=',
-        wgSpecialSave: '=',
+        wgCustomSave: '=',
         wgProp: '='
     },
     controller: ['$scope', '$rootScope', '$timeout', 'setUserData',
@@ -112,11 +112,14 @@ angular.module('workgenius.directives', [])
       $scope.save = function () {
         // Too fast.
         // $scope.state = 'Saving...';
-        if ($scope.wgSpecialSave) {
-          $scope.wgSpecialSave();
-          $scope.state = 'Saved!';
-          copy = angular.copy($rootScope.currentUser[$scope.wgProp]);
-          $scope.wgOnChange();
+        if ($scope.wgCustomSave) {
+          $scope.wgCustomSave(function () {
+            $scope.state = 'Saved!';
+            $scope.changed = false;
+            copy = angular.copy($rootScope.currentUser[$scope.wgProp]);
+            $scope.wgOnChange();
+            $scope.$apply();
+          });
           return;
         }
         setUserData.save($scope.wgProp, function success () {
