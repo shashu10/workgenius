@@ -127,16 +127,15 @@ function getUserData ($rootScope, $q) {
   };
   
   var getBlockedDays = function (user) {
-    // var companies = {};
-    // for (var day in user.get('blockedDays')) {
-    //   companies[user.get('companies')[company]] = true;
-    // }
     return user.get('blockedDays') || [];
   };
 
   var getAvailability = function (user) {
-    var availability = user.get('availability') || {};
-  
+    return user.get('availability') || {};
+  };
+
+  var calculateTotalHours = function (user) {
+    var availability = getAvailability(user);
     var totalHours = 0;
     for (var i = 0; i < $rootScope.days.length; i++) {
       var day = $rootScope.days[i];
@@ -144,20 +143,19 @@ function getUserData ($rootScope, $q) {
         totalHours += availability[day].length;
       }
     }
-    return {availability: availability, totalHours: totalHours};
-  };
-
+    return totalHours;
+  }
   var setDefaultPrefs = function (name, email) {
     angular.extend($rootScope.currentUser, {
       name             : name,
       email            : email,
       target           : 40,
       cancellations    : 0,
+      totalHours       : 0,
       vehicles         : getVehicles(),
       companies        : {},
       workTypes        : {},
       blockedDays      : [],
-      totalHours       : 0,
       availability     : {},
       appState         : {},
     });
@@ -183,7 +181,6 @@ function getUserData ($rootScope, $q) {
       setDefaultPrefs('', '');
       Parse.User.current().fetch().then(function (user) {
 
-        var scheduleGrid = getAvailability(user);
         angular.extend($rootScope.currentUser, {
           name             : user.get('name')  || '',
           email            : user.get('email') || '',
@@ -194,8 +191,8 @@ function getUserData ($rootScope, $q) {
           companies        : getCompanies(user),
           workTypes        : getWorkTypes(user),
           blockedDays      : getBlockedDays(user),
-          totalHours       : scheduleGrid.totalHours,
-          availability     : scheduleGrid.availability,
+          availability     : getAvailability(user),
+          totalHours       : calculateTotalHours(user)
         });
 
         deferred.resolve(true);
@@ -243,6 +240,7 @@ function formatUploadData ($rootScope) {
   };
 
   var formatAvailability = function () {
+    reCalculateTotalHours();
     return $rootScope.currentUser.availability;
   };
 
@@ -252,6 +250,17 @@ function formatUploadData ($rootScope) {
 
   var formatAppState = function () {
     return $rootScope.currentUser.appState || {};
+  };
+
+  var reCalculateTotalHours = function () {
+    var totalHours = 0;
+    for (var i = 0; i < $rootScope.days.length; i++) {
+      var day = $rootScope.days[i];
+      if ($rootScope.currentUser.availability[day]) {
+        totalHours += $rootScope.currentUser.availability[day].length;
+      }
+    }
+    $rootScope.currentUser.totalHours = totalHours;
   };
 
   return {

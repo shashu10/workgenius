@@ -1,8 +1,8 @@
 angular.module('workgenius.controllers', [])
 
 .controller('MenuCtrl',
-  ['$scope', '$state', '$ionicHistory', '$ionicModal', '$interval', 'getUserData',
-  function( $scope, $state, $ionicHistory, $ionicModal, $interval, getUserData) {
+  ['$scope', '$rootScope', '$state', '$ionicHistory', '$ionicModal', '$interval', 'getUserData',
+  function( $scope, $rootScope, $state, $ionicHistory, $ionicModal, $interval, getUserData) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -63,8 +63,7 @@ angular.module('workgenius.controllers', [])
 
   setCurrentMoment(moment());
   
-  $rootScope.currentUser.blockedDays = [];
-  $scope.blockedCount = 0;
+  $scope.blockedCount = getBlockedInNext30Days();
 
   $scope.options = {
 
@@ -77,7 +76,6 @@ angular.module('workgenius.controllers', [])
 
     eventClick: function(event) {
       setCurrentMoment(moment(event.date));
-      console.log('test');
     },
     dateClick: function(event) {
       setCurrentMoment(moment(event.date));
@@ -135,23 +133,28 @@ angular.module('workgenius.controllers', [])
 
     // New array format
     var toggleUniqueArray = function (day, hour) {
-      hour =  Number(hour.match(/\d+/)[0]);
+      hour =  Number(moment(hour, "ha").format('H'));
       if (!$rootScope.currentUser.availability[day]) {
         $rootScope.currentUser.availability[day] = [hour];
         return;
       }
       var index = $rootScope.currentUser.availability[day].indexOf(hour);
       if (index > -1) {
+        // remove if it already exists
         $rootScope.currentUser.availability[day].splice(index, 1);
+        if ($rootScope.currentUser.availability[day].length === 0) {
+          delete $rootScope.currentUser.availability[day];
+        }
+
       } else {
         $rootScope.currentUser.availability[day].push(hour);
       }
-      $rootScope.currentUser.availability[day].sort(function(a, b){return a-b;});
+      if ($rootScope.currentUser.availability[day])
+        $rootScope.currentUser.availability[day].sort(function(a, b){return a-b;});
     };
 
     $scope.select = function(day, interval, hour) {
       toggleUniqueArray(day, hour);
-
       if ($scope.onChange) $scope.onChange();
     };
 
@@ -159,7 +162,7 @@ angular.module('workgenius.controllers', [])
       if (!$rootScope.currentUser.availability[day]) {
         return false;
       }
-      formattedHour = moment(hour, "ha").format('H');
+      formattedHour = Number(moment(hour, "ha").format('H'));
       return $rootScope.currentUser.availability[day].indexOf(formattedHour) > -1;
     };
 }])
