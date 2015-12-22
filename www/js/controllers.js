@@ -1,5 +1,10 @@
 angular.module('workgenius.controllers', [])
 
+
+// ============ //
+//     MENU     //
+// ============ //
+
 .controller('MenuCtrl',
   ['$scope', '$rootScope', '$state', '$ionicHistory', '$ionicModal', '$interval', 'getUserData',
   function( $scope, $rootScope, $state, $ionicHistory, $ionicModal, $interval, getUserData) {
@@ -55,6 +60,66 @@ angular.module('workgenius.controllers', [])
 
   // End
 
+}])
+
+// ============ //
+// AVAILABILITY //
+// ============ //
+
+.controller('AvailabilityTabsCtrl',
+  ['$scope',
+  function($scope) {
+
+    $scope.$on('$stateChangeSuccess', function(event, current) {
+        if (current.name.indexOf('block-days') > -1) {
+          $scope.availActive = false;
+        } else {
+          $scope.availActive = true;
+        }
+    });
+}])
+.controller('AvailabilityCtrl',
+  ['$rootScope', '$scope',
+  function($rootScope, $scope) {
+
+    var YES_NO = 2;
+    var YES_MAYBE_NO = 3;
+
+    // New array format
+    var toggleUniqueArray = function (day, hour) {
+      hour =  Number(moment(hour, "ha").format('H'));
+      if (!$rootScope.currentUser.availability[day]) {
+        $rootScope.currentUser.availability[day] = [hour];
+        return;
+      }
+      var index = $rootScope.currentUser.availability[day].indexOf(hour);
+      if (index > -1) {
+        // remove if it already exists
+        $rootScope.currentUser.availability[day].splice(index, 1);
+        if ($rootScope.currentUser.availability[day].length === 0) {
+          delete $rootScope.currentUser.availability[day];
+        }
+
+      } else {
+        $rootScope.currentUser.availability[day].push(hour);
+      }
+      if ($rootScope.currentUser.availability[day])
+        $rootScope.currentUser.availability[day].sort(function(a, b){return a-b;});
+    };
+
+    $scope.select = function(day, interval, hour) {
+      toggleUniqueArray(day, hour);
+      if ($scope.onChange) $scope.onChange();
+    };
+
+    $scope.isSelected = function (day, hour) {
+      if (!$rootScope.currentUser.availability[day]) {
+        return false;
+      }
+      formattedHour = Number(moment(hour, "ha").format('H'));
+      var retval = $rootScope.currentUser.availability[day].indexOf(formattedHour) > -1;
+      return retval;
+    };
 }])
 .controller('BlockDaysCtrl',
   ['$rootScope', '$scope',
@@ -112,61 +177,10 @@ angular.module('workgenius.controllers', [])
     return $rootScope.currentUser.blockedDays.length;
   }
 }])
-.controller('AvailabilityTabsCtrl',
-  ['$scope',
-  function($scope) {
 
-    $scope.$on('$stateChangeSuccess', function(event, current) {
-        if (current.name.indexOf('block-days') > -1) {
-          $scope.availActive = false;
-        } else {
-          $scope.availActive = true;
-        }
-    });
-}])
-.controller('AvailabilityCtrl',
-  ['$rootScope', '$scope',
-  function($rootScope, $scope) {
-
-    var YES_NO = 2;
-    var YES_MAYBE_NO = 3;
-
-    // New array format
-    var toggleUniqueArray = function (day, hour) {
-      hour =  Number(moment(hour, "ha").format('H'));
-      if (!$rootScope.currentUser.availability[day]) {
-        $rootScope.currentUser.availability[day] = [hour];
-        return;
-      }
-      var index = $rootScope.currentUser.availability[day].indexOf(hour);
-      if (index > -1) {
-        // remove if it already exists
-        $rootScope.currentUser.availability[day].splice(index, 1);
-        if ($rootScope.currentUser.availability[day].length === 0) {
-          delete $rootScope.currentUser.availability[day];
-        }
-
-      } else {
-        $rootScope.currentUser.availability[day].push(hour);
-      }
-      if ($rootScope.currentUser.availability[day])
-        $rootScope.currentUser.availability[day].sort(function(a, b){return a-b;});
-    };
-
-    $scope.select = function(day, interval, hour) {
-      toggleUniqueArray(day, hour);
-      if ($scope.onChange) $scope.onChange();
-    };
-
-    $scope.isSelected = function (day, hour) {
-      if (!$rootScope.currentUser.availability[day]) {
-        return false;
-      }
-      formattedHour = Number(moment(hour, "ha").format('H'));
-      var retval = $rootScope.currentUser.availability[day].indexOf(formattedHour) > -1;
-      return retval;
-    };
-}])
+// ============ //
+//   COPMANIES  //
+// ============ //
 
 .controller('CompaniesCtrl',
   ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'setEligibility',
@@ -213,57 +227,10 @@ angular.module('workgenius.controllers', [])
     };
 }])
 
-.controller('ShiftsCtrl', ['$scope', '$ionicModal', function($scope, $ionicModal) {
+// ============ //
+//   SCHEDULE   //
+// ============ //
 
-  $scope.shifts=[
-    {
-      name:"Coleen", company: "caviar", earnings: 62,
-      date: new Date("October 23, 2014"),
-      startsAt: new Date("October 23, 2014 18:30:00"),
-      endsAt: new Date("October 23, 2014 21:30:00")
-    },
-    {
-      name:"Sam R", company: "saucey", earnings: 72,
-      date: new Date("October 24, 2014"),
-      startsAt: new Date("October 24, 2014 19:00:00"),
-      endsAt: new Date("October 24, 2014 23:00:00")
-    },
-    {
-      name:"Ed D", company: "luxe", earnings: 80,
-      date: new Date("October 26, 2014"),
-      startsAt: new Date("October 26, 2014 8:00:00"),
-      endsAt: new Date("October 26, 2014 12:00:00")
-    },
-    {
-      name:"Josh", company: "instacart", earnings: 30,
-      date: new Date("October 30, 2014"),
-      startsAt: new Date("October 30, 2014 11:30:00"),
-      endsAt: new Date("October 30, 2014 13:30:00")
-    },
-  ];
-  $scope.selectedShift = $scope.shifts[0];
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/shared/accept-shift.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  $scope.accept = function (shift) {
-    $scope.selectedShift = shift;
-    $scope.modal.show();
-  };
-
-  $scope.acceptShift = function (shift) {
-    $scope.modal.hide();
-  };
-  $scope.declineShift = function (shift) {
-    $scope.modal.hide();
-  };
-
-}])
-.controller('EarningsController', [ '$scope', function($scope) {
-}])
 .controller('ScheduleCtrl',
   ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup',
   function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup) {
@@ -426,26 +393,57 @@ angular.module('workgenius.controllers', [])
   $scope.isWithin72Hr = function (date) {
     return moment(date).isBefore(moment().add(72, 'hour'));
   };
+  function groupBy (array, f) {
+    var groups = {};
+    array.forEach( function( o )
+    {
+      var group = JSON.stringify( f(o) );
+      groups[group] = groups[group] || [];
+      groups[group].push( o );  
+    });
+    return Object.keys(groups).map( function( group )
+    {
+      return groups[group]; 
+    });
+  }
 }]);
 
+// .controller('EarningsController', [ '$scope', function($scope) {
+// }])
 // .controller('VehiclesCtrl', ['$scope', function($scope) {
 // }])
 // .controller('TargetCtrl', ['$scope', function($scope) {
+// // }])
+// .controller('AvailableShiftsCtrl', ['$scope', '$ionicModal', function($scope, $ionicModal) {
+
+//   $scope.shifts=[
+//     {
+//       name:"Coleen", company: "caviar", earnings: 62,
+//       date: new Date("October 23, 2014"),
+//       startsAt: new Date("October 23, 2014 18:30:00"),
+//       endsAt: new Date("October 23, 2014 21:30:00")
+//     },
+//   ];
+//   $scope.selectedShift = $scope.shifts[0];
+//   // Create the login modal that we will use later
+//   $ionicModal.fromTemplateUrl('templates/shared/accept-shift.html', {
+//     scope: $scope
+//   }).then(function(modal) {
+//     $scope.modal = modal;
+//   });
+
+//   $scope.accept = function (shift) {
+//     $scope.selectedShift = shift;
+//     $scope.modal.show();
+//   };
+
+//   $scope.acceptShift = function (shift) {
+//     $scope.modal.hide();
+//   };
+//   $scope.declineShift = function (shift) {
+//     $scope.modal.hide();
+//   };
+
 // }])
 
 // - END -
-
-function groupBy( array , f )
-{
-  var groups = {};
-  array.forEach( function( o )
-  {
-    var group = JSON.stringify( f(o) );
-    groups[group] = groups[group] || [];
-    groups[group].push( o );  
-  });
-  return Object.keys(groups).map( function( group )
-  {
-    return groups[group]; 
-  });
-}

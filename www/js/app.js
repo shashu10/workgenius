@@ -129,6 +129,11 @@ angular.module('workgenius', [
     templateUrl: 'templates/main/splash.html',
   })
 
+
+  // ============ //
+  //     APP      //
+  // ============ //
+
   .state('app', {
     url: '/app',
     abstract: true,
@@ -136,43 +141,6 @@ angular.module('workgenius', [
     controller: 'MenuCtrl'
   })
 
-  // Main Pages
-
-  .state('app.earnings', {
-     url: '/earnings',
-     views: {
-         'menuContent': {
-             templateUrl: 'templates/main/earnings.html',
-             controller: "EarningsController"
-         }
-     }
-  })
-  .state('app.hours', {
-     url: '/hours',
-     views: {
-         'menuContent': {
-             templateUrl: 'templates/main/hours.html',
-             controller: "EarningsController"
-         }
-     }
-  })
-  .state('app.available-shifts', {
-    url: '/available-shifts',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/main/available-shifts.html',
-        controller: "ShiftsCtrl"
-      }
-    }
-  })
-  .state('app.schedule', {
-    url: '/schedule',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/main/schedule.html'
-      }
-    }
-  })
   .state('app.preferences', {
     url: '/preferences',
     views: {
@@ -182,7 +150,37 @@ angular.module('workgenius', [
     }
   })
 
-  // Sub Views
+  .state('app.schedule', {
+    url: '/schedule',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/main/schedule.html'
+      }
+    }
+  })
+
+  // EARNINGS //
+
+  .state('app.earnings', {
+     url: '/earnings',
+     views: {
+         'menuContent': {
+             templateUrl: 'templates/main/earnings.html',
+             // controller: "EarningsController"
+         }
+     }
+  })
+  .state('app.hours', {
+     url: '/hours',
+     views: {
+         'menuContent': {
+             templateUrl: 'templates/main/hours.html',
+             // controller: "EarningsController"
+         }
+     }
+  })
+
+  // SUB VIEWS TABS //
 
   .state('app.target', {
     url: '/target',
@@ -211,6 +209,8 @@ angular.module('workgenius', [
       }
     }
   })
+
+  // AVAILABILITY TABS //
 
   .state('app.availability-tabs', {
     abstract: true,
@@ -242,9 +242,21 @@ angular.module('workgenius', [
     }
   })
 
-  //  - - - - End - - - -
+  // .state('app.available-shifts', {
+  //   url: '/available-shifts',
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: 'templates/main/available-shifts.html',
+  //       controller: "AvailableShiftsCtrl"
+  //     }
+  //   }
+  // })
 
-  // Login/Registration Tabs
+  //  - - - - End Main App - - - -
+
+  // ============ //
+  // REGISTRATION //
+  // ============ //
 
   // setup an abstract state for the tabs directive
   .state('registration', {
@@ -283,10 +295,12 @@ angular.module('workgenius', [
           }
       }
   })
-  
+
   //  - - - - End Registration - - - -
 
-  // Onboarding Views
+  // ============ //
+  //  ONBOARDING  //
+  // ============ //
 
   // setup an abstract state for the tabs directive
   .state('onboarding', {
