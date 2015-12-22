@@ -84,59 +84,33 @@ angular.module('workgenius.onboarding', [])
   };
   $scope.setAvailWithQuestions = function () {
     var availability = {};
-
     // For each day
     for (var i = 0; i < $rootScope.days.length; i++) {
       var day = $rootScope.days[i];
-      availability[day] = [];
+      for (var k = 0; k < $scope.availQuestions.timeSlots.length; k++) {
 
-      // For each interval in that day
-      for (var j = 0; j < $rootScope.intervals.length; j++) {
-        // availability[day][j] = 0;
-
-        if ($scope.availQuestions.days[i].selected) {
-          for (var k = 0; k < $scope.availQuestions.timeSlots.length; k++) {
-            if ($scope.availQuestions.timeSlots[k].selected) {
-              if (intervalInTimeslot($rootScope.intervals[j], $scope.availQuestions.timeSlots[k])) {
-                console.log($rootScope.intervals[j]);
-                console.log($scope.availQuestions.timeSlots[k]);
-                availability[day].push(moment($rootScope.intervals[j], "ha").format('H'));
-                break;
-              }
-            }
-          }
-        } else {
-          // availability[day][j] = 0;
+        // If that day and timeslot is selected
+        if ($scope.availQuestions.days[i].selected && $scope.availQuestions.timeSlots[k].selected) {
+          availability[day] = availability[day] || [];
+          addAvailabilityWithSlot($scope.availQuestions.timeSlots[k], availability[day]);
         }
       }
     }
-    console.log(availability);
+
     $rootScope.currentUser.availability = availability;
   };
 
-  function intervalInTimeslot (interval, timeSlot) {
-    var intMoment = moment(interval, "ha");
-    var firstDayMoment = moment($rootScope.intervals[0], "ha");
+  function addAvailabilityWithSlot (timeslot, dayAvail) {
+    var start = Number(moment(timeslot.start, "ha").format('H'));
+    var end = Number(moment(timeslot.end, "ha").format('H'));
 
-    // consider late night as next day for comparison
-    if (intMoment.isBefore(firstDayMoment)) {
-      intMoment.add(1, 'day');
+    if (end < start)
+      end += 24;
+
+    for (var i = start; i < end; i++) {
+      if (i >= 24) dayAvail.push(i - 24);
+      else dayAvail.push(i);
     }
-    intMoment.add(1, 'minute'); // Easier for .between() comparison
-
-    var startMoment = moment(timeSlot.start, "ha");
-    var endMoment   = moment(timeSlot.end,   "ha");
-    var firstTimeSlotMoment = moment($rootScope.availQuestions.timeSlots[0].start, "ha");
-
-    // Late night as next day
-    if (endMoment.isBefore(firstTimeSlotMoment)) {
-      endMoment.add(1, 'day');
-    }
-
-    if (intMoment.isBetween(startMoment, endMoment)) {
-      return true;
-    }
-    return false;
   }
 }])
 

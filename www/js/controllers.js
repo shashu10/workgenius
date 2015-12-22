@@ -163,7 +163,8 @@ angular.module('workgenius.controllers', [])
         return false;
       }
       formattedHour = Number(moment(hour, "ha").format('H'));
-      return $rootScope.currentUser.availability[day].indexOf(formattedHour) > -1;
+      var retval = $rootScope.currentUser.availability[day].indexOf(formattedHour) > -1;
+      return retval;
     };
 }])
 
