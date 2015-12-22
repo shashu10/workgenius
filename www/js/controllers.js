@@ -156,41 +156,31 @@ angular.module('workgenius.controllers', [])
     };
 
     $scope.isSelected = function (day, hour) {
-      hour =  Number(hour.match(/\d+/)[0]);
       if (!$rootScope.currentUser.availability[day]) {
         return false;
       }
-      return $rootScope.currentUser.availability[day].indexOf(hour) > -1;
-    }
-}])
-.controller('VehiclesCtrl', ['$scope', function($scope) {
-}])
-.controller('CompaniesCtrl',
-  ['$rootScope', '$scope', '$ionicModal', 'setUserData',
-  function($rootScope, $scope, $ionicModal, setUserData) {
-
-    // Gropus array into smaller arrays of certain size
-    var chunk = function (arr, size) {
-      var newArr = [];
-      for (var i=0; i<arr.length; i+=size) {
-        newArr.push(arr.slice(i, i+size));
-      }
-      return newArr;
+      formattedHour = moment(hour, "ha").format('H');
+      return $rootScope.currentUser.availability[day].indexOf(formattedHour) > -1;
     };
+}])
 
-    $scope.select = function(name) {
+.controller('CompaniesCtrl',
+  ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'setEligibility',
+  function($rootScope, $scope, $ionicModal, setUserData, setEligibility) {
+
+    $scope.select = function(company) {
       // Unselect type if it's already selected
-      if ($rootScope.currentUser.companies[name]) {
-        delete $rootScope.currentUser.companies[name];
+      if ($rootScope.currentUser.companies[company.name]) {
+        delete $rootScope.currentUser.companies[company.name];
         if ($scope.onChange) $scope.onChange();
 
       // Open detailed modal when unselected option is clicked
       } else {
-        $scope.selectedCompany = {name: name, description: companyDescription[name]};
+        $scope.selectedCompany = company;
         $scope.modal.show();
       }
     };
-
+    $scope.specialSave = setEligibility.save;
     $scope.selectedWorkType = null;
 
     $ionicModal.fromTemplateUrl('templates/shared/companies-modal.html', {
@@ -206,26 +196,6 @@ angular.module('workgenius.controllers', [])
       $scope.modal.hide();
       if ($scope.onChange) $scope.onChange();
     };
-
-    var companyDescription = {
-      instacart: "Instacart is an on-demand grocery delivery company. The job consists of purchasing, packing and delivering groceries.",
-      saucey: "Saucey is an on-demand Alcohol and tobacco delivery service. Drivers must be over 21 and have exceptional people skills.",
-      bento: "Bento is an on-demand delivery startup for delicious Asian meals. The job involves delivering meals from our kitchens.",
-      shyp: "Shyp is an on-demand . Must be able to package and handle items with care and have great people skills.",
-      caviar: "Caviar is a restaurant delivery services for individuals and businesses. Must have a customer-service mentality.",
-      luxe: "Luxe is an on-demand parkign service. Drive cars to and from garages to drivers. A valid license is required.",
-      sprig: "Sprig is an on-demand organic and locally sourced meal delivery service. Deliver meals from our kitchens to customers.",
-      munchery: "Munchery is an on-demand food delivery service that hires world class chefs to prepare meals. A bike is required.",
-      doordash: "DoorDash is an on-demand restaurant delivery service. Pick up food items and deliver them to customers efficiently.",
-    };
-    $scope.chunkedCompanies = chunk($rootScope.companyList, 3);
-
-    // $scope.update = function () {
-    //   // setUserData.save('companies');
-    // };
-}])
-
-.controller('TargetCtrl', ['$scope', function($scope) {
 }])
 
 .controller('ShiftsCtrl', ['$scope', '$ionicModal', function($scope, $ionicModal) {
@@ -326,11 +296,11 @@ angular.module('workgenius.controllers', [])
       }
     },
   };
-  $scope.anchroID = function (group) {
+  $scope.anchorID = function (group) {
     return "id" + moment(group[0].startsAt).format('YYYY-MM-DD');
   };
-  $scope.gotoAnchor = function(anchroID) {
-    $location.hash(anchroID);
+  $scope.gotoAnchor = function(anchorID) {
+    $location.hash(anchorID);
     $ionicScrollDelegate.anchorScroll(true);
   };
   $scope.scrollTo = function (event) {
@@ -367,7 +337,7 @@ angular.module('workgenius.controllers', [])
     })
     
     // Must call cannotCancelWarning in .then 
-    .then(function(cancel) {
+    .then(function (cancel) {
 
       if (cancel) {
         if ($rootScope.currentUser.cancellations >= 3) {
@@ -386,15 +356,23 @@ angular.module('workgenius.controllers', [])
       scope: $scope,
       buttons: [{
           text: 'Contact Us',
-          type: 'button-default',
+          type: 'button-positive',
           onTap: function(e) {
             // Returning a value will cause the promise to resolve with the given value.
             // return shift;
+            return true;
+          }
+        }, {
+          text: 'Don\'t Cancel',
+          type: 'button-default',
+          onTap: function(e) {
+            return false;
           }
         }]
-    }).then(function (e) {
+    }).then(function (show) {
       // From parent scope
-      $scope.contactModal.show();
+      if (show)
+        $scope.contactModal.show();
     });
   };
 
@@ -434,6 +412,11 @@ angular.module('workgenius.controllers', [])
     return moment(date).isBefore(moment().add(72, 'hour'));
   };
 }]);
+
+// .controller('VehiclesCtrl', ['$scope', function($scope) {
+// }])
+// .controller('TargetCtrl', ['$scope', function($scope) {
+// }])
 
 // - END -
 

@@ -1,7 +1,7 @@
 <div ng-repeat="group in groupedShifts">
     <div class="group-list">
         <ion-list>
-            <ion-item id="{{anchroID(group)}}" class="item-divider" ion-affix data-affix-within-parent-with-class="group-list">
+            <ion-item id="{{anchorID(group)}}" class="item-divider" ion-affix data-affix-within-parent-with-class="group-list">
                 {{dividerFunction(group[0].startsAt) | uppercase}}
                 <div class="earnings-estimate">
                     <p>ESTIMATED EARNINGS:</p>

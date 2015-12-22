@@ -18,6 +18,7 @@ angular.module('workgenius', [
     'parseData',
     'phoneFormatting',
     'ionic-timepicker',
+    'angular.filter',
     'flexcalendar',
     'pascalprecht.translate',
     'ngIOS9UIWebViewPatch',
@@ -26,8 +27,8 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
   ])
 
-.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData',
-  function($ionicPlatform, $rootScope, $state, getUserData) {
+.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData', 'getCompanyData',
+  function($ionicPlatform, $rootScope, $state, getUserData, getCompanyData) {
     $ionicPlatform.ready(function() {
 
       // $ionicAnalytics.register();
@@ -61,47 +62,6 @@ angular.module('workgenius', [
     $rootScope.days = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
     $rootScope.months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
     $rootScope.phoneVal = "4159365883";
-
-    $rootScope.companyList = [
-      "instacart",
-      "saucey",
-      "bento",
-      "shyp",
-      "caviar",
-      "luxe",
-      "sprig",
-      "munchery",
-      "doordash",
-    ];
-    
-    $rootScope.availQuestions = {
-      days: [{
-          name: 'monday', selected: false
-        }, {
-          name: 'tuesday', selected: false
-        }, {
-          name: 'wednesday', selected: false
-        }, {
-          name: 'thursday', selected: false
-        }, {
-          name: 'friday', selected: false
-        }, {
-          name: 'saturday', selected: false
-        }, {
-          name: 'sunday', selected: false
-        }],
-      timeSlots: [{
-          name: 'mornings', start: '6am', end: '10am', selected: false
-        }, {
-          name: 'lunch', start: '10am', end: '2pm', selected: false
-        }, {
-          name: 'afternoons', start: '2pm', end: '5pm', selected: false
-        }, {
-          name: 'evenings', start: '5pm', end: '9pm', selected: false
-        }, {
-          name: 'nights', start: '9pm', end: '2am', selected: false,
-        }],
-    };
 
     // Flex cal error displays one day behind
     // .date needs to be in YYYY-MM-DD format like 2015-01-01
@@ -148,6 +108,8 @@ angular.module('workgenius', [
         endsAt: new Date("December 18, 2015 16:00:00"),
       },
     ];
+
+    getCompanyData();
     // Get user data and store it in the rootscope.
     getUserData().then(function (user) {
       // $state.go('app.schedule');
@@ -227,7 +189,7 @@ angular.module('workgenius', [
     views: {
       'menuContent': {
         templateUrl: 'templates/main/target.html',
-        controller: 'TargetCtrl'
+        // controller: 'TargetCtrl'
       }
     }
   })
@@ -245,7 +207,7 @@ angular.module('workgenius', [
     views: {
       'menuContent': {
         templateUrl: 'templates/main/vehicles.html',
-        controller: 'VehiclesCtrl'
+        // controller: 'VehiclesCtrl'
       }
     }
   })
@@ -338,7 +300,7 @@ angular.module('workgenius', [
       views: {
           'content': {
               templateUrl: 'templates/onboarding/target-hours.html',
-              controller: 'TargetCtrl'
+              // controller: 'TargetCtrl'
           }
       }
   })

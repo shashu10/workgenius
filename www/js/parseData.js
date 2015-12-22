@@ -1,69 +1,33 @@
-angular.module('parseData', [])
-
+angular.module('parseData', ['workgenius.constants'])
 // Remove redundant data and format it to minimize storage
-.factory('formatUploadData', ['$rootScope', function ($rootScope) {
+.factory('formatUploadData', ['$rootScope', formatUploadData])
+.factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
+.factory('setEligibility', ['$rootScope', 'formatUploadData', setEligibility])
+.factory('getUserData', ['$rootScope', '$q', getUserData])
+.factory('getCompanyData', ['$rootScope', '$q', 'companies', getCompanyData]);
 
-  var formatTargetHours = function () {
-    return Number($rootScope.currentUser.target);
+function setEligibility ($rootScope, formatUploadData) {
+  var findCompany = function (element, index, array) {
+    if (element.name === company) {
+      var eligibility = new Parse.Object("Eligibility");
+      eligibility.set("worker", Parse.User.current());
+      eligibility.set("company", Parse.User.current());
+      eligibility.set("interested", true);
+      eligibility.save();
+    }
   };
-
-  var formatVehicles = function () {
-
-    var filtered = $rootScope.currentUser.vehicles.filter(function(vehicle) {
-      return vehicle.selected;
-    }).map(function(item) {
-      return item.name;
-    });
-
-    return filtered;
-  };
-
-  var formatCompanies = function () {
-    
-      var selected = [];
-      for (var company in $rootScope.currentUser.companies) {
-        if ($rootScope.currentUser.companies[company])
-          selected.push({name: company, status: 1});
-      }
-      return selected;
-    };
-
-  var formatWorkTypes = function () {
-    
-      var selected = [];
-      for (var type in $rootScope.currentUser.workTypes) {
-        if ($rootScope.currentUser.workTypes[type])
-          selected.push(type);
-      }
-      return selected;
-  };
-
-  var formatAvailability = function () {
-    return $rootScope.currentUser.availability;
-  };
-
-  var formatBlockedDays = function () {
-    return $rootScope.currentUser.blockedDays;
-  };
-
-  var formatAppState = function () {
-    return $rootScope.currentUser.appState || {};
-  };
-
   return {
-    target       : formatTargetHours,
-    vehicles     : formatVehicles,
-    companies    : formatCompanies,
-    workTypes    : formatWorkTypes,
-    availability : formatAvailability,
-    blockedDays  : formatBlockedDays,
-    appState     : formatAppState,
+    save: function () {
+      for (var company in $rootScope.currentUser.companies) {
+        if ($rootScope.currentUser.companies[company] === true) {
+          $rootScope.companyList.find(findCompany);
+        }
+      }
+    }
   };
-}])
+}
 
-.factory('setUserData',
-  ['$rootScope', 'formatUploadData',
-  function ($rootScope, formatUploadData) {
+function setUserData ($rootScope, formatUploadData) {
 
   return {
     save : function (type, success, failure) {
@@ -96,11 +60,37 @@ angular.module('parseData', [])
       }
     }
   };
-}])
+}
 
-.factory('getUserData',
-  ['$rootScope', '$q',
-  function ($rootScope, $q) {
+// Set with static value and asynchronously update from database
+function getCompanyData ($rootScope, $q, companies) {
+  $rootScope.companyList = companies;
+
+  return function () {
+    var Company = Parse.Object.extend("Company");
+    var query = new Parse.Query(Company);
+    query.equalTo("location", "san francisco");
+
+    query.find({
+      success: function(results) {
+        // Do something with the returned Parse.Object values
+        var companyList = [];
+        for (var i = 0; i < results.length; i++) {
+          companyList.push({
+            name: results[i].get('name'),
+            description : results[i].get('description'),
+            object: results[i]
+          });
+        }
+        $rootScope.companyList = companyList;
+      },
+      error: function(error) {
+        console.log("Error: " + error.code + " " + error.message);
+      }
+    });    
+  };
+}
+function getUserData ($rootScope, $q) {
 
   var getWorkTypes = function (user) {
     var workTypes = {};
@@ -214,4 +204,63 @@ angular.module('parseData', [])
 
     return deferred.promise;
   };
-}]);
+}
+function formatUploadData ($rootScope) {
+
+  var formatTargetHours = function () {
+    return Number($rootScope.currentUser.target);
+  };
+
+  var formatVehicles = function () {
+
+    var filtered = $rootScope.currentUser.vehicles.filter(function(vehicle) {
+      return vehicle.selected;
+    }).map(function(item) {
+      return item.name;
+    });
+
+    return filtered;
+  };
+
+  var formatCompanies = function () {
+    
+      var selected = [];
+      for (var company in $rootScope.currentUser.companies) {
+        if ($rootScope.currentUser.companies[company] === true)
+          selected.push({name: company, status: 1});
+      }
+      return selected;
+    };
+
+  var formatWorkTypes = function () {
+    
+      var selected = [];
+      for (var type in $rootScope.currentUser.workTypes) {
+        if ($rootScope.currentUser.workTypes[type])
+          selected.push(type);
+      }
+      return selected;
+  };
+
+  var formatAvailability = function () {
+    return $rootScope.currentUser.availability;
+  };
+
+  var formatBlockedDays = function () {
+    return $rootScope.currentUser.blockedDays;
+  };
+
+  var formatAppState = function () {
+    return $rootScope.currentUser.appState || {};
+  };
+
+  return {
+    target       : formatTargetHours,
+    vehicles     : formatVehicles,
+    companies    : formatCompanies,
+    workTypes    : formatWorkTypes,
+    availability : formatAvailability,
+    blockedDays  : formatBlockedDays,
+    appState     : formatAppState,
+  };
+}

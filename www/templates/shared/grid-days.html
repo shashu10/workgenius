@@ -5,10 +5,12 @@
     <div class="wg-grid-days">
         <div class="row" wg-availability-header>
             <div class="first"></div>
-            <div class="col" ng-click="select(day, null)" ng-repeat="day in days">{{day | limitTo: 1}}</div>
+            <!-- ng-click="select(day, null)" -->
+            <div class="col" ng-repeat="day in days">{{day | limitTo: 1}}</div>
         </div>
         <div class="row" ng-repeat="(i, int) in intervals">
-            <div class="first" ng-click="select(null, i)">{{int}}</div>
+            <!-- ng-click="select(null, i)" -->
+            <div class="first">{{int}}</div>
             <div class="col" ng-class="{selected : isSelected(day, int)}" ng-repeat="day in days" ng-click="select(day, i, int)">
                 <span>
                     {{isSelected(day, int) ? 'YES' : 'NO'}}

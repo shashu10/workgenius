@@ -2,10 +2,10 @@
     <div class="wg-title">
         <p>Select the companies you are eligible to work for.</p>
     </div>
-	<div class="row padding-top" ng-repeat="rows in chunkedCompanies">
-	    <div class="col" ng-repeat="key in rows" ng-click="select(key)" ng-class="{selected: currentUser.companies.{{key}}}">
-	        <img ng-src="img/companies/{{key}}.png" alt="">
-	        <i ng-if="currentUser.companies[key]" class="icon company-icon ion-android-checkmark-circle balanced"></i>
+	<div class="row padding-top" ng-repeat="rows in companyList | chunkBy: 3">
+	    <div class="col" ng-repeat="company in rows" ng-click="select(company)" ng-class="{selected: currentUser.companies.{{company.name}}}">
+	        <img ng-src="img/companies/{{company.name}}.png" alt="">
+	        <i ng-if="currentUser.companies[company.name]" class="icon company-icon ion-android-checkmark-circle balanced"></i>
 	    </div>
 	</div>
 </div>
