@@ -2,11 +2,11 @@ angular.module('parseData', ['workgenius.constants'])
 // Remove redundant data and format it to minimize storage
 .factory('formatUploadData', ['$rootScope', formatUploadData])
 .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
-.factory('setEligibility', ['$rootScope', 'formatUploadData', setEligibility])
+.factory('setEligibility', ['$rootScope', setEligibility])
 .factory('getUserData', ['$rootScope', '$q', getUserData])
-.factory('getCompanyData', ['$rootScope', '$q', 'companies', getCompanyData]);
+.factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
-function setEligibility ($rootScope, formatUploadData) {
+function setEligibility ($rootScope) {
 
   var findEligibility = function (name) {
     var el = $rootScope.currentUser.eligibility;
@@ -139,7 +139,7 @@ function setUserData ($rootScope, formatUploadData) {
 }
 
 // Set with static value and asynchronously update from database
-function getCompanyData ($rootScope, $q, companies) {
+function getCompanyData ($rootScope, companies) {
   $rootScope.companyList = companies;
 
   return function () {
@@ -169,9 +169,16 @@ function getCompanyData ($rootScope, $q, companies) {
 function getUserData ($rootScope, $q) {
 
   var Eligibility = Parse.Object.extend("Eligibility");
+  var Shift = Parse.Object.extend("Shift");
 
-  var getEligibility = function (user) {
+  var getEligibility = function () {
     var query = new Parse.Query(Eligibility);
+    query.equalTo("worker", Parse.User.current());
+    return query.find();
+  };
+
+  var getShifts = function () {
+    var query = new Parse.Query(Shift);
     query.equalTo("worker", Parse.User.current());
     return query.find();
   };
@@ -239,9 +246,9 @@ function getUserData ($rootScope, $q) {
       totalHours       : 0,
       vehicles         : getVehicles(),
       eligibility      : [],
+      shifts           : [],
       blockedDays      : [],
       availability     : {},
-      companies        : {},
       workTypes        : {},
       appState         : {},
     });
@@ -268,6 +275,7 @@ function getUserData ($rootScope, $q) {
       // setup default values while actual values load 
       setDefaultPrefs('', '');
 
+      // Get User Information
       Parse.User.current().fetch().then(function (user) {
 
         angular.extend($rootScope.currentUser, {
@@ -286,6 +294,7 @@ function getUserData ($rootScope, $q) {
         
         return getEligibility();
 
+      // Get Company Eligibility
       }).then(function(results) {
 
         var eligibility = [];
@@ -304,6 +313,30 @@ function getUserData ($rootScope, $q) {
         }
 
         $rootScope.currentUser.eligibility = eligibility;
+
+        return getShifts();
+
+      // Get Shift List
+      }).then(function(results) {
+
+        var shifts = [];
+
+        for (var i = 0; i < results.length; i++) {
+          var sh = results[i];
+
+          // date for flex-calendar needs to be in format: YYYY-MM-DD 2015-01-01
+          // Flex cal error displays one day behind date
+          shifts.push({
+            id         : sh.id,
+            company    : sh.get('company') && sh.get('company').get('name'),
+            startsAt   : sh.get('startsAt'),
+            endsAt     : sh.get('endsAt'),
+            date       : moment(sh.get('startsAt')).add(1, 'day').format('YYYY-MM-DD'),
+            object     : sh
+          });
+        }
+
+        $rootScope.currentUser.shifts = shifts;
 
         deferred.resolve(true);
       });

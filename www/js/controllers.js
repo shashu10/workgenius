@@ -179,7 +179,7 @@ angular.module('workgenius.controllers', [])
 }])
 
 // ============ //
-//   COPMANIES  //
+//   COMPANIES  //
 // ============ //
 
 .controller('CompaniesCtrl',
@@ -292,7 +292,6 @@ angular.module('workgenius.controllers', [])
         $scope.gotoAnchor("id" + moment($scope.groupedShifts[i][0].date).format('YYYY-MM-DD'));
         return;
       }
-
     }
     $scope.gotoAnchor('empty-shift-list');
   };
@@ -370,7 +369,8 @@ angular.module('workgenius.controllers', [])
 
     group.splice(idx, 1);
   };
-  $scope.groupedShifts = groupBy($rootScope.shifts, function(item){return [item.date];});
+  $scope.groupedShifts = groupBy($rootScope.currentUser.shifts, function(item){return [item.date];});
+  // $scope.groupedShifts = {};
 
   $scope.shiftEarnings = function (shift) {
     return (shift.endsAt.getTime() - shift.startsAt.getTime())/3600000 * $rootScope.hourlyRate;

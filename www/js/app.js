@@ -63,52 +63,6 @@ angular.module('workgenius', [
     $rootScope.months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
     $rootScope.phoneVal = "4159365883";
 
-    // Flex cal error displays one day behind
-    // .date needs to be in YYYY-MM-DD format like 2015-01-01
-
-    $rootScope.shifts = [
-      {
-        company: 'Luxe', date: "2015-12-05",
-        startsAt: new Date("December 5, 2015 8:00:00"),
-        endsAt: new Date("December 5, 2015 11:30:00"),
-      },
-      {
-        company: 'Instacart', date: "2015-12-13",
-        startsAt: new Date("December 12, 2015 07:00:00"),
-        endsAt: new Date("December 12, 2015 10:00:00"),
-      },
-      {
-        company: 'Caviar', date: "2015-12-13",
-        startsAt: new Date("December 12, 2015 11:00:00"),
-        endsAt: new Date("December 12, 2015 14:00:00"),
-      },
-      {
-        company: 'Luxe', date: "2015-12-15",
-        startsAt: new Date("December 14, 2015 12:00:00"),
-        endsAt: new Date("December 14, 2015 15:30:00"),
-      },
-      {
-        company: 'Caviar', date: "2015-12-16",
-        startsAt: new Date("December 15, 2015 8:00:00"),
-        endsAt: new Date("December 15, 2015 11:00:00"),
-      },
-      {
-        company: 'Instacart', date: "2015-12-17",
-        startsAt: new Date("December 16, 2015 07:00:00"),
-        endsAt: new Date("December 16, 2015 10:00:00"),
-      },
-      {
-        company: 'Luxe', date: "2015-12-17",
-        startsAt: new Date("December 16, 2015 11:00:00"),
-        endsAt: new Date("December 16, 2015 14:00:00"),
-      },
-      {
-        company: 'Caviar', date: "2015-12-19",
-        startsAt: new Date("December 18, 2015 12:00:00"),
-        endsAt: new Date("December 18, 2015 16:00:00"),
-      },
-    ];
-
     getCompanyData();
     // Get user data and store it in the rootscope.
     getUserData().then(function (user) {
