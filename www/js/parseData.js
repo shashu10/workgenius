@@ -3,8 +3,18 @@ angular.module('parseData', ['workgenius.constants'])
 .factory('formatUploadData', ['$rootScope', formatUploadData])
 .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
 .factory('setEligibility', ['$rootScope', setEligibility])
+.factory('setShifts', ['$rootScope', setShifts])
 .factory('getUserData', ['$rootScope', '$q', getUserData])
 .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
+
+function setShifts ($rootScope) {
+  return {
+    remove: function (shift) {
+      shift.object.unset('worker');
+      return shift.object.save();
+    }
+  };
+}
 
 function setEligibility ($rootScope) {
 

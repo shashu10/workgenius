@@ -232,8 +232,8 @@ angular.module('workgenius.controllers', [])
 // ============ //
 
 .controller('ScheduleCtrl',
-  ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup',
-  function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup) {
+  ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', 'setShifts',
+  function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, setShifts) {
 
   $scope.adjustCalendarHeight = function (argument) {
     
@@ -359,15 +359,19 @@ angular.module('workgenius.controllers', [])
 
   $scope.cancelShift = function (shift, group, shifts) {
 
-    $rootScope.currentUser.cancellations++;
+    setShifts.remove(shift).then(function (result) {
+      console.log(result);
 
-    var idx = group.indexOf(shift);
-    if (group.length === 1) {   
-      idx = shifts.indexOf(group);
-      shifts.splice(idx, 1);
-    }
+      $rootScope.currentUser.cancellations++;
 
-    group.splice(idx, 1);
+      var idx = group.indexOf(shift);
+      if (group.length === 1) {   
+        idx = shifts.indexOf(group);
+        shifts.splice(idx, 1);
+      }
+
+      group.splice(idx, 1);
+    });
   };
   $scope.groupedShifts = groupBy($rootScope.currentUser.shifts, function(item){return [item.date];});
   // $scope.groupedShifts = {};
