@@ -7,6 +7,7 @@
     <ion-content delegate-handle="scheduleScroll" class="has-flex-calendar-subheader" >
 	        <shift-list></shift-list>
 
+			<img ng-if="currentUser.shifts.length === 0" class="schedule-placeholder" src="img/empty_schedule.png" alt="">
 		    <!-- <ion-item id="empty-shift-list" class="item-avatar" ng-repeat="empty in [1,2]">
 		        {{$first && !groupedShifts.length ? 'No shifts to show' : ''}}
 		    </ion-item> -->
