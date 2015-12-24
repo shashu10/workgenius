@@ -251,16 +251,20 @@ function getUserData ($rootScope, $q) {
     angular.extend($rootScope.currentUser, {
       name             : name,
       email            : email,
+      phone            : "4151234567",
       target           : 40,
       cancellations    : 0,
       totalHours       : 0,
       vehicles         : getVehicles(),
       eligibility      : [],
       shifts           : [],
+      companies        : [],
       blockedDays      : [],
       availability     : {},
       workTypes        : {},
       appState         : {},
+      earnings         : {day: 188, week: 720, month: 2410, lifetime: 11002},
+      hours            : {day: 8, week: 31, month: 130, lifetime: 846},
     });
   };
   
@@ -291,9 +295,12 @@ function getUserData ($rootScope, $q) {
         angular.extend($rootScope.currentUser, {
           name             : user.get('name')  || '',
           email            : user.get('email') || '',
+          phone            : user.get('phone') || '',
           target           : user.get('target') || 40,
           cancellations    : user.get('cancellations') || 0,
           appState         : user.get('appState') || {},
+          earnings         : user.get('earnings') || {day: 0, week: 0, month: 0, lifetime: 0},
+          hours            : user.get('hours') || {day: 0, week: 0, month: 0, lifetime: 0},
           vehicles         : getVehicles(user),
           companies        : getCompanies(user),
           workTypes        : getWorkTypes(user),
