@@ -63,13 +63,17 @@ function setEligibility ($rootScope) {
     }
   };
 
+  var saveObject = function (el, success) {
+    el.object.save().then(function (val) {
+        // Wrapper obj
+        el.id = val.id;
+
+        if (success) success();
+      });
+  };
+
   return {
     save: function (success) {
-
-      var successWrapper = function () {
-        console.log('saved eligibility');
-        if (success) success();
-      };
 
       // Save the ones that have changed
       for (var i = 0; i < $rootScope.currentUser.eligibility.length; i++) {
@@ -94,7 +98,7 @@ function setEligibility ($rootScope) {
           el.object.set("interested", el.interested);
         }
 
-        if (changed) el.object.save().then(successWrapper);
+        if (changed) saveObject(el, success);
       }
     },
     toggleInterest: function (name, toggle) {
@@ -201,14 +205,6 @@ function getUserData ($rootScope, $q) {
     return workTypes;
   };
 
-  var getCompanies = function (user) {
-    var companies = {};
-    for (var company in user.get('companies')) {
-      companies[user.get('companies')[company.name]] = {status: company.status};
-    }
-    return companies;
-  };
-
   var getVehicles = function (user) {
     return [
       {
@@ -258,7 +254,6 @@ function getUserData ($rootScope, $q) {
       vehicles         : getVehicles(),
       eligibility      : [],
       shifts           : [],
-      companies        : [],
       blockedDays      : [],
       availability     : {},
       workTypes        : {},
@@ -302,7 +297,6 @@ function getUserData ($rootScope, $q) {
           earnings         : user.get('earnings') || {day: 0, week: 0, month: 0, lifetime: 0},
           hours            : user.get('hours') || {day: 0, week: 0, month: 0, lifetime: 0},
           vehicles         : getVehicles(user),
-          companies        : getCompanies(user),
           workTypes        : getWorkTypes(user),
           blockedDays      : getBlockedDays(user),
           availability     : getAvailability(user),
@@ -379,16 +373,6 @@ function formatUploadData ($rootScope) {
     return filtered;
   };
 
-  var formatCompanies = function () {
-    
-      var selected = [];
-      for (var company in $rootScope.currentUser.companies) {
-        if ($rootScope.currentUser.companies[company] === true)
-          selected.push({name: company, status: 1});
-      }
-      return selected;
-    };
-
   var formatWorkTypes = function () {
     
       var selected = [];
@@ -426,7 +410,6 @@ function formatUploadData ($rootScope) {
   return {
     target       : formatTargetHours,
     vehicles     : formatVehicles,
-    companies    : formatCompanies,
     workTypes    : formatWorkTypes,
     availability : formatAvailability,
     blockedDays  : formatBlockedDays,

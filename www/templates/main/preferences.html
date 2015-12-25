@@ -21,7 +21,7 @@
 			<ion-item href="#/app/companies">
 			   My Companies
 				<span class="item-note">
-					<span ng-repeat= "(company, value) in currentUser.companies | truncateObj : 2">{{company}}{{$last || $middle ? '' : ', '}}</span>
+					<span ng-repeat= "el in currentUser.eligibility | truncateObj : 2">{{el.company}}{{$last || $middle ? '' : ', '}}</span>
 				</span>
 			</ion-item>
 
