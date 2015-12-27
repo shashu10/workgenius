@@ -111,6 +111,7 @@
 }
 .flex-calendar .days {
   background-color: #FFF;
+  padding: 10px 0;
 }
 
 .flex-calendar .week {
@@ -233,7 +234,4 @@
 }
 .flex-calendar i.right-icon {
     right: 0;
-}
-.flex-calendar .week-view {
-    padding: 10px 0;
 }

@@ -64,12 +64,12 @@
       '</div>';
 
       var weekTemplate =
-      '<div class="flex-calendar padding-bottom">'+
+      '<div class="flex-calendar">'+
         '<div class="week">'+
           '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
         '</div>'+
 
-        '<ion-slide-box active-slide="activeSlide" class="week-view" show-pager="false" on-slide-changed="weekHasChanged($index)">' +
+        '<ion-slide-box active-slide="activeSlide" show-pager="false" on-slide-changed="weekHasChanged($index)">' +
             '<ion-slide class="days" ng-repeat="week in allWeeks">'+
               '<div class="day"'+
                 'ng-repeat="day in week track by $index"'+
@@ -80,8 +80,8 @@
               '</div>'+
             '</ion-slide>'+
         '</ion-slide-box>' +
-        '<i class="icon ion-arrow-left-c left-icon" ng-click="prevSlide()"></i>' +
-        '<i class="icon ion-arrow-right-c right-icon" ng-click="nextSlide()"></i>' +
+        // '<i class="icon ion-arrow-left-c left-icon" ng-click="prevSlide()"></i>' +
+        // '<i class="icon ion-arrow-right-c right-icon" ng-click="nextSlide()"></i>' +
       '</div>';
 
     Controller.$inject = ['$scope' , '$filter', '$ionicSlideBoxDelegate', '$ionicPopup'];
