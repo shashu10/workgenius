@@ -1,5 +1,48 @@
 angular.module('workgenius.constants', [])
 
+.constant('fakeShifts', [
+      {
+        company: 'Luxe', date: "2016-01-05",
+        startsAt: new Date("January 5, 2016 8:00:00"),
+        endsAt: new Date("January 5, 2016 11:30:00"),
+      },
+      {
+        company: 'Instacart', date: "2016-01-13",
+        startsAt: new Date("January 12, 2016 07:00:00"),
+        endsAt: new Date("January 12, 2016 10:00:00"),
+      },
+      {
+        company: 'Caviar', date: "2016-01-13",
+        startsAt: new Date("January 12, 2016 11:00:00"),
+        endsAt: new Date("January 12, 2016 14:00:00"),
+      },
+      {
+        company: 'Luxe', date: "2016-01-15",
+        startsAt: new Date("January 14, 2016 12:00:00"),
+        endsAt: new Date("January 14, 2016 15:30:00"),
+      },
+      {
+        company: 'Caviar', date: "2016-01-16",
+        startsAt: new Date("January 15, 2016 8:00:00"),
+        endsAt: new Date("January 15, 2016 11:00:00"),
+      },
+      {
+        company: 'Instacart', date: "2016-01-17",
+        startsAt: new Date("January 16, 2016 07:00:00"),
+        endsAt: new Date("January 16, 2016 10:00:00"),
+      },
+      {
+        company: 'Luxe', date: "2016-01-17",
+        startsAt: new Date("January 16, 2016 11:00:00"),
+        endsAt: new Date("January 16, 2016 14:00:00"),
+      },
+      {
+        company: 'Caviar', date: "2016-01-19",
+        startsAt: new Date("January 18, 2016 12:00:00"),
+        endsAt: new Date("January 18, 2016 16:00:00"),
+      },
+    ])
+
 .constant('companies', [{
         name: 'instacart',
         description: "Instacart is an on-demand grocery delivery company. The job consists of purchasing, packing and delivering groceries."
@@ -28,6 +71,7 @@ angular.module('workgenius.constants', [])
         name: 'doordash',
         description: "DoorDash is an on-demand restaurant delivery service. Pick up food items and deliver them to customers efficiently."
     }, ])
+
 .constant('workTypes', 
     [{
         name: 'Meal',

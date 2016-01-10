@@ -22,6 +22,7 @@ angular.module('workgenius.controllers', [])
       getUserData();
 
       $scope.toggleWithoutAnimation('registration.login');
+      $ionicHistory.clearCache();
   };
 
   $scope.toggleWithoutAnimation = function(state) {

@@ -4,7 +4,7 @@ angular.module('parseData', ['workgenius.constants'])
 .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
 .factory('setEligibility', ['$rootScope', setEligibility])
 .factory('setShifts', ['$rootScope', setShifts])
-.factory('getUserData', ['$rootScope', '$q', getUserData])
+.factory('getUserData', ['$rootScope', '$q', 'fakeShifts', getUserData])
 .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 function setShifts ($rootScope) {
@@ -180,7 +180,7 @@ function getCompanyData ($rootScope, companies) {
     });    
   };
 }
-function getUserData ($rootScope, $q) {
+function getUserData ($rootScope, $q, fakeShifts) {
 
   var Eligibility = Parse.Object.extend("Eligibility");
   var Shift = Parse.Object.extend("Shift");
@@ -243,21 +243,23 @@ function getUserData ($rootScope, $q) {
     return totalHours;
   };
 
-  var setDefaultPrefs = function (name, email) {
+  var setDefaultPrefs = function (name, email, isDemoUser) {
+    console.log('test');
+    console.log(isDemoUser);
     angular.extend($rootScope.currentUser, {
       name             : name,
       email            : email,
-      phone            : "4151234567",
+      phone            : isDemoUser ? "4151234567" : "",
       target           : 40,
       cancellations    : 0,
       totalHours       : 0,
       vehicles         : getVehicles(),
       eligibility      : [],
-      shifts           : [],
       blockedDays      : [],
       availability     : {},
       workTypes        : {},
       appState         : {},
+      shifts           : isDemoUser ? fakeShifts : [],
       earnings         : {day: 188, week: 720, month: 2410, lifetime: 11002},
       hours            : {day: 8, week: 31, month: 130, lifetime: 846},
     });
@@ -265,6 +267,7 @@ function getUserData ($rootScope, $q) {
   
   return function (newUser, name, email) {
 
+    // To do some async stuff after data has loaded
     var deferred = $q.defer();
 
     $rootScope.currentUser = Parse.User.current() || {};
@@ -272,7 +275,7 @@ function getUserData ($rootScope, $q) {
     // Only for demo purposes
     if (!Parse.User.current()) {
 
-      setDefaultPrefs('AJ Shewki', 'aj@workgeni.us');
+      setDefaultPrefs('AJ Shewki', 'aj@workgeni.us', true);
 
     // New use needs default values immediately for onboarding flow
     } else if (newUser) {

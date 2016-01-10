@@ -6,7 +6,7 @@ angular.module('workgenius.registration', [])
 
             getUserData();
 
-            var next = 'onboarding.target-hours';
+            var next = 'onboarding.work-types';
             if ($state.current.name === 'registration.login') {
                 next = 'app.schedule';
             }
@@ -173,7 +173,7 @@ angular.module('workgenius.registration', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     });
-                    $state.go('onboarding.target-hours', {
+                    $state.go('onboarding.work-types', {
                         clear: true
                     });
                 },

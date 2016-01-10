@@ -17,6 +17,7 @@ $dark:                            #444 !default;
 
 $positive: #69BFF8;
 
+
 // Colors
 $wg-light-gray: #f5f5f5;
 $wg-gray-border: #DDD;
@@ -31,6 +32,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "../www/lib/ionic/scss/ionic";
 
 @import 'splash';
+
+@import 'menu';
 
 @import 'company';
 
@@ -152,4 +155,11 @@ html *
     padding-top: 10px;
     color: $wg-gray-text;
     border-top: 1px solid #DDDDDD;
+}
+
+.bar-light .title,
+.bar-light .button.button-clear {
+    color: $positive !important;
+    font-size: 12px;
+    text-transform: uppercase;
 }

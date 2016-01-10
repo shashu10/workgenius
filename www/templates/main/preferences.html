@@ -37,21 +37,25 @@
 		<p class="wg-list-title">Personal Information</p>
 
 		<ion-list type="card">
+			<ion-item>{{currentUser.name}} <span class="item-note">Name</span></ion-item>
+			<ion-item ng-if="currentUser.phone">{{currentUser.phone}} <span class="item-note">Phone</span></ion-item>
+			<ion-item>{{currentUser.email}} <span class="item-note">Email</span></ion-item>
+		</ion-list>
+
+		<!-- Enable once edit is working properly -->
+		<!-- <ion-list type="card">
 			<ion-item class="item-input-element">
 			   <input type="text" ng-model="currentUser.name" readonly="readonly">
 			</ion-item>
-
 			<ion-item focus-on-tap class="item-input-element">
 			   <input class="input-phone" type='text' phone-input ng-model="currentUser.phone" placeholder="Phone Number">
 			   <span class="item-note wg-floating-note">Edit</span>
 			</ion-item>
-
 			<ion-item focus-on-tap class="item-input-element">
 			   <input type="text" ng-model="currentUser.email">
 			   <span class="item-note wg-floating-note">Edit</span>
 			</ion-item>
-
-		</ion-list>
+		</ion-list> -->
 
 		<ion-list type="card">
 			<ion-item class="item-icon-right assertive" ng-click="logout()">
