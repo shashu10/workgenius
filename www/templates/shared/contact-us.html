@@ -1,5 +1,5 @@
 <ion-modal-view>
-    <ion-header-bar>
+    <ion-header-bar class="bar-light">
         <div class="buttons">
             <button class="button button-positive button-clear" ng-click="cancelMessage()">
                 Cancel
@@ -7,20 +7,22 @@
         </div>
         <h1 class="title">Contact Us</h1>
     </ion-header-bar>
-    <ion-content class="contact-us-content">
-        <!-- <p class="wg-title">
-            Put anything you want to ask us in here and hit send!
-        </p> -->
+    <div class="bar bar-subheader wg-button-bar">
+        <div class="button-bar">
+            <button class="button" ng-repeat="item in modalData.options" ng-class="isActive(item) ? 'button-positive' : 'button-dark'" ng-click="setActive(item)">{{item | uppercase}}</button>
+        </div>
+    </div>
+    <ion-content class="contact-us-content has-subheader">
         <label class="item item-input item-floating-label contact-message">
             <span class="input-label">Message</span>
-            <textarea rows="5" placeholder="Type your message here. Any questions, comments or concerns you may have."></textarea>
+            <textarea rows="5" ng-model="modalData.message" placeholder="Type your message here. Any questions, comments or concerns you may have."></textarea>
         </label>
         <div class="padding">
-            <button class="button button-block" ng-class="contactStatus == 'Send' ? 'button-positive' : 'button-balanced'" ng-click="sendMessage()">{{contactStatus}}</button>
+            <button class="button button-block" ng-class="modalData.buttonStatus" ng-click="sendMessage()">{{modalData.contactStatus}}</button>
         </div>
         <div class="wg-title">
             <p>Is it an emergency?</p>
-            <a href="tel:+14153471890"><button class="button button-clear button-assertive icon-left ion-ios-telephone">Call Us</button></a>
+            <a href="tel:+17607060776"><button class="button button-clear button-assertive icon-left ion-ios-telephone">Call Us</button></a>
         </div>
     </ion-content>
 </ion-modal-view>

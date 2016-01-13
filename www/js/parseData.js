@@ -10,11 +10,10 @@ angular.module('parseData', ['workgenius.constants'])
 function setShifts ($rootScope, $q) {
   return {
     remove: function (shift) {
-      console.log(shift);
       if (!shift.object) {
         var deferred = $q.defer();
         deferred.resolve(false);
-        return deferred;
+        return deferred.promise;
       }
       shift.object.unset('worker');
       return shift.object.save();
@@ -173,7 +172,6 @@ function getCompanyData ($rootScope, companies) {
         var companyList = [];
         for (var i = 0; i < results.length; i++) {
           var c = results[i];
-          console.log(c.get('showInApp'));
           if (c.get('showInApp') === true) {
             companyList.push({
               name: c.get('name'),
@@ -254,8 +252,7 @@ function getUserData ($rootScope, $q, fakeShifts) {
   };
 
   var setDefaultPrefs = function (name, email, isDemoUser) {
-    console.log('test');
-    console.log(isDemoUser);
+
     angular.extend($rootScope.currentUser, {
       name             : name,
       email            : email,
