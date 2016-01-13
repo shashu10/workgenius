@@ -145,6 +145,11 @@ angular.module('workgenius.schedule', [])
 
       // Group it
       $scope.groupedShifts = groupBy($rootScope.currentUser.shifts, function(item){return [item.date];});
+
+      if (result) { // was actually updated asynchronously
+        $scope.$apply();
+      }
+
     });
   };
   $scope.groupedShifts = groupBy($rootScope.currentUser.shifts, function(item){return [item.date];});
