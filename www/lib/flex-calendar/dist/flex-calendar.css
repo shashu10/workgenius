@@ -111,6 +111,8 @@
 }
 .flex-calendar .days {
   background-color: #FFF;
+}
+.flex-week .days {
   padding: 10px 0;
 }
 
@@ -206,20 +208,19 @@
 
 .flex-calendar .days .day.event:before {
   content: "";
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius:100%;
   background-color: #69BFF8;
   position:absolute;
-  bottom: 2px;
-  margin-left: -3px;
+  bottom: 3px;
 }
 .flex-calendar .days .day.blocked.event:before {
     margin-left: 0;
     background-color: white;
 }
 .flex-calendar .days .day.selected.event:before {
-    margin-left: 13px;
+    margin-left: 15px;
     background-color: white;
 }
 

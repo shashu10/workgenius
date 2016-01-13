@@ -1,12 +1,21 @@
 <div view-title="Manage Availability">
-    <div class="bar bar-subheader availability-tabs">
+    <!-- <div class="bar bar-subheader availability-tabs">
         <span ng-class="{active : availActive}" ng-click="toggleWithoutAnimation('app.availability-tabs.availability')">
 			{{'Availability' | uppercase}}
         </span>
         <span ng-class="{active: !availActive}" ng-click="toggleWithoutAnimation('app.availability-tabs.block-days')">
 			{{'Time Off' | uppercase}}
         </span>
+    </div> -->
+    <div class="bar bar-subheader bar-positive wg-button-footer">
+        <div class="button-bar padding">
+            <button class="button" ng-class="availActive ? 'button-positive' : 'button-dark'" ng-click="toggleWithoutAnimation('app.availability-tabs.availability')">
+            	{{'Availability' | uppercase}}
+        	</button>
+            <button class="button" ng-class="!availActive ? 'button-positive' : 'button-dark'" ng-click="toggleWithoutAnimation('app.availability-tabs.block-days')">
+            	{{'Time Off' | uppercase}}
+        	</button>
+        </div>
     </div>
-
 </div>
 <ion-nav-view name="content"></ion-nav-view>

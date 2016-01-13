@@ -4,7 +4,8 @@
     <h1 class="title">{{selectedWorkType.title}}</h1>
 
   </ion-header-bar>
-  <ion-content>
+
+  <ion-content class="has-footer">
 
   <div class="work-types-header">
     <div>
@@ -15,14 +16,13 @@
     </div>
     <div>
       <h4>Hourly Earnings Estimate</h4>
-      <h4 class="light-green">$16-$20</h4>
+      <h3 class="light-green">$16-$20 /hr</h3>
     </div>
   </div>
 
   <p class="center-text available-jobs"><strong> Available Jobs </strong></p>
   
   <ul class="work-types-content">
-  <!-- {{selectedWorkType}} -->
     <ion-item class="item-text-wrap" ng-repeat="company in selectedWorkType.companies | filter:{available: true}">
       <img ng-src="img/companies/{{company.name}}.png" alt="">
       <p>{{company.longInfo}}</p>
@@ -33,7 +33,6 @@
   <p class="center-text coming-soon"><strong> Coming Soon </strong></p>
 
   <ul class="work-types-content">
-  <!-- {{selectedWorkType}} -->
     <ion-item class="item-text-wrap disabled" ng-repeat="company in selectedWorkType.companies | filter:{available: false}">
       <img ng-src="img/companies/{{company.name}}.png" alt="">
       <p>{{company.longInfo}}</p>
@@ -41,12 +40,13 @@
 
   </ul>
 
-  <div class="button-bar padding">
-    <button class="button button-stable" ng-click="decline(selectedWorkType)">Go Back</button>
-    <button class="button button-positive" ng-click="accept(selectedWorkType)">
-      I'm In
-    </button>
-  </div>
-
   </ion-content>
+
+  <div class="bar bar-footer bar-positive wg-button-footer">
+    <div class="button-bar padding">
+      <button class="button button-dark" ng-click="decline(selectedWorkType)">Go Back</button>
+      <button class="button button-positive" ng-click="accept(selectedWorkType)">Interested</button>
+    </div>
+  </div>
+  
 </ion-modal-view>

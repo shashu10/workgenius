@@ -1,9 +1,8 @@
 <ion-view view-title="Earnings">
-    <ion-content class="has-header has-tabs">
+    <ion-content class="has-header has-footer">
         <div class="wg-title">
             <p>This is an estimate of your earnings based on the hours you've worked</p>
         </div>
-
         <div class="center-text">
             <div class="wg-earnings-block">
                 <h4>Today</h4>
@@ -12,7 +11,6 @@
                 </h1>
                 <h3>avg {{17 | currency:undefined:0}}/hr</h3>
             </div>
-
             <div class="wg-earnings-block">
                 <h4>This Week</h4>
                 <h1>
@@ -20,7 +18,6 @@
                 </h1>
                 <h3>avg {{19 | currency:undefined:0}}/hr</h3>
             </div>
-
             <div class="wg-earnings-block">
                 <h4>This Month</h4>
                 <h1>
@@ -28,7 +25,6 @@
                 </h1>
                 <h3>avg {{18 | currency:undefined:0}}/hr</h3>
             </div>
-
             <div class="wg-earnings-block">
                 <h4>Lifetime</h4>
                 <h1>
@@ -38,12 +34,20 @@
             </div>
         </div>
     </ion-content>
-    <div class="tabs tabs-positive tabs-icon-left">
+
+    <div class="bar bar-footer bar-positive wg-button-footer">
+        <div class="button-bar padding">
+            <button class="button button-dark">Earnings</button>
+            <button class="button button-positive" ng-click="toggleWithoutAnimation('app.hours')">Hours</button>
+        </div>
+    </div>
+
+    <!-- <div class="tabs tabs-positive tabs-icon-left">
         <a class="tab-item active">
             <i class="icon ion-cash"></i> Earnings
         </a>
-        <a class="tab-item" ng-click="toggleWithoutAnimation('app.hours')">
+        <a class="tab-item" >
             <i class="icon ion-clock"></i> Hours
         </a>
-    </div>
+    </div> -->
 </ion-view>

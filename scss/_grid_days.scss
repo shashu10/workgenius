@@ -22,13 +22,15 @@ $wg-maybe: #bdc3c7;
 		}
 		&:first-child {
 			line-height: 16px;
+			font-size: 11px;
 			border-top: 1px solid $wg-gray-border;
 		    background-color: $wg-light-gray;
 		}
 		&:not(:first-child) {
 			line-height: 40px;
 			.first {
-				background-color: $wg-cream;
+				// background-color: $wg-cream;
+				font-size: 11px;
 				line-height: 12px;
 			}
 			.col {

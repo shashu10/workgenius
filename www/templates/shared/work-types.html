@@ -1,11 +1,16 @@
 <div class="wg-grid">
     <div class="center-text padding">
-        <p>Select the types of work that you are interested in. bear in mind that Ridesharing and certain delivery jobs require a car!</p>
+        <p>Select the types of work you're interested in</p>
     </div>
     <div class="row padding-top" ng-repeat="rows in workTypes">
         <div class="col light-blue" ng-repeat="wType in rows" ng-click="select(wType)" ng-class="{selected : currentUser.workTypes.{{wType.name}}}">
             <i class="work-type-icon icon" ng-class="wType.icon"></i>
-            <p>{{wType.name}}</p>
+            <p>{{wType.title}}</p>
         </div>
+        <!-- Last row needs a filler column -->
+	    <div class="col" ng-if="$last && (workTypes.length + 1) % 3 === 0"></div>
+	    <!-- Last row needs two filler columns -->
+	    <div class="col" ng-if="$last && (workTypes.length + 2) % 3 === 0"></div>
+	    <div class="col" ng-if="$last && (workTypes.length + 2) % 3 === 0"></div>
     </div>
 </div>

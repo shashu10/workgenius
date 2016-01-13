@@ -46,7 +46,7 @@
             font-size: 8px;
             margin: 0;
             .light-green {
-                padding: 0 5px;
+                padding: 0 8px;
                 font-size: large;
             }
         }
@@ -79,15 +79,6 @@
 	.invisible {
 	    visibility: visible;
 	}
-}
-
-// Cancel Popup
-.popup-body {
-    text-align: center;
-    img {
-        width: 40%;
-        padding: 16px;
-    }
 }
 
 .schedule-placeholder {

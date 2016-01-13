@@ -10,6 +10,8 @@ angular.module('parseData', ['workgenius.constants'])
 function setShifts ($rootScope) {
   return {
     remove: function (shift) {
+      console.log(shift);
+      if (!shift.object) return;
       shift.object.unset('worker');
       return shift.object.save();
     }
@@ -166,11 +168,15 @@ function getCompanyData ($rootScope, companies) {
         // Do something with the returned Parse.Object values
         var companyList = [];
         for (var i = 0; i < results.length; i++) {
-          companyList.push({
-            name: results[i].get('name'),
-            description : results[i].get('description'),
-            object: results[i]
-          });
+          var c = results[i];
+          console.log(c.get('showInApp'));
+          if (c.get('showInApp') === true) {
+            companyList.push({
+              name: c.get('name'),
+              description: c.get('description'),
+              object: c
+            });
+          }
         }
         $rootScope.companyList = companyList;
       },
@@ -349,7 +355,13 @@ function getUserData ($rootScope, $q, fakeShifts) {
             object     : sh
           });
         }
+        shifts.sort(function (a, b) {
+          if (a.startsAt.getTime() > b.startsAt.getTime())
+            return 1;
 
+          return -1;
+        });
+        
         $rootScope.currentUser.shifts = shifts;
 
         deferred.resolve(true);

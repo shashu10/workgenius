@@ -16,7 +16,11 @@ $dark:                            #444 !default;
 */
 
 $positive: #69BFF8;
-
+$button-positive-active-bg: #4EB0F1;
+$assertive: #f86969;
+$button-assertive-active-bg: #E95252;
+$button-dark-bg: #d8d8d8;
+$button-dark-active-bg: #B3B3B3;
 
 // Colors
 $wg-light-gray: #f5f5f5;
@@ -66,6 +70,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import 'work_types'; // Work types and modal
 
 @import 'save_bar'; // Work types and modal
+
+@import 'popup';
 
 html *
 {

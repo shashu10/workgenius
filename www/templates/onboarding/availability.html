@@ -1,4 +1,4 @@
-<ion-view class="register" title="Availability">
+<ion-view class="register" title="Set your availability">
 
 	<div class="wg-grid-days has-header has-subheader" ng-show="showHeader">
 	    <div class="row wg-grid-header">
@@ -9,13 +9,18 @@
 
     <ion-content class="has-header has-subheader has-wg-save-bar" delegate-handle="availabilityScroll" on-scroll="onScroll()">
 
+        <div class="wg-title">
+            <p>Tap to add or remove hours</p>
+            <p>You can change this later in your preferences</p>
+        </div>
+
         <grid-days></grid-days>
         
     </ion-content>
 
     <!-- Finish Onboarding -->
     <div class="bar bar-footer bar-positive" ng-click="finish(); save('availability')">
-      <h1 class="title">Finish >></h1>
+      <h1 class="title">FINISH >></h1>
     </div>
     
 </ion-view>

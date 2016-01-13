@@ -1,0 +1,25 @@
+.popup-container .popup {
+    border-radius: 4px;
+    border: 1px solid #7B7B7B;
+    // Cancel Popup
+    text-align: center;
+
+
+	.popup-head {
+		border: 0;
+	}
+
+    img {
+        width: 20%;
+    }
+
+    .popup-buttons {
+		padding: 0;
+		
+    	.button {
+		    margin: 0;
+		    border: 0;
+		    border-radius: 0;
+    	}
+    }
+}

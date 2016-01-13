@@ -14,32 +14,40 @@
       <i class="icon icon-text"> 18+</i>
     </div>
     <div>
-      <h4>Hourly Earnings Estimate</h4>
-      <h4 class="light-green">$16-$20</h4>
+      <h4>Earnings Estimate</h4>
+      <h3 class="light-green">$16-$20 /hr</h3>
     </div>
   </div>
   
   <ul class="work-types-content">
-    
-    <h2 class="center-text">{{selectedCompany.name | capitalize}}</h2>
 
-    <img class="company-logo" ng-src="img/companies/{{selectedCompany.name}}.png" alt="">
+    <img class="company-logo" ng-src="img/companies/{{selectedCompany.name | spaceless}}.png" alt="">
 
-    <p class="padding">
+    <h4 class="center-text">{{selectedCompany.name | capitalize}}</h4>
+
+    <p class="padding center-text">
       {{selectedCompany.description}}
     </p>
     <!-- <ion-item class="item-text-wrap" ng-class="{disabled : !company.available}" ng-repeat="(name, company) in selectedCompany.companies">
       <img ng-src="img/companies/{{name}}.png" alt="">
       <p>{{company.longInfo}}</p>
     </ion-item> -->
-    <div class="button-bar padding">
-      <button class="button button-stable" ng-click="decline(selectedCompany)">Go Back</button>
-      <button class="button button-positive" ng-click="accept(selectedCompany)">
-        I'm In
-      </button>
-    </div>
 
   </ul>
 
   </ion-content>
+
+    <!-- <div class="button-bar padding">
+      <button class="button button-stable" ng-click="decline(selectedCompany)">Go Back</button>
+      <button class="button button-positive" ng-click="accept(selectedCompany)">
+        Interested
+      </button>
+    </div> -->
+  <div class="bar bar-footer bar-positive">
+    <!-- <h1 class="title">CONTINUE >></h1> -->
+    <button class="button button-stable" ng-click="decline(selectedCompany)">Go Back</button>
+      <button class="button button-positive" ng-click="accept(selectedCompany)">
+        Interested
+      </button>
+  </div>
 </ion-modal-view>

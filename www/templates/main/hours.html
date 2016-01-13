@@ -1,5 +1,5 @@
 <ion-view view-title="Hours">
-    <ion-content class="has-header has-tabs">
+    <ion-content class="has-header has-footer">
 
         <!-- <div class="wg-title">
             <p>This is an estimate of your earnings based on the hours you've worked</p>
@@ -35,12 +35,20 @@
             </div>
         </div>
     </ion-content>
-    <div class="tabs tabs-positive tabs-icon-left">
+
+    <div class="bar bar-footer bar-positive wg-button-footer">
+        <div class="button-bar padding">
+            <button class="button button-positive" ng-click="toggleWithoutAnimation('app.earnings')">Earnings</button>
+            <button class="button button-dark">Hours</button>
+        </div>
+    </div>
+
+    <!-- <div class="tabs tabs-positive tabs-icon-left">
         <a class="tab-item" ng-click="toggleWithoutAnimation('app.earnings')">
             <i class="icon ion-cash"></i> Earnings
         </a>
         <a class="tab-item active">
             <i class="icon ion-clock"></i> Hours
         </a>
-    </div>
+    </div> -->
 </ion-view>

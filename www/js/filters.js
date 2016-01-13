@@ -1,4 +1,11 @@
 angular.module('workgenius.filters', [])
+.filter('spaceless',function() {
+    return function(input) {
+        if (input) {
+            return input.replace(/\s+/g, '_');    
+        }
+    };
+})
 .filter('capitalize', function() {
   return function(input, scope) {
     if (input) input = input.toLowerCase();

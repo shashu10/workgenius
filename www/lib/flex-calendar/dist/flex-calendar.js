@@ -38,7 +38,7 @@
     }
 
       var template =
-      '<div class="flex-calendar">'+
+      '<div class="flex-calendar flex-month">'+
         '<div class="month">'+
           '<div class="arrow {{arrowPrevClass}}" ng-click="prevSlide()"><i class="icon ion-chevron-left"></i></div>'+
           '<div class="label">{{selectedMonth | uppercase | translate}} {{selectedYear | uppercase}}</div>'+
@@ -64,7 +64,7 @@
       '</div>';
 
       var weekTemplate =
-      '<div class="flex-calendar">'+
+      '<div class="flex-calendar flex-week">'+
         '<div class="week">'+
           '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
         '</div>'+
