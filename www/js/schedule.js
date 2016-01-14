@@ -109,7 +109,7 @@ angular.module('workgenius.schedule', [])
         $scope.cannotCancelWarning = function() {
 
             $scope.cannotCancelPopup = $ionicPopup.show({
-                template: '<p>Sorry you cannot cancel this shift automatically. Please contact us immediately to if you are unable to fulfil this shift.</p>',
+                template: '<p>Please contact us immediately to cancel this shift if you can\'t make it.</p>',
                 title: 'Maximum number of cancellations reached!',
                 scope: $scope,
                 buttons: [{
@@ -122,7 +122,7 @@ angular.module('workgenius.schedule', [])
                     }
                 }, {
                     text: 'Don\'t Cancel',
-                    type: 'button-default',
+                    type: 'button-dark',
                     onTap: function(e) {
                         return false;
                     }
