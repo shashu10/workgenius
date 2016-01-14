@@ -50,7 +50,8 @@ angular.module('workgenius.onboarding', [])
 }])
 
 .controller('AvailabilityQuestionsCtrl', ['$scope', '$rootScope', '$filter', function ($scope, $rootScope, $filter) {
-  $rootScope.availQuestions = {
+
+  $rootScope.currentUser.availQuestions = $rootScope.currentUser.availQuestions || {
     days: [{
         name: 'monday', selected: false
       }, {
@@ -78,21 +79,23 @@ angular.module('workgenius.onboarding', [])
         name: 'nights', start: '9pm', end: '2am', selected: false,
       }],
   };
+  var availQ = $rootScope.currentUser.availQuestions;
+  
   $scope.didSelectOption = function () {
-    return $filter('filter')($scope.availQuestions.days, {selected:true}).length &&
-           $filter('filter')($scope.availQuestions.timeSlots, {selected:true}).length;
+    return $filter('filter')(availQ.days, {selected:true}).length &&
+           $filter('filter')(availQ.timeSlots, {selected:true}).length;
   };
   $scope.setAvailWithQuestions = function () {
     var availability = {};
     // For each day
     for (var i = 0; i < $rootScope.days.length; i++) {
       var day = $rootScope.days[i];
-      for (var k = 0; k < $scope.availQuestions.timeSlots.length; k++) {
+      for (var k = 0; k < availQ.timeSlots.length; k++) {
 
         // If that day and timeslot is selected
-        if ($scope.availQuestions.days[i].selected && $scope.availQuestions.timeSlots[k].selected) {
+        if (availQ.days[i].selected && availQ.timeSlots[k].selected) {
           availability[day] = availability[day] || [];
-          addAvailabilityWithSlot($scope.availQuestions.timeSlots[k], availability[day]);
+          addAvailabilityWithSlot(availQ.timeSlots[k], availability[day]);
         }
       }
     }
