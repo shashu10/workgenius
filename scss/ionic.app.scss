@@ -79,10 +79,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 @import 'popup';
 
-html *
-{
-   // font-family: 'Avenir', sans-serif !important;
+@font-face { font-family: Avenir; src: url('../font/Avenir-Book.ttf'); }
+
+html * {
+    font-family: Avenir;
 }
+
 
 // Menu
 
@@ -173,5 +175,18 @@ html *
 .bar-light .button.button-clear {
     color: $positive !important;
     font-size: 12px;
+    text-transform: uppercase;
+}
+
+.bar.bar-positive .title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.bar .button-bar .button {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
     text-transform: uppercase;
 }

@@ -48,9 +48,14 @@
 			border-color: transparent;
 			background-color: transparent;
 			padding-left: 35px;
+
+			p {
+				font-size: 12px;
+				text-align: right;
+			}
 		}
 		img {
-			width: 30px;
+			width: 30px !important;
 			position: absolute;
 			left: 0;
 			top: 11px;

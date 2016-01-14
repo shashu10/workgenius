@@ -345,17 +345,25 @@ function getUserData ($rootScope, $q, fakeShifts) {
         for (var i = 0; i < results.length; i++) {
           var sh = results[i];
 
-          // date for flex-calendar needs to be in format: YYYY-MM-DD 2015-01-01
-          // Flex cal error displays one day behind date
+          // If shift was finished, don't show
+          console.log(sh);
+          if (moment(sh.get('endsAt')).isBefore(moment().add(5, 'hours'))) {
+            console.log('continue');
+            continue;
+          }
+
           shifts.push({
             id         : sh.id,
             company    : sh.get('company') && sh.get('company').get('name'),
             startsAt   : sh.get('startsAt'),
             endsAt     : sh.get('endsAt'),
+            // date for flex-calendar needs to be in format: YYYY-MM-DD 2015-01-01
+            // Flex cal error displays one day behind date
             date       : moment(sh.get('startsAt')).add(1, 'day').format('YYYY-MM-DD'),
             object     : sh
           });
         }
+
         shifts.sort(function (a, b) {
           if (a.startsAt.getTime() > b.startsAt.getTime())
             return 1;

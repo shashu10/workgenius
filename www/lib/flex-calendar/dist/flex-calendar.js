@@ -191,6 +191,7 @@
       });
 
       $scope.$watch('events', function() {
+        console.log('watch events');
         createMappedEvents();
         calculateWeeks();
       });
@@ -254,7 +255,7 @@
       /////////////////
 
       $scope.dividerFunction = function(date){
-        return moment(date).format('dddd Do');
+        return moment(date).format('MMM dddd Do');
       };
 
       $scope.formatAMPM = function (date) {

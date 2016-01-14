@@ -2,21 +2,6 @@ angular.module('workgenius.constants', [])
 
 .constant('fakeShifts', [
       {
-        company: 'Luxe', date: "2016-01-05",
-        startsAt: new Date("January 5, 2016 8:00:00"),
-        endsAt: new Date("January 5, 2016 11:30:00"),
-      },
-      {
-        company: 'Instacart', date: "2016-01-13",
-        startsAt: new Date("January 12, 2016 07:00:00"),
-        endsAt: new Date("January 12, 2016 10:00:00"),
-      },
-      {
-        company: 'Caviar', date: "2016-01-13",
-        startsAt: new Date("January 12, 2016 11:00:00"),
-        endsAt: new Date("January 12, 2016 14:00:00"),
-      },
-      {
         company: 'Luxe', date: "2016-01-15",
         startsAt: new Date("January 14, 2016 12:00:00"),
         endsAt: new Date("January 14, 2016 15:30:00"),
@@ -40,6 +25,21 @@ angular.module('workgenius.constants', [])
         company: 'Caviar', date: "2016-01-19",
         startsAt: new Date("January 18, 2016 12:00:00"),
         endsAt: new Date("January 18, 2016 16:00:00"),
+      },
+      {
+        company: 'Luxe', date: "2016-02-05",
+        startsAt: new Date("February 5, 2016 8:00:00"),
+        endsAt: new Date("February 5, 2016 11:30:00"),
+      },
+      {
+        company: 'Instacart', date: "2016-02-13",
+        startsAt: new Date("February 12, 2016 07:00:00"),
+        endsAt: new Date("February 12, 2016 10:00:00"),
+      },
+      {
+        company: 'Caviar', date: "2016-02-13",
+        startsAt: new Date("February 12, 2016 11:00:00"),
+        endsAt: new Date("February 12, 2016 14:00:00"),
       },
     ])
 

@@ -137,7 +137,7 @@ angular.module('workgenius.schedule', [])
         $scope.cancelShift = function(shift, group, shifts) {
 
             setShifts.remove(shift).then(function(result) {
-
+                console.log('cancell then');
                 // Set cancellations if required
                 // if (beforeCertainTime)
                 $rootScope.currentUser.cancellations++;
