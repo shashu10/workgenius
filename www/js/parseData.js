@@ -161,26 +161,52 @@ function setUserData ($rootScope, formatUploadData) {
 function getCompanyData ($rootScope, companies) {
   $rootScope.companyList = companies;
 
+  function createWorkTypeAndAppend (workType, array, company) {
+
+    var found = array.find(function (element, index, array) {return element.name === workType.get('name');});
+
+    if(!found) {
+      found = {
+        name: workType.get('name').toLowerCase(),
+        title: workType.get('title').toLowerCase(),
+        icon: workType.get('icon').toLowerCase(),
+        showInApp: workType.get('showInApp'),
+        companies: []
+      };
+      array.push(found);
+    }
+
+    found.companies.push(company);
+  }
+
   return function () {
     var Company = Parse.Object.extend("Company");
     var query = new Parse.Query(Company);
+    query.include('workType');
     query.equalTo("location", "san francisco");
 
     query.find({
       success: function(results) {
         // Do something with the returned Parse.Object values
         var companyList = [];
+        var workTypes = [];
+
         for (var i = 0; i < results.length; i++) {
           var c = results[i];
-          if (c.get('myCompanies') === true) {
-            companyList.push({
-              name: c.get('name'),
-              description: c.get('description'),
-              earningsEst: c.get('earningsEst'),
-              object: c
-            });
-          }
+          var company = {
+            name: c.get('name'),
+            description: c.get('description').toLowerCase(),
+            earningsEst: c.get('earningsEst'),
+            myCompanies: c.get('myCompanies'),
+            availableNow: c.get('availableNow'),
+            object: c
+          };
+          companyList.push(company);
+
+          createWorkTypeAndAppend(c.get('workType'), workTypes, company);
         }
+
+        $rootScope.workTypes = workTypes;
         $rootScope.companyList = companyList;
       },
       error: function(error) {

@@ -151,7 +151,7 @@ angular.module('workgenius.constants', [])
             name: 'saucey',
             available: true,
             info: 'Description',
-            longInfo: 'Deliver alsohol, tobacco and snacks to thirsty customers. It\'s always 5pm!'
+            longInfo: 'Deliver alcohol, tobacco and snacks to thirsty customers. It\'s always 5pm!'
         }, {
             name: 'thirstie',
             available: false,

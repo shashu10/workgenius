@@ -118,8 +118,8 @@ angular.module('workgenius.onboarding', [])
 }])
 
 .controller('WorkTypesCtrl',
-  ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'filterFilter', 'workTypes',
-  function($rootScope, $scope, $ionicModal, setUserData, filterFilter, workTypes) {
+  ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'filterFilter',
+  function($rootScope, $scope, $ionicModal, setUserData, filterFilter) {
 
     var chunk = function (arr, size) {
       var newArr = [];
@@ -129,7 +129,7 @@ angular.module('workgenius.onboarding', [])
       return newArr;
     };
 
-    $scope.workTypes = chunk(workTypes, 3);
+    // $scope.workTypes = chunk(workTypes, 3);
 
     $scope.update = function () {
       setUserData.save('vehicles');

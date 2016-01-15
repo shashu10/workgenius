@@ -20,22 +20,24 @@
     </div>
   </div>
 
-  <p class="center-text available-jobs"><strong> Available Jobs </strong></p>
-  
   <ul class="work-types-content">
-    <ion-item class="item-text-wrap" ng-repeat="company in selectedWorkType.companies | filter:{available: true}">
-      <img ng-src="img/companies/{{company.name}}.png" alt="">
-      <p>{{company.longInfo}}</p>
+
+    <p class="center-text available-jobs"><strong> Available Jobs </strong></p>
+
+    <ion-item class="item-text-wrap" ng-repeat="company in selectedWorkType.companies | filter:{availableNow: true}">
+      <img ng-src="img/companies/{{company.name | spaceless}}.png" alt="">
+      <p>{{company.description}}</p>
     </ion-item>
 
   </ul>
 
-  <p class="center-text coming-soon"><strong> Coming Soon </strong></p>
-
   <ul class="work-types-content">
-    <ion-item class="item-text-wrap disabled" ng-repeat="company in selectedWorkType.companies | filter:{available: false}">
-      <img ng-src="img/companies/{{company.name}}.png" alt="">
-      <p>{{company.longInfo}}</p>
+
+    <p class="center-text coming-soon"><strong> Coming Soon </strong></p>
+
+    <ion-item class="item-text-wrap disabled" ng-repeat="company in selectedWorkType.companies | filter:{availableNow: false}">
+      <img ng-src="img/companies/{{company.name | spaceless}}.png" alt="">
+      <p>{{company.description}}</p>
     </ion-item>
 
   </ul>

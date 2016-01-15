@@ -2,15 +2,15 @@
     <div class="wg-title">
         <p>Select the companies you're interested in working with. Companies you're eligible to work for will be marked with a checkmark</p>
     </div>
-	<div class="row padding-top" ng-repeat="rows in companyList | chunkBy: 3">
+	<div class="row padding-top" ng-repeat="rows in filteredList = (companyList | filter:{myCompanies: true}) | chunkBy: 3">
 	    <div class="col" ng-repeat="company in rows" ng-click="select(company)" ng-class="{selected: isInterested(company.name)}">
 	        <img ng-src="img/companies_blue/{{company.name | spaceless}}.png" alt="">
 	        <i ng-if="isEligible(company.name)" class="icon company-icon ion-android-checkmark-circle balanced"></i>
 	    </div>
 	    <!-- Last row needs a filler column -->
-	    <div class="col" ng-if="$last && (companyList.length + 1) % 3 === 0"></div>
+	    <div class="col" ng-if="$last && (filteredList.length + 1) % 3 === 0"></div>
 	    <!-- Last row needs two filler columns -->
-	    <div class="col" ng-if="$last && (companyList.length + 2) % 3 === 0"></div>
-	    <div class="col" ng-if="$last && (companyList.length + 2) % 3 === 0"></div>
+	    <div class="col" ng-if="$last && (filteredList.length + 2) % 3 === 0"></div>
+	    <div class="col" ng-if="$last && (filteredList.length + 2) % 3 === 0"></div>
 	</div>
 </div>
