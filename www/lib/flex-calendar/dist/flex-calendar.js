@@ -262,16 +262,31 @@
         return moment(date).format('ha');
       };
 
+      $scope.shiftEarnings = function(shift) {
+          return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * 15;
+      };
+      $scope.strikes = function (shifts) {
+        var strikes = 0;
+        for (var i = 0; i < shifts.length; i++) {
+          var shift = shifts[i];
+          var deadline = moment().add(72, 'hours');
+          if (deadline.isAfter(shift.startsAt)) {
+            strikes++;
+          }
+        }
+        return strikes;
+      };
       function blockWithEvents (date) {
         $scope.selectedEvents = date.event;
+        var thisThese = $scope.selectedEvents.length > 1 ? 'these shifts' : 'this shift';
         return $ionicPopup.show({
           cssClass: 'block-popup',
-          template: '<p>All your shifts on this day will be cancelled.</p><ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item></ion-list>',
-          title: 'Are you sure you want to block this day?',
+          template: '<ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{shiftToCancel.company}} | Earnings Est: ${{shiftEarnings(shiftToCancel)}}</p><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><p ng-if="strikes(selectedEvents)">WARNING: You\'ll get {{strikes(selectedEvents)}} strike{{strikes(selectedEvents) > 1 ? "s" : ""}}</p></ion-list>',
+          title: 'Blocking this day will<br>cancel ' + thisThese,
           scope: $scope,
           buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
               text: 'No, Leave it',
-              type: 'button-default',
+              type: 'button-dark',
               onTap: function(e) {
                 return false;
               }

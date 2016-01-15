@@ -172,10 +172,11 @@ function getCompanyData ($rootScope, companies) {
         var companyList = [];
         for (var i = 0; i < results.length; i++) {
           var c = results[i];
-          if (c.get('showInApp') === true) {
+          if (c.get('myCompanies') === true) {
             companyList.push({
               name: c.get('name'),
               description: c.get('description'),
+              earningsEst: c.get('earningsEst'),
               object: c
             });
           }

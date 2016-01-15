@@ -18,7 +18,9 @@
         
         .company-icon {
             position: absolute;
-            bottom: 0;
+            bottom: 10px;
+            right: 10px;
+            font-size: 20px;
         }
         @include grayscale();
         img {
