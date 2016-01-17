@@ -171,12 +171,22 @@ function getCompanyData ($rootScope, companies) {
         title: workType.get('title').toLowerCase(),
         icon: workType.get('icon').toLowerCase(),
         showInApp: workType.get('showInApp'),
+        earningsEst: 0,
         companies: []
       };
       array.push(found);
     }
 
     found.companies.push(company);
+  }
+
+  function countAvailable(companies) {
+    var count = 0;
+    companies.forEach(function(c) {
+        if (c.availableNow)
+          count ++;
+    });
+    return count;
   }
 
   return function () {
@@ -205,6 +215,17 @@ function getCompanyData ($rootScope, companies) {
 
           createWorkTypeAndAppend(c.get('workType'), workTypes, company);
         }
+
+        workTypes.sort(function (a, b) {
+          var aCount = countAvailable(a.companies);
+          var bCount = countAvailable(b.companies);
+
+          if (aCount > bCount) return -1;
+          else if (aCount < bCount) return 1;
+          else if (a.companies.length > a.companies.length) return -1;
+          else if (a.companies.length < a.companies.length) return 1;
+          else return 0;
+        });
 
         $rootScope.workTypes = workTypes;
         $rootScope.companyList = companyList;
