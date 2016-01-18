@@ -195,6 +195,9 @@ html * {
     letter-spacing: 1px;
     text-transform: uppercase;
 }
+.button.back-button.buttons.button-clear.header-item {
+    font-weight: 600;
+}
 .wg-title-instruction {
     font-family: Avenir-Roman;
     font-size: 14px;
@@ -209,4 +212,7 @@ html * {
     .row {
         padding: 0;
     }
+}
+i.icon.ion-ios-arrow-back:before {
+    font-size: 23px !important;
 }

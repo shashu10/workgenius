@@ -1,16 +1,17 @@
 // Expand message box to fit screenand keep everything else in view
+// Disabled flex because of weird behavior of textarea on focus
 .contact-us-content {
     .scroll {
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
         height: 100%;
         
         > * {
-            flex-shrink: 0;
+            // flex-shrink: 0;
         }
     }
     .contact-message {
-        flex-grow: 1;
+        // flex-grow: 1;
         margin: 10px;
     }
     textarea {
