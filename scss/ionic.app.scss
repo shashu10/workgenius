@@ -79,13 +79,18 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 @import 'popup';
 
-@font-face { font-family: Avenir; src: url('../font/Avenir-Book.ttf'); }
+@font-face { font-family: Avenir-Book; src: url('../font/Avenir-Book.ttf'); }
+@font-face { font-family: Avenir-Medium; src: url('../font/Avenir-Medium.ttf'); }
+@font-face { font-family: Avenir-Roman; src: url('../font/Avenir-Roman.ttf'); }
+@font-face { font-family: Avenir-Heavy; src: url('../font/Avenir-Heavy.ttf'); }
 
 html * {
-    font-family: Avenir;
+    font-family: Avenir-Book;
 }
 
-
+.bar .title {
+    font-family: Avenir-Heavy;
+}
 // Menu
 
 .menu-note {
@@ -189,4 +194,19 @@ html * {
     font-weight: 600;
     letter-spacing: 1px;
     text-transform: uppercase;
+}
+.wg-title-instruction {
+    font-family: Avenir-Roman;
+    font-size: 14px;
+    text-align: center;
+    color: #4C4C4C;
+
+    p:not(:last-child) {
+        margin: 0;
+    }
+}
+.work-types-grid {
+    .row {
+        padding: 0;
+    }
 }

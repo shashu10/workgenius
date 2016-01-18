@@ -55,6 +55,7 @@ angular.module('workgenius.schedule', [])
             },
         };
         $scope.anchorID = function(group) {
+            console.log(group[0].startsAt);
             return "id" + moment(group[0].startsAt).format('YYYY-MM-DD');
         };
         $scope.gotoAnchor = function(anchorID) {
@@ -63,14 +64,20 @@ angular.module('workgenius.schedule', [])
         };
         $scope.scrollTo = function(event) {
             var eventDate = moment(event.date);
+            console.log(event.date);
+            console.log(eventDate);
+            console.log('scrollTo');
             for (var i = 0; i < $scope.groupedShifts.length; i++) {
-                if (!eventDate.isAfter($scope.groupedShifts[i][0].date)) {
+                console.log($scope.groupedShifts[i][0].date);
+                if (eventDate.isBefore($scope.groupedShifts[i][0].date)) {
+                    console.log("id" + moment($scope.groupedShifts[i][0].date).format('YYYY-MM-DD'));
                     $scope.gotoAnchor("id" + moment($scope.groupedShifts[i][0].date).format('YYYY-MM-DD'));
                     return;
                 }
             }
             // $scope.gotoAnchor('empty-shift-list');
-            $ionicScrollDelegate.scrollBottom(true);
+            console.log('$ionicScrollDelegate.scrollBottom();');
+            $ionicScrollDelegate.scrollBottom();
         };
 
         $scope.cancelWarning = function(shift, group, shifts) {
@@ -161,8 +168,15 @@ angular.module('workgenius.schedule', [])
             return [item.date];
         });
 
+        function getCompanyEarnings (name) {
+            for (var i = 0; i < $rootScope.companyList.length; i++) {
+                if (name.toLowerCase() === $rootScope.companyList[i].name.toLowerCase())
+                    return $rootScope.companyList[i].earningsEst;
+            }
+            return 15;
+        }
         $scope.shiftEarnings = function(shift) {
-            return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * $rootScope.hourlyRate;
+            return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * getCompanyEarnings(shift.company);
         };
         $scope.groupEarnings = function(group) {
             var earnings = 0;
@@ -173,7 +187,7 @@ angular.module('workgenius.schedule', [])
             return earnings;
         };
         $scope.dividerFunction = function(date) {
-            return moment(date).format('MMM dddd Do');
+            return moment(date).format('dddd, MMM Do');
         };
 
         $scope.formatAMPM = function(date) {

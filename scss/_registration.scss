@@ -15,6 +15,8 @@
         display: flex;
         font-size: medium;
         margin: 0;
+        font-size: 14px;
+        font-weight: 600;
 
         span {
             flex-grow: 1;
@@ -61,5 +63,8 @@
         .item:first-child {
             border-top-width: 0;
         }
+    }
+    .button-full {
+        font-family: Avenir-Heavy
     }
 }

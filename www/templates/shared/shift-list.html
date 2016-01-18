@@ -11,7 +11,7 @@
                     earnings est: <i class="light-green">{{groupEarnings(group) | currency:undefined:0}}</i>
                 </span> -->
             </ion-item>
-            <ion-item class="item-avatar item-company-icon" bounce-left ng-repeat="shift in group" can-swipe="true">
+            <ion-item class="item-avatar item-company-icon wg-shift" bounce-left ng-repeat="shift in group" can-swipe="true">
                 <img ng-src="img/companies/{{shift.company.toLowerCase()}}.png">
                 <div class="schedule-text">
                     <p>

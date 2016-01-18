@@ -188,7 +188,33 @@ function getCompanyData ($rootScope, companies) {
     });
     return count;
   }
+  function setupWorkTypes (workTypes) {
 
+    // Sort in order of most available companies
+    workTypes.sort(function (a, b) {
+      var aCount = countAvailable(a.companies);
+      var bCount = countAvailable(b.companies);
+
+      if (aCount > bCount) return -1;
+      else if (aCount < bCount) return 1;
+      else if (a.companies.length > a.companies.length) return -1;
+      else if (a.companies.length < a.companies.length) return 1;
+      else return 0;
+    });
+
+    // Get earnings estimate from companies
+    workTypes.forEach(function (wType) {
+      var count = 0;
+      var total = 0;
+      wType.companies.forEach(function (c) {
+        if (c.availableNow) {
+          count++;
+          total += c.earningsEst;
+        }
+      });
+      wType.earningsEst = Math.floor(total/count);
+    });
+  }
   return function () {
     var Company = Parse.Object.extend("Company");
     var query = new Parse.Query(Company);
@@ -216,16 +242,7 @@ function getCompanyData ($rootScope, companies) {
           createWorkTypeAndAppend(c.get('workType'), workTypes, company);
         }
 
-        workTypes.sort(function (a, b) {
-          var aCount = countAvailable(a.companies);
-          var bCount = countAvailable(b.companies);
-
-          if (aCount > bCount) return -1;
-          else if (aCount < bCount) return 1;
-          else if (a.companies.length > a.companies.length) return -1;
-          else if (a.companies.length < a.companies.length) return 1;
-          else return 0;
-        });
+        setupWorkTypes(workTypes);
 
         $rootScope.workTypes = workTypes;
         $rootScope.companyList = companyList;

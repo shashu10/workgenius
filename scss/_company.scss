@@ -1,6 +1,6 @@
 // All company and work type styles
 
-@mixin grayscale($opacity: 0.3) {
+@mixin grayscale($opacity: 0.5) {
     opacity: $opacity;
     filter: grayscale(1);
 }
@@ -12,9 +12,10 @@
 .wg-grid {
     .col {
         text-align: center;
-        transition: filter 0.5s, opacity 0.5s;
+        transition: filter 0.7s, opacity 0.7s;
         transition-timing-function: ease-out;
         position: relative;
+        font-size: 10px;
         
         .company-icon {
             position: absolute;
@@ -28,7 +29,7 @@
             height: auto;
         }
         .work-type-icon {
-            font-size: 44px;
+            font-size: 50px;
         }
         &.selected {
             @include remove-grayscale();
