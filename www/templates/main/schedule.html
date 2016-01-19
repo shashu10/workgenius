@@ -1,7 +1,7 @@
 <ion-view ng-controller="ScheduleCtrl" view-title="{{selectedMonth | uppercase | translate}} {{selectedYear}}">
 
 	<ion-header-bar flex-calendar-subheader class="bar-subheader custom-subheader">
-		<flex-week options="options" events="currentUser.shifts"></flex-week>
+		<flex-calendar calendar-type="week" options="options" events="currentUser.shifts"></flex-calendar>
 	</ion-header-bar>
 
     <ion-content delegate-handle="scheduleScroll" class="has-flex-calendar-subheader" >

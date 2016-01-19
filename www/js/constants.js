@@ -2,44 +2,59 @@ angular.module('workgenius.constants', [])
 
 .constant('fakeShifts', [
       {
-        company: 'Luxe', date: "2016-01-15",
+        company: 'Luxe', date: new Date("2016-01-15"),
         startsAt: new Date("January 14, 2016 12:00:00"),
         endsAt: new Date("January 14, 2016 15:30:00"),
       },
       {
-        company: 'Caviar', date: "2016-01-16",
+        company: 'Caviar', date: new Date("2016-01-16"),
         startsAt: new Date("January 15, 2016 8:00:00"),
         endsAt: new Date("January 15, 2016 11:00:00"),
       },
       {
-        company: 'Instacart', date: "2016-01-17",
+        company: 'Instacart', date: new Date("2016-01-17"),
         startsAt: new Date("January 16, 2016 07:00:00"),
         endsAt: new Date("January 16, 2016 10:00:00"),
       },
       {
-        company: 'Luxe', date: "2016-01-17",
+        company: 'Luxe', date: new Date("2016-01-17"),
         startsAt: new Date("January 16, 2016 11:00:00"),
         endsAt: new Date("January 16, 2016 14:00:00"),
       },
       {
-        company: 'Caviar', date: "2016-01-19",
+        company: 'Caviar', date: new Date("2016-01-19"),
         startsAt: new Date("January 18, 2016 12:00:00"),
         endsAt: new Date("January 18, 2016 16:00:00"),
       },
       {
-        company: 'Luxe', date: "2016-02-05",
+        company: 'Luxe', date: new Date("2016-02-06"),
         startsAt: new Date("February 5, 2016 8:00:00"),
         endsAt: new Date("February 5, 2016 11:30:00"),
       },
       {
-        company: 'Instacart', date: "2016-02-13",
+        company: 'Instacart', date: new Date("2016-02-13"),
         startsAt: new Date("February 12, 2016 07:00:00"),
         endsAt: new Date("February 12, 2016 10:00:00"),
       },
       {
-        company: 'Caviar', date: "2016-02-13",
+        company: 'Caviar', date: new Date("2016-02-13"),
         startsAt: new Date("February 12, 2016 11:00:00"),
         endsAt: new Date("February 12, 2016 14:00:00"),
+      },
+      {
+        company: 'Luxe', date: new Date("2016-02-16"),
+        startsAt: new Date("February 15, 2016 8:00:00"),
+        endsAt: new Date("February 15, 2016 11:30:00"),
+      },
+      {
+        company: 'Instacart', date: new Date("2016-02-23"),
+        startsAt: new Date("February 22, 2016 07:00:00"),
+        endsAt: new Date("February 22, 2016 10:00:00"),
+      },
+      {
+        company: 'Caviar', date: new Date("2016-02-23"),
+        startsAt: new Date("February 22, 2016 11:00:00"),
+        endsAt: new Date("February 22, 2016 14:00:00"),
       },
     ])
 

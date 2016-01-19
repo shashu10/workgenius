@@ -2,8 +2,7 @@
   "use strict";
   angular
     .module('flexcalendar', [])
-    .directive('flexCalendar', flexCalendar)
-    .directive('flexWeek', flexWeek);
+    .directive('flexCalendar', flexCalendar);
 
     function flexCalendar() {
 
@@ -13,23 +12,12 @@
           options: '=?',
           events: '=?'
         },
-        template: template,
-        controller: Controller
-      };
-
-      return directive;
-
-    }
-
-    function flexWeek() {
-
-      var directive = {
-        restrict: 'E',
-        scope: {
-          options: '=?',
-          events: '=?'
+        template: function(elem, attr){
+          if (attr.calendarType === 'week')
+            return weekTemplate
+          else
+            return template
         },
-        template: weekTemplate,
         controller: Controller
       };
 
@@ -47,9 +35,9 @@
         '<div class="week">'+
           '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
         '</div>'+
-        '<ion-slide-box show-pager="false" on-slide-changed="monthHasChanged($index)">' +
+        '<ion-slide-box show-pager="false" on-slide-changed="monthHasChanged($index)">'+
 
-          '<ion-slide ng-repeat="curr in months">' +
+          '<ion-slide ng-repeat="curr in months">'+
             '<div class="days" ng-repeat="week in curr.weeks">'+
               '<div class="day"'+
                 'ng-repeat="day in week track by $index"'+
@@ -59,8 +47,8 @@
                 '<div class="number">{{day.day}}</div>'+
               '</div>'+
             '</div>'+
-          '</ion-slide>' +
-        '</ion-slide-box>' +
+          '</ion-slide>'+
+        '</ion-slide-box>'+
       '</div>';
 
       var weekTemplate =
@@ -69,7 +57,7 @@
           '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
         '</div>'+
 
-        '<ion-slide-box active-slide="activeSlide" show-pager="false" on-slide-changed="weekHasChanged($index)">' +
+        '<ion-slide-box active-slide="activeSlide" show-pager="false" on-slide-changed="weekHasChanged($index)">'+
             '<ion-slide class="days" ng-repeat="week in allWeeks">'+
               '<div class="day"'+
                 'ng-repeat="day in week track by $index"'+
@@ -79,9 +67,7 @@
                 '<div class="number">{{day.day}}</div>'+
               '</div>'+
             '</ion-slide>'+
-        '</ion-slide-box>' +
-        // '<i class="icon ion-arrow-left-c left-icon" ng-click="prevSlide()"></i>' +
-        // '<i class="icon ion-arrow-right-c right-icon" ng-click="nextSlide()"></i>' +
+        '</ion-slide-box>'+
       '</div>';
 
     Controller.$inject = ['$scope' , '$filter', '$ionicSlideBoxDelegate', '$ionicPopup'];
@@ -172,11 +158,7 @@
       }
 
       function createMappedEvents(){
-        $scope.mappedEvents = $scope.events.map(function(obj)
-        {
-          obj.date = new Date(obj.date);
-          return obj;
-        });
+        $scope.mappedEvents = $scope.events;
       }
 
       $scope.$watch('options.defaultDate', function() {

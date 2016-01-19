@@ -55,7 +55,6 @@ angular.module('workgenius.schedule', [])
             },
         };
         $scope.anchorID = function(group) {
-            console.log(group[0].startsAt);
             return "id" + moment(group[0].startsAt).format('YYYY-MM-DD');
         };
         $scope.gotoAnchor = function(anchorID) {
@@ -64,23 +63,17 @@ angular.module('workgenius.schedule', [])
         };
         $scope.scrollTo = function(event) {
             var eventDate = moment(event.date);
-            console.log(event.date);
-            console.log(eventDate);
-            console.log('scrollTo');
-            for (var i = 0; i < $scope.groupedShifts.length; i++) {
-                console.log($scope.groupedShifts[i][0].date);
-                if (eventDate.isBefore($scope.groupedShifts[i][0].date)) {
-                    console.log("id" + moment($scope.groupedShifts[i][0].date).format('YYYY-MM-DD'));
-                    $scope.gotoAnchor("id" + moment($scope.groupedShifts[i][0].date).format('YYYY-MM-DD'));
+            for (var i = 0; i < $scope.currentUser.shifts.length; i++) {
+                if (eventDate.isBefore($scope.currentUser.shifts[i].date)) {
+                    $scope.gotoAnchor("id" + moment($scope.currentUser.shifts[i].date).format('YYYY-MM-DD'));
                     return;
                 }
             }
             // $scope.gotoAnchor('empty-shift-list');
-            console.log('$ionicScrollDelegate.scrollBottom();');
             $ionicScrollDelegate.scrollBottom();
         };
 
-        $scope.cancelWarning = function(shift, group, shifts) {
+        $scope.cancelWarning = function(shift) {
             $scope.shiftToCancel = shift;
             $scope.cancelPopup = $ionicPopup.show({
                 template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p><div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: <strong>{{currentUser.cancellations}}/3</strong></p></div>',
@@ -108,7 +101,7 @@ angular.module('workgenius.schedule', [])
                     if ($rootScope.currentUser.cancellations >= 3) {
                         $scope.cannotCancelWarning();
                     } else {
-                        $scope.cancelShift(shift, group, shifts);
+                        $scope.cancelShift(shift);
                     }
                 }
             });
@@ -141,7 +134,7 @@ angular.module('workgenius.schedule', [])
             });
         };
 
-        $scope.cancelShift = function(shift, group, shifts) {
+        $scope.cancelShift = function(shift) {
 
             setShifts.remove(shift).then(function(result) {
                 console.log('cancell then');
@@ -150,13 +143,8 @@ angular.module('workgenius.schedule', [])
                 $rootScope.currentUser.cancellations++;
 
                 // remove it from the view
-                var idx = group.indexOf($rootScope.currentUser.shifts);
+                var idx = $rootScope.currentUser.shifts.indexOf(shift);
                 $rootScope.currentUser.shifts.splice(idx, 1);
-
-                // Group it
-                $scope.groupedShifts = groupBy($rootScope.currentUser.shifts, function(item) {
-                    return [item.date];
-                });
 
                 if (result) { // was actually updated asynchronously
                     $scope.$apply();
@@ -164,9 +152,6 @@ angular.module('workgenius.schedule', [])
 
             });
         };
-        $scope.groupedShifts = groupBy($rootScope.currentUser.shifts, function(item) {
-            return [item.date];
-        });
 
         function getCompanyEarnings (name) {
             for (var i = 0; i < $rootScope.companyList.length; i++) {
@@ -196,18 +181,5 @@ angular.module('workgenius.schedule', [])
         $scope.isWithin72Hr = function(date) {
             return moment(date).isBefore(moment().add(72, 'hour'));
         };
-
-
-        function groupBy(array, f) {
-            var groups = {};
-            array.forEach(function(o) {
-                var group = JSON.stringify(f(o));
-                groups[group] = groups[group] || [];
-                groups[group].push(o);
-            });
-            return Object.keys(groups).map(function(group) {
-                return groups[group];
-            });
-        }
     }
 ]);
