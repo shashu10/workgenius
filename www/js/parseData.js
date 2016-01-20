@@ -356,7 +356,7 @@ function getUserData ($rootScope, $q, $interval, fakeShifts) {
         endsAt     : sh.get('endsAt'),
         // date for flex-calendar needs to be in format: YYYY-MM-DD 2015-01-01
         // Flex cal error displays one day behind date
-        date       : moment(sh.get('startsAt')).add(1, 'day').toDate(),
+        date       : moment(sh.get('startsAt')).toDate(),
         // Changed flex calendar
         // date       : moment(sh.get('startsAt')).add(1, 'day').format('YYYY-MM-DD'),
         object     : sh
@@ -384,7 +384,7 @@ function getUserData ($rootScope, $q, $interval, fakeShifts) {
       getShifts().then(function(results) {
         $rootScope.currentUser.shifts = formatShifts(results);
       });
-    }, 1000); // every hour (3600000)
+    }, 60000); // every hour (3600000)
   };
 
   var cancelShiftUpdater = function () {
@@ -463,7 +463,7 @@ function getUserData ($rootScope, $q, $interval, fakeShifts) {
       }).then(function(results) {
 
         // Keep shifts updated
-        // shiftUpdater = startShiftUpdater();
+        shiftUpdater = startShiftUpdater();
 
         $rootScope.currentUser.shifts = formatShifts(results);
 
