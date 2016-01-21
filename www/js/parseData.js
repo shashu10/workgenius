@@ -4,7 +4,8 @@ angular.module('parseData', ['workgenius.constants'])
 .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
 .factory('setEligibility', ['$rootScope', setEligibility])
 .factory('setShifts', ['$rootScope', '$q', setShifts])
-.factory('getUserData', ['$rootScope', '$q', '$interval', 'fakeShifts', getUserData])
+.factory('getShifts', [getShifts])
+.factory('getUserData', ['$rootScope', '$q', '$interval', 'fakeShifts', 'getShifts', getUserData])
 .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 function setShifts ($rootScope, $q) {
@@ -253,19 +254,58 @@ function getCompanyData ($rootScope, companies) {
     });    
   };
 }
-function getUserData ($rootScope, $q, $interval, fakeShifts) {
+function getShifts () {
+  var Shift = Parse.Object.extend("Shift");
+
+  var formatShifts = function (results) {
+    var shifts = [];
+
+    for (var i = 0; i < results.length; i++) {
+      var sh = results[i];
+
+      // If shift was finished, don't show. Leave them for 5 hours from the current time.
+      if (moment(sh.get('endsAt')).isBefore(moment().subtract(5, 'hours'))) {
+        continue;
+      }
+
+      shifts.push({
+        id         : sh.id,
+        company    : sh.get('company') && sh.get('company').get('name'),
+        startsAt   : sh.get('startsAt'),
+        endsAt     : sh.get('endsAt'),
+        // date for flex-calendar needs to be in format: YYYY-MM-DD 2015-01-01
+        // Flex cal error displays one day behind date
+        date       : moment(sh.get('startsAt')).toDate(),
+        // Changed flex calendar
+        // date       : moment(sh.get('startsAt')).add(1, 'day').format('YYYY-MM-DD'),
+        object     : sh
+      });
+    }
+
+    shifts.sort(function (a, b) {
+      if (a.startsAt.getTime() > b.startsAt.getTime())
+        return 1;
+
+      return -1;
+    });
+
+    return shifts;
+  };
+
+  return function () {
+    var query = new Parse.Query(Shift);
+    query.equalTo("worker", Parse.User.current());
+
+    return query.find().then(formatShifts);
+  };
+}
+function getUserData ($rootScope, $q, $interval, fakeShifts, getShifts) {
 
   var Eligibility = Parse.Object.extend("Eligibility");
   var Shift = Parse.Object.extend("Shift");
 
   var getEligibility = function () {
     var query = new Parse.Query(Eligibility);
-    query.equalTo("worker", Parse.User.current());
-    return query.find();
-  };
-
-  var getShifts = function () {
-    var query = new Parse.Query(Shift);
     query.equalTo("worker", Parse.User.current());
     return query.find();
   };
@@ -337,63 +377,6 @@ function getUserData ($rootScope, $q, $interval, fakeShifts) {
     });
   };
   
-  var formatShifts = function (results) {
-    var shifts = [];
-
-    for (var i = 0; i < results.length; i++) {
-      var sh = results[i];
-
-      // If shift was finished, don't show
-      if (moment(sh.get('endsAt')).isBefore(moment().add(5, 'hours'))) {
-        console.log('continue');
-        continue;
-      }
-
-      shifts.push({
-        id         : sh.id,
-        company    : sh.get('company') && sh.get('company').get('name'),
-        startsAt   : sh.get('startsAt'),
-        endsAt     : sh.get('endsAt'),
-        // date for flex-calendar needs to be in format: YYYY-MM-DD 2015-01-01
-        // Flex cal error displays one day behind date
-        date       : moment(sh.get('startsAt')).toDate(),
-        // Changed flex calendar
-        // date       : moment(sh.get('startsAt')).add(1, 'day').format('YYYY-MM-DD'),
-        object     : sh
-      });
-    }
-
-    shifts.sort(function (a, b) {
-      if (a.startsAt.getTime() > b.startsAt.getTime())
-        return 1;
-
-      return -1;
-    });
-
-    return shifts;
-  };
-
-  var shiftUpdater;
-  var startShiftUpdater = function () {
-    return $interval(function () {
-
-      if (!Parse.User.current()) {
-        cancelShiftUpdater();
-      }
-
-      getShifts().then(function(results) {
-        $rootScope.currentUser.shifts = formatShifts(results);
-      });
-    }, 60000); // every hour (3600000)
-  };
-
-  var cancelShiftUpdater = function () {
-    if (angular.isDefined(shiftUpdater)) {
-      $interval.cancel(shiftUpdater);
-      shiftUpdater = undefined;
-    }
-  };
-
   return function (newUser, name, email) {
 
     // To do some async stuff after data has loaded
@@ -414,7 +397,7 @@ function getUserData ($rootScope, $q, $interval, fakeShifts) {
     } else {
 
       // setup default values while actual values load 
-      setDefaultPrefs('', '');
+      setDefaultPrefs();
 
       // Get User Information
       Parse.User.current().fetch().then(function (user) {
@@ -460,12 +443,9 @@ function getUserData ($rootScope, $q, $interval, fakeShifts) {
         return getShifts();
 
       // Get Shift List
-      }).then(function(results) {
+      }).then(function(shifts) {
 
-        // Keep shifts updated
-        shiftUpdater = startShiftUpdater();
-
-        $rootScope.currentUser.shifts = formatShifts(results);
+        $rootScope.currentUser.shifts = shifts;
 
         deferred.resolve(true);
       });

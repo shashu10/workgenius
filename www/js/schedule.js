@@ -4,8 +4,16 @@ angular.module('workgenius.schedule', [])
 //   SCHEDULE   //
 // ============ //
 
-.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', 'setShifts',
-    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, setShifts) {
+.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', 'setShifts', 'getShifts',
+    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, setShifts, getShifts) {
+
+        $scope.$on('$stateChangeSuccess', function(event, current) {
+            if (current.name.indexOf('app.schedule') > -1) {
+                getShifts().then(function(shifts) {
+                    $rootScope.currentUser.shifts = shifts;
+                  });
+            }
+        });
 
         $scope.adjustCalendarHeight = function(argument) {
 
@@ -137,7 +145,7 @@ angular.module('workgenius.schedule', [])
         $scope.cancelShift = function(shift) {
 
             setShifts.remove(shift).then(function(result) {
-                console.log('cancell then');
+                console.log('cancel then');
                 // Set cancellations if required
                 // if (beforeCertainTime)
                 $rootScope.currentUser.cancellations++;
@@ -145,6 +153,9 @@ angular.module('workgenius.schedule', [])
                 // remove it from the view
                 var idx = $rootScope.currentUser.shifts.indexOf(shift);
                 $rootScope.currentUser.shifts.splice(idx, 1);
+
+                // Maked the $watch fire in flex cal
+                $rootScope.currentUser.shifts = angular.copy($rootScope.currentUser.shifts);
 
                 if (result) { // was actually updated asynchronously
                     $scope.$apply();

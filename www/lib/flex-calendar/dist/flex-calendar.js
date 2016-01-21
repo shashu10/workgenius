@@ -25,27 +25,35 @@
 
     }
 
-      var template =
-      '<div class="flex-calendar flex-month">'+
-        '<div class="month">'+
+      var _month_header = 
+      '<div class="month">'+
           '<div class="arrow {{arrowPrevClass}}" ng-click="prevSlide()"><i class="icon ion-chevron-left"></i></div>'+
           '<div class="label">{{selectedMonth | uppercase | translate}} {{selectedYear | uppercase}}</div>'+
           '<div class="arrow {{arrowNextClass}}" ng-click="nextSlide()"><i class="icon ion-chevron-right"></i></div>'+
-        '</div>'+
+        '</div>';
+
+      var _week_header =
         '<div class="week">'+
           '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
-        '</div>'+
-        '<ion-slide-box show-pager="false" on-slide-changed="monthHasChanged($index)">'+
+        '</div>';
 
+      var _day_row =
+      '<div class="day"'+
+        'ng-repeat="day in week track by $index"'+
+        'ng-class="{selected: isDefaultDate(day), event: day.event[0], disabled: day.disabled, blocked: day.blocked, out: !day}"'+
+        'ng-click="onClick(day, $index, $event)"'+
+      '>'+
+        '<div class="number">{{day.day}}</div>'+
+      '</div>';
+
+      var template =
+      '<div class="flex-calendar flex-month">'+
+        _month_header+
+        _week_header+
+        '<ion-slide-box show-pager="false" on-slide-changed="monthHasChanged($index)">'+
           '<ion-slide ng-repeat="curr in months">'+
             '<div class="days" ng-repeat="week in curr.weeks">'+
-              '<div class="day"'+
-                'ng-repeat="day in week track by $index"'+
-                'ng-class="{selected: isDefaultDate(day), event: day.event[0], disabled: day.disabled, blocked: day.blocked, out: !day}"'+
-                'ng-click="onClick(day, $index, $event)"'+
-              '>'+
-                '<div class="number">{{day.day}}</div>'+
-              '</div>'+
+              _day_row+
             '</div>'+
           '</ion-slide>'+
         '</ion-slide-box>'+
@@ -53,19 +61,11 @@
 
       var weekTemplate =
       '<div class="flex-calendar flex-week">'+
-        '<div class="week">'+
-          '<div class="day" ng-repeat="day in weekDays(options.dayNamesLength) track by $index">{{ day }}</div>'+
-        '</div>'+
+        _week_header+
 
         '<ion-slide-box active-slide="activeSlide" show-pager="false" on-slide-changed="weekHasChanged($index)">'+
             '<ion-slide class="days" ng-repeat="week in allWeeks">'+
-              '<div class="day"'+
-                'ng-repeat="day in week track by $index"'+
-                'ng-class="{selected: isDefaultDate(day), event: day.event[0], disabled: day.disabled, out: !day}"'+
-                'ng-click="onClick(day, $index, $event)"'+
-              '>'+
-                '<div class="number">{{day.day}}</div>'+
-              '</div>'+
+              _day_row+
             '</ion-slide>'+
         '</ion-slide-box>'+
       '</div>';
@@ -152,10 +152,6 @@
       });
 
       $scope.$watch('events', function() {
-        console.log('watch events');
-        console.log($scope.events);
-        // calculateWeeks();
-        // calculateMonths();
         updateEvents();
       });
 
