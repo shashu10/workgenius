@@ -71,9 +71,12 @@ angular.module('workgenius.schedule', [])
         };
         $scope.scrollTo = function(event) {
             var eventDate = moment(event.date);
+
             for (var i = 0; i < $scope.currentUser.shifts.length; i++) {
-                if (eventDate.isBefore($scope.currentUser.shifts[i].date)) {
+
+                if (eventDate.isSameOrBefore($scope.currentUser.shifts[i].date)) {
                     $scope.gotoAnchor("id" + moment($scope.currentUser.shifts[i].date).format('YYYY-MM-DD'));
+
                     return;
                 }
             }
