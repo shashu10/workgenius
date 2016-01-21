@@ -14,7 +14,7 @@
     </div>
     <div class="row">
         <div class="col box-outline img-box">
-            <img ng-src="./img/companies/{{shift.company}}.png" alt="">
+            <img ng-src="./img/companies/{{shift.company.toLowerCase() | spaceless}}.png" alt="">
             <p>{{shift.company | capitalize}}</p>
         </div>
         <div class="col box-outline time-box">

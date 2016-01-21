@@ -25,7 +25,7 @@
     <p class="center-text available-jobs"><strong> Available Jobs </strong></p>
 
     <ion-item class="item-text-wrap" ng-repeat="company in selectedWorkType.companies | filter:{availableNow: true}">
-      <img ng-src="img/companies/{{company.name | spaceless}}.png" alt="">
+      <img ng-src="img/companies/{{company.name.toLowerCase() | spaceless}}.png" alt="">
       <p>{{company.description}}</p>
     </ion-item>
 
@@ -36,7 +36,7 @@
     <p class="center-text coming-soon"><strong> Coming Soon </strong></p>
 
     <ion-item class="item-text-wrap disabled" ng-repeat="company in selectedWorkType.companies | filter:{availableNow: false}">
-      <img ng-src="img/companies/{{company.name | spaceless}}.png" alt="">
+      <img ng-src="img/companies/{{company.name.toLowerCase() | spaceless}}.png" alt="">
       <p>{{company.description}}</p>
     </ion-item>
 

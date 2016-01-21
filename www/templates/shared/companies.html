@@ -4,7 +4,7 @@
     </div>
 	<div class="row padding-top" ng-repeat="rows in filteredList = (companyList | filter:{myCompanies: true}) | chunkBy: 3">
 	    <div class="col" ng-repeat="company in rows" ng-click="select(company)" ng-class="{selected: isInterested(company.name)}">
-	        <img ng-src="img/companies_blue/{{company.name | spaceless}}.png" alt="">
+	        <img ng-src="img/companies_blue/{{company.name.toLowerCase() | spaceless}}.png" alt="">
 	        <i ng-if="isEligible(company.name)" class="icon company-icon ion-android-checkmark-circle balanced"></i>
 	    </div>
 	    <!-- Last row needs a filler column -->

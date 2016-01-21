@@ -79,7 +79,7 @@ angular.module('workgenius.controllers', [])
           buttonStatus: 'button-positive',
           message: '',
           subject: 'other',
-          options: ['other', 'cancellation', 'app']
+          options: ['general', 'cancellation', 'app']
         };
         $scope.setActive = function(type) {
             $scope.modalData.subject = type;

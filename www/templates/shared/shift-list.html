@@ -12,7 +12,7 @@
                 </span> -->
             </ion-item>
             <ion-item class="item-avatar item-company-icon wg-shift" bounce-left ng-repeat="shift in group" can-swipe="true">
-                <img ng-src="img/companies/{{shift.company.toLowerCase()}}.png">
+                <img ng-src="img/companies/{{shift.company.toLowerCase() | spaceless}}.png">
                 <div class="schedule-text">
                     <p>
                         <strong>{{shift.company | uppercase}}</strong>

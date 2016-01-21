@@ -157,7 +157,6 @@ angular.module('workgenius.registration', [])
             user.set("email", $rootScope.user.email);
             user.set("username", $rootScope.user.email);
             user.set("password", $rootScope.user.password);
-            console.log(user);
 
             user.set('availability', {});
             user.set('vehicles', []);

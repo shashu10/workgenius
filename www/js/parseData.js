@@ -4,20 +4,47 @@ angular.module('parseData', ['workgenius.constants'])
 .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
 .factory('setEligibility', ['$rootScope', setEligibility])
 .factory('setShifts', ['$rootScope', '$q', setShifts])
-.factory('getShifts', [getShifts])
+.factory('getShifts', ['$q', '$rootScope', getShifts])
 .factory('getUserData', ['$rootScope', '$q', '$interval', 'fakeShifts', 'getShifts', getUserData])
 .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 function setShifts ($rootScope, $q) {
+  var removeShift = function (shift, refresh) {
+    // if (beforeCertainTime)
+    $rootScope.currentUser.strikes++;
+
+    // remove it from the view
+    var idx = $rootScope.currentUser.shifts.indexOf(shift);
+    $rootScope.currentUser.shifts.splice(idx, 1);
+
+    // Maked the $watch fire in flex cal
+    $rootScope.currentUser.shifts = angular.copy($rootScope.currentUser.shifts);
+
+    if (refresh) { // was actually updated asynchronously
+        $scope.$apply();
+    }
+  }
   return {
-    remove: function (shift) {
+    cancel: function (shift) {
       if (!shift.object) {
         var deferred = $q.defer();
         deferred.resolve(false);
+        removeShift(shift)
         return deferred.promise;
       }
       shift.object.unset('worker');
-      return shift.object.save();
+      return shift.object.save().then(function cancelShift (result) {
+          console.log('removed shift');
+          removeShift(shift, true);
+        }, function(error) {
+          if (error.code === 101) {
+            console.log('shift does not exist');
+            removeShift(shift, true);
+          } else {
+            console.log(error);
+            console.log('could not save');
+          }
+        });
     }
   };
 }
@@ -254,7 +281,7 @@ function getCompanyData ($rootScope, companies) {
     });    
   };
 }
-function getShifts () {
+function getShifts ($q, $rootScope) {
   var Shift = Parse.Object.extend("Shift");
 
   var formatShifts = function (results) {
@@ -293,6 +320,12 @@ function getShifts () {
   };
 
   return function () {
+
+    if (!Parse.User.current()) {
+      var deferred = $q.defer();
+      deferred.resolve($rootScope.currentUser.shifts);
+      return deferred.promise;
+    }
     var query = new Parse.Query(Shift);
     query.equalTo("worker", Parse.User.current());
 
@@ -363,7 +396,7 @@ function getUserData ($rootScope, $q, $interval, fakeShifts, getShifts) {
       email            : email,
       phone            : isDemoUser ? "4151234567" : "",
       target           : 40,
-      cancellations    : 0,
+      strikes          : 0,
       totalHours       : 0,
       vehicles         : getVehicles(),
       eligibility      : [],
@@ -407,7 +440,7 @@ function getUserData ($rootScope, $q, $interval, fakeShifts, getShifts) {
           email            : user.get('email') || '',
           phone            : user.get('phone') || '',
           target           : user.get('target') || 40,
-          cancellations    : user.get('cancellations') || 0,
+          strikes          : user.get('strikes') || 0,
           appState         : user.get('appState') || {},
           earnings         : user.get('earnings') || {day: 0, week: 0, month: 0, lifetime: 0},
           hours            : user.get('hours') || {day: 0, week: 0, month: 0, lifetime: 0},

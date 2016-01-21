@@ -84,7 +84,7 @@ angular.module('workgenius.schedule', [])
         $scope.cancelWarning = function(shift) {
             $scope.shiftToCancel = shift;
             $scope.cancelPopup = $ionicPopup.show({
-                template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p><div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: <strong>{{currentUser.cancellations}}/3</strong></p></div>',
+                template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p><div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
                 title: 'Are you sure you want<br>to cancel this shift?',
                 scope: $scope,
                 buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
@@ -106,7 +106,7 @@ angular.module('workgenius.schedule', [])
             .then(function(cancel) {
 
                 if (cancel) {
-                    if ($rootScope.currentUser.cancellations >= 3) {
+                    if ($rootScope.currentUser.strikes >= 3) {
                         $scope.cannotCancelWarning();
                     } else {
                         $scope.cancelShift(shift);
@@ -144,23 +144,9 @@ angular.module('workgenius.schedule', [])
 
         $scope.cancelShift = function(shift) {
 
-            setShifts.remove(shift).then(function(result) {
+            setShifts.cancel(shift).then(function(result) {
                 console.log('cancel then');
                 // Set cancellations if required
-                // if (beforeCertainTime)
-                $rootScope.currentUser.cancellations++;
-
-                // remove it from the view
-                var idx = $rootScope.currentUser.shifts.indexOf(shift);
-                $rootScope.currentUser.shifts.splice(idx, 1);
-
-                // Maked the $watch fire in flex cal
-                $rootScope.currentUser.shifts = angular.copy($rootScope.currentUser.shifts);
-
-                if (result) { // was actually updated asynchronously
-                    $scope.$apply();
-                }
-
             });
         };
 
