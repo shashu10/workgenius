@@ -17,7 +17,7 @@ function setShifts ($rootScope, $q) {
     var idx = $rootScope.currentUser.shifts.indexOf(shift);
     $rootScope.currentUser.shifts.splice(idx, 1);
 
-    // Maked the $watch fire in flex cal
+    // Maked the $watch fire in ion cal
     $rootScope.currentUser.shifts = angular.copy($rootScope.currentUser.shifts);
 
     if (refresh) { // was actually updated asynchronously
@@ -300,10 +300,10 @@ function getShifts ($q, $rootScope) {
         company    : sh.get('company') && sh.get('company').get('name'),
         startsAt   : sh.get('startsAt'),
         endsAt     : sh.get('endsAt'),
-        // date for flex-calendar needs to be in format: YYYY-MM-DD 2015-01-01
+        // date for ion-cal needs to be in format: YYYY-MM-DD 2015-01-01
         // Flex cal error displays one day behind date
         date       : moment(sh.get('startsAt')).toDate(),
-        // Changed flex calendar
+        // Changed ion calendar
         // date       : moment(sh.get('startsAt')).add(1, 'day').format('YYYY-MM-DD'),
         object     : sh
       });

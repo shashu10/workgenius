@@ -13,6 +13,7 @@
     "jquery": "~2.1.4",
     "angular-filter": "~0.5.8",
     "angular-base64": "~2.0.5",
-    "moment": "~2.11.1"
+    "moment": "~2.11.1",
+    "ion-cal": "*"
   }
 }

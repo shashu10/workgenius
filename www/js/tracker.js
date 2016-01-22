@@ -21,7 +21,7 @@ angular.module('workgenius.tracker', [])
     var states = [
     {
       name: 'app.schedule',
-      element: '.flex-calendar',
+      element: '.ion-cal',
       condition: function () {
         //If has some shifts
         // if $rootScope.currentUser.shift > X

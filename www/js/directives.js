@@ -191,7 +191,7 @@ angular.module('workgenius.directives', [])
     });
   };
 }])
-.directive('flexCalendarSubheader', function() {
+.directive('ionCalSubheader', function() {
   return {
     link: function(scope, element, attrs) {
       scope.$watch(function() {
@@ -199,7 +199,7 @@ angular.module('workgenius.directives', [])
         var height = element[0].offsetHeight + element[0].offsetTop;
         
         // Get the ion-content element containing has-subheader
-        var content = angular.element(document.querySelector('.has-flex-calendar-subheader'));
+        var content = angular.element(document.querySelector('.has-ion-cal-subheader'));
 
         content.css("top", height + "px");
       });

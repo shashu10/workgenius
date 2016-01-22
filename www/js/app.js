@@ -20,7 +20,7 @@ angular.module('workgenius', [
     'phoneFormatting',
     'ionic-timepicker',
     'angular.filter',
-    'flexcalendar',
+    'ioncal',
     'pascalprecht.translate',
     'ngIOS9UIWebViewPatch',
     'templatescache',

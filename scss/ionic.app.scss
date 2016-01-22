@@ -100,7 +100,7 @@ html * {
 
 // FLEX Calendar
 
-.flex-calendar {
+.ion-cal {
     i.left-icon,
     i.right-icon {
       color: $positive;
@@ -143,7 +143,7 @@ html * {
         padding-bottom: 44px;
     }
 }
-.has-flex-calendar-subheader {
+.has-ion-cal-subheader {
     .scroll > shift-list > div:first-child {
         .item-divider {
             border-top: 1px solid $wg-gray-border;
