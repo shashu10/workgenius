@@ -105,50 +105,21 @@ angular.module('workgenius.directives', [])
     controller: ['$scope', '$rootScope', '$timeout', 'setUserData',
     function($scope, $rootScope, $timeout, setUserData) {
 
-      var copy = angular.copy($rootScope.currentUser[$scope.wgProp]);
-      $scope.changed = false;
-      $scope.state = 'Save';
 
-      $scope.save = function () {
-        // Too fast.
-        // $scope.state = 'Saving...';
-        if ($scope.wgCustomSave) {
-          $scope.wgCustomSave(function () {
-            $scope.state = 'Saved!';
-            $scope.changed = false;
-            copy = angular.copy($rootScope.currentUser[$scope.wgProp]);
-            $scope.wgOnChange();
-            $scope.$apply();
-          });
-          return;
-        }
-        setUserData.save($scope.wgProp, function success () {
-          $scope.state = 'Saved!';
-          copy = angular.copy($rootScope.currentUser[$scope.wgProp]);
-          $scope.wgOnChange();
-        });
-      };
+      $scope.show = false;
+      function success () {
+        $scope.show = true;
+        $scope.$apply();
+        $timeout(function () {
+          $scope.show = false;
+          $scope.$apply();
+        }, 2000);
+      }
 
       $scope.wgOnChange = function () {
-        if (angular.equals(copy, $rootScope.currentUser[$scope.wgProp])) {
-            $scope.changed = false;
-        } else {
-            $scope.state = 'Save';
-            $scope.changed = true;
-        }
+        if ($scope.wgCustomSave) $scope.wgCustomSave(success);
+        else setUserData.save($scope.wgProp, success);
       };
-      $scope.$on('$stateChangeSuccess', function(event, current) {
-        if (copy) {
-          $rootScope.currentUser[$scope.wgProp] = angular.copy(copy);
-          $scope.wgOnChange();
-        }
-      });
-      $scope.$on('$destroy', function() {
-        if (copy) {
-          $rootScope.currentUser[$scope.wgProp] = angular.copy(copy);
-          $scope.wgOnChange();
-        }
-      });
     }]
   };
 })

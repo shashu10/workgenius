@@ -52,7 +52,7 @@ angular.module('workgenius.controllers', [])
 
         $scope.sendMessage = function() {
             $scope.modalData.buttonStatus = 'button-positive';
-          $scope.modalData.contactStatus = 'Sending...';
+            $scope.modalData.contactStatus = 'Sending...';
             zenMessage.send($scope.modalData.message, $scope.modalData.subject).then(function(result) {
                 console.log('success sending message');
                 messageSentCallback('Sent!', 'button-balanced');
@@ -75,11 +75,11 @@ angular.module('workgenius.controllers', [])
             }, 1000, 1);
         }
         $scope.modalData = {
-          contactStatus: 'Send',
-          buttonStatus: 'button-positive',
-          message: '',
-          subject: 'other',
-          options: ['general', 'cancellation', 'app']
+            contactStatus: 'Send',
+            buttonStatus: 'button-positive',
+            message: '',
+            subject: 'other',
+            options: ['general', 'cancellation', 'app']
         };
         $scope.setActive = function(type) {
             $scope.modalData.subject = type;
@@ -153,8 +153,66 @@ angular.module('workgenius.controllers', [])
             };
         }
     ])
-    .controller('BlockDaysCtrl', ['$rootScope', '$scope',
-        function($rootScope, $scope) {
+    .controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicPopup',
+        function($rootScope, $scope, $ionicPopup) {
+
+            $scope.strikes = function(shifts) {
+                var strikes = 0;
+                for (var i = 0; i < shifts.length; i++) {
+                    var shift = shifts[i];
+                    var deadline = moment().add(72, 'hours');
+                    if (deadline.isAfter(shift.startsAt)) {
+                        strikes++;
+                    }
+                }
+                return strikes;
+            };
+
+            $scope.dividerFunction = function(date) {
+                return moment(date).format('MMM dddd Do');
+            };
+            $scope.formatAMPM = function(date) {
+                return moment(date).format('ha');
+            };
+            $scope.shiftEarnings = function(shift) {
+                return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * 15;
+            };
+
+            function blockWithEvents(date) {
+                $scope.selectedEvents = date.event;
+
+                var thisThese = $scope.selectedEvents.length > 1 ? 'these shifts' : 'this shift';
+                return $ionicPopup.show({
+                    cssClass: 'block-popup',
+                    template: '<ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{shiftToCancel.company}} | Earnings Est: ${{shiftEarnings(shiftToCancel)}}</p><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><p ng-if="strikes(selectedEvents)">WARNING: You\'ll get {{strikes(selectedEvents)}} strike{{strikes(selectedEvents) > 1 ? "s" : ""}}</p></ion-list>',
+                    title: 'Blocking this day will<br>cancel ' + thisThese,
+                    scope: $scope,
+                    buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
+                        text: 'No, Leave it',
+                        type: 'button-dark',
+                        onTap: function(e) {
+                            return false;
+                        }
+                    }, {
+                        text: 'Yes, Block',
+                        type: 'button-assertive',
+                        onTap: function(e) {
+                            return true;
+                        }
+                    }]
+                });
+            }
+
+            function isAfterToday(date) {
+                var current = new Date(date).setHours(0, 0, 0, 0);
+                var today = new Date().setHours(0, 0, 0, 0);
+
+                if (current > today) {
+                    return true;
+                }
+                return false;
+            }
+
             $scope.showMonth = true;
 
             setCurrentMoment(moment());
@@ -170,14 +228,32 @@ angular.module('workgenius.controllers', [])
                 blockedDays: $scope.currentUser.blockedDays,
                 disableClickedDates: true,
 
-                eventClick: function(event) {
+                eventClick: function(event, domEvent, getBlockedDays) {
                     setCurrentMoment(moment(event.date));
+                    if (event.blocked) {
+                        event.blocked = false;
+                    } else if (!event.date.disabled && isAfterToday(event.date)) {
+                        if (event.event.length) {
+                            console.log(event);
+                            blockWithEvents(event)
+                                .then(function(block) {
+
+                                    if (block) {
+                                        event.blocked = !event.blocked;
+                                    }
+                                });
+                            return;
+                        }
+                        event.blocked = !event.blocked;
+                    }
+                    $rootScope.currentUser.blockedDays = getBlockedDays();
+                    $scope.blockedCount = getBlockedInNext30Days();
+                    $scope.onChange();
                 },
-                dateClick: function(event) {
+                dateClick: function(event, domEvent, getBlockedDays) {
                     setCurrentMoment(moment(event.date));
-                },
-                blockClick: function(event, blockedDays) {
-                    $rootScope.currentUser.blockedDays = blockedDays;
+                    event.blocked = !event.blocked;
+                    $rootScope.currentUser.blockedDays = getBlockedDays();
                     $scope.blockedCount = getBlockedInNext30Days();
                     $scope.onChange();
                 },

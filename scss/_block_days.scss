@@ -34,6 +34,11 @@
 	        border: 2px solid white;
             border-radius: 50%;
             transition: all 0.1s;
+            &.blocked.event:before {
+        		content: none;
+        		height: 0;
+        		width: 0;
+            }
 	        &.blocked:not(.selected):not(.disabled) {
 	            border-radius: 4px; // inner radius is -2px of current value
 	            background-color: #F86969;
