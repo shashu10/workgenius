@@ -21,21 +21,22 @@ function setShifts ($rootScope, $q) {
     $rootScope.currentUser.shifts = angular.copy($rootScope.currentUser.shifts);
 
     if (refresh) { // was actually updated asynchronously
-        $scope.$apply();
+        $rootScope.$apply();
     }
-  }
+  };
   return {
     cancel: function (shift) {
       if (!shift.object) {
         var deferred = $q.defer();
         deferred.resolve(false);
-        removeShift(shift)
+        removeShift(shift);
         return deferred.promise;
       }
       shift.object.unset('worker');
       return shift.object.save().then(function cancelShift (result) {
           console.log('removed shift');
           removeShift(shift, true);
+          $rootScope.currentUser.strikes++;
         }, function(error) {
           if (error.code === 101) {
             console.log('shift does not exist');
@@ -395,7 +396,7 @@ function getUserData ($rootScope, $q, $interval, fakeShifts, getShifts) {
       name             : name,
       email            : email,
       phone            : isDemoUser ? "4151234567" : "",
-      target           : 40,
+      target           : 0,
       strikes          : 0,
       totalHours       : 0,
       vehicles         : getVehicles(),
@@ -439,7 +440,7 @@ function getUserData ($rootScope, $q, $interval, fakeShifts, getShifts) {
           name             : user.get('name')  || '',
           email            : user.get('email') || '',
           phone            : user.get('phone') || '',
-          target           : user.get('target') || 40,
+          target           : user.get('target') || 0,
           strikes          : user.get('strikes') || 0,
           appState         : user.get('appState') || {},
           earnings         : user.get('earnings') || {day: 0, week: 0, month: 0, lifetime: 0},
