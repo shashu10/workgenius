@@ -109,10 +109,18 @@ angular.module('workgenius.schedule', [])
             .then(function(cancel) {
 
                 if (cancel) {
-                    if ($rootScope.currentUser.strikes >= 3) {
+
+                    // If shift is after 72 hours cancel immediately
+                    if (moment(shift.startsAt).isAfter(moment().add(72, 'hours'))) {
+                        setShifts.cancel(shift);
+
+                    // If cannot cancel, show warning
+                    } else if ($rootScope.currentUser.strikes >= 3) {
                         $scope.cannotCancelWarning();
+
+                    // If user really want's to cancel, do it
                     } else {
-                        $scope.cancelShift(shift);
+                        setShifts.cancel(shift);
                     }
                 }
             });
@@ -142,14 +150,6 @@ angular.module('workgenius.schedule', [])
                 // From parent scope
                 if (show)
                     $scope.contactModal.show();
-            });
-        };
-
-        $scope.cancelShift = function(shift) {
-
-            setShifts.cancel(shift).then(function(result) {
-                console.log('cancel then');
-                // Set cancellations if required
             });
         };
 

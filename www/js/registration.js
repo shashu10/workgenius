@@ -160,9 +160,9 @@ angular.module('workgenius.registration', [])
 
             user.set('availability', {});
             user.set('vehicles', []);
-            user.set('companies', []);
             user.set('workTypes', []);
             user.set('target', 40); // Default
+            user.set('strikes', 0);
 
             user.signUp(null, {
                 success: function(user) {

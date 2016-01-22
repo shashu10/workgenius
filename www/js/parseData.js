@@ -26,26 +26,29 @@ function setShifts ($rootScope, $q) {
   };
   return {
     cancel: function (shift) {
+
+      // Running demo user
       if (!shift.object) {
         var deferred = $q.defer();
         deferred.resolve(false);
         removeShift(shift);
         return deferred.promise;
       }
-      shift.object.unset('worker');
-      return shift.object.save().then(function cancelShift (result) {
-          console.log('removed shift');
-          removeShift(shift, true);
-          $rootScope.currentUser.strikes++;
-        }, function(error) {
-          if (error.code === 101) {
-            console.log('shift does not exist');
-            removeShift(shift, true);
-          } else {
-            console.log(error);
-            console.log('could not save');
+
+      Parse.Cloud.run('cancelShift', {
+          startsAt: shift.startsAt.toString(),
+          shiftID: shift.id,
+      }, {
+          success: function(result) {
+              console.log('removed shift');
+              removeShift(shift, true);
+              $rootScope.currentUser.strikes++;
+          },
+          error: function(error) {
+              console.log('could not cancel Shift');
+              console.log(error);
           }
-        });
+      });
     }
   };
 }
@@ -327,8 +330,10 @@ function getShifts ($q, $rootScope) {
       deferred.resolve($rootScope.currentUser.shifts);
       return deferred.promise;
     }
+
     var query = new Parse.Query(Shift);
     query.equalTo("worker", Parse.User.current());
+    query.descending('startsAt');
 
     return query.find().then(formatShifts);
   };
@@ -423,9 +428,10 @@ function getUserData ($rootScope, $q, $interval, fakeShifts, getShifts) {
 
       setDefaultPrefs('AJ Shewki', 'aj@workgeni.us', true);
 
-    // New use needs default values immediately for onboarding flow
-    } else if (newUser) {
-      setDefaultPrefs(name, email);
+    // Setting default values immediately. And saving them. This methos did not save values after user signed up.
+    // // New use needs default values immediately for onboarding flow
+    // } else if (newUser) {
+    //   setDefaultPrefs(name, email);
 
     // Existing user must have their preferences fetched
     } else {
