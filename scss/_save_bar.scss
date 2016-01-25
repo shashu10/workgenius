@@ -1,11 +1,11 @@
 .wg-save-bar {
 	bottom: -44px;
-	transition: bottom 0.3s;
 	&.wg-save-up {
 		bottom: 0;
+		transition: bottom 0.2s ease-out;
 	}
-	&.wg-save-down-delay {
-		transition: bottom 0.3s ease-out 1s;
+	&.wg-save-down {
+		transition: bottom 0.2s ease-out;
 		bottom: -44px;
 	}
 }

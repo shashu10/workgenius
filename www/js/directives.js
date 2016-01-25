@@ -119,12 +119,19 @@ angular.module('workgenius.directives', [])
         }, 2000);
       }
 
-      $scope.wgOnChange = debounce(function () {
-          console.log('debounce');
-          $timeout.cancel(timer);
+      var debouncedSave = debounce(function () {
           if ($scope.wgCustomSave) $scope.wgCustomSave(success);
           else setUserData.save($scope.wgProp, success);
         }, 500, false);
+
+      $scope.wgOnChange = function () {
+        console.log('change');
+        $timeout.cancel(timer);
+        $scope.show = false;
+        debouncedSave();
+      };
+
+
 
     }]
   };
