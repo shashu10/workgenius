@@ -306,7 +306,7 @@ function getShifts ($q, $rootScope) {
         endsAt     : sh.get('endsAt'),
         // date for ion-cal needs to be in format: YYYY-MM-DD 2015-01-01
         // Flex cal error displays one day behind date
-        date       : moment(sh.get('startsAt')).toDate(),
+        date       : new Date(sh.get('startsAt').getFullYear(), sh.get('startsAt').getMonth(), sh.get('startsAt').getDate()),
         // Changed ion calendar
         // date       : moment(sh.get('startsAt')).add(1, 'day').format('YYYY-MM-DD'),
         object     : sh

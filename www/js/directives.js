@@ -102,27 +102,59 @@ angular.module('workgenius.directives', [])
         wgCustomSave: '=',
         wgProp: '='
     },
-    controller: ['$scope', '$rootScope', '$timeout', 'setUserData',
-    function($scope, $rootScope, $timeout, setUserData) {
+    controller: ['$scope', '$rootScope', '$timeout', 'setUserData', 'debounce',
+    function($scope, $rootScope, $timeout, setUserData, debounce) {
 
 
       $scope.show = false;
+      var timer;
+
       function success () {
         $scope.show = true;
         $scope.$apply();
-        $timeout(function () {
+        $timeout.cancel(timer);
+        timer = $timeout(function () {
           $scope.show = false;
           $scope.$apply();
         }, 2000);
       }
 
-      $scope.wgOnChange = function () {
-        if ($scope.wgCustomSave) $scope.wgCustomSave(success);
-        else setUserData.save($scope.wgProp, success);
-      };
+      $scope.wgOnChange = debounce(function () {
+          console.log('debounce');
+          $timeout.cancel(timer);
+          if ($scope.wgCustomSave) $scope.wgCustomSave(success);
+          else setUserData.save($scope.wgProp, success);
+        }, 500, false);
+
     }]
   };
 })
+.factory('debounce', ['$timeout', '$q', function($timeout, $q) {
+  return function(func, wait, immediate) {
+    var timeout;
+    var deferred = $q.defer();
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if(!immediate) {
+          deferred.resolve(func.apply(context, args));
+          deferred = $q.defer();
+        }
+      };
+      var callNow = immediate && !timeout;
+      if ( timeout ) {
+        $timeout.cancel(timeout);
+      }
+      timeout = $timeout(later, wait);
+      if (callNow) {
+        deferred.resolve(func.apply(context,args));
+        deferred = $q.defer();
+      }
+      return deferred.promise;
+    };
+  };
+}])
 .directive('bounceLeft', ['$interval', function($interval) {
   var isOpen = function (element) {
     var children = element.children();

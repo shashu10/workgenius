@@ -16,6 +16,7 @@ angular.module('workgenius', [
     'workgenius.filters',
     'workgenius.tracker',
     'workgenius.schedule',
+    'workgenius.availability',
     'parseData',
     'phoneFormatting',
     'ionic-timepicker',
