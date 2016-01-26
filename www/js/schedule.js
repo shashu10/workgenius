@@ -83,11 +83,20 @@ angular.module('workgenius.schedule', [])
             // $scope.gotoAnchor('empty-shift-list');
             $ionicScrollDelegate.scrollBottom();
         };
-
-        $scope.cancelWarning = function(shift) {
+        $scope.cancelShift = function (shift) {
             $scope.shiftToCancel = shift;
+            if ($scope.isWithin72Hr(shift.startsAt) && $rootScope.currentUser.strikes >= 3) {
+                cannotCancelWarning(shift);
+
+            // If user really want's to cancel, do it
+            } else {
+                cancelWarning(shift);
+            }
+        };
+
+        function cancelWarning(shift) {
             $scope.cancelPopup = $ionicPopup.show({
-                template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  {{shiftEarnings(shiftToCancel)}} <div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
+                template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate:  <strong class="light-green">{{shiftEarnings(shiftToCancel) | currency:undefined:0}}</strong> </p> <div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
                 title: 'Are you sure you want<br>to cancel this shift?',
                 scope: $scope,
                 buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
@@ -107,31 +116,21 @@ angular.module('workgenius.schedule', [])
 
             // Must call cannotCancelWarning in .then 
             .then(function(cancel) {
-
-                if (cancel) {
-
-                    // If shift is after 72 hours cancel immediately
-                    if (moment(shift.startsAt).isAfter(moment().add(72, 'hours'))) {
-                        setShifts.cancel(shift);
-
-                    // If cannot cancel, show warning
-                    } else if ($rootScope.currentUser.strikes >= 3) {
-                        $scope.cannotCancelWarning();
-
-                    // If user really want's to cancel, do it
-                    } else {
-                        setShifts.cancel(shift);
-                    }
-                }
+                if (cancel) setShifts.cancel(shift);
             });
-        };
-        $scope.cannotCancelWarning = function() {
-
+        }
+        function cannotCancelWarning(shift) {
             $scope.cannotCancelPopup = $ionicPopup.show({
-                template: '<p>Please contact us immediately to cancel this shift if you can\'t make it.</p>',
+                template: '<p>Please contact us immediately to cancel this shift if you can\'t make it.</p><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate: <strong class="light-green">{{shiftEarnings(shiftToCancel) | currency:undefined:0}}</strong> </p>',
                 title: 'Maximum number of cancellations reached!',
                 scope: $scope,
                 buttons: [{
+                    text: 'Don\'t Cancel',
+                    type: 'button-dark',
+                    onTap: function(e) {
+                        return false;
+                    }
+                }, {
                     text: 'Contact Us',
                     type: 'button-positive',
                     onTap: function(e) {
@@ -139,19 +138,13 @@ angular.module('workgenius.schedule', [])
                         // return shift;
                         return true;
                     }
-                }, {
-                    text: 'Don\'t Cancel',
-                    type: 'button-dark',
-                    onTap: function(e) {
-                        return false;
-                    }
                 }]
             }).then(function(show) {
                 // From parent scope
-                if (show)
-                    $scope.contactModal.show();
+                $scope.modalData.subject = 'cancellation';
+                if (show) $scope.contactModal.show();
             });
-        };
+        }
 
         function getCompanyEarnings (name) {
             for (var i = 0; i < $rootScope.companyList.length; i++) {

@@ -1,36 +1,39 @@
 <ion-view view-title="Hours">
     <ion-content class="has-header has-footer">
 
-        <p class="wg-title-instruction padding">
+        <p ng-if="currentUser.hours.lifetime" class="wg-title-instruction padding">
             Here's how busy you've been recently<br>Keep it up!
+        </p>
+        <p ng-if="!currentUser.hours.lifetime" class="wg-title-instruction padding">
+            We can’t estimate your earnings just yet because you haven’t logged hours with us. Check back after you’ve completed a shift or two!
         </p>
 
         <div class="center-text">
             <div class="wg-hours-block">
                 <h4>Today</h4>
                 <h1>
-                    {{currentUser.hours.day}}
+                    {{currentUser.hoursTotal.day}}
                 </h1>
             </div>
 
             <div class="wg-hours-block">
                 <h4>This Week</h4>
                 <h1>
-                    {{currentUser.hours.week}}
+                    {{currentUser.hoursTotal.week}}
                 </h1>
             </div>
 
             <div class="wg-hours-block">
                 <h4>This Month</h4>
                 <h1>
-                    {{currentUser.hours.month}}
+                    {{currentUser.hoursTotal.month}}
                 </h1>
             </div>
 
             <div class="wg-hours-block">
                 <h4>Lifetime</h4>
                 <h1>
-                    {{currentUser.hours.lifetime}}
+                    {{currentUser.hoursTotal.lifetime}}
                 </h1>
             </div>
         </div>

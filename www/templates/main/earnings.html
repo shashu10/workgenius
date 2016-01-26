@@ -1,36 +1,41 @@
 <ion-view view-title="Earnings">
     <ion-content class="has-header has-footer">
-        <p class="wg-title-instruction padding">
+        <p ng-if="currentUser.earnings.lifetime" class="wg-title-instruction padding">
             This is an estimate of your earnings based on the hours you’ve logged on WorkGenius
+        </p>
+        <p ng-if="!currentUser.earnings.lifetime" class="wg-title-instruction padding">
+            You haven’t logged any hours with us yet.
+            <br>
+            Time to get to work!
         </p>
         <div class="center-text">
             <div class="wg-earnings-block">
                 <h4>Today</h4>
                 <h1>
-                    {{ currentUser.earnings.day | currency:undefined:0}}
+                    {{ currentUser.earningsTotal.day | currency:undefined:0}}
                 </h1>
-                <h3>avg {{17 | currency:undefined:0}}/hr</h3>
+                <h3>avg {{(currentUser.earningsTotal.day / currentUser.hoursTotal.day) || 0 | currency:undefined:0}}/hr</h3>
             </div>
             <div class="wg-earnings-block">
                 <h4>This Week</h4>
                 <h1>
-                    {{ currentUser.earnings.week | currency:undefined:0}}
+                    {{ currentUser.earningsTotal.week | currency:undefined:0}}
                 </h1>
-                <h3>avg {{19 | currency:undefined:0}}/hr</h3>
+                <h3>avg {{(currentUser.earningsTotal.week / currentUser.hoursTotal.week) || 0 | currency:undefined:0}}/hr</h3>
             </div>
             <div class="wg-earnings-block">
                 <h4>This Month</h4>
                 <h1>
-                    {{ currentUser.earnings.month | currency:undefined:0}}
+                    {{ currentUser.earningsTotal.month | currency:undefined:0}}
                 </h1>
-                <h3>avg {{18 | currency:undefined:0}}/hr</h3>
+                <h3>avg {{(currentUser.earningsTotal.month / currentUser.hoursTotal.month) || 0 | currency:undefined:0}}/hr</h3>
             </div>
             <div class="wg-earnings-block">
                 <h4>Lifetime</h4>
                 <h1>
-                    {{ currentUser.earnings.lifetime | currency:undefined:0}}
+                    {{ currentUser.earningsTotal.lifetime | currency:undefined:0}}
                 </h1>
-                <h3>avg {{17 | currency:undefined:0}}/hr</h3>
+                <h3>avg {{(currentUser.earningsTotal.lifetime / currentUser.hoursTotal.lifetime) || 0 | currency:undefined:0}}/hr</h3>
             </div>
         </div>
     </ion-content>

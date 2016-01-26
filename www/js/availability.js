@@ -76,8 +76,8 @@ angular.module('workgenius.availability', [])
                 return strikes;
             };
 
-            $scope.dividerFunction = function(date) {
-                return moment(date).format('MMM dddd Do');
+            $scope.shiftDateFormatter = function(date) {
+                return moment(date).format('ddd, MMM Do');
             };
             $scope.formatAMPM = function(date) {
                 return moment(date).format('ha');
@@ -86,13 +86,22 @@ angular.module('workgenius.availability', [])
                 return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * 15;
             };
 
-            function cannotCancelWarning() {
+            function cannotCancelWarning(date) {
+                $scope.selectedEvents = date.event;
+                var thisThese = $scope.selectedEvents.length > 1 ? 'these shifts' : 'this shift';
 
                 $scope.cannotCancelPopup = $ionicPopup.show({
-                    template: '<p>You will go above your maximum cancellation limit if you block this day. Please contact us immediately if you can\'t make these shifts.</p>',
+                    cssClass: 'block-popup',
+                    template: '<p>You will go above your maximum cancellation limit if you block this day. Please contact us immediately if you can\'t make ' + thisThese + '.</p> <ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p><strong>{{shiftToCancel.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{shiftEarnings(shiftToCancel)}}</p><p>{{shiftDateFormatter(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><div ng-if="strikes(selectedEvents)"><p> Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
                     title: 'Cannot block this day!',
                     scope: $scope,
                     buttons: [{
+                        text: 'Don\'t Block',
+                        type: 'button-dark',
+                        onTap: function(e) {
+                            return false;
+                        }
+                    }, {
                         text: 'Contact Us',
                         type: 'button-positive',
                         onTap: function(e) {
@@ -100,17 +109,11 @@ angular.module('workgenius.availability', [])
                             // return shift;
                             return true;
                         }
-                    }, {
-                        text: 'Don\'t Block',
-                        type: 'button-dark',
-                        onTap: function(e) {
-                            return false;
-                        }
                     }]
                 }).then(function(show) {
                     // From parent scope
-                    if (show)
-                        $scope.contactModal.show();
+                    $scope.modalData.subject = 'cancellation';
+                    if (show) $scope.contactModal.show();
                 });
             }
             function blockWithEvents(date) {
@@ -119,7 +122,7 @@ angular.module('workgenius.availability', [])
                 var thisThese = $scope.selectedEvents.length > 1 ? 'these shifts' : 'this shift';
                 return $ionicPopup.show({
                     cssClass: 'block-popup',
-                    template: '<ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{shiftToCancel.company}} | Earnings Est: ${{shiftEarnings(shiftToCancel)}}</p><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><p ng-if="strikes(selectedEvents)">WARNING: You\'ll get {{strikes(selectedEvents)}} strike{{strikes(selectedEvents) > 1 ? "s" : ""}}</p></ion-list>',
+                    template: '<ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p><strong>{{shiftToCancel.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{shiftEarnings(shiftToCancel)}}</p><p>{{shiftDateFormatter(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><div ng-if="strikes(selectedEvents)"><p>WARNING: You\'ll get {{strikes(selectedEvents)}} strike{{strikes(selectedEvents) > 1 ? "s" : ""}}</p> <p> Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div></ion-list>',
                     title: 'Blocking this day will<br>cancel ' + thisThese,
                     scope: $scope,
                     buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
@@ -177,7 +180,7 @@ angular.module('workgenius.availability', [])
 
                         // Cannot cancel shifts on that day
                         if ((cancellations + $rootScope.currentUser.strikes) > 3) {
-                            cannotCancelWarning();
+                            cannotCancelWarning(event);
 
                         } else {
 
