@@ -442,6 +442,7 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
 
             setDefaultPrefs('AJ Shewki', 'aj@workgeni.us', true);
 
+            deferred.resolve(false);
             // Setting default values immediately. And saving them. This methos did not save values after user signed up.
             // // New use needs default values immediately for onboarding flow
             // } else if (newUser) {
