@@ -1,9 +1,9 @@
 <ion-view view-title="Earnings">
     <ion-content class="has-header has-footer">
-        <p ng-if="currentUser.earnings.lifetime" class="wg-title-instruction padding">
+        <p ng-if="currentUser.earningsTotal.lifetime" class="wg-title-instruction padding">
             This is an estimate of your earnings based on the hours you’ve logged on WorkGenius
         </p>
-        <p ng-if="!currentUser.earnings.lifetime" class="wg-title-instruction padding">
+        <p ng-if="!currentUser.earningsTotal.lifetime" class="wg-title-instruction padding">
             You haven’t logged any hours with us yet.
             <br>
             Time to get to work!

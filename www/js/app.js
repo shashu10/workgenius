@@ -67,7 +67,13 @@ angular.module('workgenius', [
     getCompanyData();
     // Get user data and store it in the rootscope.
     getUserData().then(function (user) {
-      // $state.go('app.schedule');
+        if (window.location.hash === "") {
+            if (user)
+                $state.go('app.schedule');
+            else
+                $state.go('registration.signup');
+        }
+
     });
     
   }])
@@ -304,7 +310,7 @@ angular.module('workgenius', [
   //  - - - - End Onboarding - - - -
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/registration/signup');
+  // $urlRouterProvider.otherwise('/registration/signup');
 
   // $urlRouterProvider.otherwise('/splash');
 }]);

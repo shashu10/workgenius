@@ -512,6 +512,7 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
                 $rootScope.currentUser.shifts = shifts;
 
                 deferred.resolve(true);
+                $rootScope.$apply();
             });
         }
 
