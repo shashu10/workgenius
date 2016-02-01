@@ -44,7 +44,8 @@ angular.module('workgenius', [
       if (window.StatusBar) {
         // org.apache.cordova.statusbar required
         // not working
-        // StatusBar.styleBlackOpaque();
+        StatusBar.overlaysWebView(false);
+        StatusBar.styleDefault();
       }
       // Variables defined here are hidden in their own scope.
     });
