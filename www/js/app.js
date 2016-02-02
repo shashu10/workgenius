@@ -25,6 +25,8 @@ angular.module('workgenius', [
     'pascalprecht.translate',
     'ngIOS9UIWebViewPatch',
     'templatescache',
+    'angulartics',
+    'angulartics.mixpanel'
     // 'ionic.service.core',
     // 'ionic.service.analytics'
   ])
@@ -92,9 +94,13 @@ angular.module('workgenius', [
     
   }])
 
-.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$analyticsProvider',
+  function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $analyticsProvider) {
   // $ionicConfigProvider.views.forwardCache(true);
 
+  $analyticsProvider.firstPageview(true); /* Records pages that don't use $state or $route */
+  $analyticsProvider.withAutoBase(true);  /* Records full path */
+            
   $stateProvider
 
   // Main Side Menu pages

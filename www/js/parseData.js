@@ -457,6 +457,8 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
             // Get User Information
             Parse.User.current().fetch().then(function(user) {
 
+                mixpanel.identify(user.get('email'));
+
                 angular.extend($rootScope.currentUser, {
                     name: user.get('name') || '',
                     email: user.get('email') || '',

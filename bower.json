@@ -13,6 +13,8 @@
     "angular-filter": "~0.5.8",
     "angular-base64": "~2.0.5",
     "moment": "~2.11.1",
-    "ion-cal": "*"
+    "ion-cal": "*",
+    "angulartics": "^1.0.3",
+    "angulartics-mixpanel": "^0.1.2"
   }
 }
