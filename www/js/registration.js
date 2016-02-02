@@ -52,6 +52,11 @@ angular.module('workgenius.registration', [])
                 success: function(user) {
 
                     getUserData().then(function (onboarding) {
+                        mixpanel.register({
+                            'Email': $rootScope.currentUser.email,
+                            'Name': $rootScope.currentUser.email,
+                            'Target': $rootScope.currentUser.email,
+                        });
 
                         $ionicLoading.hide();
                         $ionicHistory.nextViewOptions({

@@ -5,8 +5,53 @@ angular.module('parseData', ['workgenius.constants'])
     .factory('setEligibility', ['$rootScope', setEligibility])
     .factory('setShifts', ['$rootScope', '$q', setShifts])
     .factory('getShifts', ['$q', '$rootScope', getShifts])
+    .factory('checkUpdates', ['$rootScope', '$ionicPopup', checkUpdates])
     .factory('getUserData', ['$rootScope', '$q', '$interval', 'fakeShifts', 'getShifts', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
+
+function checkUpdates($rootScope, $ionicPopup) {
+    return function (currentVersion) {
+        Parse.Cloud.run('getVersion', { platform: 'ios'}, {
+            success: function(app) {
+                console.log('new app version: ' + app.version);
+
+                var scope = $rootScope.$new();
+                scope.app = app;
+
+                if (currentVersion < app.version) {
+                    $ionicPopup.show({
+                        template: '<p ng-if="app.features.length">New features in v{{app.version}}</p><ul><li ng-repeat="feature in app.features">- {{feature}}</li></ul>',
+                        title: 'App update available!',
+                        scope: scope,
+                        buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
+                            text: 'Later',
+                            type: 'button-dark',
+                            onTap: function(e) {
+                                return false;
+                            }
+                        }, {
+                            text: 'Install',
+                            type: 'button-positive',
+                            onTap: function(e) {
+                                return true;
+                            }
+                        }]
+                    })
+                    .then(function(install) {
+                        // Pressed Install Button
+                        if (install) {
+                            window.location = app.url;
+                        }
+                    });
+                }
+            },
+            error: function(error) {
+                console.log('could get version');
+                console.log(error);
+            }
+        });
+    };
+}
 
 function setShifts($rootScope, $q) {
     var removeShift = function(shift, refresh) {
