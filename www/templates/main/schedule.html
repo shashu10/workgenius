@@ -7,7 +7,15 @@
     <ion-content delegate-handle="scheduleScroll" class="has-ion-cal-subheader" >
 	        <shift-list></shift-list>
 
-			<img ng-if="currentUser.shifts.length === 0" class="schedule-placeholder" src="img/empty_schedule.png" alt="">
+	        <div ng-if="currentUser.shifts.length === 0">
+	        	
+				<img class="schedule-placeholder" src="img/empty_schedule_circle.png" alt="">
+				<p class="wg-title-instruction">
+					We’re working on getting you some shifts right now.
+					<br>
+					You’ll see them here soon!
+				</p>
+	        </div>
 		    <!-- <ion-item id="empty-shift-list" class="item-avatar" ng-repeat="empty in [1,2]">
 		        {{$first && !groupedShifts.length ? 'No shifts to show' : ''}}
 		    </ion-item> -->
