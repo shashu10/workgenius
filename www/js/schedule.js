@@ -11,6 +11,7 @@ angular.module('workgenius.schedule', [])
             if (current.name.indexOf('app.schedule') > -1) {
                 getShifts().then(function(shifts) {
                     $rootScope.currentUser.shifts = shifts;
+                    $rootScope.$apply();
                   });
             }
         });

@@ -29,11 +29,24 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
   ])
 
-.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData', 'getCompanyData',
-  function($ionicPlatform, $rootScope, $state, getUserData, getCompanyData) {
+.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts',
+  function($ionicPlatform, $rootScope, $state, getUserData, getCompanyData, getShifts) {
     $ionicPlatform.ready(function() {
 
       // $ionicAnalytics.register();
+
+      document.addEventListener("resume", function onResume() {
+
+          console.log('resumed app');
+
+          // Reload shifts if sent to background and reopened
+          if ($state.current.name.indexOf('app.schedule') > -1) {
+              getShifts().then(function(shifts) {
+                  $rootScope.currentUser.shifts = shifts;
+                  $rootScope.$apply();
+                });
+          }
+      }, false);
 
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
