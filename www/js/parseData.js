@@ -37,6 +37,7 @@ function checkUpdates($rootScope, $ionicPopup) {
                             }
                         }]
                     })
+                    // Using then closes the popup and 'Then' executes the following code
                     .then(function(install) {
                         // Pressed Install Button
                         if (install) {
