@@ -487,6 +487,8 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
         if (!Parse.User.current()) {
 
             setDefaultPrefs('AJ Shewki', 'aj@workgeni.us', true);
+            Raven.setUserContext();
+            mixpanel.identify();
 
             deferred.resolve(false);
             // Setting default values immediately. And saving them. This methos did not save values after user signed up.
@@ -504,6 +506,10 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
             Parse.User.current().fetch().then(function(user) {
 
                 mixpanel.identify(user.get('email'));
+                Raven.setUserContext({
+                    email: user.get('email'),
+                    id: user.id
+                });
 
                 angular.extend($rootScope.currentUser, {
                     name: user.get('name') || '',

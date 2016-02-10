@@ -15,6 +15,7 @@
     "moment": "~2.11.1",
     "ion-cal": "*",
     "angulartics": "^1.0.3",
-    "angulartics-mixpanel": "^0.1.2"
+    "angulartics-mixpanel": "^0.1.2",
+    "raven-js": "^2.1.1"
   }
 }

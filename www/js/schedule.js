@@ -11,7 +11,11 @@ angular.module('workgenius.schedule', [])
             if (current.name.indexOf('app.schedule') > -1) {
                 getShifts().then(function(shifts) {
                     $rootScope.currentUser.shifts = shifts;
-                    $rootScope.$apply();
+                    
+                    // If user is not logged in, we use fakeshifts and don't need to update scope
+                    if (Parse.User.current()) {
+                        $rootScope.$apply();
+                    }
                   });
             }
         });

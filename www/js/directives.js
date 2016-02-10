@@ -576,7 +576,7 @@ angular.module('workgenius.directives', [])
               angular.element($ionicScroll.element).on('scroll', function (event) {
 
                   // when we scrolled to the container, create the clone of element and place it on top
-                  if (utils.position($container).top <= 0) {
+                  if (utils.position($container).top < 0) {
                       if (!affixClone) {
                           affixClone = createAffixClone();
                       }

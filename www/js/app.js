@@ -25,7 +25,8 @@ angular.module('workgenius', [
     'ngIOS9UIWebViewPatch',
     'templatescache',
     'angulartics',
-    'angulartics.mixpanel'
+    'angulartics.mixpanel',
+    'ngRaven',
     // 'workgenius.tracker',
     // 'ionic.service.core',
     // 'ionic.service.analytics'
@@ -44,7 +45,11 @@ angular.module('workgenius', [
                 if ($state.current.name.indexOf('app.schedule') > -1) {
                     getShifts().then(function(shifts) {
                         $rootScope.currentUser.shifts = shifts;
-                        $rootScope.$apply();
+
+                        // If user is not logged in, we use fakeshifts and don't need to update scope
+                        if (Parse.User.current()) {
+                            $rootScope.$apply();
+                        }
                     });
                 }
             }, false);
