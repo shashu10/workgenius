@@ -6,7 +6,7 @@ angular.module('workgenius.registration', [])
 
             getUserData();
 
-            var next = 'onboarding.work-types';
+            var next = 'onboarding.availability-questions';
             if ($state.current.name === 'registration.login') {
                 next = 'app.schedule';
             }
@@ -177,7 +177,7 @@ angular.module('workgenius.registration', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     });
-                    $state.go('onboarding.work-types', {
+                    $state.go('onboarding.availability-questions', {
                         clear: true
                     });
                 },

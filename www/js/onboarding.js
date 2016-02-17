@@ -7,8 +7,8 @@ angular.module('workgenius.onboarding', [])
     $scope.showPager = true;
 
     $scope.pages = [
-      'onboarding.work-types',
-      'onboarding.target-hours',
+      // 'onboarding.work-types',
+      // 'onboarding.target-hours',
       'onboarding.availability-questions',
       'onboarding.availability',
     ];
