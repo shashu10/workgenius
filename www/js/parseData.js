@@ -384,7 +384,7 @@ function acknowledgeShifts($q, $rootScope, $ionicPopup) {
 
         $ionicPopup.show({
             cssClass: 'shift-popup',
-            template: '<ion-list><ion-item ng-repeat="shift in newShifts"><img ng-src="img/companies/{{shift.company.toLowerCase() | spaceless}}.png" alt=""><p><strong>{{shift.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{shiftEarnings(shift)}}</p><p>{{shiftDateFormatter(shift.startsAt)}}, {{formatAMPM(shift.startsAt) | uppercase}} - {{formatAMPM(shift.endsAt) | uppercase}}</p></ion-item></ion-list>',
+            template: '<ion-list><ion-item ng-repeat="shift in newShifts"><img ng-src="img/companies/{{shift.company.toLowerCase() | spaceless}}.png" alt=""><p><strong>{{shift.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{shiftEarnings(shift)}}</p><p>{{shiftDateFormatter(shift.startsAt)}}, {{formatAMPM(shift.startsAt) | uppercase}} - {{formatAMPM(shift.endsAt) | uppercase}}</p></ion-item><p>You can cancel {{newShifts.length > 1 ? "these shifts" : "this shift"}} after tapping acknowledge</p></ion-list>',
             title: 'You have new shifts!',
             scope: scope,
             buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
