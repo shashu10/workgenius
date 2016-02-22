@@ -24,3 +24,25 @@
     	}
     }
 }
+.shift-popup {
+    .popup-body {
+        .item {
+            border-color: transparent;
+            background-color: transparent;
+            padding-left: 35px;
+
+            p {
+                font-size: 12px;
+                text-align: right;
+            }
+        }
+        img {
+            width: 30px !important;
+            position: absolute;
+            left: 6px;
+            top: 50%;
+            margin-top: -15px;
+            padding: 0;
+        }
+    }
+}

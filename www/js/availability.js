@@ -91,7 +91,7 @@ angular.module('workgenius.availability', [])
                 var thisThese = $scope.selectedEvents.length > 1 ? 'these shifts' : 'this shift';
 
                 $scope.cannotCancelPopup = $ionicPopup.show({
-                    cssClass: 'block-popup',
+                    cssClass: 'shift-popup',
                     template: '<p>You will go above your maximum cancellation limit if you block this day. Please contact us immediately if you can\'t make ' + thisThese + '.</p> <ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()  | spaceless}}.png" alt=""><p><strong>{{shiftToCancel.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{shiftEarnings(shiftToCancel)}}</p><p>{{shiftDateFormatter(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><div ng-if="strikes(selectedEvents)"><p> Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
                     title: 'Cannot block this day!',
                     scope: $scope,
@@ -121,7 +121,7 @@ angular.module('workgenius.availability', [])
 
                 var thisThese = $scope.selectedEvents.length > 1 ? 'these shifts' : 'this shift';
                 return $ionicPopup.show({
-                    cssClass: 'block-popup',
+                    cssClass: 'shift-popup',
                     template: '<ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p><strong>{{shiftToCancel.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{shiftEarnings(shiftToCancel)}}</p><p>{{shiftDateFormatter(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><div ng-if="strikes(selectedEvents)"><p>WARNING: You\'ll get {{strikes(selectedEvents)}} strike{{strikes(selectedEvents) > 1 ? "s" : ""}}</p> <p> Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div></ion-list>',
                     title: 'Blocking this day will<br>cancel ' + thisThese,
                     scope: $scope,

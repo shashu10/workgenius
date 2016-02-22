@@ -4,10 +4,13 @@ angular.module('parseData', ['workgenius.constants'])
     .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
     .factory('setEligibility', ['$rootScope', setEligibility])
     .factory('setShifts', ['$rootScope', '$q', setShifts])
-    .factory('getShifts', ['$q', '$rootScope', getShifts])
+    .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
+    .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', acknowledgeShifts])
     .factory('checkUpdates', ['$rootScope', '$ionicPopup', checkUpdates])
     .factory('getUserData', ['$rootScope', '$q', '$interval', 'fakeShifts', 'getShifts', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
+
+var Shift = Parse.Object.extend("Shift");
 
 function checkUpdates($rootScope, $ionicPopup) {
     return function (currentVersion) {
@@ -336,11 +339,81 @@ function getCompanyData($rootScope, companies) {
     };
 }
 
-function getShifts($q, $rootScope) {
-    var Shift = Parse.Object.extend("Shift");
+function acknowledgeShifts($q, $rootScope, $ionicPopup) {
+    var shiftDateFormatter = function(date) {
+        return moment(date).format('ddd, MMM Do');
+    };
+    var formatAMPM = function(date) {
+        return moment(date).format('ha');
+    };
+    var shiftEarnings = function(shift) {
+        return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * 15;
+    };
+    var batchSave = function(shifts) {
 
+        var arr = [];
+        for (var i = 0; i < shifts.length; i++) {
+            var shift = shifts[i];
+
+            var shiftObj = new Shift();
+            shiftObj.id = shift.id;
+            shiftObj.set('acknowledgedAt', shift.endsAt);
+            shiftObj.set('acknowledged', true);
+
+            arr.push(shiftObj);
+        }
+
+        Parse.Object.saveAll(arr, {
+            success: function(list) {
+                console.log('success batchSave ' + arr.length + ' shifts');
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    };
+    return function(shifts) {
+        if (!shifts.length) return;
+
+        var scope = $rootScope.$new();
+        scope.newShifts = shifts;
+
+        scope.shiftDateFormatter = shiftDateFormatter;
+        scope.formatAMPM = formatAMPM;
+        scope.shiftEarnings = shiftEarnings;
+
+        $ionicPopup.show({
+            cssClass: 'shift-popup',
+            template: '<ion-list><ion-item ng-repeat="shift in newShifts"><img ng-src="img/companies/{{shift.company.toLowerCase() | spaceless}}.png" alt=""><p><strong>{{shift.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{shiftEarnings(shift)}}</p><p>{{shiftDateFormatter(shift.startsAt)}}, {{formatAMPM(shift.startsAt) | uppercase}} - {{formatAMPM(shift.endsAt) | uppercase}}</p></ion-item></ion-list>',
+            title: 'You have new shifts!',
+            scope: scope,
+            buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
+                text: 'Acknowledge',
+                type: 'button-positive',
+                onTap: function(e) {
+                    batchSave(shifts);
+
+                }
+            }]
+        });
+    };
+}
+
+function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
+
+    var debouncedAcknowledge = debounce(function (newShifts) {
+      acknowledgeShifts(newShifts);
+    }, 1000, false);
+
+    var shiftSort = function(a, b) {
+        if (a.startsAt.getTime() > b.startsAt.getTime())
+            return 1;
+
+        return -1;
+    };
     var formatShifts = function(results) {
         var shifts = [];
+        var newShifts = [];
 
         for (var i = 0; i < results.length; i++) {
             var sh = results[i];
@@ -349,27 +422,32 @@ function getShifts($q, $rootScope) {
             if (moment(sh.get('endsAt')).isBefore(moment().subtract(5, 'hours'))) {
                 continue;
             }
-
-            shifts.push({
+            var newShift = {
                 id: sh.id,
                 company: sh.get('company') && sh.get('company').get('name'),
                 startsAt: sh.get('startsAt'),
                 endsAt: sh.get('endsAt'),
+                acknowledged: sh.get('acknowledged'),
                 // date for ion-cal needs to be in format: YYYY-MM-DD 2015-01-01
                 // Flex cal error displays one day behind date
                 date: new Date(sh.get('startsAt').getFullYear(), sh.get('startsAt').getMonth(), sh.get('startsAt').getDate()),
                 // Changed ion calendar
                 // date       : moment(sh.get('startsAt')).add(1, 'day').format('YYYY-MM-DD'),
                 object: sh
-            });
+            };
+
+            shifts.push(newShift);
+
+            if (!newShift.acknowledged) {
+                newShifts.push(newShift);
+            }
         }
 
-        shifts.sort(function(a, b) {
-            if (a.startsAt.getTime() > b.startsAt.getTime())
-                return 1;
+        shifts.sort(shiftSort);
+        newShifts.sort(shiftSort);
 
-            return -1;
-        });
+        // Get shifts is called in app.js and schedule.js in a short interval
+        debouncedAcknowledge(newShifts);
 
         return shifts;
     };
