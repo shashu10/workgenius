@@ -94,6 +94,11 @@ angular.module('workgenius.directives', [])
     link: link
   };
 }])
+
+/**
+ * Save bar looks for changes in a property and saves it on that property's onChange event.
+ * Using debounce to have a buffer for saving.
+ */
 .directive('wgSaveBar', function() {
   return {
     templateUrl: 'templates/shared/wg-save-bar.html',

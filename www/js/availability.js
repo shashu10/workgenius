@@ -48,6 +48,7 @@ angular.module('workgenius.availability', [])
 
             $scope.select = function(day, interval, hour) {
                 toggleUniqueArray(day, hour);
+                $rootScope.currentUser.set("availabilityUpdatedAt", new Date());
                 if ($scope.onChange) $scope.onChange();
             };
 
@@ -233,6 +234,7 @@ angular.module('workgenius.availability', [])
                     event.blocked = val;
                     $rootScope.currentUser.blockedDays = getBlockedDays();
                     $scope.blockedCount = getBlockedInNext30Days();
+                    $rootScope.currentUser.set("blockedDaysUpdatedAt", new Date());
                     $scope.onChange();
                 }
             }

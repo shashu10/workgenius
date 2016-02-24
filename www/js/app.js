@@ -60,9 +60,8 @@ angular.module('workgenius', [
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 cordova.plugins.Keyboard.disableScroll(true);
 
-                cordova.getAppVersion(function(version) {
-                  $rootScope.appVersion = version;
-                    console.log('current app version = ' + version);
+                cordova.getAppVersion.getVersionNumber().then(function (version) {
+                    $rootScope.appVersion = version;
                     checkUpdates(version);
                 });
 

@@ -584,6 +584,14 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
             Parse.User.current().fetch().then(function(user) {
 
                 mixpanel.identify(user.get('email'));
+                // only special properties need the $
+                mixpanel.people.set({
+                    "$distinct_id": user.id,
+                    "$email": user.get('email'),
+                    "$name": user.get('name'),
+                    "$last_login": new Date(),
+                    "$created": user.get('createdAt'),
+                });
                 Raven.setUserContext({
                     email: user.get('email'),
                     id: user.id
