@@ -130,14 +130,10 @@ angular.module('workgenius.directives', [])
         }, 500, false);
 
       $scope.wgOnChange = function () {
-        console.log('change');
         $timeout.cancel(timer);
         $scope.show = false;
         debouncedSave();
       };
-
-
-
     }]
   };
 })

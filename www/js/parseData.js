@@ -6,51 +6,59 @@ angular.module('parseData', ['workgenius.constants'])
     .factory('setShifts', ['$rootScope', '$q', setShifts])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
     .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', acknowledgeShifts])
-    .factory('checkUpdates', ['$rootScope', '$ionicPopup', checkUpdates])
+    .factory('checkUpdates', ['$ionicPopup', checkUpdates])
+    .factory('updateAppSettings', ['$rootScope', '$ionicPopup', updateAppSettings])
     .factory('getUserData', ['$rootScope', '$q', '$interval', 'fakeShifts', 'getShifts', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 var Shift = Parse.Object.extend("Shift");
 
-function checkUpdates($rootScope, $ionicPopup) {
-    return function (currentVersion) {
-        Parse.Cloud.run('getVersion', { platform: 'ios'}, {
-            success: function(app) {
-                console.log('new app version: ' + app.version);
+function checkUpdates($ionicPopup) {
+    return function (currentVersion, appInfo, scope) {
+        console.log('new app version: ' + appInfo.version);
+        scope.appInfo = appInfo;
 
-                var scope = $rootScope.$new();
-                scope.app = app;
-
-                if (currentVersion < app.version) {
-                    $ionicPopup.show({
-                        template: '<p ng-if="app.features.length">New features in v{{app.version}}</p><ul><li ng-repeat="feature in app.features">- {{feature}}</li></ul>',
-                        title: 'App update available!',
-                        scope: scope,
-                        buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
-                            text: 'Later',
-                            type: 'button-dark',
-                            onTap: function(e) {
-                                return false;
-                            }
-                        }, {
-                            text: 'Install',
-                            type: 'button-positive',
-                            onTap: function(e) {
-                                return true;
-                            }
-                        }]
-                    })
-                    // Using then closes the popup and 'Then' executes the following code
-                    .then(function(install) {
-                        // Pressed Install Button
-                        if (install) {
-                            window.location = app.url;
-                        }
-                    });
+        if (currentVersion < appInfo.version) {
+            $ionicPopup.show({
+                template: '<p ng-if="appInfo.features.length">New features in v{{appInfo.version}}</p><ul><li ng-repeat="feature in appInfo.features">- {{feature}}</li></ul>',
+                title: 'App update available!',
+                scope: scope,
+                buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
+                    text: 'Later',
+                    type: 'button-dark',
+                    onTap: function(e) {
+                        return false;
+                    }
+                }, {
+                    text: 'Install',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        return true;
+                    }
+                }]
+            })
+            // Using then closes the popup and 'Then' executes the following code
+            .then(function(install) {
+                // Pressed Install Button
+                if (install) {
+                    window.location = appInfo.url;
                 }
+            });
+        }
+    };
+}
+
+function updateAppSettings($rootScope, $ionicPopup) {
+    return function (currentVersion, platform) {
+        return Parse.Cloud.run('getAppSettings', {platform: platform}, {
+            success: function(appSettings) {
+                $rootScope.appSettings = appSettings;
+                $rootScope.availabilityLock = appSettings.availabilityLock;
+
+                checkUpdates(currentVersion, appSettings.appInfo, $rootScope.$new());
             },
             error: function(error) {
-                console.log('could get version');
+                console.log('could get settings');
                 console.log(error);
             }
         });
@@ -583,10 +591,9 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
             // Get User Information
             Parse.User.current().fetch().then(function(user) {
 
-                mixpanel.identify(user.get('email'));
+                mixpanel.identify(user.id);
                 // only special properties need the $
                 mixpanel.people.set({
-                    "$distinct_id": user.id,
                     "$email": user.get('email'),
                     "$name": user.get('name'),
                     "$last_login": new Date(),

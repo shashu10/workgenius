@@ -32,39 +32,60 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
 ])
 
-.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', 'checkUpdates',
-    function($ionicPlatform, $rootScope, $state, getUserData, getCompanyData, getShifts, checkUpdates) {
+.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', 'updateAppSettings',
+    function($ionicPlatform, $rootScope, $state, getUserData, getCompanyData, getShifts, updateAppSettings) {
+
+        // Initialize Parse here with AppID and JavascriptID
+        Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
+
+        // Setup variables used through out the app
+        $rootScope.hourlyRate = 15; // For when we don't have the actual earnings
+        $rootScope.imageURL = "img/profile_default.jpg";
+        $rootScope.intervals = ['6a', '7a', '8a', '9a', '10a', '11a', '12p', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p', '12a', '1a'];
+        $rootScope.days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+        $rootScope.months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+        $rootScope.phoneVal = "4159365883"; // For demo
+        $rootScope.availabilityLock = {
+            // Using ISO day numbers Monday - 1, Sunday - 7
+            // Users cannot edit their availability in App on or after start day
+            "start": "Thursday",
+            // and on or before end day
+            "end": "Sunday"
+        };
+        $rootScope.canEditAvailability = checkAvailabilityLock($rootScope.availabilityLock);
+
+        // Update the company data
+        getCompanyData();
+        // Get user data and store it in the rootscope.
+        getUserData();
+
         $ionicPlatform.ready(function() {
 
             // $ionicAnalytics.register();
             // Reload shifts if sent to background and reopened
-            document.addEventListener("resume", function onResume() {
-
-                console.log('resumed app');
-
-                if ($state.current.name.indexOf('app.schedule') > -1) {
-                    getShifts().then(function(shifts) {
-                        $rootScope.currentUser.shifts = shifts;
-
-                        // If user is not logged in, we use fakeshifts and don't need to update scope
-                        if (Parse.User.current()) {
-                            $rootScope.$apply();
-                        }
-                    });
-                }
-            }, false);
+            document.addEventListener("resume", onResume, false);
 
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 cordova.plugins.Keyboard.disableScroll(true);
-
+            }
+            if (window.device) {
                 cordova.getAppVersion.getVersionNumber().then(function (version) {
                     $rootScope.appVersion = version;
-                    checkUpdates(version);
+                    updateAppSettings(version, device.platform.toLowerCase())
+                        .then(function function_name(argument) {
+                            $rootScope.canEditAvailability = checkAvailabilityLock($rootScope.availabilityLock);
+                        });
                 });
 
+            // For localhost testing
+            } else {
+                updateAppSettings("1.1.1", "")
+                    .then(function function_name(argument) {
+                        $rootScope.canEditAvailability = checkAvailabilityLock($rootScope.availabilityLock);
+                    });
             }
             if (window.StatusBar) {
                 // org.apache.cordova.statusbar required
@@ -73,31 +94,41 @@ angular.module('workgenius', [
                 StatusBar.styleDefault();
             }
             // Variables defined here are hidden in their own scope.
+
+            // Goto correct state after deviceready
+            getUserData().then(function(user) {
+                if (window.location.hash === "") {
+                    if (user)
+                        $state.go('app.schedule');
+                    else
+                        $state.go('registration.signup');
+                }
+
+            });
         });
 
-        // Initialize Parse here with AppID and JavascriptID
-        Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
+        //////////
 
-        // Setup variables used through out the app
-        $rootScope.hourlyRate = 15;
-        $rootScope.imageURL = "img/profile_default.jpg";
-        $rootScope.intervals = ['6a', '7a', '8a', '9a', '10a', '11a', '12p', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p', '12a', '1a'];
-        $rootScope.days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-        $rootScope.months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-        $rootScope.phoneVal = "4159365883";
+        function onResume() {
+            console.log('resumed app');
 
-        getCompanyData();
-        // Get user data and store it in the rootscope.
-        getUserData().then(function(user) {
-            if (window.location.hash === "") {
-                if (user)
-                    $state.go('app.schedule');
-                else
-                    $state.go('registration.signup');
+            if ($state.current.name.indexOf('app.schedule') > -1) {
+                getShifts().then(function(shifts) {
+                    $rootScope.currentUser.shifts = shifts;
+
+                    // If user is not logged in, we use fakeshifts and don't need to update scope
+                    if (Parse.User.current()) {
+                        $rootScope.$apply();
+                    }
+                });
             }
-
-        });
-
+        }
+        function checkAvailabilityLock() {
+            var today = moment().isoWeekday();
+            var start = moment().day($rootScope.availabilityLock.start).isoWeekday();
+            var end   = moment().day($rootScope.availabilityLock.end).isoWeekday();
+            return !(start <= today && today <= end);
+        }
     }
 ])
 

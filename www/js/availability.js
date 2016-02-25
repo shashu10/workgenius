@@ -16,8 +16,8 @@ angular.module('workgenius.availability', [])
             });
         }
     ])
-    .controller('AvailabilityCtrl', ['$rootScope', '$scope',
-        function($rootScope, $scope) {
+    .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicPopup',
+        function($rootScope, $scope, $ionicPopup) {
 
             var YES_NO = 2;
             var YES_MAYBE_NO = 3;
@@ -47,8 +47,26 @@ angular.module('workgenius.availability', [])
             };
 
             $scope.select = function(day, interval, hour) {
+                if (!$rootScope.canEditAvailability) {
+                    $ionicPopup.show({
+                        template: '<p>We\'re working on getting you shifts for next week based on your current availability.</p><p>You can change your availability again on Monday</p>',
+                        title: 'Wait till Monday to edit!',
+                        scope: $scope,
+                        buttons: [{
+                            text: 'Ok',
+                            type: 'button-positive',
+                            onTap: function(e) {
+                                // Returning a value will cause the promise to resolve with the given value.
+                                // return shift;
+                                return true;
+                            }
+                        }]
+                    });
+                    return;
+                }
                 toggleUniqueArray(day, hour);
-                $rootScope.currentUser.set("availabilityUpdatedAt", new Date());
+                // Set Updated At value here. User will be saved onChange with wg-save-bar directive
+                if (Parse.User.current()) $rootScope.currentUser.set("availabilityUpdatedAt", new Date());
                 if ($scope.onChange) $scope.onChange();
             };
 
@@ -234,7 +252,8 @@ angular.module('workgenius.availability', [])
                     event.blocked = val;
                     $rootScope.currentUser.blockedDays = getBlockedDays();
                     $scope.blockedCount = getBlockedInNext30Days();
-                    $rootScope.currentUser.set("blockedDaysUpdatedAt", new Date());
+                    // Set Updated At value here. User will be saved onChange with wg-save-bar directive
+                    if (Parse.User.current()) $rootScope.currentUser.set("blockedDaysUpdatedAt", new Date());
                     $scope.onChange();
                 }
             }

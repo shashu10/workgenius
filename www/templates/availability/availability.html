@@ -7,9 +7,19 @@
 	</div>
 
 	<ion-content view-title="Manage Availability" delegate-handle="availabilityScroll" class="has-subheader has-wg-save-bar" on-scroll="onScroll()">
-		<p class="wg-title-instruction padding-top">
-            Tap to add or remove hours
-        </p>
+		<div ng-if="canEditAvailability">
+			<p class="wg-title-instruction padding-top">
+	            Tap to add or remove hours.
+	        </p>
+	        <p class="wg-title-instruction">
+	        	Set your availability before <strong>Thursday this week</strong> for shifts starting <strong>Monday next week</strong>
+	    	</p>
+		</div>
+		<div ng-if="!canEditAvailability">
+			<p class="wg-title-instruction padding-top">
+	            You can change your availability again starting Monday
+	        </p>
+		</div>
 
 	    <grid-days></grid-days>
 	</ion-content>
