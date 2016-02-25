@@ -61,6 +61,12 @@ angular.module('workgenius', [
 
         $ionicPlatform.ready(function() {
 
+            // Testing on the browser. Unregister tracking and error logging.
+            if (!ionic.Platform.isWebView()) {
+                mixpanel.register({"$ignore":true});
+                Raven.uninstall();
+            }
+
             // $ionicAnalytics.register();
             // Reload shifts if sent to background and reopened
             document.addEventListener("resume", onResume, false);

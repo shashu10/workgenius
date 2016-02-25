@@ -97,6 +97,7 @@ function setShifts($rootScope, $q) {
             Parse.Cloud.run('cancelShift', {
                 startsAt: shift.startsAt.toString(),
                 shiftID: shift.id,
+                company: shift.company
             }, {
                 success: function(result) {
                     console.log('removed shift');
@@ -598,10 +599,12 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
                     "$name": user.get('name'),
                     "$last_login": new Date(),
                     "$created": user.get('createdAt'),
+                    "appVersion": $rootScope.appVersion,
                 });
                 Raven.setUserContext({
                     email: user.get('email'),
-                    id: user.id
+                    id: user.id,
+                    appVersion: $rootScope.appVersion,
                 });
 
                 angular.extend($rootScope.currentUser, {
@@ -611,13 +614,13 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
                     target: user.get('target') || 0,
                     strikes: user.get('strikes') || 0,
                     appState: user.get('appState') || {},
-                    earningsTotal: user.get('earningsTotal') || {
+                    hoursTotal: user.get('hoursTotal') || {
                         day: 0,
                         week: 0,
                         month: 0,
                         lifetime: 0
                     },
-                    hoursTotal: user.get('hoursTotal') || {
+                    earningsTotal: user.get('earningsTotal') || {
                         day: 0,
                         week: 0,
                         month: 0,
