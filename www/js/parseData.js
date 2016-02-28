@@ -7,12 +7,71 @@ angular.module('parseData', ['workgenius.constants'])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
     .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', acknowledgeShifts])
     .factory('checkUpdates', ['$ionicPopup', checkUpdates])
+    .factory('setupPush', [setupPush])
     .factory('updateAppSettings', ['$rootScope', '$ionicPopup', updateAppSettings])
-    .factory('getUserData', ['$rootScope', '$q', '$interval', 'fakeShifts', 'getShifts', getUserData])
+    .factory('getUserData', ['$rootScope', '$q', '$interval', 'fakeShifts', 'getShifts', 'setupPush', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 var Shift = Parse.Object.extend("Shift");
 
+function setupPush(argument) {
+    return function () {
+
+        if (!window.parsePlugin) return; // Probably running in an emulator
+        // first, lets initialize parse. fill in your parse appId and clientKey
+        window.parsePlugin.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "bxecCnbiUnddzVbYkCeTVXuhPOzeOroXNHXTfvxG", function() {
+            console.log('Parse initialized successfully.');
+
+            window.parsePlugin.subscribe('worker', function() {
+                console.log('Successfully subscribed to SampleChannel.');
+
+                window.parsePlugin.getInstallationId(function(id) {
+                    // update the view to show that we have the install ID
+                    console.log('Retrieved install id: ' + id);
+
+                    var query = new Parse.Query(Parse.Installation);
+                    query.equalTo("installationId", id);
+                    query.first({
+                        success: function(object) {
+                            // Successfully retrieved the object.
+                            console.log('Success');
+                            console.log(object);
+                            object.set('user', Parse.User.current());
+                            object.save({}, {
+                                success: function(object) {
+                                    // The object was saved successfully.
+                                    console.log('User saved in installation');
+                                    console.log(object);
+                                },
+                                error: function(object, error) {
+                                    console.log('error');
+                                    Raven.captureException(error);
+                                    console.log(error);
+                                }
+                            });
+                        },
+                        error: function(error) {
+                            Raven.captureException(error);
+                            console.log("Error: " + error.code + " " + error.message);
+                        }
+                    });
+
+                }, function(e) {
+                    Raven.captureException(e);
+                    console.log('Failure to retrieve install id.');
+                });
+
+            }, function(e) {
+                console.log('Failed trying to subscribe to SampleChannel.');
+            });
+
+        }, function(e) {
+            Raven.captureException(e);
+            console.log('Failure to initialize Parse Plugin.');
+        });
+
+    };
+}
 function checkUpdates($ionicPopup) {
     return function (currentVersion, appInfo, scope) {
         console.log('new app version: ' + appInfo.version);
@@ -477,7 +536,7 @@ function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
     };
 }
 
-function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
+function getUserData($rootScope, $q, $interval, fakeShifts, getShifts, setupPush) {
 
     var Eligibility = Parse.Object.extend("Eligibility");
     var Shift = Parse.Object.extend("Shift");
@@ -588,6 +647,8 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts) {
 
             // setup default values while actual values load 
             setDefaultPrefs();
+
+            setupPush();
 
             // Get User Information
             Parse.User.current().fetch().then(function(user) {

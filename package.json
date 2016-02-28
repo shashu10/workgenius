@@ -21,7 +21,9 @@
     "gulp-watch": "^4.3.5",
     "shelljs": "^0.3.0"
   },
-  "cordovaPlugins": [],
+  "cordovaPlugins": [
+    "phonegap-plugin-push"
+  ],
   "cordovaPlatforms": [
     "ios",
     "android"
