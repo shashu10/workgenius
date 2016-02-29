@@ -9,7 +9,7 @@ angular.module('parseData', ['workgenius.constants'])
     .factory('checkUpdates', ['$ionicPopup', checkUpdates])
     .factory('setupPush', [setupPush])
     .factory('updateAppSettings', ['$rootScope', '$ionicPopup', updateAppSettings])
-    .factory('getUserData', ['$rootScope', '$q', '$interval', 'fakeShifts', 'getShifts', 'setupPush', getUserData])
+    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'getShifts', 'setupPush', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 var Shift = Parse.Object.extend("Shift");
@@ -538,7 +538,7 @@ function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
     };
 }
 
-function getUserData($rootScope, $q, $interval, fakeShifts, getShifts, setupPush) {
+function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShifts, setupPush) {
 
     var Eligibility = Parse.Object.extend("Eligibility");
     var Shift = Parse.Object.extend("Shift");
@@ -628,7 +628,6 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts, setupPush
         $ionicPopup.show({
             template: '<p>We\'d like to notify you about shifts that are assigned to you! To do this we need you to allow push notifications.</p>',
             title: 'Want to hear about new shifts?',
-            scope: scope,
             buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
                 text: 'No',
                 type: 'button-dark',
