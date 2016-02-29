@@ -28,6 +28,16 @@ angular.module('workgenius.availability', [])
             var YES_NO = 2;
             var YES_MAYBE_NO = 3;
 
+            function getTotalAvailability() {
+                if (!!$rootScope.currentUser.availability) return 0;
+                var total = 0;
+                for (var i in weeks) {
+                    var week = weeks[i];
+                    if (!$rootScope.currentUser.availability[week]) total += !$rootScope.currentUser.availability[week].length;
+                }
+                return total;
+            }
+
             // New array format
             var toggleUniqueArray = function(day, hour) {
                 hour = Number(moment(hour, "ha").format('H'));
@@ -70,9 +80,16 @@ angular.module('workgenius.availability', [])
                     });
                     return;
                 }
+                var before = getTotalAvailability();
                 toggleUniqueArray(day, hour);
+                var after = getTotalAvailability();
+
                 // Set Updated At value here. User will be saved onChange with wg-save-bar directive
                 if (Parse.User.current()) $rootScope.currentUser.set("availabilityUpdatedAt", new Date());
+                mixpanel.track("Availability Changed", {
+                    "change": before - after,
+                });
+
                 if ($scope.onChange) $scope.onChange();
             };
 
@@ -263,10 +280,18 @@ angular.module('workgenius.availability', [])
             function toggleBlock(event, val, getBlockedDays) {
                 if (isAfterToday(event.date)) {
                     event.blocked = val;
+
+                    var before = $rootScope.currentUser.blockedDays.length;
                     $rootScope.currentUser.blockedDays = getBlockedDays();
+                    var after = $rootScope.currentUser.blockedDays.length;
                     $scope.blockedCount = getBlockedInNext30Days();
+
                     // Set Updated At value here. User will be saved onChange with wg-save-bar directive
                     if (Parse.User.current()) $rootScope.currentUser.set("blockedDaysUpdatedAt", new Date());
+                    mixpanel.track("Blocked Days Changed", {
+                        "change": before - after,
+                    });
+
                     $scope.onChange();
                 }
             }

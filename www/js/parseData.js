@@ -42,6 +42,8 @@ function setupPush(argument) {
                                     // The object was saved successfully.
                                     console.log('User saved in installation');
                                     console.log(object);
+                                    $rootScope.currentUser.set('allowNotifications', true);
+                                    $rootScope.currentUser.save({});
                                 },
                                 error: function(object, error) {
                                     console.log('error');
@@ -622,6 +624,34 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts, setupPush
         });
     };
 
+    function askAndSetupPush() {
+        $ionicPopup.show({
+            template: '<p>We\'d like to notify you about shifts that are assigned to you! To do this we need you to allow push notifications.</p>',
+            title: 'Want to hear about new shifts?',
+            scope: scope,
+            buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
+                text: 'No',
+                type: 'button-dark',
+                onTap: function(e) {
+                    return false;
+                }
+            }, {
+                text: 'OK',
+                type: 'button-positive',
+                onTap: function(e) {
+                    return true;
+                }
+            }]
+        })
+        // Using then closes the popup and 'Then' executes the following code
+        .then(function(yes) {
+            // Pressed yes Button
+            if (yes) {
+                setupPush();
+            }
+        });
+    }
+
     return function(newUser, name, email) {
 
         // To do some async stuff after data has loaded
@@ -648,16 +678,19 @@ function getUserData($rootScope, $q, $interval, fakeShifts, getShifts, setupPush
             // setup default values while actual values load 
             setDefaultPrefs();
 
-            setupPush();
-
             // Get User Information
             Parse.User.current().fetch().then(function(user) {
+
+                if (user.get('allowNotifications') === undefined) {
+                    askAndSetupPush();
+                }
 
                 mixpanel.identify(user.id);
                 // only special properties need the $
                 mixpanel.people.set({
                     "$email": user.get('email'),
                     "$name": user.get('name'),
+                    "$phone": user.get('phone'),
                     "$last_login": new Date(),
                     "$created": user.get('createdAt'),
                     "appVersion": $rootScope.appVersion,
