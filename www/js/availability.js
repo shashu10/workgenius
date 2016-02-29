@@ -89,7 +89,7 @@ angular.module('workgenius.availability', [])
                 var today = moment().isoWeekday();
                 var start = moment().day($rootScope.availabilityLock.start).isoWeekday();
                 var end   = moment().day($rootScope.availabilityLock.end).isoWeekday();
-                return !!(start <= today && today <= end);
+                return !(start <= today && today <= end);
             }
         }
     ])
