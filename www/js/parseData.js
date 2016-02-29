@@ -42,8 +42,8 @@ function setupPush(argument) {
                                     // The object was saved successfully.
                                     console.log('User saved in installation');
                                     console.log(object);
-                                    $rootScope.currentUser.set('allowNotifications', true);
-                                    $rootScope.currentUser.save({});
+                                    // $rootScope.currentUser.set('allowNotifications', true);
+                                    // $rootScope.currentUser.save({});
                                 },
                                 error: function(object, error) {
                                     console.log('error');
@@ -680,9 +680,9 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShif
             // Get User Information
             Parse.User.current().fetch().then(function(user) {
 
-                if (user.get('allowNotifications') === undefined) {
-                    askAndSetupPush();
-                }
+                // if (user.get('allowNotifications') === undefined) {
+                //     askAndSetupPush();
+                // }
 
                 mixpanel.identify(user.id);
                 // only special properties need the $
@@ -757,6 +757,8 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShif
 
                 deferred.resolve(true);
                 $rootScope.$apply();
+
+                setupPush();
             });
         }
 
