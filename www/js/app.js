@@ -52,7 +52,6 @@ angular.module('workgenius', [
             // and on or before end day
             "end": "Sunday"
         };
-        $rootScope.canEditAvailability = checkAvailabilityLock($rootScope.availabilityLock);
 
         // Update the company data
         getCompanyData();
@@ -80,18 +79,12 @@ angular.module('workgenius', [
             if (window.device) {
                 cordova.getAppVersion.getVersionNumber().then(function (version) {
                     $rootScope.appVersion = version;
-                    updateAppSettings(version, device.platform.toLowerCase())
-                        .then(function function_name(argument) {
-                            $rootScope.canEditAvailability = checkAvailabilityLock($rootScope.availabilityLock);
-                        });
+                    updateAppSettings(version, device.platform.toLowerCase());
                 });
 
             // For localhost testing
             } else {
-                updateAppSettings("1.1.1", "")
-                    .then(function function_name(argument) {
-                        $rootScope.canEditAvailability = checkAvailabilityLock($rootScope.availabilityLock);
-                    });
+                updateAppSettings("1.1.1", "");
             }
             if (window.StatusBar) {
                 // org.apache.cordova.statusbar required
@@ -128,12 +121,6 @@ angular.module('workgenius', [
                     }
                 });
             }
-        }
-        function checkAvailabilityLock() {
-            var today = moment().isoWeekday();
-            var start = moment().day($rootScope.availabilityLock.start).isoWeekday();
-            var end   = moment().day($rootScope.availabilityLock.end).isoWeekday();
-            return !(start <= today && today <= end);
         }
     }
 ])

@@ -19,6 +19,12 @@ angular.module('workgenius.availability', [])
     .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicPopup',
         function($rootScope, $scope, $ionicPopup) {
 
+            $scope.$on('$stateChangeSuccess', function(event, current) {
+                $rootScope.canEditAvailability = checkAvailabilityLock();
+                if (current.name.indexOf('onboarding.availability') > -1) {
+                    $rootScope.canEditAvailability = true;
+                }
+            });
             var YES_NO = 2;
             var YES_MAYBE_NO = 3;
 
@@ -78,6 +84,13 @@ angular.module('workgenius.availability', [])
                 var retval = $rootScope.currentUser.availability[day].indexOf(formattedHour) > -1;
                 return retval;
             };
+
+            function checkAvailabilityLock() {
+                var today = moment().isoWeekday();
+                var start = moment().day($rootScope.availabilityLock.start).isoWeekday();
+                var end   = moment().day($rootScope.availabilityLock.end).isoWeekday();
+                return !!(start <= today && today <= end);
+            }
         }
     ])
     .controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicPopup', 'setShifts',
