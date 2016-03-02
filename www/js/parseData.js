@@ -7,14 +7,14 @@ angular.module('parseData', ['workgenius.constants'])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
     .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', acknowledgeShifts])
     .factory('checkUpdates', ['$ionicPopup', checkUpdates])
-    .factory('setupPush', [setupPush])
+    .factory('setupPush', ['$interval', setupPush])
     .factory('updateAppSettings', ['$rootScope', '$ionicPopup', updateAppSettings])
     .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'getShifts', 'setupPush', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 var Shift = Parse.Object.extend("Shift");
 
-function setupPush(argument) {
+function setupPush($interval) {
     return function () {
 
         if (!window.parsePlugin) return; // Probably running in an emulator
@@ -29,34 +29,36 @@ function setupPush(argument) {
                     // update the view to show that we have the install ID
                     console.log('Retrieved install id: ' + id);
 
-                    var query = new Parse.Query(Parse.Installation);
-                    query.equalTo("installationId", id);
-                    query.first({
-                        success: function(object) {
-                            // Successfully retrieved the object.
-                            console.log('Success');
-                            console.log(object);
-                            object.set('user', Parse.User.current());
-                            object.save({}, {
-                                success: function(object) {
-                                    // The object was saved successfully.
-                                    console.log('User saved in installation');
-                                    console.log(object);
-                                    // $rootScope.currentUser.set('allowNotifications', true);
-                                    // $rootScope.currentUser.save({});
-                                },
-                                error: function(object, error) {
-                                    console.log('error');
-                                    Raven.captureException(error);
-                                    console.log(error);
-                                }
-                            });
-                        },
-                        error: function(error) {
-                            Raven.captureException(error);
-                            console.log("Error: " + error.code + " " + error.message);
-                        }
-                    });
+                    $interval(function() {
+                        var query = new Parse.Query(Parse.Installation);
+                        query.equalTo("installationId", id);
+                        query.first({
+                            success: function(object) {
+                                // Successfully retrieved the object.
+                                console.log('Success');
+                                console.log(object);
+                                    object.set('user', Parse.User.current());
+                                    object.save({}, {
+                                        success: function(object) {
+                                            // The object was saved successfully.
+                                            console.log('User saved in installation');
+                                            console.log(object);
+                                            // $rootScope.currentUser.set('allowNotifications', true);
+                                            // $rootScope.currentUser.save({});
+                                        },
+                                        error: function(object, error) {
+                                            console.log('error');
+                                            Raven.captureException(error);
+                                            console.log(error);
+                                        }
+                                    });
+                            },
+                            error: function(error) {
+                                Raven.captureException(error);
+                                console.log("Error: " + error.code + " " + error.message);
+                            }
+                        });
+                    }, 5000, 1);
 
                 }, function(e) {
                     Raven.captureException(e);
@@ -315,7 +317,7 @@ function getCompanyData($rootScope, companies) {
 
     function createWorkTypeAndAppend(workType, array, company) {
 
-        var found = array.find(function(element, index, array) {
+        var found = workType && array.find(function(element, index, array) {
             return element.name === workType.get('name');
         });
 
@@ -488,8 +490,8 @@ function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
         for (var i = 0; i < results.length; i++) {
             var sh = results[i];
 
-            // If shift was finished, don't show. Leave them for 5 hours from the current time.
-            if (moment(sh.get('endsAt')).isBefore(moment().subtract(5, 'hours'))) {
+            if (moment(sh.get('endsAt')).isBefore(moment().subtract(5, 'hours')) || // If shift was finished, don't show. Leave them for 5 hours from the current time.
+                sh.get('company') === undefined) {                                  // if shift doesn't have companies assigned
                 continue;
             }
             var newShift = {
