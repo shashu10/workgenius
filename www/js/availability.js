@@ -29,11 +29,11 @@ angular.module('workgenius.availability', [])
             var YES_MAYBE_NO = 3;
 
             function getTotalAvailability() {
-                if (!!$rootScope.currentUser.availability) return 0;
+                if (!$rootScope.currentUser.availability) return 0;
                 var total = 0;
-                for (var i in weeks) {
-                    var week = weeks[i];
-                    if (!$rootScope.currentUser.availability[week]) total += !$rootScope.currentUser.availability[week].length;
+                for (var i in $rootScope.days) {
+                    var week = $rootScope.days[i];
+                    if ($rootScope.currentUser.availability[week]) total += $rootScope.currentUser.availability[week].length;
                 }
                 return total;
             }
