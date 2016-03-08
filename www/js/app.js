@@ -221,6 +221,33 @@ angular.module('workgenius', [
                     }
                 }
             })
+            .state('app.claim-days', {
+                url: '/claim-days',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/main/claim-days.html',
+                        controller: 'ClaimDaysCtrl'
+                    }
+                }
+            })
+            .state('app.claim-shifts', {
+                url: '/claim-shifts/:selectedDay',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/main/claim-shifts.html',
+                        controller: 'ClaimShiftsCtrl'
+                    }
+                }
+            })
+            .state('app.claim-detail', {
+                url: '/claim-detail/:shift',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/main/claim-detail.html',
+                        controller: 'ClaimDetailCtrl'
+                    }
+                }
+            })
 
         // AVAILABILITY TABS //
 

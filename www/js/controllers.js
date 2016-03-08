@@ -141,6 +141,56 @@ angular.module('workgenius.controllers', [])
     }
 ])
 
+.controller('ClaimDaysCtrl', ['$scope', '$state', function($scope, $state) {
+  $scope.days = [];
+
+  for (var i = 0; i < 7; i++) {
+    $scope.days.push(moment().add(i, 'days').format("dddd Do"));
+  }
+
+  $scope.select = function(day) {
+    $state.go("app.claim-shifts", {selectedDay: day});
+  };
+}])
+.controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$state', function($stateParams, $scope, $state) {
+
+  $scope.selectedDay = $stateParams.selectedDay;
+  $scope.shifts = [
+    {
+      name: "caviar",
+      location: "San Francisco",
+      startsAt: "5:30pm",
+      endsAt: "8:30pm"
+    },
+    {
+      name: "munchery",
+      location: "San Francisco",
+      startsAt: "5:30pm",
+      endsAt: "8:30pm"
+    },
+    {
+      name: "doordash",
+      location: "San Francisco",
+      startsAt: "5:30pm",
+      endsAt: "8:30pm"
+    },
+    {
+      name: "postmates",
+      location: "San Francisco",
+      startsAt: "10:30am",
+      endsAt: "12:30pm" 
+    }
+  ];
+
+  $scope.select = function(shift) {
+    console.log(shift);
+    $state.go("app.claim-detail", {shift: JSON.stringify(shift)});
+  };
+}])
+.controller('ClaimDetailCtrl', ['$stateParams', '$scope', function($stateParams, $scope) {
+  $scope.shift = JSON.parse($stateParams.shift);
+  console.log($scope.shift);
+}])
 // .controller('EarningsController', [ '$scope', function($scope) {
 // }])
 // .controller('VehiclesCtrl', ['$scope', function($scope) {
