@@ -6,6 +6,7 @@ angular.module('workgenius.filters', [])
         }
     };
 })
+// capitalize: true, capitalizes all words. False/undefined capitalizes only first word
 .filter('capitalize', function() {
     return function(input, all) {
         var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
