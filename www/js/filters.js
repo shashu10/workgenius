@@ -7,10 +7,10 @@ angular.module('workgenius.filters', [])
     };
 })
 .filter('capitalize', function() {
-  return function(input, scope) {
-    if (input) input = input.toLowerCase();
-    return input && (input.substring(0,1).toUpperCase()+input.substring(1));
-  };
+    return function(input, all) {
+        var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
+        return (!!input) ? input.replace(reg, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
+    };
 })
 .filter('isEmpty', function () {
     var bar;
