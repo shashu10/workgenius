@@ -62,7 +62,7 @@ angular.module('workgenius', [
 
             // Testing on the browser. Unregister tracking and error logging.
             if (!ionic.Platform.isWebView()) {
-                mixpanel.register({"$ignore":true});
+                mixpanel.register({ "$ignore": true });
                 Raven.uninstall();
             }
 
@@ -77,12 +77,12 @@ angular.module('workgenius', [
                 cordova.plugins.Keyboard.disableScroll(true);
             }
             if (window.device) {
-                cordova.getAppVersion.getVersionNumber().then(function (version) {
+                cordova.getAppVersion.getVersionNumber().then(function(version) {
                     $rootScope.appVersion = version;
                     updateAppSettings(version, device.platform.toLowerCase());
                 });
 
-            // For localhost testing
+                // For localhost testing
             } else {
                 updateAppSettings("1.1.1", "");
             }
@@ -174,80 +174,86 @@ angular.module('workgenius', [
         // EARNINGS //
 
         .state('app.earnings', {
-                url: '/earnings',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/main/earnings.html',
-                        // controller: "EarningsController"
-                    }
+            url: '/earnings',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/earnings.html',
+                    // controller: "EarningsController"
                 }
-            })
-            .state('app.hours', {
-                url: '/hours',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/main/hours.html',
-                        // controller: "EarningsController"
-                    }
+            }
+        })
+
+        .state('app.hours', {
+            url: '/hours',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/hours.html',
+                    // controller: "EarningsController"
                 }
-            })
+            }
+        })
 
         // SUB VIEWS TABS //
 
         .state('app.target', {
-                url: '/target',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/main/target.html',
-                        // controller: 'TargetCtrl'
-                    }
+            url: '/target',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/target.html',
+                    // controller: 'TargetCtrl'
                 }
-            })
-            .state('app.companies', {
-                url: '/companies',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/main/companies.html',
-                        controller: 'CompaniesCtrl'
-                    }
+            }
+        })
+
+        .state('app.companies', {
+            url: '/companies',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/companies.html',
+                    controller: 'CompaniesCtrl'
                 }
-            })
-            .state('app.vehicles', {
-                url: '/vehicles',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/main/vehicles.html',
-                        // controller: 'VehiclesCtrl'
-                    }
+            }
+        })
+
+        .state('app.vehicles', {
+            url: '/vehicles',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/vehicles.html',
+                    // controller: 'VehiclesCtrl'
                 }
-            })
-            .state('app.claim-days', {
-                url: '/claim-days',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/main/claim-days.html',
-                        controller: 'ClaimDaysCtrl'
-                    }
+            }
+        })
+
+        .state('app.claim-days', {
+            url: '/claim-days',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/claim-days.html',
+                    controller: 'ClaimDaysCtrl'
                 }
-            })
-            .state('app.claim-shifts', {
-                url: '/claim-shifts/:selectedDay',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/main/claim-shifts.html',
-                        controller: 'ClaimShiftsCtrl'
-                    }
+            }
+        })
+
+        .state('app.claim-shifts', {
+            url: '/claim-shifts/:selectedDay',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/claim-shifts.html',
+                    controller: 'ClaimShiftsCtrl'
                 }
-            })
-            .state('app.claim-detail', {
-                url: '/claim-detail/:shift',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/main/claim-detail.html',
-                        controller: 'ClaimDetailCtrl'
-                    }
+            }
+        })
+
+        .state('app.claim-detail', {
+            url: '/claim-detail/:shift',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/claim-detail.html',
+                    controller: 'ClaimDetailCtrl'
                 }
-            })
+            }
+        })
 
         // AVAILABILITY TABS //
 
@@ -263,23 +269,24 @@ angular.module('workgenius', [
         })
 
         .state('app.availability-tabs.availability', {
-                url: '/availability',
-                views: {
-                    'content': {
-                        templateUrl: 'templates/availability/availability.html',
-                        controller: 'AvailabilityCtrl'
-                    }
+            url: '/availability',
+            views: {
+                'content': {
+                    templateUrl: 'templates/availability/availability.html',
+                    controller: 'AvailabilityCtrl'
                 }
-            })
-            .state('app.availability-tabs.block-days', {
-                url: '/block-days',
-                views: {
-                    'content': {
-                        templateUrl: 'templates/availability/block-days.html',
-                        controller: 'BlockDaysCtrl'
-                    }
+            }
+        })
+
+        .state('app.availability-tabs.block-days', {
+            url: '/block-days',
+            views: {
+                'content': {
+                    templateUrl: 'templates/availability/block-days.html',
+                    controller: 'BlockDaysCtrl'
                 }
-            })
+            }
+        })
 
         // .state('app.available-shifts', {
         //   url: '/available-shifts',
@@ -343,47 +350,51 @@ angular.module('workgenius', [
 
         // setup an abstract state for the tabs directive
         .state('onboarding', {
-                url: '/onboarding',
-                abstract: true,
-                templateUrl: 'templates/onboarding/onboarding.html',
-                controller: 'OnboardingCtrl' // Needs to persist across register pages
-            })
-            .state('onboarding.target-hours', {
-                url: '/target-hours',
-                views: {
-                    'content': {
-                        templateUrl: 'templates/onboarding/target-hours.html',
-                        // controller: 'TargetCtrl'
-                    }
+            url: '/onboarding',
+            abstract: true,
+            templateUrl: 'templates/onboarding/onboarding.html',
+            controller: 'OnboardingCtrl' // Needs to persist across register pages
+        })
+
+        .state('onboarding.target-hours', {
+            url: '/target-hours',
+            views: {
+                'content': {
+                    templateUrl: 'templates/onboarding/target-hours.html',
+                    // controller: 'TargetCtrl'
                 }
-            })
-            .state('onboarding.work-types', {
-                url: '/work-types',
-                views: {
-                    'content': {
-                        templateUrl: 'templates/onboarding/work-types.html',
-                        controller: 'WorkTypesCtrl'
-                    }
+            }
+        })
+
+        .state('onboarding.work-types', {
+            url: '/work-types',
+            views: {
+                'content': {
+                    templateUrl: 'templates/onboarding/work-types.html',
+                    controller: 'WorkTypesCtrl'
                 }
-            })
-            .state('onboarding.availability-questions', {
-                url: '/availability-questions',
-                views: {
-                    'content': {
-                        templateUrl: 'templates/onboarding/availability-questions.html',
-                        controller: 'AvailabilityQuestionsCtrl'
-                    }
+            }
+        })
+
+        .state('onboarding.availability-questions', {
+            url: '/availability-questions',
+            views: {
+                'content': {
+                    templateUrl: 'templates/onboarding/availability-questions.html',
+                    controller: 'AvailabilityQuestionsCtrl'
                 }
-            })
-            .state('onboarding.availability', {
-                url: '/availability',
-                views: {
-                    'content': {
-                        templateUrl: 'templates/onboarding/availability.html',
-                        controller: 'AvailabilityCtrl'
-                    }
+            }
+        })
+
+        .state('onboarding.availability', {
+            url: '/availability',
+            views: {
+                'content': {
+                    templateUrl: 'templates/onboarding/availability.html',
+                    controller: 'AvailabilityCtrl'
                 }
-            });
+            }
+        });
 
         //  - - - - End Onboarding - - - -
 
