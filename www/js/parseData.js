@@ -392,7 +392,8 @@ function getCompanyData($rootScope, companies) {
                         earningsEst: c.get('earningsEst'),
                         myCompanies: c.get('myCompanies'),
                         availableNow: c.get('availableNow'),
-                        object: c
+                        object: c,
+                        toggle: false,
                     };
                     companyList.push(company);
 

@@ -1,0 +1,15 @@
+<ion-view view-title="Connect Accounts">
+    <ion-content class="connect_accounts">
+        <p class="wg-title-instruction padding-top">
+            Connect your company accounts to claim shifts from one place
+        </p>
+        <ion-list>
+            <!-- Can drag toggle -->
+            <ion-toggle ng-model="company.toggle" ng-change="connectionToggle(company)" toggle-class="toggle-positive" class="item-img-left" ng-repeat="company in companyList | filter: {availableNow: true}">
+                <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
+                {{company.name | capitalize}}
+            </ion-toggle>
+        </ion-list>
+    </ion-content>
+    <wg-save-bar wg-on-change="onChange" wg-prop='"vehicles"'></wg-save-bar>
+</ion-view>

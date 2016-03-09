@@ -225,6 +225,18 @@ angular.module('workgenius', [
             }
         })
 
+        .state('app.connect-accounts', {
+            url: '/connect-accounts',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/connect-accounts.html',
+                    controller: 'ConnectAccountsCtrl'
+                }
+            }
+        })
+
+        // Claim Shifts //
+
         .state('app.claim-days', {
             url: '/claim-days',
             views: {
