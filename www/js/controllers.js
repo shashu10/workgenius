@@ -201,56 +201,70 @@ angular.module('workgenius.controllers', [])
     $state.go("app.claim-detail", {shift: JSON.stringify(shift)});
   };
 }])
-.controller('ClaimDetailCtrl', ['$stateParams', '$scope', function($stateParams, $scope) {
+.controller('ClaimDetailCtrl', ['$stateParams', '$scope',
+  function($stateParams, $scope) {
   $scope.shift = JSON.parse($stateParams.shift);
 }])
-.controller('ConnectAccountsCtrl', ['$scope', '$ionicPopup', function($scope, $ionicPopup) {
-    $scope.connectionToggle = function(company) {
-      console.log(company);
-      console.log(company.object.id);
-        if (company && company.toggle) {
-            $scope.user = {};
-            $ionicPopup.show({
-                template: '<div class="list"><label class="item item-input"><i class="icon ion-person placeholder-icon"></i><input placeholder="Username" type="text" ng-model="user.username"></label><label class="item item-input"><i class="icon ion-lock-combination placeholder-icon"></i><input placeholder="Password" type="password" ng-model="user.password"></label></div><p>Your information will be secure! We store all information with industry-standard AES 256 bit encryption algorithm.</p>',
-                title: 'Enter your company login',
-                scope: $scope,
-                buttons: [{
-                    text: 'Never Mind',
-                    type: 'button-dark',
-                    onTap: function(e) {
-                        // Returning a value will cause the promise to resolve with the given value.
-                        company.toggle = false;
-                    }
-                }, {
-                    text: 'Connect',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        // Returning a value will cause the promise to resolve with the given value.
-                        return true;
-                    }
-                }]
-            }).then(function(connect) {
-                if (connect) {
-                  console.log($scope.user.username);
-                  console.log($scope.user.password);
-                    Parse.Cloud.run('connectAccount', {
-                        companyID: company.object.id,
-                        username: $scope.user.username,
-                        password: $scope.user.password,
+.controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup', 'setEligibility',
+  function($scope, $rootScope, $ionicPopup, setEligibility) {
 
-                    }, {
-                        success: function(result) {
-                            console.log('success');
-                        },
-                        error: function(error) {
-                            console.log('failure');
-                            console.log(error);
-                        }
-                    });
-                }
+    $scope.isEditing = false;
+    $scope.customSave = setEligibility.save;
+
+    $scope.toggleConnection = function(company) {
+
+        // If toggle is turned on
+        if (company && company.connected) {
+            $scope.isEditing = true;
+
+            $scope.user = {};
+            $ionicPopup.show(newPopup())
+            .then(function(connect) {
+                $scope.isEditing = false;
+                setEligibility.toggleConnectedCompany(company.name, true, $scope.user.username, $scope.user.password);
+                if ($scope.onChange) $scope.onChange();
             });
+
+        // If toggle is turned off
+        } else {
+
+          setEligibility.toggleConnectedCompany(company.name, false); // Toggle eligibility flag
+          if ($scope.onChange) $scope.onChange(); // Fires save bar custom save
         }
     };
+
+    // Toggle connected/not connected for each company
+    for (var i = 0; i < $rootScope.companyList.length; i++) {
+      var company = $rootScope.companyList[i];
+      company.connected = isConnected(company.name);
+    }
+
+    function newPopup() {
+      return {
+          template: '<div class="list"><label class="item item-input"><i class="icon ion-person placeholder-icon"></i><input placeholder="Username" type="text" ng-model="user.username"></label><label class="item item-input"><i class="icon ion-lock-combination placeholder-icon"></i><input placeholder="Password" type="password" ng-model="user.password"></label></div><p>Your information will be secure! We store all information with industry-standard AES 256 bit encryption algorithm.</p>',
+          title: 'Enter your company login',
+          scope: $scope,
+          buttons: [{
+              text: 'Never Mind',
+              type: 'button-dark',
+              onTap: function(e) {
+                  // Returning a value will cause the promise to resolve with the given value.
+                  return false;
+              }
+          }, {
+              text: 'Connect',
+              type: 'button-positive',
+              onTap: function(e) {
+                  // Returning a value will cause the promise to resolve with the given value.
+                  return true;
+              }
+          }]
+      };
+    }
+    function isConnected(name) {
+        var eligibility = setEligibility.findEligibility(name);
+        return eligibility && eligibility.connected;
+    }
 }])
 
 

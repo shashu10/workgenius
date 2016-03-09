@@ -257,9 +257,39 @@ function setEligibility($rootScope) {
                     el.object.set("interested", el.interested);
                 }
 
+                if (el.connected !== el.object.get('connected')) {
+                    changed = true;
+                    el.object.set("connected", el.connected);
+                }
+
+                if (el.username !== el.object.get('username')) {
+                    changed = true;
+                    el.object.set("username", el.username);
+                }
+
+                if (el.password !== el.object.get('password')) {
+                    changed = true;
+                    el.object.set("password", el.password);
+                }
+
                 if (changed) saveObject(el, success);
             }
         },
+        toggleConnectedCompany: function(name, toggle, username, password) {
+            // If eligibility exists, get it. Else create new parse object
+            var el = findEligibility(name) || createEligibility(name);
+
+            // If unselecting parse object not in DB, just delete it
+            // Makes my life simpler with wg-save-bar
+            if (toggle === false && el.id === undefined)
+                removeEligibility(name);
+
+            else {
+                el.connected = toggle;
+                el.username = username;
+                el.password = password;
+            }
+        },        
         toggleInterest: function(name, toggle) {
             // If eligibility exists, get it. Else create new parse object
             var el = findEligibility(name) || createEligibility(name);
@@ -745,6 +775,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShif
                         company: el.get('company') && el.get('company').get('name'),
                         eligible: el.get('eligible'),
                         interested: el.get('interested'),
+                        connected: el.get('connected'),
                         object: el
                     });
                 }

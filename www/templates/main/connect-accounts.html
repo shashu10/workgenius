@@ -4,12 +4,12 @@
             Connect your company accounts to claim shifts from one place
         </p>
         <ion-list>
-            <!-- Can drag toggle -->
-            <ion-toggle ng-model="company.toggle" ng-change="connectionToggle(company)" toggle-class="toggle-positive" class="item-img-left" ng-repeat="company in companyList | filter: {availableNow: true}">
-                <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
-                {{company.name | capitalize}}
+
+            <!-- Can drag ion-toggle on or off on mobile -->
+            <ion-toggle ng-disabled="isEditing" ng-model="company.connected" ng-change="toggleConnection(company)" toggle-class="toggle-positive" class="item-img-left" ng-repeat="company in companyList | filter: {availableNow: true}">
+                <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt=""> {{company.name | capitalize}}
             </ion-toggle>
         </ion-list>
     </ion-content>
-    <wg-save-bar wg-on-change="onChange" wg-prop='"vehicles"'></wg-save-bar>
+    <wg-save-bar wg-on-change="onChange" wg-custom-save="customSave" wg-prop='"eligibility"'></wg-save-bar>
 </ion-view>
