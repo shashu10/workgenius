@@ -2,8 +2,19 @@
     <ion-content class="claim-shifts">
         <ion-list>
             <ion-item class="" ng-repeat="shift in shifts" ng-click="select(shift)">
-                <img ng-src="img/companies/{{shift.name.toLowerCase()  | spaceless}}.png" alt="">
-                {{shift.name | capitalize}} | {{shift.startsAt}} - {{shift.endsAt}}
+                <div class="row">
+                    <div class="img-container">
+                        <img ng-src="img/companies/{{shift.name.toLowerCase()  | spaceless}}.png" alt="">
+                    </div>
+                    <div class="col">
+                        <div>{{shift.name | capitalize}}</div>
+                        <div class="bold-note">{{shift.location | capitalize: true}}</div>
+                    </div>
+                    <div class="col col-separator">
+                        <div>{{shift.startsAt}} {{shift.flex ? "-" : "<< >>"}} {{shift.endsAt}}</div>
+                        <div class="bold-note highlighted-note">{{shift.notes | joinBy: ", "}}</div>
+                    </div>
+                </div>
                 <!-- <i class="icon ion-android-add"></i> -->
             </ion-item>
         </ion-list>

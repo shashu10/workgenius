@@ -1,0 +1,33 @@
+<ion-view view-title="Shift Info">
+    <ion-content class="claim-detail padding-top">
+        <img ng-src="img/companies/{{shift.name.toLowerCase()  | spaceless}}.png" alt="">
+        <h1>{{shift.name | capitalize}}</h1>
+        
+        <!-- <p><strong>Location:</strong> {{shift.location | capitalize:true}}</p> -->
+        <p><i class="icon ion-location"></i> {{shift.location | capitalize:true}}</p>
+
+        <!-- Showing flex time -->
+        <!-- <p><strong>Start time:</strong> <span ng-class="{positive : shift.flex}">{{shift.flex ? "Flexible" : shift.startsAt}}</span></p> -->
+        <p ng-if="!shift.flex"><strong>Start time:</strong> {{shift.startsAt}}</p>
+        <p ng-if="!shift.flex"><strong>End time:</strong> {{shift.endsAt}}</p>
+		<p ng-if="shift.bonus"><strong>Bonus:</strong> <span class="positive">{{shift.bonus}}</span></p>
+        <ion-list ng-if="shift.flex">
+            <p class="flex-info padding">
+            	<i class="icon ion-information-circled"></i>
+				<span>You can change the start and end time of Flex shifts as long as they fall within the shift times</span>
+            </p>
+            <ion-item class="item-icon-right" >
+                <p><strong>Start time:</strong> {{shift.startsAt}}</p>
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+            <ion-item class="item-icon-right" >
+                <p><strong>End time:</strong> {{shift.endsAt}}</p>
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+        </ion-list>
+
+        <button class="button button-full button-positive claim-button">
+            Claim Shift!
+        </button>
+    </ion-content>
+</ion-view>

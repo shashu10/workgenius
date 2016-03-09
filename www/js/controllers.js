@@ -158,38 +158,51 @@ angular.module('workgenius.controllers', [])
   $scope.shifts = [
     {
       name: "caviar",
-      location: "San Francisco",
-      startsAt: "5:30pm",
-      endsAt: "8:30pm"
+      location: "nob hill",
+      startsAt: "10:30am",
+      endsAt: "12:30pm",
+      notes: []
     },
     {
       name: "munchery",
-      location: "San Francisco",
-      startsAt: "5:30pm",
-      endsAt: "8:30pm"
+      location: "san bruno",
+      startsAt: "1:30pm",
+      endsAt: "4:30pm",
+      bonus: "+20%",
+      notes: [
+        "+20%",
+      ]
     },
     {
       name: "doordash",
-      location: "San Francisco",
+      location: "milpitas",
       startsAt: "5:30pm",
-      endsAt: "8:30pm"
+      endsAt: "8:30pm",
+      flex: true,
+      notes: [
+        "Flex Shift"
+      ]
     },
     {
       name: "postmates",
-      location: "San Francisco",
-      startsAt: "10:30am",
-      endsAt: "12:30pm" 
+      location: "san francisco",
+      startsAt: "10:30pm",
+      endsAt: "12:30am",
+      flex: true,
+      bonus: "+20%",
+      notes: [
+        "+20%",
+        "Flex Shift"
+      ]
     }
   ];
 
   $scope.select = function(shift) {
-    console.log(shift);
     $state.go("app.claim-detail", {shift: JSON.stringify(shift)});
   };
 }])
 .controller('ClaimDetailCtrl', ['$stateParams', '$scope', function($stateParams, $scope) {
   $scope.shift = JSON.parse($stateParams.shift);
-  console.log($scope.shift);
 }])
 // .controller('EarningsController', [ '$scope', function($scope) {
 // }])

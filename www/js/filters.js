@@ -13,6 +13,11 @@ angular.module('workgenius.filters', [])
         return (!!input) ? input.replace(reg, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
     };
 })
+.filter('joinBy', function () {
+    return function (input,delimiter) {
+        return (input || []).join(delimiter || ',');
+    };
+})
 .filter('isEmpty', function () {
     var bar;
     return function (obj) {
