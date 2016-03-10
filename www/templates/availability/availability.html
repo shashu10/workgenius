@@ -12,12 +12,12 @@
 	            Tap to add or remove hours.
 	        </p>
 	        <p class="wg-title-instruction">
-	        	Set your availability before <strong>Thursday this week</strong> for shifts starting <strong>Monday next week</strong>
+	        	Set your availability before <strong>{{startEditDay}} this week</strong> for shifts starting <strong>{{endEditDay}} next week</strong>
 	    	</p>
 		</div>
 		<div ng-if="!canEditAvailability">
 			<p class="wg-title-instruction padding-top">
-	            You can change your availability again starting Monday
+	            You can change your availability again in {{nextStartDate}}
 	        </p>
 		</div>
 

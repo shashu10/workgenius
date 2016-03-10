@@ -102,11 +102,33 @@ angular.module('workgenius.availability', [])
                 return retval;
             };
 
+            $scope.startEditDay = $rootScope.availabilityLock.start;
+            $scope.endEditDay = moment($rootScope.availabilityLock.end, 'dddd').add(1, 'day').format('dddd');
+            $scope.nextStartDate = getTimeTillEdit();
+
             function checkAvailabilityLock() {
                 var today = moment().isoWeekday();
                 var start = moment().day($rootScope.availabilityLock.start).isoWeekday();
                 var end   = moment().day($rootScope.availabilityLock.end).isoWeekday();
                 return !(start <= today && today <= end);
+            }
+
+            function getTimeTillEdit() {
+                // Gets the next day you can start editing
+                var day = moment($rootScope.availabilityLock.end, "dddd").add(1, 'day').day();
+                // moment().day(1) gives this monday moment().day(8) gives next monday
+                var deadline = moment().day(day + 7).startOf('day');
+                return fromNow(deadline);
+            }
+            function fromNow(deadline) {
+                var fromNow = "";
+                var hours = (deadline).diff(moment(), 'hour');
+                var d = Math.floor(hours / 24);
+                var h = hours % 24;
+                if (d || h) fromNow = "in ";
+                if (d) fromNow += d + "d ";
+                if (h) fromNow += h + "h ";
+                return fromNow;
             }
         }
     ])

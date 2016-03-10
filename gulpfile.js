@@ -29,7 +29,7 @@ gulp.task('cache', function () {
         .pipe(gulp.dest('./www/templates/'));
 });
 
-gulp.task('default', ['serve', 'watch']);
+gulp.task('default', ['serve']);
 
 gulp.task('sass', function(done) {
     sass('./scss/ionic.app.scss', {sourcemap: true, style: 'compact'})
