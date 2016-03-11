@@ -127,7 +127,7 @@ angular.module('workgenius', [
 
 .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$analyticsProvider',
     function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $analyticsProvider) {
-        // $ionicConfigProvider.views.forwardCache(true);
+        $ionicConfigProvider.views.forwardCache(true);
 
         $analyticsProvider.firstPageview(true); /* Records pages that don't use $state or $route */
         $analyticsProvider.withAutoBase(true); /* Records full path */

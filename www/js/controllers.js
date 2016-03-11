@@ -218,11 +218,27 @@ angular.module('workgenius.controllers', [])
             $scope.isEditing = true;
 
             $scope.user = {};
+
             $ionicPopup.show(newPopup())
             .then(function(connect) {
+
                 $scope.isEditing = false;
-                setEligibility.toggleConnectedCompany(company.name, true, $scope.user.username, $scope.user.password);
-                if ($scope.onChange) $scope.onChange();
+
+                // Pressed connect
+                if (connect) {
+                  if ($scope.user.username && $scope.user.password) {
+                    setEligibility.toggleConnectedCompany(company.name, true, $scope.user.username, $scope.user.password);
+                    if ($scope.onChange) $scope.onChange();
+
+                  // Empty username/password
+                  } else {
+                    company.connected = false;
+                  }
+                // Pressed never mind
+                } else {
+                  company.connected = false;
+                  if ($scope.onChange) $scope.onChange();
+                }
             });
 
         // If toggle is turned off

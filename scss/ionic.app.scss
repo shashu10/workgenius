@@ -221,3 +221,13 @@ html * {
 i.icon.ion-ios-arrow-back:before {
     font-size: 23px !important;
 }
+/*
+    CSS styles to eliminate the annoying flickering header when changing tabs in an Ionic app on Android:
+    http://forum.ionicframework.com/t/flickering-when-navigating-via-tabs-on-android/27281/2
+*/
+.platform-android .header-item.title {
+    transition-duration: 0ms;
+}
+.platform-android .header-item.buttons {
+    transition-duration: 0ms;
+}

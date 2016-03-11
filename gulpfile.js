@@ -33,7 +33,7 @@ gulp.task('default', ['serve']);
 
 gulp.task('sass', function(done) {
     sass('./scss/ionic.app.scss', {sourcemap: true, style: 'compact'})
-        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"))
+        .pipe(prefix("last 5 version"))
         .pipe(sourcemaps.write('.'))
         // .pipe(minifyCss({
         //   keepSpecialComments: 0
