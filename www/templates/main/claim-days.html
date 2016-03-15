@@ -2,7 +2,7 @@
     <ion-content class="claim-days">
         <ion-list>
             <ion-item class="item-icon-right" ng-repeat="day in days" ng-click="select(day)">
-                {{day}}
+                {{day | date: "EEEE, MMMM d"}}
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
         </ion-list>

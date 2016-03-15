@@ -248,7 +248,7 @@ angular.module('workgenius', [
         })
 
         .state('app.claim-shifts', {
-            url: '/claim-shifts/:selectedDay',
+            url: '/claim-shifts/:selectedDay/:short',
             views: {
                 'menuContent': {
                     templateUrl: 'templates/main/claim-shifts.html',

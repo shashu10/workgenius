@@ -145,16 +145,18 @@ angular.module('workgenius.controllers', [])
   $scope.days = [];
 
   for (var i = 0; i < 7; i++) {
-    $scope.days.push(moment().add(i, 'days').format("dddd Do"));
+    $scope.days.push(moment().add(i, 'days').toDate());
   }
 
   $scope.select = function(day) {
-    $state.go("app.claim-shifts", {selectedDay: day});
+    $state.go("app.claim-shifts", {selectedDay: day, short: moment(day).format("ddd Do")});
   };
 }])
 .controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$state', function($stateParams, $scope, $state) {
 
   $scope.selectedDay = $stateParams.selectedDay;
+  $scope.short = $stateParams.short;
+
   $scope.shifts = [
     {
       name: "caviar",
@@ -201,9 +203,23 @@ angular.module('workgenius.controllers', [])
     $state.go("app.claim-detail", {shift: JSON.stringify(shift)});
   };
 }])
-.controller('ClaimDetailCtrl', ['$stateParams', '$scope',
-  function($stateParams, $scope) {
+.controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope',
+  function($stateParams, $scope, $rootScope) {
   $scope.shift = JSON.parse($stateParams.shift);
+
+  $scope.claim = function (shift) {
+    var date = new Date (shift.startsAt);
+
+    var newShift = {
+      company: shift.name,
+      startsAt: new Date(shift.startsAt),
+      endsAt: new Date(shift.endsAt),
+      date: new Date (shift.startsAt),
+    };
+    $rootScope.currentUser.shifts.push(newShift);
+
+    shift.claimed = true;
+  };
 }])
 .controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup', 'setEligibility',
   function($scope, $rootScope, $ionicPopup, setEligibility) {

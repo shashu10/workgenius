@@ -8,8 +8,8 @@
 
         <!-- Showing flex time -->
         <!-- <p><strong>Start time:</strong> <span ng-class="{positive : shift.flex}">{{shift.flex ? "Flexible" : shift.startsAt}}</span></p> -->
-        <p ng-if="!shift.flex"><strong>Start time:</strong> {{shift.startsAt}}</p>
-        <p ng-if="!shift.flex"><strong>End time:</strong> {{shift.endsAt}}</p>
+        <p ng-if="!shift.flex"><strong>Start time:</strong> {{shift.startsAt | date: "h:mm a" | lowercase}}</p>
+        <p ng-if="!shift.flex"><strong>End time:</strong> {{shift.endsAt | date: "h:mm a" | lowercase}}</p>
 		<p ng-if="shift.bonus"><strong>Bonus:</strong> <span class="positive">{{shift.bonus}}</span></p>
         <ion-list ng-if="shift.flex">
             <p class="flex-info padding">
@@ -17,17 +17,17 @@
 				<span>You can change the start and end time of Flex shifts as long as they fall within the shift times</span>
             </p>
             <ion-item class="item-icon-right" >
-                <p><strong>Start time:</strong> {{shift.startsAt}}</p>
+                <p><strong>Start time:</strong> {{shift.startsAt | date: "h:mm a" | lowercase}}</p>
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
             <ion-item class="item-icon-right" >
-                <p><strong>End time:</strong> {{shift.endsAt}}</p>
+                <p><strong>End time:</strong> {{shift.endsAt | date: "h:mm a" | lowercase}}</p>
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
         </ion-list>
 
-        <button class="button button-full button-positive claim-button">
-            Claim Shift!
+        <button class="button button-full claim-button" ng-class="shift.claimed ? 'button-balanced' : 'button-positive'" ng-click="claim(shift)">
+            {{shift.claimed ? 'Claimed!' : 'Claim Shift!'}}
         </button>
     </ion-content>
 </ion-view>

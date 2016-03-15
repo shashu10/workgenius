@@ -460,7 +460,7 @@ function acknowledgeShifts($q, $rootScope, $ionicPopup) {
 
             var shiftObj = new Shift();
             shiftObj.id = shift.id;
-            shiftObj.set('acknowledgedAt', shift.endsAt);
+            shiftObj.set('acknowledgedAt', new Date());
             shiftObj.set('acknowledged', true);
 
             arr.push(shiftObj);
@@ -765,21 +765,28 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShif
             }).then(function(results) {
 
                 var eligibility = [];
+                var shifts = [];
 
                 for (var i = 0; i < results.length; i++) {
                     var el = results[i];
-
+                    var company = el.get('company') && el.get('company').get('name');
 
                     eligibility.push({
                         id: el.id,
-                        company: el.get('company') && el.get('company').get('name'),
+                        company: company,
                         eligible: el.get('eligible'),
                         interested: el.get('interested'),
                         connected: el.get('connected'),
                         object: el
                     });
+                    shifts.push.apply(shifts, formatAvailableShifts(el.get('shifts'), company, "san Francisco"));
                 }
 
+                // Sort in ascending order
+                shifts.sort(function(a, b) {
+                    return moment(a.startsAt).isBefore(b.startsAt) ? -1 : 1;
+                });
+                $rootScope.currentUser.availableShifts = shifts;
                 $rootScope.currentUser.eligibility = eligibility;
 
                 return getShifts();
@@ -798,6 +805,31 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShif
 
         return deferred.promise;
     };
+}
+
+function formatAvailableShifts(shifts, company, defaultLocation) {
+    if (!shifts) return [];
+
+    for (var i = 0; i < shifts.length; i++) {
+        shifts[i].name = company;
+        shifts[i].location = defaultLocation;
+        shifts[i].startsAt = new Date(shifts[i].startsAt);
+        shifts[i].endsAt = new Date(shifts[i].endsAt);
+
+        // {
+        //   name: "postmates",
+        //   location: "san francisco",
+        //   startsAt: "10:30pm",
+        //   endsAt: "12:30am",
+        //   flex: true,
+        //   bonus: "+20%",
+        //   notes: [
+        //     "+20%",
+        //     "Flex Shift"
+        //   ]
+        // }
+    }
+    return shifts;
 }
 
 function formatUploadData($rootScope) {

@@ -13,6 +13,18 @@ angular.module('workgenius.filters', [])
         return (!!input) ? input.replace(reg, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
     };
 })
+.filter('availableShiftFilter', function() {
+    return function(items, selectedDay) {
+        var result = [];
+        if (!items) return result;
+        for (var i=0; i<items.length; i++){
+            if (moment(items[i].startsAt).isSame(selectedDay, 'day')) {
+                result.push(items[i]);
+            }
+        }            
+        return result;
+    };
+})
 .filter('joinBy', function () {
     return function (input,delimiter) {
         return (input || []).join(delimiter || ',');
