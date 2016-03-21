@@ -1,7 +1,12 @@
 <ion-nav-view>
-	<ion-content class="splash" scroll="false">
-		<div>
-			<ion-spinner class="spinner-light"></ion-spinner>
-		</div>
-	</ion-content>
+    <ion-nav-bar class="bar-light">
+        <ion-nav-back-button>
+        </ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+    <ion-content class="splash" scroll="false">
+        <div>
+            <ion-spinner icon="lines" class="spinner-positive"></ion-spinner>
+        </div>
+    </ion-content>
 </ion-nav-view>
