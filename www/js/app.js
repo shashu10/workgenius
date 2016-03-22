@@ -32,9 +32,14 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
 ])
 
-.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', 'updateAppSettings',
-    function($ionicPlatform, $rootScope, $state, getUserData, getCompanyData, getShifts, updateAppSettings) {
+.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory',
+    function($ionicPlatform, $rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory) {
 
+        $state.go('splash');
+
+        $ionicPlatform.ready(function() {
+            $interval(function() {
+                // Initializing Parse in $ionicPlatform.ready does not work sometimes 
         // Initialize Parse here with AppID and JavascriptID
         Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
 
@@ -53,13 +58,7 @@ angular.module('workgenius', [
             "end": "Sunday"
         };
 
-        // Update the company data
-        getCompanyData();
-        // Get user data and store it in the rootscope.
-        getUserData();
-
-        $ionicPlatform.ready(function() {
-
+                
             // Testing on the browser. Unregister tracking and error logging.
             if (!ionic.Platform.isWebView()) {
                 mixpanel.register({ "$ignore": true });
@@ -92,18 +91,25 @@ angular.module('workgenius', [
                 StatusBar.overlaysWebView(true);
                 StatusBar.styleDefault();
             }
-            // Variables defined here are hidden in their own scope.
 
+            // Update the company data
+            getCompanyData();
+            // Get user data and store it in the rootscope.
             // Goto correct state after deviceready
             getUserData().then(function(user) {
-                if (window.location.hash === "") {
+                if (window.location.hash === "" || window.location.hash === "#/splash") {
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true,
+                        disableAnimate: true
+                    });
                     if (user)
-                        $state.go('app.schedule');
+                        $state.go('app.schedule', {clear: true});
                     else
-                        $state.go('registration.signup');
+                        $state.go('registration.signup', {clear: true});
                 }
 
             });
+            }, 1, 1);
         });
 
         //////////
