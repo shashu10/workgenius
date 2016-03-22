@@ -105,7 +105,8 @@ angular.module('workgenius.directives', [])
     scope: {
         wgOnChange: '=',
         wgCustomSave: '=',
-        wgProp: '='
+        wgProp: '=',
+        wgCustomTitle: '='
     },
     controller: ['$scope', '$rootScope', '$timeout', 'setUserData', 'debounce',
     function($scope, $rootScope, $timeout, setUserData, debounce) {
