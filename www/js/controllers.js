@@ -99,7 +99,7 @@ angular.module('workgenius.controllers', [])
 .controller('CompaniesCtrl', ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'setEligibility',
     function($rootScope, $scope, $ionicModal, setUserData, setEligibility) {
 
-        $scope.customSave = setEligibility.save;
+        $scope.customSave = setEligibility.saveAll;
         $scope.selectedWorkType = null;
 
         $ionicModal.fromTemplateUrl('templates/shared/companies-modal.html', {
@@ -225,7 +225,6 @@ angular.module('workgenius.controllers', [])
   function($scope, $rootScope, $ionicPopup, setEligibility) {
 
     $scope.isEditing = false;
-    $scope.customSave = setEligibility.save;
 
     $scope.toggleConnection = function(company) {
 
@@ -235,7 +234,7 @@ angular.module('workgenius.controllers', [])
 
             $scope.user = {};
 
-            $ionicPopup.show(newPopup())
+            $ionicPopup.show(newConnectPopup())
             .then(function(connect) {
 
                 $scope.isEditing = false;
@@ -243,8 +242,21 @@ angular.module('workgenius.controllers', [])
                 // Pressed connect
                 if (connect) {
                   if ($scope.user.username && $scope.user.password) {
-                    setEligibility.toggleConnectedCompany(company.name, true, $scope.user.username, $scope.user.password);
-                    if ($scope.onChange) $scope.onChange();
+                    setEligibility.toggleConnectedCompany(
+                      company.name,
+                      true, // toggle value
+                      $scope.user.username,
+                      $scope.user.password,
+                      function success() {
+                        // Pulls up wg-save-bar
+                        if ($scope.wgSuccess) $scope.wgSuccess();
+                      },
+                      function failure(something) {
+                        company.connected = false;
+                        $scope.$apply();
+                        $ionicPopup.show(newFailurePopup());
+                        console.log('failure');
+                      });
 
                   // Empty username/password
                   } else {
@@ -253,15 +265,12 @@ angular.module('workgenius.controllers', [])
                 // Pressed never mind
                 } else {
                   company.connected = false;
-                  if ($scope.onChange) $scope.onChange();
                 }
             });
 
         // If toggle is turned off
         } else {
-
-          setEligibility.toggleConnectedCompany(company.name, false); // Toggle eligibility flag
-          if ($scope.onChange) $scope.onChange(); // Fires save bar custom save
+          setEligibility.toggleConnectedCompany(company.name, false);
         }
     };
 
@@ -271,7 +280,22 @@ angular.module('workgenius.controllers', [])
       company.connected = isConnected(company.name);
     }
 
-    function newPopup() {
+    function newFailurePopup() {
+      return {
+          template: '<p>The username or password might be wrong</p>',
+          title: 'Could not connect your account',
+          scope: $scope,
+          buttons: [{
+              text: 'Ok',
+              type: 'button-positive',
+              onTap: function(e) {
+                  // Returning a value will cause the promise to resolve with the given value.
+                  return true;
+              }
+          }]
+      };
+    }
+    function newConnectPopup() {
       return {
           template: '<div class="list"><label class="item item-input"><i class="icon ion-person placeholder-icon"></i><input placeholder="Username" type="text" ng-model="user.username"></label><label class="item item-input"><i class="icon ion-lock-combination placeholder-icon"></i><input placeholder="Password" type="password" ng-model="user.password"></label></div><p>Your information will be secure! We store all information with industry-standard AES 256 bit encryption algorithm.</p>',
           title: 'Enter your company login',

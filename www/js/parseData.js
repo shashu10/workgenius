@@ -2,7 +2,8 @@ angular.module('parseData', ['workgenius.constants'])
     // Remove redundant data and format it to minimize storage
     .factory('formatUploadData', ['$rootScope', formatUploadData])
     .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
-    .factory('setEligibility', ['$rootScope', setEligibility])
+    .factory('getConnectedShifts', ['$rootScope', getConnectedShifts])
+    .factory('setEligibility', ['$rootScope', 'getConnectedShifts', setEligibility])
     .factory('setShifts', ['$rootScope', '$q', setShifts])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
     .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', acknowledgeShifts])
@@ -175,7 +176,53 @@ function setShifts($rootScope, $q) {
     };
 }
 
-function setEligibility($rootScope) {
+function getConnectedShifts($rootScope) {
+    return function(el, success, failure) {
+
+        return Parse.Cloud.run('getConnectedShifts',
+        {
+            eligibilityId : el.id,
+            company : el.company,
+            username : el.username,
+            token : el.token,
+        },
+        {
+            success: function(shifts) {
+
+                el.object.set('shifts', shifts);
+                el.shifts = shifts;
+
+                appendNewShifts(shifts, el.company, "san Francisco", $rootScope);
+
+                if (success) success();
+            },
+            error: function(error) {
+                console.log('Could not get connected shifts');
+                console.log(error);
+                if (failure) failure();
+            }
+        });
+    };
+}
+
+function appendNewShifts(shifts, company, location, $rootScope) {
+    // format shifts
+    var shiftsFormatted = formatAvailableShifts(shifts, company, location);
+
+    // Get all current available shifts
+    var availShifts = $rootScope.currentUser.availableShifts;
+
+    // Remove current company shifts
+    availShifts = removeCompanyShifts(availShifts, company);
+
+    // add company shifts
+    // Merges two arrays
+    availShifts.push.apply(availShifts, shiftsFormatted);
+
+    $rootScope.currentUser.availableShifts = availShifts;
+    
+}
+function setEligibility($rootScope, getConnectedShifts) {
 
     var findEligibility = function(name) {
         var el = $rootScope.currentUser.eligibility;
@@ -222,60 +269,101 @@ function setEligibility($rootScope) {
         }
     };
 
-    var saveObject = function(el, success) {
+    // Save parse object
+    var saveEligObj = function(el, success) {
+
         el.object.save().then(function(val) {
             // Wrapper obj
             el.id = val.id;
-
             if (success) success();
         });
     };
 
+    var authConnectedAccount = function(el, success, failure) {
+
+        return Parse.Cloud.run('authConnectedAccount',
+            {
+                eligibilityId : el.id,
+                company : el.company,
+                username : el.username,
+                password : el.password,
+            },
+            {
+                success: function(token) {
+                    console.log(token);
+                    el.object.set('token', token);
+                    el.token = token;
+                    getConnectedShifts(el);
+                    if (success) success();
+                },
+                error: function(error) {
+                    console.log('Could not connect account');
+                    console.log(error);
+                    if (failure) failure();
+                }
+            });
+    };
+
+    // Updates eligibility parse obj with params. Returns the param that changed
+    var updateAndGetDiff = function (el) {
+        var diff = false;
+
+        // Save if it is a new parse object
+        if (el.id === undefined)
+            diff = 'id';
+
+        // Compare saved parse obj and wrapper obj
+        // Designed to work with wg-save-bar
+        if (el.eligible !== el.object.get('eligible')) {
+            diff = 'eligible';
+            el.object.set("eligible", el.eligible);
+        }
+
+        if (el.interested !== el.object.get('interested')) {
+            diff = 'interested';
+            el.object.set("interested", el.interested);
+        }
+
+        if (el.connected !== el.object.get('connected')) {
+            diff = 'connected';
+            el.object.set("connected", el.connected);
+        }
+
+        if (el.username !== el.object.get('username')) {
+            diff = 'username';
+            el.object.set("username", el.username);
+        }
+
+        if (el.password && (el.password !== el.object.get('password'))) {
+            diff = 'password';
+            el.object.set("password", el.password);
+        }
+        console.log('diff: ' + diff);
+        return diff;
+    };
+
     return {
-        save: function(success) {
+        saveAll: function(success, failure) {
 
             // Save the ones that have changed
             for (var i = 0; i < $rootScope.currentUser.eligibility.length; i++) {
 
                 var el = $rootScope.currentUser.eligibility[i];
 
-                var changed = false;
-
-                // Save if it is a new parse object
-                if (el.id === undefined)
-                    changed = true;
-
-                // Compare saved parse obj and wrapper obj
-                // Designed to work with wg-save-bar
-                if (el.eligible !== el.object.get('eligible')) {
-                    changed = true;
-                    el.object.set("eligible", el.eligible);
-                }
-
-                if (el.interested !== el.object.get('interested')) {
-                    changed = true;
-                    el.object.set("interested", el.interested);
-                }
-
-                if (el.connected !== el.object.get('connected')) {
-                    changed = true;
-                    el.object.set("connected", el.connected);
-                }
-
-                if (el.username !== el.object.get('username')) {
-                    changed = true;
-                    el.object.set("username", el.username);
-                }
-
-                if (el.password !== el.object.get('password')) {
-                    changed = true;
-                    el.object.set("password", el.password);
-                }
-
-                if (changed) saveObject(el, success);
+                this.save(el, success, failure);
             }
         },
-        toggleConnectedCompany: function(name, toggle, username, password) {
+        save: function(el, success, failure) {
+            // If password changed, we should connect that account and encrypt password
+            var diff = updateAndGetDiff(el);
+            if (diff) {
+                if (diff === "password")
+                    authConnectedAccount(el, success, failure);
+                else
+                    saveEligObj(el, success);
+            }
+        },
+        toggleConnectedCompany: function(name, toggle, username, password, success, failure) {
             // If eligibility exists, get it. Else create new parse object
             var el = findEligibility(name) || createEligibility(name);
 
@@ -289,6 +377,7 @@ function setEligibility($rootScope) {
                 el.username = username;
                 el.password = password;
             }
+            this.save(el, success, failure);
         },        
         toggleInterest: function(name, toggle) {
             // If eligibility exists, get it. Else create new parse object
@@ -578,6 +667,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShif
 
     var getEligibility = function() {
         var query = new Parse.Query(Eligibility);
+        query.include('company');
         query.equalTo("worker", Parse.User.current());
         return query.find();
     };
@@ -777,8 +867,12 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShif
                         eligible: el.get('eligible'),
                         interested: el.get('interested'),
                         connected: el.get('connected'),
+                        username: el.get('username'),
+                        token: el.get('token'),
                         object: el
                     });
+
+                    // Merges two arrays
                     shifts.push.apply(shifts, formatAvailableShifts(el.get('shifts'), company, "san Francisco"));
                 }
 
@@ -807,29 +901,33 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShif
     };
 }
 
+function removeCompanyShifts(shifts, company) {
+    return _.filter(shifts, function(o) { return shifts.name !== company; });
+}
+
 function formatAvailableShifts(shifts, company, defaultLocation) {
-    if (!shifts) return [];
+    shifts = shifts || [];
+    return _.map(shifts, function(s) {
+        s.name = company;
+        s.location = defaultLocation;
+        s.startsAt = new Date(s.startsAt);
+        s.endsAt = new Date(s.endsAt);
+        return s;
+    });
 
-    for (var i = 0; i < shifts.length; i++) {
-        shifts[i].name = company;
-        shifts[i].location = defaultLocation;
-        shifts[i].startsAt = new Date(shifts[i].startsAt);
-        shifts[i].endsAt = new Date(shifts[i].endsAt);
-
-        // {
-        //   name: "postmates",
-        //   location: "san francisco",
-        //   startsAt: "10:30pm",
-        //   endsAt: "12:30am",
-        //   flex: true,
-        //   bonus: "+20%",
-        //   notes: [
-        //     "+20%",
-        //     "Flex Shift"
-        //   ]
-        // }
-    }
-    return shifts;
+    // Needs to be this format
+    // {
+    //   name: "postmates",
+    //   location: "san francisco",
+    //   startsAt: "10:30pm",
+    //   endsAt: "12:30am",
+    //   flex: true,
+    //   bonus: "+20%",
+    //   notes: [
+    //     "+20%",
+    //     "Flex Shift"
+    //   ]
+    // }
 }
 
 function formatUploadData($rootScope) {

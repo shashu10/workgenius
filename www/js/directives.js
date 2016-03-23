@@ -104,6 +104,7 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/wg-save-bar.html',
     scope: {
         wgOnChange: '=',
+        wgSuccess: '=',
         wgCustomSave: '=',
         wgProp: '=',
         wgCustomTitle: '='
@@ -113,7 +114,21 @@ angular.module('workgenius.directives', [])
 
 
       $scope.show = false;
+      $scope.wgSuccess = success;
+      $scope.wgOnChange = function () {
+        $timeout.cancel(timer);
+        $scope.show = false;
+        debouncedSave();
+      };
+
       var timer;
+
+
+      var debouncedSave = debounce(function () {
+          if ($scope.wgCustomSave) $scope.wgCustomSave(success);
+          else setUserData.save($scope.wgProp, success);
+        }, 500, false);
+
 
       function success () {
         $scope.show = true;
@@ -124,17 +139,6 @@ angular.module('workgenius.directives', [])
           $scope.$apply();
         }, 2000);
       }
-
-      var debouncedSave = debounce(function () {
-          if ($scope.wgCustomSave) $scope.wgCustomSave(success);
-          else setUserData.save($scope.wgProp, success);
-        }, 500, false);
-
-      $scope.wgOnChange = function () {
-        $timeout.cancel(timer);
-        $scope.show = false;
-        debouncedSave();
-      };
     }]
   };
 })
