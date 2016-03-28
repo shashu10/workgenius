@@ -32,14 +32,12 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
 ])
 
-.run(['$ionicPlatform', '$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory',
-    function($ionicPlatform, $rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory) {
+.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory',
+    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory) {
 
+        // ionic platform should be ready now
         $state.go('splash');
 
-        $ionicPlatform.ready(function() {
-            $interval(function() {
-                // Initializing Parse in $ionicPlatform.ready does not work sometimes 
         // Initialize Parse here with AppID and JavascriptID
         Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
 
@@ -59,57 +57,60 @@ angular.module('workgenius', [
         };
 
                 
-            // Testing on the browser. Unregister tracking and error logging.
-            if (!ionic.Platform.isWebView()) {
-                mixpanel.register({ "$ignore": true });
-                Raven.uninstall();
-            }
+        // Testing on the browser. Unregister tracking and error logging.
+        if (!ionic.Platform.isWebView()) {
+            mixpanel.register({ "$ignore": true });
+            Raven.uninstall();
+        }
 
-            // $ionicAnalytics.register();
-            // Reload shifts if sent to background and reopened
-            document.addEventListener("resume", onResume, false);
+        // $ionicAnalytics.register();
+        // Reload shifts if sent to background and reopened
+        document.addEventListener("resume", onResume, false);
 
-            // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-            // for form inputs)
-            if (window.cordova && window.cordova.plugins.Keyboard) {
-                cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-                cordova.plugins.Keyboard.disableScroll(true);
-            }
-            if (window.device) {
-                cordova.getAppVersion.getVersionNumber().then(function(version) {
-                    $rootScope.appVersion = version;
-                    updateAppSettings(version, device.platform.toLowerCase());
-                });
-
-                // For localhost testing
-            } else {
-                updateAppSettings("1.1.1", "");
-            }
-            if (window.StatusBar) {
-                // org.apache.cordova.statusbar required
-                // not working
-                StatusBar.overlaysWebView(true);
-                StatusBar.styleDefault();
-            }
-
-            // Update the company data
-            getCompanyData();
-            // Get user data and store it in the rootscope.
-            // Goto correct state after deviceready
-            getUserData().then(function(user) {
-                if (window.location.hash === "" || window.location.hash === "#/splash") {
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true,
-                        disableAnimate: true
-                    });
-                    if (user)
-                        $state.go('app.schedule', {clear: true});
-                    else
-                        $state.go('registration.signup', {clear: true});
-                }
-
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
+        if (window.cordova && window.cordova.plugins.Keyboard) {
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            cordova.plugins.Keyboard.disableScroll(true);
+        }
+        if (window.cordova && window.cordova.getAppVersion) {
+            cordova.getAppVersion.getVersionNumber().then(function(version) {
+                $rootScope.appVersion = version;
+                updateAppSettings(version, device.platform.toLowerCase());
             });
-            }, 1, 1);
+
+            // For localhost testing
+        } else {
+            updateAppSettings("1.1.1", "");
+        }
+        if (window.StatusBar) {
+            // org.apache.cordova.statusbar required
+            // not working
+            StatusBar.overlaysWebView(true);
+            StatusBar.styleDefault();
+        }
+
+        // Update the company data
+        getCompanyData();
+        // Get user data and store it in the rootscope.
+        // Goto correct state after deviceready
+        getUserData().then(function(user) {
+
+            if (window.location.hash === "" || window.location.hash === "#/splash") {
+                $ionicHistory.nextViewOptions({
+                    historyRoot: true,
+                    disableAnimate: true
+                });
+                if (user)
+                    $state.go('app.schedule', {clear: true});
+                else
+                    $state.go('registration.signup', {clear: true});
+            } else {
+                $state.go('registration.signup', {clear: true});
+            }
+
+        }, function (error) {
+            $state.go('registration.signup', {clear: true});
         });
 
         //////////
