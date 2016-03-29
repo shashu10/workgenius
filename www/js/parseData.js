@@ -5,6 +5,7 @@ angular.module('parseData', ['workgenius.constants'])
     .factory('getConnectedShifts', ['$rootScope', getConnectedShifts])
     .factory('setEligibility', ['$rootScope', 'getConnectedShifts', setEligibility])
     .factory('setShifts', ['$rootScope', '$q', setShifts])
+    .factory('claimShift', ['setEligibility', claimShift])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
     .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', acknowledgeShifts])
     .factory('checkUpdates', ['$ionicPopup', checkUpdates])
@@ -176,6 +177,33 @@ function setShifts($rootScope, $q) {
     };
 }
 
+// Update available shifts accordingly
+function claimShift(setEligibility) {
+
+    return function (shift, success, failure) {
+        console.log("claiming");
+        var el = setEligibility.findEligibility(shift.name);
+        return Parse.Cloud.run('claimShift',
+        {
+            shiftId : shift.id,
+            companyId : el.object.get('company').id,
+            company : el.company,
+            token : el.token,
+        },
+        {
+            success: function(shift) {
+                console.log('success');
+                if (success) success();
+            },
+            error: function(error) {
+                console.log('Could not claim shift');
+                console.log(error);
+                if (failure) failure();
+            }
+        });
+    };
+}
+
 function getConnectedShifts($rootScope) {
     return function(el, success, failure) {
 
@@ -222,6 +250,7 @@ function appendNewShifts(shifts, company, location, $rootScope) {
     $rootScope.currentUser.availableShifts = availShifts;
     
 }
+
 function setEligibility($rootScope, getConnectedShifts) {
 
     var findEligibility = function(name) {
@@ -281,18 +310,21 @@ function setEligibility($rootScope, getConnectedShifts) {
 
     var authConnectedAccount = function(el, success, failure) {
 
+        var companyId = getCompany(el.company).id;
         return Parse.Cloud.run('authConnectedAccount',
             {
                 eligibilityId : el.id,
+                companyId : companyId,
                 company : el.company,
                 username : el.username,
                 password : el.password,
             },
             {
-                success: function(token) {
-                    console.log(token);
-                    el.object.set('token', token);
-                    el.token = token;
+                success: function(result) {
+                    console.log(result);
+                    el.object.set('token', result.token);
+                    el.token = result.token;
+                    el.id = result.id; // In case it's a new eligibility that has not had it's ID set
                     getConnectedShifts(el);
                     if (success) success();
                 },
@@ -611,7 +643,9 @@ function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
             var sh = results[i];
 
             if (moment(sh.get('endsAt')).isBefore(moment().subtract(5, 'hours')) || // If shift was finished, don't show. Leave them for 5 hours from the current time.
-                sh.get('company') === undefined) {                                  // if shift doesn't have companies assigned
+                sh.get('company') === undefined ||
+                sh.get('startsAt') === undefined ||
+                sh.get('endsAt') === undefined) {                                  // if shift doesn't have companies assigned
                 continue;
             }
             var newShift = {

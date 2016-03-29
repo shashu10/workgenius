@@ -203,22 +203,24 @@ angular.module('workgenius.controllers', [])
     $state.go("app.claim-detail", {shift: JSON.stringify(shift)});
   };
 }])
-.controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope',
-  function($stateParams, $scope, $rootScope) {
+.controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope', 'claimShift',
+  function($stateParams, $scope, $rootScope, claimShift) {
   $scope.shift = JSON.parse($stateParams.shift);
 
   $scope.claim = function (shift) {
-    var date = new Date (shift.startsAt);
+    // var date = new Date (shift.startsAt);
 
-    var newShift = {
-      company: shift.name,
-      startsAt: new Date(shift.startsAt),
-      endsAt: new Date(shift.endsAt),
-      date: new Date (shift.startsAt),
-    };
-    $rootScope.currentUser.shifts.push(newShift);
-
-    shift.claimed = true;
+    // var newShift = {
+    //   company: shift.name,
+    //   startsAt: new Date(shift.startsAt),
+    //   endsAt: new Date(shift.endsAt),
+    //   date: new Date (shift.startsAt),
+    // };
+    // $rootScope.currentUser.shifts.push(newShift);
+    claimShift(shift, function success() {
+      shift.claimed = true;
+      $scope.$apply();
+    });
   };
 }])
 .controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup', 'setEligibility',

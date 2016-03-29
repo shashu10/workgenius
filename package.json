@@ -22,7 +22,24 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "phonegap-plugin-push"
+    "phonegap-plugin-push",
+    {
+      "locator": "https://github.com/apache/cordova-plugin-statusbar.git",
+      "id": "cordova-plugin-statusbar"
+    },
+    {
+      "locator": "https://github.com/apache/cordova-plugin-device.git",
+      "id": "cordova-plugin-device"
+    },
+    "cordova-plugin-console",
+    {
+      "locator": "https://github.com/whiteoctober/cordova-plugin-app-version.git",
+      "id": "cordova-plugin-app-version"
+    },
+    {
+      "locator": "https://github.com/fastrde/phonegap-parse-plugin.git",
+      "id": "org.apache.cordova.core.parseplugin"
+    }
   ],
   "cordovaPlatforms": [
     "ios",
