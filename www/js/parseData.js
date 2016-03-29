@@ -10,7 +10,7 @@ angular.module('parseData', ['workgenius.constants'])
     .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', acknowledgeShifts])
     .factory('checkUpdates', ['$ionicPopup', checkUpdates])
     .factory('setupPush', ['$interval', setupPush])
-    .factory('updateAppSettings', ['$rootScope', '$ionicPopup', updateAppSettings])
+    .factory('updateAppSettings', ['$rootScope', '$ionicPopup', 'checkUpdates', updateAppSettings])
     .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'getShifts', 'setupPush', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
@@ -113,7 +113,7 @@ function checkUpdates($ionicPopup) {
     };
 }
 
-function updateAppSettings($rootScope, $ionicPopup) {
+function updateAppSettings($rootScope, $ionicPopup, checkUpdates) {
     return function (currentVersion, platform) {
         return Parse.Cloud.run('getAppSettings', {platform: platform}, {
             success: function(appSettings) {
