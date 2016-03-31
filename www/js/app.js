@@ -123,9 +123,7 @@ angular.module('workgenius', [
                     $rootScope.currentUser.shifts = shifts;
 
                     // If user is logged in, update scope
-                    if (Parse.User.current()) {
-                        $rootScope.$apply();
-                    }
+                    if (Parse.User.current()) $rootScope.$apply();
                 });
             }
         }

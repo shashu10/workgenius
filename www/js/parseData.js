@@ -5,13 +5,13 @@ angular.module('parseData', ['workgenius.constants'])
     .factory('getConnectedShifts', ['$rootScope', getConnectedShifts])
     .factory('setEligibility', ['$rootScope', 'getConnectedShifts', setEligibility])
     .factory('setShifts', ['$rootScope', '$q', setShifts])
-    .factory('claimShift', ['setEligibility', claimShift])
+    .factory('claimShift', ['setEligibility', '$interval', claimShift])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
     .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', acknowledgeShifts])
     .factory('checkUpdates', ['$ionicPopup', checkUpdates])
     .factory('setupPush', ['$interval', setupPush])
     .factory('updateAppSettings', ['$rootScope', '$ionicPopup', 'checkUpdates', updateAppSettings])
-    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'getShifts', 'setupPush', getUserData])
+    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'getShifts', 'setupPush', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 var Shift = Parse.Object.extend("Shift");
@@ -178,10 +178,12 @@ function setShifts($rootScope, $q) {
 }
 
 // Update available shifts accordingly
-function claimShift(setEligibility) {
+function claimShift(setEligibility, $interval) {
 
     return function (shift, success, failure) {
         console.log("claiming");
+        if (!Parse.User.current()) return success && success();
+
         var el = setEligibility.findEligibility(shift.name);
         return Parse.Cloud.run('claimShift',
         {
@@ -310,6 +312,8 @@ function setEligibility($rootScope, getConnectedShifts) {
 
     var authConnectedAccount = function(el, success, failure) {
 
+        if (!Parse.User.current()) return success && success();
+
         var companyId = getCompany(el.company).id;
         return Parse.Cloud.run('authConnectedAccount',
             {
@@ -431,33 +435,26 @@ function setUserData($rootScope, formatUploadData) {
 
     return {
         save: function(type, success, failure) {
+            if (!Parse.User.current()) return success && success();
+
             var data = {};
             data[type] = formatUploadData[type]();
 
-            if (Parse.User.current()) {
-                $rootScope.currentUser.save(data, {
-                    success: function(obj) {
-                        if (success) {
-                            success();
-                            $rootScope.$apply();
-                        }
-                        console.log('saved');
-                    },
-                    error: function(obj, error) {
-                        if (failure)
-                            failure();
-
-                        console.log('Failed to create new object, with error code: ' + error.message);
+            $rootScope.currentUser.save(data, {
+                success: function(obj) {
+                    if (success) {
+                        success();
+                        $rootScope.$apply();
                     }
-                });
+                    console.log('saved');
+                },
+                error: function(obj, error) {
+                    if (failure)
+                        failure();
 
-
-                // Demo
-            } else {
-                console.log('User not logged in.');
-                if (success)
-                    success();
-            }
+                    console.log('Failed to create new object, with error code: ' + error.message);
+                }
+            });
         }
     };
 }
@@ -694,7 +691,7 @@ function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
     };
 }
 
-function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShifts, setupPush) {
+function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAvailableShifts, getShifts, setupPush) {
 
     var Eligibility = Parse.Object.extend("Eligibility");
     var Shift = Parse.Object.extend("Shift");
@@ -766,6 +763,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, getShif
             workTypes: {},
             appState: {},
             shifts: isDemoUser ? fakeShifts : [],
+            availableShifts: fakeAvailableShifts,
             earningsTotal: {
                 day: 188,
                 week: 720,

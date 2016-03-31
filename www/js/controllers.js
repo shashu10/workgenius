@@ -219,7 +219,9 @@ angular.module('workgenius.controllers', [])
     // $rootScope.currentUser.shifts.push(newShift);
     claimShift(shift, function success() {
       shift.claimed = true;
-      $scope.$apply();
+
+      // If no user, then it's just a demo. Don't need to apply scope.
+      if (Parse.User.current()) $scope.$apply();
     });
   };
 }])
@@ -255,7 +257,7 @@ angular.module('workgenius.controllers', [])
                       },
                       function failure(something) {
                         company.connected = false;
-                        $scope.$apply();
+                        if (Parse.User.current()) $scope.$apply();
                         $ionicPopup.show(newFailurePopup());
                         console.log('failure');
                       });

@@ -132,11 +132,11 @@ angular.module('workgenius.directives', [])
 
       function success () {
         $scope.show = true;
-        $scope.$apply();
+        if (Parse.User.current()) $scope.$apply();
         $timeout.cancel(timer);
         timer = $timeout(function () {
           $scope.show = false;
-          $scope.$apply();
+          if (Parse.User.current()) $scope.$apply();
         }, 2000);
       }
     }]
