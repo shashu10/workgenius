@@ -122,7 +122,7 @@ angular.module('workgenius', [
                 getShifts().then(function(shifts) {
                     $rootScope.currentUser.shifts = shifts;
 
-                    // If user is not logged in, we use fakeshifts and don't need to update scope
+                    // If user is logged in, update scope
                     if (Parse.User.current()) {
                         $rootScope.$apply();
                     }
