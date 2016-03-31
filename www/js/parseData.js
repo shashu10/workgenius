@@ -5,7 +5,7 @@ angular.module('parseData', ['workgenius.constants'])
     .factory('getConnectedShifts', ['$rootScope', getConnectedShifts])
     .factory('setEligibility', ['$rootScope', 'getConnectedShifts', setEligibility])
     .factory('setShifts', ['$rootScope', '$q', setShifts])
-    .factory('claimShift', ['setEligibility', '$interval', claimShift])
+    .factory('claimShift', ['setEligibility', '$interval', 'getConnectedShifts', claimShift])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
     .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', acknowledgeShifts])
     .factory('checkUpdates', ['$ionicPopup', checkUpdates])
@@ -161,6 +161,7 @@ function setShifts($rootScope, $q) {
 
             Parse.Cloud.run('cancelShift', {
                 startsAt: shift.startsAt.toString(),
+                endsAt: shift.endsAt.toString(),
                 shiftID: shift.id,
                 company: shift.company
             }, {
@@ -178,7 +179,7 @@ function setShifts($rootScope, $q) {
 }
 
 // Update available shifts accordingly
-function claimShift(setEligibility, $interval) {
+function claimShift(setEligibility, $interval, getConnectedShifts) {
 
     return function (shift, success, failure) {
         console.log("claiming");
@@ -195,11 +196,15 @@ function claimShift(setEligibility, $interval) {
         {
             success: function(shift) {
                 console.log('success');
+                // update shifts after claiming one
+                getConnectedShifts(el);
                 if (success) success();
             },
             error: function(error) {
                 console.log('Could not claim shift');
                 console.log(error);
+                // update shifts. Error might have been caused because of out of date shifts
+                getConnectedShifts(el);
                 if (failure) failure();
             }
         });

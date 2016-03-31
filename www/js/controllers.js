@@ -157,48 +157,6 @@ angular.module('workgenius.controllers', [])
   $scope.selectedDay = $stateParams.selectedDay;
   $scope.short = $stateParams.short;
 
-  $scope.shifts = [
-    {
-      name: "caviar",
-      location: "nob hill",
-      startsAt: "10:30am",
-      endsAt: "12:30pm",
-      notes: []
-    },
-    {
-      name: "munchery",
-      location: "san bruno",
-      startsAt: "1:30pm",
-      endsAt: "4:30pm",
-      bonus: "+20%",
-      notes: [
-        "+20%",
-      ]
-    },
-    {
-      name: "doordash",
-      location: "milpitas",
-      startsAt: "5:30pm",
-      endsAt: "8:30pm",
-      flex: true,
-      notes: [
-        "Flex Shift"
-      ]
-    },
-    {
-      name: "postmates",
-      location: "san francisco",
-      startsAt: "10:30pm",
-      endsAt: "12:30am",
-      flex: true,
-      bonus: "+20%",
-      notes: [
-        "+20%",
-        "Flex Shift"
-      ]
-    }
-  ];
-
   $scope.select = function(shift) {
     $state.go("app.claim-detail", {shift: JSON.stringify(shift)});
   };
