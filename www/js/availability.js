@@ -151,7 +151,7 @@ angular.module('workgenius.availability', [])
                 return moment(date).format('ddd, MMM Do');
             };
             $scope.formatAMPM = function(date) {
-                return moment(date).format('ha');
+                return moment(date).format('h:mm a');
             };
             $scope.shiftEarnings = function(shift) {
                 return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * 15;

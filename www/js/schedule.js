@@ -174,7 +174,7 @@ angular.module('workgenius.schedule', [])
         };
 
         $scope.formatAMPM = function(date) {
-            return moment(date).format('ha');
+            return moment(date).format('h:mm a');
         };
         $scope.isWithin72Hr = function(date) {
             return moment(date).isBefore(moment().add(72, 'hour'));
