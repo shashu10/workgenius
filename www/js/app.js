@@ -17,6 +17,7 @@ angular.module('workgenius', [
     'workgenius.schedule',
     'workgenius.availability',
     'parseData',
+    'parseUtils',
     'phoneFormatting',
     'ionic-timepicker',
     'angular.filter',
@@ -83,6 +84,7 @@ angular.module('workgenius', [
         } else {
             updateAppSettings("1.1.1", "");
         }
+
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
             // not working
