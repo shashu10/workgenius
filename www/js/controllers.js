@@ -141,7 +141,15 @@ angular.module('workgenius.controllers', [])
     }
 ])
 
-.controller('ClaimDaysCtrl', ['$scope', '$state', function($scope, $state) {
+.controller('ClaimDaysCtrl', ['$scope', '$state', 'getAllConnectedShifts',
+  function($scope, $state, getAllConnectedShifts) {
+
+  $scope.$on('$stateChangeSuccess', function(event, current) {
+    if (current.name.indexOf('app.claim-days') > -1) {
+      getAllConnectedShifts();
+    }
+  });
+
   $scope.days = [];
 
   for (var i = 0; i < 7; i++) {
@@ -152,7 +160,8 @@ angular.module('workgenius.controllers', [])
     $state.go("app.claim-shifts", {selectedDay: day, short: moment(day).format("ddd Do")});
   };
 }])
-.controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$state', function($stateParams, $scope, $state) {
+.controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$state',
+  function($stateParams, $scope, $state) {
 
   $scope.selectedDay = $stateParams.selectedDay;
   $scope.short = $stateParams.short;

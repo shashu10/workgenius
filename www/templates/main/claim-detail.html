@@ -1,7 +1,7 @@
 <ion-view view-title="Shift Info">
     <ion-content class="claim-detail padding-top">
-        <img ng-src="img/companies/{{shift.name.toLowerCase()  | spaceless}}.png" alt="">
-        <h1>{{shift.name | capitalize}}</h1>
+        <img ng-src="img/companies/{{shift.company.toLowerCase()  | spaceless}}.png" alt="">
+        <h1>{{shift.company | capitalize}}</h1>
         
         <!-- <p><strong>Location:</strong> {{shift.location | capitalize:true}}</p> -->
         <p><i class="icon ion-location"></i> {{shift.location | capitalize:true}}</p>
@@ -26,7 +26,7 @@
             </ion-item>
         </ion-list>
 
-        <button class="button button-full claim-button" ng-class="shift.claimed ? 'button-balanced' : 'button-positive'" ng-click="claim(shift)">
+        <button class="button button-full claim-button" ng-class="shift.claimed ? 'button-balanced disabled' : 'button-positive'" ng-click="claim(shift)">
             {{shift.claimed ? 'Claimed!' : 'Claim Shift!'}}
         </button>
     </ion-content>

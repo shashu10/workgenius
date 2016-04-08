@@ -107,6 +107,7 @@ angular.module('workgenius.availability', [])
             $scope.nextStartDate = getTimeTillEdit();
 
             function checkAvailabilityLock() {
+                if ($rootScope.availabilityLock.disableLock) return true;
                 var today = moment().isoWeekday();
                 var start = moment().day($rootScope.availabilityLock.start).isoWeekday();
                 var end   = moment().day($rootScope.availabilityLock.end).isoWeekday();

@@ -10,6 +10,7 @@ angular.module('parseData', ['workgenius.constants', 'parseUtils'])
     .factory('setShifts', ['$rootScope', '$q', 'setEligibility', setShifts])
 
     .factory('getConnectedShifts', ['$rootScope', getConnectedShifts])
+    .factory('getAllConnectedShifts', ['$rootScope', getAllConnectedShifts])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
     .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'getShifts', 'setupPush', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
@@ -76,10 +77,10 @@ function claimShift(setEligibility, $interval, getConnectedShifts) {
         console.log("claiming");
         if (!Parse.User.current()) return success && success();
 
-        var el = setEligibility.findEligibility(shift.name);
+        var el = setEligibility.findEligibility(shift.company);
         return Parse.Cloud.run('claimShift',
         {
-            shiftId : shift.id,
+            shiftId : shift.shiftId,
             swapId : shift.swapId, // only for wiw swaps
             companyId : el.object.get('company').id,
             company : el.company,
@@ -97,6 +98,34 @@ function claimShift(setEligibility, $interval, getConnectedShifts) {
                 console.log(error);
                 // update shifts. Error might have been caused because of out of date shifts
                 getConnectedShifts(el);
+                if (failure) failure();
+            }
+        });
+    };
+}
+
+function getAllConnectedShifts($rootScope) {
+    return function(success, failure) {
+
+        Parse.Cloud.run('getAllConnectedShifts', {},
+        {
+            success: function(shifts) {
+                console.log('Successfully got all connected shifts');
+                console.log(shifts);
+                shifts = _.map(shifts, function(s) {
+                    s.location = "san francisco";
+                    s.startsAt = new Date(s.startsAt);
+                    s.endsAt = new Date(s.endsAt);
+                    return s;
+                });
+
+                $rootScope.currentUser.availableShifts = shifts;
+
+                if (success) success();
+            },
+            error: function(error) {
+                console.log('Could not get all connected shifts');
+                console.log(error);
                 if (failure) failure();
             }
         });
@@ -130,29 +159,37 @@ function getConnectedShifts($rootScope) {
             }
         });
     };
+
+    function appendNewShifts(shifts, company, location, $rootScope) {
+        // format shifts
+        var shiftsFormatted = formatAvailableShifts(shifts, company, location);
+
+        // Get all current available shifts
+        var availShifts = $rootScope.currentUser.availableShifts;
+
+        // Remove current company shifts
+        availShifts = removeCompanyShifts(availShifts, company);
+
+        // add company shifts
+        // Merges two arrays
+        Array.prototype.push.apply(availShifts, shiftsFormatted);
+
+        console.log(availShifts);
+        $rootScope.currentUser.availableShifts = availShifts;
+        
+    }
+
+    function removeCompanyShifts(shifts, company) {
+        return _.filter(shifts, function(o) { return o.name !== company; });
+    }
 }
 
-function appendNewShifts(shifts, company, location, $rootScope) {
-    // format shifts
-    var shiftsFormatted = formatAvailableShifts(shifts, company, location);
-
-    // Get all current available shifts
-    var availShifts = $rootScope.currentUser.availableShifts;
-
-    // Remove current company shifts
-    availShifts = removeCompanyShifts(availShifts, company);
-
-    // add company shifts
-    // Merges two arrays
-    availShifts.push.apply(availShifts, shiftsFormatted);
-
-    $rootScope.currentUser.availableShifts = availShifts;
-    
-}
 
 function setEligibility($rootScope, getConnectedShifts) {
 
     var findEligibility = function(name) {
+        console.log(name);
+        console.log($rootScope.currentUser.eligibility);
         var el = $rootScope.currentUser.eligibility;
         for (var i = 0; i < el.length; i++) {
             if (name === el[i].company) {
@@ -802,7 +839,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                     });
 
                     // Merges two arrays
-                    shifts.push.apply(shifts, formatAvailableShifts(el.get('shifts'), company, "san Francisco"));
+                    Array.prototype.push.apply(shifts, formatAvailableShifts(el.get('shifts'), company, "san Francisco"));
                 }
 
                 // Sort in ascending order
@@ -830,14 +867,10 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
     };
 }
 
-function removeCompanyShifts(shifts, company) {
-    return _.filter(shifts, function(o) { return shifts.name !== company; });
-}
-
 function formatAvailableShifts(shifts, company, defaultLocation) {
     shifts = shifts || [];
     return _.map(shifts, function(s) {
-        s.name = company;
+        s.company = company;
         s.location = defaultLocation;
         s.startsAt = new Date(s.startsAt);
         s.endsAt = new Date(s.endsAt);
@@ -846,7 +879,7 @@ function formatAvailableShifts(shifts, company, defaultLocation) {
 
     // Needs to be this format
     // {
-    //   name: "postmates",
+    //   company: "postmates",
     //   location: "san francisco",
     //   startsAt: "10:30pm",
     //   endsAt: "12:30am",
