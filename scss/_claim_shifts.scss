@@ -1,3 +1,7 @@
+.connect-popup {
+    padding-bottom: 200px;
+}
+
 .claim-shifts {
     .item {
         font-size: 14px;
@@ -46,15 +50,23 @@
 		}
     }
     .claim-button {
-	    height: 70px;
-    	font-family: Avenir-medium;
-	    font-weight: bold;
-    	text-transform: uppercase;
-	    font-size: 20px;
+        height: 70px;
+        font-family: Avenir-medium;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 20px;
 
-        &.button-balanced {
-            opacity: 1;
+        &.button-balanced,
+        &.button-assertive {
             transition: all 0.7s;
+        }
+        &.disabled {
+            opacity: 1;
+        }
+        .spinner {
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
         }
     }
 }

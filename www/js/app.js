@@ -74,10 +74,15 @@ angular.module('workgenius', [
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             cordova.plugins.Keyboard.disableScroll(true);
         }
+
         if (window.cordova && window.cordova.getAppVersion) {
             cordova.getAppVersion.getVersionNumber().then(function(version) {
                 $rootScope.appVersion = version;
-                updateAppSettings(version, device.platform.toLowerCase());
+
+                var platform = "ios";
+                if (window.device && window.device.platform) platform = device.platform.toLowerCase();
+
+                updateAppSettings(version, platform);
             });
 
             // For localhost testing
