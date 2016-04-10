@@ -1,9 +1,18 @@
 angular.module('integrations', [])
-    .factory('eilgibilities', ['$rootScope', 'connectedShifts', eilgibilities])
+    .factory('eligibilities', ['$rootScope', 'connectedShifts', eligibilities])
 
     .factory('connectedShifts', ['$rootScope', connectedShifts]);
 
-function connectedShifts($rootScope, eilgibilities) {
+function connectedShifts($rootScope) {
+    function getEligibility(companyName) {
+        var el = $rootScope.currentUser.eligibility;
+        for (var i = 0; i < el.length; i++) {
+            if (companyName === el[i].company) {
+                return el[i];
+            }
+        }
+        return undefined;
+    }
     function appendNewShifts(shifts, company, location, $rootScope) {
         // format shifts
         var shiftsFormatted = formatAvailableShifts(shifts, company, location);
@@ -84,8 +93,7 @@ function connectedShifts($rootScope, eilgibilities) {
 	        console.log("claiming");
 	        if (!Parse.User.current()) return success && success();
 
-	        console.log(eilgibilities);
-	        var el = eilgibilities.get(shift.company);
+	        var el = getEligibility(shift.company);
 	        return Parse.Cloud.run('claimShift',
 	        {
 	            shiftId : shift.shiftId,
@@ -117,11 +125,9 @@ function connectedShifts($rootScope, eilgibilities) {
     };
 }
 
-function eilgibilities($rootScope, connectedShifts) {
+function eligibilities($rootScope, connectedShifts) {
 
     var get = function(name) {
-        console.log(name);
-        console.log($rootScope.currentUser.eligibility);
         var el = $rootScope.currentUser.eligibility;
         for (var i = 0; i < el.length; i++) {
             if (name === el[i].company) {

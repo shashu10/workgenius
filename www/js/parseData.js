@@ -1,17 +1,17 @@
-angular.module('parseData', ['workgenius.constants', 'parseUtils', 'integrations'])
+angular.module('parseData', ['workgenius.constants', 'workgenius.earnings', 'parseUtils', 'integrations'])
     // Remove redundant data and format it to minimize storage
     .factory('formatUploadData', ['$rootScope', formatUploadData])
     .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
-    .factory('setShifts', ['$rootScope', '$q', 'eilgibilities', setShifts])
+    .factory('setShifts', ['$rootScope', '$q', 'eligibilities', setShifts])
     
-    .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', acknowledgeShifts])
+    .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', 'earningsEstimate', acknowledgeShifts])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
     .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'getShifts', 'setupPush', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 var Shift = Parse.Object.extend("Shift");
 
-function setShifts($rootScope, $q, eilgibilities) {
+function setShifts($rootScope, $q, eligibilities) {
     var removeShift = function(shift, refresh) {
         var start = moment(shift.startsAt);
         if (start.isBefore(moment().add(72, 'hours'))) {
@@ -39,7 +39,7 @@ function setShifts($rootScope, $q, eilgibilities) {
                 removeShift(shift);
                 return deferred.promise;
             }
-            var el = eilgibilities.get(shift.company);
+            var el = eligibilities.get(shift.company);
 
             console.log(shift);
             console.log(shift.object.get('shiftId'));
@@ -192,15 +192,13 @@ function getCompanyData($rootScope, companies) {
     };
 }
 
-function acknowledgeShifts($q, $rootScope, $ionicPopup) {
+function acknowledgeShifts($q, $rootScope, $ionicPopup, earningsEstimate) {
+
     var shiftDateFormatter = function(date) {
         return moment(date).format('ddd, MMM Do');
     };
     var formatAMPM = function(date) {
         return moment(date).format('ha');
-    };
-    var shiftEarnings = function(shift) {
-        return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * 15;
     };
     var batchSave = function(shifts) {
 
@@ -229,15 +227,16 @@ function acknowledgeShifts($q, $rootScope, $ionicPopup) {
         if (!shifts.length) return;
 
         var scope = $rootScope.$new();
+
+        scope.earningsEstimate = earningsEstimate;
         scope.newShifts = shifts;
 
         scope.shiftDateFormatter = shiftDateFormatter;
         scope.formatAMPM = formatAMPM;
-        scope.shiftEarnings = shiftEarnings;
 
         $ionicPopup.show({
             cssClass: 'shift-popup',
-            template: '<ion-list><ion-item ng-repeat="shift in newShifts"><img ng-src="img/companies/{{shift.company.toLowerCase() | spaceless}}.png" alt=""><p><strong>{{shift.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{shiftEarnings(shift)}}</p><p>{{shiftDateFormatter(shift.startsAt)}}, {{formatAMPM(shift.startsAt) | uppercase}} - {{formatAMPM(shift.endsAt) | uppercase}}</p></ion-item><p>You can cancel {{newShifts.length > 1 ? "these shifts" : "this shift"}} after tapping acknowledge</p></ion-list>',
+            template: '<ion-list><ion-item ng-repeat="shift in newShifts"><img ng-src="img/companies/{{shift.company.toLowerCase() | spaceless}}.png" alt=""><p><strong>{{shift.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{earningsEstimate.shift(shift)}}</p><p>{{shiftDateFormatter(shift.startsAt)}}, {{formatAMPM(shift.startsAt) | uppercase}} - {{formatAMPM(shift.endsAt) | uppercase}}</p></ion-item><p>You can cancel {{newShifts.length > 1 ? "these shifts" : "this shift"}} after tapping acknowledge</p></ion-list>',
             title: 'You have new shifts!',
             scope: scope,
             buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.

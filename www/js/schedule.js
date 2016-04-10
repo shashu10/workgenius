@@ -1,11 +1,13 @@
-angular.module('workgenius.schedule', [])
+angular.module('workgenius.schedule', ['workgenius.earnings'])
 
 // ============ //
 //   SCHEDULE   //
 // ============ //
 
-.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', 'setShifts', 'getShifts',
-    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, setShifts, getShifts) {
+.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', 'setShifts', 'getShifts', 'earningsEstimate',
+    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, setShifts, getShifts, earningsEstimate) {
+
+        $scope.earningsEstimate = earningsEstimate;
 
         $scope.$on('$stateChangeSuccess', function(event, current) {
             if (current.name.indexOf('app.schedule') > -1) {
@@ -101,7 +103,7 @@ angular.module('workgenius.schedule', [])
 
         function cancelWarning(shift) {
             $scope.cancelPopup = $ionicPopup.show({
-                template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate:  <strong class="light-green">{{shiftEarnings(shiftToCancel) | currency:undefined:0}}</strong> </p> <div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
+                template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate:  <strong class="light-green">{{earningsEstimate.shift(shiftToCancel) | currency:undefined:0}}</strong> </p> <div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
                 title: 'Are you sure you want<br>to cancel this shift?',
                 scope: $scope,
                 buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
@@ -126,7 +128,7 @@ angular.module('workgenius.schedule', [])
         }
         function cannotCancelWarning(shift) {
             $scope.cannotCancelPopup = $ionicPopup.show({
-                template: '<p>Please contact us immediately to cancel this shift if you can\'t make it.</p><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate: <strong class="light-green">{{shiftEarnings(shiftToCancel) | currency:undefined:0}}</strong> </p>',
+                template: '<p>Please contact us immediately to cancel this shift if you can\'t make it.</p><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate: <strong class="light-green">{{earningsEstimate.shift(shiftToCancel) | currency:undefined:0}}</strong> </p>',
                 title: 'Maximum number of cancellations reached!',
                 scope: $scope,
                 buttons: [{
@@ -151,24 +153,6 @@ angular.module('workgenius.schedule', [])
             });
         }
 
-        function getCompanyEarnings (name) {
-            for (var i = 0; i < $rootScope.companyList.length; i++) {
-                if (name.toLowerCase() === $rootScope.companyList[i].name.toLowerCase())
-                    return $rootScope.companyList[i].earningsEst;
-            }
-            return 15;
-        }
-        $scope.shiftEarnings = function(shift) {
-            return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * getCompanyEarnings(shift.company);
-        };
-        $scope.groupEarnings = function(group) {
-            var earnings = 0;
-            for (var i = 0; i < group.length; i++) {
-                var shift = group[i];
-                earnings += $scope.shiftEarnings(shift);
-            }
-            return earnings;
-        };
         $scope.dividerFunction = function(date) {
             return moment(date).format('dddd, MMM Do');
         };
