@@ -1,4 +1,4 @@
-angular.module('workgenius.controllers', [])
+angular.module('workgenius.controllers', ['integrations'])
 
 
 // ============ //
@@ -96,10 +96,10 @@ angular.module('workgenius.controllers', [])
 //   COMPANIES  //
 // ============ //
 
-.controller('CompaniesCtrl', ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'setEligibility',
-    function($rootScope, $scope, $ionicModal, setUserData, setEligibility) {
+.controller('CompaniesCtrl', ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'eligibilities',
+    function($rootScope, $scope, $ionicModal, setUserData, eligibilities) {
 
-        $scope.customSave = setEligibility.saveAll;
+        $scope.customSave = eligibilities.saveAll;
         $scope.selectedWorkType = null;
 
         $ionicModal.fromTemplateUrl('templates/shared/companies-modal.html', {
@@ -112,14 +112,14 @@ angular.module('workgenius.controllers', [])
         };
         $scope.accept = function(company) {
 
-            setEligibility.toggleInterest(company.name, true);
+            eligibilities.toggleInterest(company.name, true);
             $scope.modal.hide();
             if ($scope.onChange) $scope.onChange();
         };
         $scope.select = function(company) {
             // Unselect type if it's already selected
             if ($scope.isInterested(company.name)) {
-                setEligibility.toggleInterest(company.name, false);
+                eligibilities.toggleInterest(company.name, false);
 
                 if ($scope.onChange) $scope.onChange();
 
@@ -131,22 +131,22 @@ angular.module('workgenius.controllers', [])
         };
 
         $scope.isEligible = function(name) {
-            var eligibility = setEligibility.findEligibility(name);
+            var eligibility = eligibilities.get(name);
             return eligibility && eligibility.eligible;
         };
         $scope.isInterested = function(name) {
-            var eligibility = setEligibility.findEligibility(name);
+            var eligibility = eligibilities.get(name);
             return eligibility && eligibility.interested;
         };
     }
 ])
 
-.controller('ClaimDaysCtrl', ['$scope', '$state', 'getAllConnectedShifts',
-  function($scope, $state, getAllConnectedShifts) {
+.controller('ClaimDaysCtrl', ['$scope', '$state', 'connectedShifts',
+  function($scope, $state, connectedShifts) {
 
   $scope.$on('$stateChangeSuccess', function(event, current) {
     if (current.name.indexOf('app.claim-days') > -1) {
-      getAllConnectedShifts();
+      connectedShifts.getAll();
     }
   });
 
@@ -170,30 +170,32 @@ angular.module('workgenius.controllers', [])
     $state.go("app.claim-detail", {shift: JSON.stringify(shift)});
   };
 }])
-.controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope', 'claimShift',
-  function($stateParams, $scope, $rootScope, claimShift) {
+.controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope', 'connectedShifts',
+  function($stateParams, $scope, $rootScope, connectedShifts) {
   $scope.shift = JSON.parse($stateParams.shift);
-
+  // Claim Status:
+  // 0: nothing
+  // 1: loading
+  // 2: success
+  // 3: failure
+  $scope.shift.claimStatus = 0;
+  $scope.shift.claimMessage = "Claim";
   $scope.claim = function (shift) {
-    // var date = new Date (shift.startsAt);
 
-    // var newShift = {
-    //   company: shift.name,
-    //   startsAt: new Date(shift.startsAt),
-    //   endsAt: new Date(shift.endsAt),
-    //   date: new Date (shift.startsAt),
-    // };
-    // $rootScope.currentUser.shifts.push(newShift);
-    claimShift(shift, function success() {
-      shift.claimed = true;
-
+    $scope.shift.claimStatus = 1;
+    $scope.shift.claimMessage = "";
+    connectedShifts.claim(shift, function success() {
+      $scope.shift.claimStatus = 2;
+      $scope.shift.claimMessage = "Claimed Shift!";
       // If no user, then it's just a demo. Don't need to apply scope.
-      if (Parse.User.current()) $scope.$apply();
+    }, function failure() {
+      $scope.shift.claimStatus = 3;
+      $scope.shift.claimMessage = "Failed to claim";
     });
   };
 }])
-.controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup', 'setEligibility',
-  function($scope, $rootScope, $ionicPopup, setEligibility) {
+.controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup', 'eligibilities',
+  function($scope, $rootScope, $ionicPopup, eligibilities) {
 
     $scope.isEditing = false;
 
@@ -204,6 +206,15 @@ angular.module('workgenius.controllers', [])
             $scope.isEditing = true;
 
             $scope.user = {};
+            // if (window.cordova && window.cordova.getAppVersion && window.device && window.device.platform) {
+            //     document.addEventListener("hidekeyboard", function onHide() {
+                  
+            //     }, false);
+            //     document.addEventListener("showkeyboard", function onShow() {
+                  
+            //     }, false);
+            // }
+
 
             $ionicPopup.show(newConnectPopup())
             .then(function(connect) {
@@ -213,7 +224,7 @@ angular.module('workgenius.controllers', [])
                 // Pressed connect
                 if (connect) {
                   if ($scope.user.username && $scope.user.password) {
-                    setEligibility.toggleConnectedCompany(
+                    eligibilities.toggleConnectedCompany(
                       company.name,
                       true, // toggle value
                       $scope.user.username,
@@ -241,7 +252,7 @@ angular.module('workgenius.controllers', [])
 
         // If toggle is turned off
         } else {
-          setEligibility.toggleConnectedCompany(company.name, false);
+          eligibilities.toggleConnectedCompany(company.name, false);
         }
     };
 
@@ -271,6 +282,7 @@ angular.module('workgenius.controllers', [])
           template: '<div class="list"><label class="item item-input"><i class="icon ion-person placeholder-icon"></i><input placeholder="Username" type="text" ng-model="user.username"></label><label class="item item-input"><i class="icon ion-lock-combination placeholder-icon"></i><input placeholder="Password" type="password" ng-model="user.password"></label></div><p>Your information will be secure! We store all information with industry-standard AES 256 bit encryption algorithm.</p>',
           title: 'Enter your company login',
           scope: $scope,
+          cssClass: 'connect-popup',
           buttons: [{
               text: 'Never Mind',
               type: 'button-dark',
@@ -289,7 +301,7 @@ angular.module('workgenius.controllers', [])
       };
     }
     function isConnected(name) {
-        var eligibility = setEligibility.findEligibility(name);
+        var eligibility = eligibilities.get(name);
         return eligibility && eligibility.connected;
     }
 }])
