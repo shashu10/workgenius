@@ -1,7 +1,7 @@
 <ion-view view-title='{{short}}'>
     <ion-content class="claim-shifts">
         <ion-list>
-            <ion-item class="" ng-repeat="shift in currentUser.availableShifts | availableShiftFilter:selectedDay | orderBy: 'startsAt'" ng-click="select(shift)">
+            <ion-item class="" ng-repeat="shift in currentUser.availableShifts | availableShiftFilter:selectedDay | orderBy: ['startsAt', 'endsAt']" ng-click="select(shift)">
                 <div class="row">
                     <div class="img-container">
                         <img ng-src="img/companies/{{shift.company.toLowerCase()  | spaceless}}.png" alt="">
