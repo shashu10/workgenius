@@ -157,36 +157,36 @@ angular.module('workgenius.availability', ['workgenius.earnings'])
                 return moment(date).format('h:mm a');
             };
 
-            function cannotCancelWarning(date) {
-                $scope.selectedEvents = date.event;
-                var thisThese = $scope.selectedEvents.length > 1 ? 'these shifts' : 'this shift';
+            // function cannotCancelWarning(date) {
+            //     $scope.selectedEvents = date.event;
+            //     var thisThese = $scope.selectedEvents.length > 1 ? 'these shifts' : 'this shift';
 
-                $scope.cannotCancelPopup = $ionicPopup.show({
-                    cssClass: 'shift-popup',
-                    template: '<p>You will go above your maximum cancellation limit if you block this day. Please contact us immediately if you can\'t make ' + thisThese + '.</p> <ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()  | spaceless}}.png" alt=""><p><strong>{{shiftToCancel.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{earningsEstimate.shift(shiftToCancel)}}</p><p>{{shiftDateFormatter(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><div ng-if="strikes(selectedEvents)"><p> Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
-                    title: 'Cannot block this day!',
-                    scope: $scope,
-                    buttons: [{
-                        text: 'Don\'t Block',
-                        type: 'button-dark',
-                        onTap: function(e) {
-                            return false;
-                        }
-                    }, {
-                        text: 'Contact Us',
-                        type: 'button-positive',
-                        onTap: function(e) {
-                            // Returning a value will cause the promise to resolve with the given value.
-                            // return shift;
-                            return true;
-                        }
-                    }]
-                }).then(function(show) {
-                    // From parent scope
-                    $scope.modalData.subject = 'cancellation';
-                    if (show) $scope.contactModal.show();
-                });
-            }
+            //     $scope.cannotCancelPopup = $ionicPopup.show({
+            //         cssClass: 'shift-popup',
+            //         template: '<p>You will go above your maximum cancellation limit if you block this day. Please contact us immediately if you can\'t make ' + thisThese + '.</p> <ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()  | spaceless}}.png" alt=""><p><strong>{{shiftToCancel.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{earningsEstimate.shift(shiftToCancel)}}</p><p>{{shiftDateFormatter(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><div ng-if="strikes(selectedEvents)"><p> Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
+            //         title: 'Cannot block this day!',
+            //         scope: $scope,
+            //         buttons: [{
+            //             text: 'Don\'t Block',
+            //             type: 'button-dark',
+            //             onTap: function(e) {
+            //                 return false;
+            //             }
+            //         }, {
+            //             text: 'Contact Us',
+            //             type: 'button-positive',
+            //             onTap: function(e) {
+            //                 // Returning a value will cause the promise to resolve with the given value.
+            //                 // return shift;
+            //                 return true;
+            //             }
+            //         }]
+            //     }).then(function(show) {
+            //         // From parent scope
+            //         $scope.modalData.subject = 'cancellation';
+            //         if (show) $scope.contactModal.show();
+            //     });
+            // }
             function blockWithEvents(date) {
                 $scope.selectedEvents = date.event;
 
@@ -250,13 +250,14 @@ angular.module('workgenius.availability', ['workgenius.earnings'])
                         // Event exists
                     } else if (!event.date.disabled && isAfterToday(event.date)) {
 
-                        var cancellations = shiftCountWithin72Hours(event.event);
+                        // Disable strikes
+                        // var cancellations = shiftCountWithin72Hours(event.event);
 
-                        // Cannot cancel shifts on that day
-                        if ((cancellations + $rootScope.currentUser.strikes) > 3) {
-                            cannotCancelWarning(event);
+                        // // Cannot cancel shifts on that day
+                        // if ((cancellations + $rootScope.currentUser.strikes) > 3) {
+                        //     cannotCancelWarning(event);
 
-                        } else {
+                        // } else {
 
                             // Can cancel shifts on that day
                             blockWithEvents(event)
@@ -269,7 +270,7 @@ angular.module('workgenius.availability', ['workgenius.earnings'])
                                         toggleBlock(event, true, getBlockedDays);
                                     }
                                 });
-                        }
+                        // }
                     }
                 },
                 dateClick: function(event, domEvent, getBlockedDays) {
@@ -284,16 +285,16 @@ angular.module('workgenius.availability', ['workgenius.earnings'])
                 },
             };
 
-            function shiftCountWithin72Hours (shifts) {
-                var count = 0;
-                for (var i = 0; i < shifts.length; i++) {
-                    var shift = shifts[i];
-                    if (moment(shift.startsAt).isBefore(moment().add(72, 'hours'))) {
-                        count++;
-                    }
-                }
-                return count;
-            }
+            // function shiftCountWithin72Hours (shifts) {
+            //     var count = 0;
+            //     for (var i = 0; i < shifts.length; i++) {
+            //         var shift = shifts[i];
+            //         if (moment(shift.startsAt).isBefore(moment().add(72, 'hours'))) {
+            //             count++;
+            //         }
+            //     }
+            //     return count;
+            // }
 
             function cancelShifts(shifts) {
                 for (var i = 0; i < shifts.length; i++) {

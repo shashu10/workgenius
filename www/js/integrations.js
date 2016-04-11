@@ -4,6 +4,20 @@ angular.module('integrations', [])
     .factory('connectedShifts', ['$rootScope', connectedShifts]);
 
 function connectedShifts($rootScope) {
+    function hasConflict(shift) {
+        var start = new Date(shift.startsAt);
+        var end = new Date(shift.endsAt);
+        for (var i = 0; i < $rootScope.currentUser.shifts.length; i++) {
+            var s = $rootScope.currentUser.shifts[i];
+            // proof: https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap/325964#325964
+            // (StartA <= EndB) and (EndA >= StartB)
+            console.log(s.startsAt <= end);
+            console.log(s.endsAt >= start);
+            if (s.startsAt <= end && s.endsAt >= start) {
+                return true;
+            }
+        }
+    }
     function getEligibility(companyName) {
         var el = $rootScope.currentUser.eligibility;
         for (var i = 0; i < el.length; i++) {
@@ -93,6 +107,11 @@ function connectedShifts($rootScope) {
 	        console.log("claiming");
 	        if (!Parse.User.current()) return success && success();
 
+            if (hasConflict(shift)) {
+                console.log('conflict');
+                return failure && failure({message: 'conflict'});
+            }
+
 	        var el = getEligibility(shift.company);
 	        return Parse.Cloud.run('claimShift',
 	        {
@@ -115,7 +134,7 @@ function connectedShifts($rootScope) {
 	                console.log('Could not claim shift');
 	                console.log(error);
 	                // update shifts. Error might have been caused because of out of date shifts
-	                if (failure) failure();
+	                if (failure) failure(error);
 	                $rootScope.$apply();
 
 	                getConnectedShifts(el);

@@ -179,18 +179,23 @@ angular.module('workgenius.controllers', ['integrations'])
   // 2: success
   // 3: failure
   $scope.shift.claimStatus = 0;
-  $scope.shift.claimMessage = "Claim";
+  $scope.shift.claimText = "Claim";
   $scope.claim = function (shift) {
 
     $scope.shift.claimStatus = 1;
-    $scope.shift.claimMessage = "";
+    $scope.shift.claimText = "";
     connectedShifts.claim(shift, function success() {
       $scope.shift.claimStatus = 2;
-      $scope.shift.claimMessage = "Claimed Shift!";
+      $scope.shift.claimText = "Claimed Shift!";
       // If no user, then it's just a demo. Don't need to apply scope.
-    }, function failure() {
+    }, function failure(error) {
+      console.log(error);
       $scope.shift.claimStatus = 3;
-      $scope.shift.claimMessage = "Failed to claim";
+      $scope.shift.claimText = "Failed to claim";
+      if (error && error.message === 'conflict') {
+        $scope.shift.claimMessage = "There's a conflict! You are already working a shift at this time.";
+      } else
+        $scope.shift.claimMessage = "Something went wrong. This shift may have already been claimed by someone else.";
     });
   };
 }])

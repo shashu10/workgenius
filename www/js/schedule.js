@@ -4,8 +4,8 @@ angular.module('workgenius.schedule', ['workgenius.earnings'])
 //   SCHEDULE   //
 // ============ //
 
-.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', 'setShifts', 'getShifts', 'earningsEstimate',
-    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, setShifts, getShifts, earningsEstimate) {
+.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', '$timeout', 'setShifts', 'getShifts', 'earningsEstimate',
+    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, $timeout, setShifts, getShifts, earningsEstimate) {
 
         $scope.earningsEstimate = earningsEstimate;
 
@@ -74,7 +74,10 @@ angular.module('workgenius.schedule', ['workgenius.earnings'])
         };
         $scope.gotoAnchor = function(anchorID) {
             $location.hash(anchorID);
-            $ionicScrollDelegate.anchorScroll(true);
+            // Does not work immediately
+            $timeout(function () {
+                $ionicScrollDelegate.anchorScroll(true);
+            }, 10);
         };
         $scope.scrollTo = function(event) {
             var eventDate = moment(event.date);
@@ -126,37 +129,36 @@ angular.module('workgenius.schedule', ['workgenius.earnings'])
                 }]
             })
 
-            // Must call cannotCancelWarning in .then 
             .then(function(cancel) {
                 if (cancel) setShifts.cancel(shift);
             });
         }
-        function cannotCancelWarning(shift) {
-            $scope.cannotCancelPopup = $ionicPopup.show({
-                template: '<p>Please contact us immediately to cancel this shift if you can\'t make it.</p><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate: <strong class="light-green">{{earningsEstimate.shift(shiftToCancel) | currency:undefined:0}}</strong> </p>',
-                title: 'Maximum number of cancellations reached!',
-                scope: $scope,
-                buttons: [{
-                    text: 'Don\'t Cancel',
-                    type: 'button-dark',
-                    onTap: function(e) {
-                        return false;
-                    }
-                }, {
-                    text: 'Contact Us',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        // Returning a value will cause the promise to resolve with the given value.
-                        // return shift;
-                        return true;
-                    }
-                }]
-            }).then(function(show) {
-                // From parent scope
-                $scope.modalData.subject = 'cancellation';
-                if (show) $scope.contactModal.show();
-            });
-        }
+        // function cannotCancelWarning(shift) {
+        //     $scope.cannotCancelPopup = $ionicPopup.show({
+        //         template: '<p>Please contact us immediately to cancel this shift if you can\'t make it.</p><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate: <strong class="light-green">{{earningsEstimate.shift(shiftToCancel) | currency:undefined:0}}</strong> </p>',
+        //         title: 'Maximum number of cancellations reached!',
+        //         scope: $scope,
+        //         buttons: [{
+        //             text: 'Don\'t Cancel',
+        //             type: 'button-dark',
+        //             onTap: function(e) {
+        //                 return false;
+        //             }
+        //         }, {
+        //             text: 'Contact Us',
+        //             type: 'button-positive',
+        //             onTap: function(e) {
+        //                 // Returning a value will cause the promise to resolve with the given value.
+        //                 // return shift;
+        //                 return true;
+        //             }
+        //         }]
+        //     }).then(function(show) {
+        //         // From parent scope
+        //         $scope.modalData.subject = 'cancellation';
+        //         if (show) $scope.contactModal.show();
+        //     });
+        // }
 
         $scope.dividerFunction = function(date) {
             return moment(date).format('dddd, MMM Do');
