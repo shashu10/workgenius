@@ -12,7 +12,8 @@ function earningsEstimate($rootScope) {
 	}
 	return {
 		shift: function (shift) {
-			return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * avgCompanyPay(shift.company);
+			var raw = (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * avgCompanyPay(shift.company);
+			return Math.round(raw);
 		},
 		group: function (group) {
 		    var earnings = 0;
