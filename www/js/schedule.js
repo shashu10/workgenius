@@ -92,18 +92,23 @@ angular.module('workgenius.schedule', ['workgenius.earnings'])
         };
         $scope.cancelShift = function (shift) {
             $scope.shiftToCancel = shift;
-            if ($scope.isWithin72Hr(shift.startsAt) && $rootScope.currentUser.strikes >= 3) {
-                cannotCancelWarning(shift);
+            // Disabled strikes
+            // if ($scope.isWithin72Hr(shift.startsAt) && $rootScope.currentUser.strikes >= 3) {
+            //     cannotCancelWarning(shift);
 
-            // If user really want's to cancel, do it
-            } else {
+            // // If user really want's to cancel, do it
+            // } else {
                 cancelWarning(shift);
-            }
+            // }
         };
 
         function cancelWarning(shift) {
+
+            // Late cancellation template
+            // This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong>
+
             $scope.cancelPopup = $ionicPopup.show({
-                template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate:  <strong class="light-green">{{earningsEstimate.shift(shiftToCancel) | currency:undefined:0}}</strong> </p> <div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
+                template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate:  <strong class="light-green">{{earningsEstimate.shift(shiftToCancel) | currency:undefined:0}}</strong> </p> <div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This shift is coming up soon. Please check <span ng-if="shiftToCancel.company">{{shiftToCancel.company + "\'s" | capitalize}}</span><span ng-if="!shiftToCancel.company">the company</span> cancellation policy. Late cancellations may result in a penalty</p></div>',
                 title: 'Are you sure you want<br>to cancel this shift?',
                 scope: $scope,
                 buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.

@@ -39,7 +39,7 @@ function setShifts($rootScope, $q, eligibilities) {
                 removeShift(shift);
                 return deferred.promise;
             }
-            var el = eligibilities.get(shift.company);
+            var el = eligibilities.get(shift.company) || {};
 
             console.log(shift);
             console.log(shift.object.get('shiftId'));
