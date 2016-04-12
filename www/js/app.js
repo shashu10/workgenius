@@ -44,19 +44,10 @@ angular.module('workgenius', [
         Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
 
         // Setup variables used through out the app
-        $rootScope.hourlyRate = 15; // For when we don't have the actual earnings
-        $rootScope.imageURL = "img/profile_default.jpg";
-        $rootScope.intervals = ['6a', '7a', '8a', '9a', '10a', '11a', '12p', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p', '12a', '1a'];
+        $rootScope.appVersion = "9.9.9";
+        // $rootScope.hourlyRate = 15; // For when we don't have the actual earnings
+        // $rootScope.imageURL = "img/profile_default.jpg";
         $rootScope.days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-        $rootScope.months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-        $rootScope.phoneVal = "4159365883"; // For demo
-        $rootScope.availabilityLock = {
-            // Using ISO day numbers Monday - 1, Sunday - 7
-            // Users cannot edit their availability in App on or after start day
-            "start": "Thursday",
-            // and on or before end day
-            "end": "Sunday"
-        };
 
                 
         // Testing on the browser. Unregister tracking and error logging.
@@ -88,6 +79,7 @@ angular.module('workgenius', [
 
             // For localhost testing
         } else {
+            $rootScope.appVersion = undefined;
             updateAppSettings("1.1.1", "");
         }
 
