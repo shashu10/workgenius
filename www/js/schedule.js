@@ -9,18 +9,17 @@ angular.module('workgenius.schedule', ['workgenius.earnings'])
 
         $scope.earningsEstimate = earningsEstimate;
 
-        $scope.$on('$stateChangeSuccess', function(event, current) {
-            if (current.name.indexOf('app.schedule') > -1) {
-                getShifts().then(function(shifts) {
-                    $rootScope.currentUser.shifts = shifts;
-                    
-                    // If user is not logged in, we use fakeshifts and don't need to update scope
-                    if (Parse.User.current()) {
-                        $rootScope.$apply();
-                    }
-                  });
-            }
-        });
+        $scope.doRefresh = function() {
+            getShifts().then(function(shifts) {
+                $rootScope.currentUser.shifts = shifts;
+
+                // If user is not logged in, we use fakeshifts and don't need to update scope
+                if (Parse.User.current()) {
+                    $rootScope.$apply();
+                }
+                $scope.$broadcast('scroll.refreshComplete');
+            });
+        };
 
         $scope.adjustCalendarHeight = function(argument) {
 

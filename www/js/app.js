@@ -253,6 +253,7 @@ angular.module('workgenius', [
         })
 
         .state('app.claim-shifts', {
+            cache: false,
             url: '/claim-shifts/:index',
             views: {
                 'menuContent': {

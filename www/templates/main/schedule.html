@@ -5,6 +5,8 @@
 	</ion-header-bar>
 
     <ion-content delegate-handle="scheduleScroll" class="has-ion-cal-subheader" >
+	    	<ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+			</ion-refresher>
 	        <shift-list></shift-list>
 
 	        <div ng-if="currentUser.shifts.length === 0">
