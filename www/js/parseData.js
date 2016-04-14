@@ -355,6 +355,10 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             name: "motorbike",
             icon: "ion-android-bicycle",
             selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('motorbike') > -1
+        }, {
+            name: "none",
+            icon: "ion-ios-body",
+            selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('none') > -1
         }, ];
     };
 

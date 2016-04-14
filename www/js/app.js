@@ -373,6 +373,26 @@ angular.module('workgenius', [
             controller: 'OnboardingCtrl' // Needs to persist across register pages
         })
 
+        .state('onboarding.personal-info', {
+            url: '/personal-info',
+            views: {
+                'content': {
+                    templateUrl: 'templates/onboarding/personal-info.html',
+                    controller: 'PersonalInfoCtrl'
+                }
+            }
+        })
+
+        .state('onboarding.vehicle-type', {
+            url: '/vehicle-type',
+            views: {
+                'content': {
+                    templateUrl: 'templates/onboarding/vehicle-type.html',
+                    // controller: 'VehiclesCtrl'
+                }
+            }
+        })
+
         .state('onboarding.target-hours', {
             url: '/target-hours',
             views: {

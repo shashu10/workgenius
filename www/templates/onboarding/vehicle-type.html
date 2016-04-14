@@ -1,0 +1,25 @@
+<ion-view class="register" title="Personal Information">
+    <ion-content has-header="true">
+		<p class="wg-title-instruction padding">
+            Whay kind of vehicle do you have?
+        </p>
+		
+		<ion-list>
+            <ion-item class="item-checkbox item-icon-right" ng-repeat="vehicle in currentUser.vehicles">
+                <label class="checkbox">
+                    <input type="checkbox" ng-change="onChange()" ng-model="vehicle.selected">
+                </label>
+                {{vehicle.name}}
+                <i class="icon {{vehicle.icon}}"></i>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+
+	<div class="bar bar-footer bar-positive" ng-click="next(); save('target')">
+	  <h1 class="title">CONTINUE >></h1>
+	</div>
+</ion-view>
+
+
+

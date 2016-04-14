@@ -1,0 +1,30 @@
+<ion-view class="register" title="Personal Information">
+    <ion-content has-header="true">
+		<p class="wg-title-instruction padding">
+            We need some more information to get you working
+        </p>
+		
+		<ion-list>
+		    <label class="item item-input item-stacked-label">
+		        <span class="input-label"><strong>Full address</strong></span>
+		        <ion-google-place type="text" placeholder="Eg: 548 Market St, San Francisco, CA 94104" ng-model="location" current-location="true">
+		    </label>
+		    <label class="item item-input item-stacked-label">
+		        <span class="input-label"><strong>Date of Birth</strong></span>
+		        <input type="date" ng-model="example.value" placeholder="mm/dd/yyyy"/>
+		    </label>
+		    <label class="item item-input item-stacked-label padding-top">
+		        <span class="input-label"><strong>Social Security Number</strong></span>
+		        <input type="text" placeholder="XXX-XX-XXXX">
+		    </label>
+		</ion-list>
+
+    </ion-content>
+
+	<div class="bar bar-footer bar-positive" ng-click="next(); save('target')">
+	  <h1 class="title">CONTINUE >></h1>
+	</div>
+</ion-view>
+
+
+

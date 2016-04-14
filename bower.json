@@ -17,6 +17,7 @@
     "angulartics": "^1.0.3",
     "angulartics-mixpanel": "^0.1.2",
     "raven-js": "^2.1.1",
-    "lodash": "https://github.com/lodash/lodash.git#^4.6.1"
+    "lodash": "https://github.com/lodash/lodash.git#^4.6.1",
+    "ion-google-place": "^0.0.1"
   }
 }
