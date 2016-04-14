@@ -1,10 +1,14 @@
 <ion-view view-title="Claim Shifts">
     <ion-content class="claim-days">
         <ion-list>
-            <ion-item class="item-icon-right" ng-repeat="day in days" ng-click="select(day)">
-                {{day | date: "EEEE, MMMM d"}}
+            <ion-item class="item-icon-right" ng-repeat="day in currentUser.availableShifts" ng-click="select($index)">
+                {{day.date | date: "EEEE, MMMM d"}}
+                <span class="item-note">{{day.shifts.length || "--"}} {{day.shifts.length === 0 ? "" : day.shifts.length === 1 ? "shift" : "shifts"}}</span>
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
+            <p class="wg-title-instruction padding-top" ng-if="!currentUser.availableShifts.length">
+	            No available shifts. Connect more companies to see shifts here.
+	        </p>
         </ion-list>
     </ion-content>
 </ion-view>

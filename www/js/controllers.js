@@ -150,21 +150,17 @@ angular.module('workgenius.controllers', ['integrations'])
     }
   });
 
-  $scope.days = [];
-
-  for (var i = 0; i < 7; i++) {
-    $scope.days.push(moment().add(i, 'days').toDate());
-  }
-
-  $scope.select = function(day) {
-    $state.go("app.claim-shifts", {selectedDay: day, short: moment(day).format("ddd Do")});
+  $scope.select = function(index) {
+    $state.go("app.claim-shifts", {index: index});
   };
-}])
-.controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$state',
-  function($stateParams, $scope, $state) {
 
-  $scope.selectedDay = $stateParams.selectedDay;
-  $scope.short = $stateParams.short;
+}])
+.controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$rootScope', '$state',
+  function($stateParams, $scope, $rootScope, $state) {
+
+  $scope.day = $rootScope.currentUser.availableShifts[$stateParams.index];
+  $scope.title = moment($scope.day.date).format("ddd Do");
+  $scope.shifts = $scope.day.shifts;
 
   $scope.select = function(shift) {
     $state.go("app.claim-detail", {shift: JSON.stringify(shift)});

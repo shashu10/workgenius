@@ -1,7 +1,7 @@
-<ion-view view-title='{{short}}'>
+<ion-view view-title='{{title}}'>
     <ion-content class="claim-shifts">
         <ion-list>
-            <ion-item class="" ng-repeat="shift in currentUser.availableShifts | availableShiftFilter:selectedDay | orderBy: ['startsAt', 'endsAt']" ng-click="select(shift)">
+            <ion-item class="" ng-repeat="shift in shifts" ng-click="select(shift)">
                 <div class="row">
                     <div class="img-container">
                         <img ng-src="img/companies/{{shift.company.toLowerCase()  | spaceless}}.png" alt="">
@@ -17,6 +17,9 @@
                 </div>
                 <!-- <i class="icon ion-android-add"></i> -->
             </ion-item>
+            <p class="wg-title-instruction padding-top" ng-if="!shifts.length">
+                Nothing to see here. Try one of the other days.
+            </p>
         </ion-list>
     </ion-content>
 </ion-view>

@@ -27,74 +27,128 @@ function connectedShifts($rootScope) {
         }
         return undefined;
     }
-    function appendNewShifts(shifts, company, location, $rootScope) {
-        // format shifts
-        var shiftsFormatted = formatAvailableShifts(shifts, company, location);
+    function appendNewShifts(shifts, company, $rootScope) {
 
-        // Get all current available shifts
-        var availShifts = $rootScope.currentUser.availableShifts;
+        // Get all current available shifts in list form
+        var availShifts = $rootScope.currentUser.availableShiftsArr;
 
         // Remove current company shifts
         removeCompanyShifts(availShifts, company);
 
-        // add company shifts
-        // Merges two arrays
-        Array.prototype.push.apply(availShifts, shiftsFormatted);
+        // Merge old and new shifts
+        Array.prototype.push.apply(availShifts, shifts);
 
         console.log(availShifts);
-        $rootScope.currentUser.availableShifts = availShifts;
+
+        updateWith(availShifts);
+
         $rootScope.$apply();
     }
-
     function removeCompanyShifts(shifts, company) {
         _.remove(shifts, function(o) { return o.company === company; });
     }
     function getConnectedShifts(el, success, failure) {
 
-	        return Parse.Cloud.run('getConnectedShifts',
-	        {
-	            eligibilityId : el.id,
-	            company : el.company,
-	            username : el.username,
-	            token : el.token,
-	        },
-	        {
-	            success: function(shifts) {
+        return Parse.Cloud.run('getConnectedShifts',
+        {
+            eligibilityId : el.id,
+            company : el.company,
+            username : el.username,
+            token : el.token,
+        },
+        {
+            success: function(shifts) {
 
-	                el.object.set('shifts', shifts);
-	                el.shifts = shifts;
+                el.object.set('shifts', shifts);
+                el.shifts = shifts;
 
-	                appendNewShifts(shifts, el.company, "san Francisco", $rootScope);
+                appendNewShifts(shifts, el.company, $rootScope);
 
-	                if (success) success();
-	                $rootScope.$apply();
-	            },
-	            error: function(error) {
-	                console.log('Could not get connected shifts');
-	                console.log(error);
-	                if (failure) failure();
-	            }
-	        });
-	    }
+                if (success) success();
+                $rootScope.$apply();
+            },
+            error: function(error) {
+                console.log('Could not get connected shifts');
+                console.log(error);
+                if (failure) failure();
+            }
+        });
+    }
+    // Sorting by primary param: startsAt and secondary param: endsAt
+    // http://stackoverflow.com/questions/16426774/underscore-sortby-based-on-multiple-attributes
+    function sortAndFormatShifts(shifts) {
+        if (!shifts || shifts.length <= 1) return shifts;
+
+        return _(shifts)
+        .chain()
+        // First convert to dates
+        .map(function(s) {
+            s.location = "san francisco";
+            s.startsAt = new Date(s.startsAt);
+            s.endsAt = new Date(s.endsAt);
+            return s;
+        })
+        // Next sort by endsAt
+        .sortBy(function(shift) {
+            return shift.endsAt;
+
+        // Lastly sort by starts. Shifts with same startsAt will be sorted by endsAt
+        })
+        .sortBy(function(shift) {
+            return shift.startsAt;
+        })
+        .value();
+    }
+
+    // Shifts are sorted by startsAt
+    function groupByDay(shifts) {
+
+        if (!shifts || !shifts.length) {
+            return [];
+        }
+
+        var days = [];
+        var day;
+
+        for (var i = 0, j = 0; i < shifts.length; i++) {
+            var s = shifts[i];
+
+            if (!s || !s.startsAt) continue;
+
+            while (!day || !moment(day.date).isSame(s.startsAt, 'day')) {
+                day = {
+                    date: moment().add(j, 'days').toDate(),
+                    shifts: []
+                };
+                days.push(day);
+                j++;
+            }
+            day.shifts.push(s);
+        }
+        return days;
+    }
+
+    // Update currentUser with new available shifts
+    function updateWith(shifts) {
+        $rootScope.currentUser.availableShiftsArr = sortAndFormatShifts(shifts);
+        $rootScope.currentUser.availableShifts = groupByDay($rootScope.currentUser.availableShiftsArr);
+    }
     return {
+
+        updateWith: updateWith,
+
     	get: getConnectedShifts,
+
     	getAll: function(success, failure) {
 
 	        Parse.Cloud.run('getAllConnectedShifts', {},
 	        {
 	            success: function(shifts) {
 	                console.log('Successfully got all connected shifts');
-	                console.log(shifts);
-	                shifts = _.map(shifts, function(s) {
-	                    s.location = "san francisco";
-	                    s.startsAt = new Date(s.startsAt);
-	                    s.endsAt = new Date(s.endsAt);
-	                    return s;
-	                });
 
-	                $rootScope.currentUser.availableShifts = shifts;
-
+                    updateWith(shifts);
 	                if (success) success();
+                    $rootScope.$apply();
 	            },
 	            error: function(error) {
 	                console.log('Could not get all connected shifts');

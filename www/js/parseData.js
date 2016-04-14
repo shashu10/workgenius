@@ -6,7 +6,7 @@ angular.module('parseData', ['workgenius.constants', 'workgenius.earnings', 'par
     
     .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', 'earningsEstimate', acknowledgeShifts])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
-    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'getShifts', 'setupPush', getUserData])
+    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'getShifts', 'setupPush', 'connectedShifts', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 var Shift = Parse.Object.extend("Shift");
@@ -322,7 +322,7 @@ function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
     };
 }
 
-function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAvailableShifts, getShifts, setupPush) {
+function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAvailableShifts, getShifts, setupPush, connectedShifts) {
 
     var Eligibility = Parse.Object.extend("Eligibility");
     var Shift = Parse.Object.extend("Shift");
@@ -518,7 +518,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             }).then(function(results) {
 
                 var eligibility = [];
-                var shifts = [];
+                var availShifts = [];
 
                 for (var i = 0; i < results.length; i++) {
                     var el = results[i];
@@ -535,15 +535,11 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                         object: el
                     });
 
-                    // Merges two arrays
-                    Array.prototype.push.apply(shifts, formatAvailableShifts(el.get('shifts'), company, "san Francisco"));
+                    // Append shifts
+                    Array.prototype.push.apply(availShifts, el.get('shifts'));
                 }
 
-                // Sort in ascending order
-                shifts.sort(function(a, b) {
-                    return moment(a.startsAt).isBefore(b.startsAt) ? -1 : 1;
-                });
-                $rootScope.currentUser.availableShifts = shifts;
+                connectedShifts.updateWith(availShifts);
                 $rootScope.currentUser.eligibility = eligibility;
 
                 return getShifts();
@@ -562,31 +558,6 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
 
         return deferred.promise;
     };
-}
-
-function formatAvailableShifts(shifts, company, defaultLocation) {
-    shifts = shifts || [];
-    return _.map(shifts, function(s) {
-        s.company = company;
-        s.location = defaultLocation;
-        s.startsAt = new Date(s.startsAt);
-        s.endsAt = new Date(s.endsAt);
-        return s;
-    });
-
-    // Needs to be this format
-    // {
-    //   company: "postmates",
-    //   location: "san francisco",
-    //   startsAt: "10:30pm",
-    //   endsAt: "12:30am",
-    //   flex: true,
-    //   bonus: "+20%",
-    //   notes: [
-    //     "+20%",
-    //     "Flex Shift"
-    //   ]
-    // }
 }
 
 function formatUploadData($rootScope) {
