@@ -145,7 +145,7 @@ angular.module('workgenius.controllers', ['integrations'])
   function($scope, $state, connectedShifts) {
 
   $scope.doRefresh = function() {
-    connectedShifts.getAll(function success() {
+    connectedShifts.getAllAvailable(function success() {
       $scope.$broadcast('scroll.refreshComplete');
     });
   };

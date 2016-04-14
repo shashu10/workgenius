@@ -137,9 +137,9 @@ function connectedShifts($rootScope) {
 
         updateWith: updateWith,
 
-    	get: getConnectedShifts,
+    	getAvailable: getConnectedShifts,
 
-    	getAll: function(success, failure) {
+    	getAllAvailable: function(success, failure) {
 
 	        Parse.Cloud.run('getAllConnectedShifts', {},
 	        {
@@ -157,6 +157,24 @@ function connectedShifts($rootScope) {
 	            }
 	        });
 		},
+        getAllScheduled: function(success, failure) {
+
+            Parse.Cloud.run('getAllScheduledShifts', {},
+            {
+                success: function(shifts) {
+                    console.log('Successfully got all connected shifts');
+
+                    updateWith(shifts);
+                    if (success) success();
+                    $rootScope.$apply();
+                },
+                error: function(error) {
+                    console.log('Could not get all connected shifts');
+                    console.log(error);
+                    if (failure) failure();
+                }
+            });
+        },
 		claim: function (shift, success, failure) {
 	        console.log("claiming");
 	        if (!Parse.User.current()) return success && success();
@@ -274,7 +292,7 @@ function eligibilities($rootScope, connectedShifts) {
                     el.object.set('token', result.token);
                     el.token = result.token;
                     el.id = result.id; // In case it's a new eligibility that has not had it's ID set
-                    connectedShifts.get(el);
+                    connectedShifts.getAvailable(el);
                     if (success) success();
                 },
                 error: function(error) {
