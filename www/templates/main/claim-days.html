@@ -1,5 +1,7 @@
 <ion-view view-title="Claim Shifts">
     <ion-content class="claim-days">
+	    <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+		</ion-refresher>
         <ion-list>
             <ion-item class="item-icon-right" ng-repeat="day in currentUser.availableShifts" ng-click="select($index)">
                 {{day.date | date: "EEEE, MMMM d"}}

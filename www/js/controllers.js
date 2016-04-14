@@ -144,12 +144,11 @@ angular.module('workgenius.controllers', ['integrations'])
 .controller('ClaimDaysCtrl', ['$scope', '$state', 'connectedShifts',
   function($scope, $state, connectedShifts) {
 
-  $scope.$on('$stateChangeSuccess', function(event, current) {
-    if (current.name.indexOf('app.claim-days') > -1) {
-      connectedShifts.getAll();
-    }
-  });
-
+  $scope.doRefresh = function() {
+    connectedShifts.getAll(function success() {
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
   $scope.select = function(index) {
     $state.go("app.claim-shifts", {index: index});
   };
