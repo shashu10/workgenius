@@ -394,7 +394,6 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             workTypes: {},
             appState: {},
             shifts: isDemoUser ? fakeShifts : [],
-            availableShifts: fakeAvailableShifts,
             earningsTotal: {
                 day: 188,
                 week: 720,
@@ -408,6 +407,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                 lifetime: 846
             },
         });
+        if (isDemoUser) connectedShifts.updateWith(fakeAvailableShifts);
     };
 
     function askAndSetupPush() {

@@ -3,222 +3,222 @@ angular.module('workgenius.constants', [])
 .constant('fakeAvailableShifts', [{
         startsAt: moment({hour: 6}).add(0, 'days').toDate(),
         endsAt: moment({hour: 8}).add(0, 'days').toDate(),
-        name: "postmates",
+        company: "postmates",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 7}).add(0, 'days').toDate(),
         endsAt: moment({hour: 11}).add(0, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 10}).add(0, 'days').toDate(),
         endsAt: moment({hour: 8}).add(0, 'days').toDate(),
-        name: "luxe",
+        company: "luxe",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 11}).add(0, 'days').toDate(),
         endsAt: moment({hour: 14}).add(0, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 16}).add(0, 'days').toDate(),
         endsAt: moment({hour: 19}).add(0, 'days').toDate(),
-        name: "luxe",
+        company: "luxe",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 17}).add(0, 'days').toDate(),
         endsAt: moment({hour: 20}).add(0, 'days').toDate(),
-        name: "postmates",
+        company: "postmates",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(0, 'days').toDate(),
         endsAt: moment({hour: 21}).add(0, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 6}).add(1, 'days').toDate(),
         endsAt: moment({hour: 8}).add(1, 'days').toDate(),
-        name: "luxe",
+        company: "luxe",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 7}).add(1, 'days').toDate(),
         endsAt: moment({hour: 11}).add(1, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 10}).add(1, 'days').toDate(),
         endsAt: moment({hour: 8}).add(1, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 11}).add(1, 'days').toDate(),
         endsAt: moment({hour: 14}).add(1, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 16}).add(1, 'days').toDate(),
         endsAt: moment({hour: 19}).add(1, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(1, 'days').toDate(),
         endsAt: moment({hour: 21}).add(1, 'days').toDate(),
-        name: "postmates",
+        company: "postmates",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 6}).add(2, 'days').toDate(),
         endsAt: moment({hour: 8}).add(2, 'days').toDate(),
-        name: "luxe",
+        company: "luxe",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 7}).add(2, 'days').toDate(),
         endsAt: moment({hour: 11}).add(2, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 10}).add(2, 'days').toDate(),
         endsAt: moment({hour: 8}).add(2, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 11}).add(2, 'days').toDate(),
         endsAt: moment({hour: 14}).add(2, 'days').toDate(),
-        name: "postmates",
+        company: "postmates",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 16}).add(2, 'days').toDate(),
         endsAt: moment({hour: 19}).add(2, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(2, 'days').toDate(),
         endsAt: moment({hour: 21}).add(2, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 6}).add(3, 'days').toDate(),
         endsAt: moment({hour: 8}).add(3, 'days').toDate(),
-        name: "luxe",
+        company: "luxe",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 7}).add(3, 'days').toDate(),
         endsAt: moment({hour: 11}).add(3, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 10}).add(3, 'days').toDate(),
         endsAt: moment({hour: 8}).add(3, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 11}).add(3, 'days').toDate(),
         endsAt: moment({hour: 14}).add(3, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 16}).add(3, 'days').toDate(),
         endsAt: moment({hour: 19}).add(3, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(3, 'days').toDate(),
         endsAt: moment({hour: 21}).add(3, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 6}).add(4, 'days').toDate(),
         endsAt: moment({hour: 8}).add(4, 'days').toDate(),
-        name: "luxe",
+        company: "luxe",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 7}).add(4, 'days').toDate(),
         endsAt: moment({hour: 11}).add(4, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 10}).add(4, 'days').toDate(),
         endsAt: moment({hour: 8}).add(4, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 11}).add(4, 'days').toDate(),
         endsAt: moment({hour: 14}).add(4, 'days').toDate(),
-        name: "postmates",
+        company: "postmates",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 16}).add(4, 'days').toDate(),
         endsAt: moment({hour: 19}).add(4, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(4, 'days').toDate(),
         endsAt: moment({hour: 21}).add(4, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 6}).add(5, 'days').toDate(),
         endsAt: moment({hour: 8}).add(5, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 7}).add(5, 'days').toDate(),
         endsAt: moment({hour: 11}).add(5, 'days').toDate(),
-        name: "luxe",
+        company: "luxe",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 10}).add(5, 'days').toDate(),
         endsAt: moment({hour: 8}).add(5, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 11}).add(5, 'days').toDate(),
         endsAt: moment({hour: 14}).add(5, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 16}).add(5, 'days').toDate(),
         endsAt: moment({hour: 19}).add(5, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(5, 'days').toDate(),
         endsAt: moment({hour: 21}).add(5, 'days').toDate(),
-        name: "luxe",
+        company: "luxe",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 19}).add(5, 'days').toDate(),
         endsAt: moment({hour: 22}).add(5, 'days').toDate(),
-        name: "sprig",
+        company: "sprig",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 6}).add(6, 'days').toDate(),
         endsAt: moment({hour: 8}).add(6, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 7}).add(6, 'days').toDate(),
         endsAt: moment({hour: 11}).add(6, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 10}).add(6, 'days').toDate(),
         endsAt: moment({hour: 8}).add(6, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 11}).add(6, 'days').toDate(),
         endsAt: moment({hour: 14}).add(6, 'days').toDate(),
-        name: "luxe",
+        company: "luxe",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 16}).add(6, 'days').toDate(),
         endsAt: moment({hour: 19}).add(6, 'days').toDate(),
-        name: "doordash",
+        company: "doordash",
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(6, 'days').toDate(),
         endsAt: moment({hour: 21}).add(6, 'days').toDate(),
-        name: "postmates",
+        company: "postmates",
         location: "san Francisco"
     }
 ])

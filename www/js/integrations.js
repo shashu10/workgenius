@@ -140,6 +140,7 @@ function connectedShifts($rootScope) {
     	getAvailable: getConnectedShifts,
 
     	getAllAvailable: function(success, failure) {
+            if (!Parse.User.current()) return success && success();
 
 	        Parse.Cloud.run('getAllConnectedShifts', {},
 	        {
@@ -158,6 +159,7 @@ function connectedShifts($rootScope) {
 	        });
 		},
         getAllScheduled: function(success, failure) {
+        if (!Parse.User.current()) return success && success();
 
             Parse.Cloud.run('getAllScheduledShifts', {},
             {
