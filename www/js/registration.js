@@ -126,8 +126,8 @@ angular.module('workgenius.registration', [])
     };
 })
 
-.controller('SignupCtrl', ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', 'getUserData', 'formatUploadData',
-    function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, getUserData, formatUploadData) {
+.controller('SignupCtrl', ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', 'getUserData',
+    function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, getUserData) {
 
         $rootScope.user = {
             name: '',

@@ -69,9 +69,8 @@ function setUserData($rootScope, formatUploadData) {
         save: function(type, success, failure) {
             if (!Parse.User.current()) return success && success();
 
-            var data = {};
-            data[type] = formatUploadData[type]();
-
+            var data = formatUploadData[type]();
+            console.log(data);
             $rootScope.currentUser.save(data, {
                 success: function(obj) {
                     if (success) {
@@ -567,7 +566,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
 function formatUploadData($rootScope) {
 
     var formatTargetHours = function() {
-        return Number($rootScope.currentUser.target);
+        return {target: Number($rootScope.currentUser.target)};
     };
 
     var formatVehicles = function() {
@@ -578,7 +577,7 @@ function formatUploadData($rootScope) {
             return item.name;
         });
 
-        return filtered;
+        return {vehicles: filtered};
     };
 
     var formatWorkTypes = function() {
@@ -588,22 +587,29 @@ function formatUploadData($rootScope) {
             if ($rootScope.currentUser.workTypes[type])
                 selected.push(type);
         }
-        return selected;
+        return {workTypes: selected};
     };
 
     var formatAvailability = function() {
         reCalculateTotalHours();
-        return $rootScope.currentUser.availability;
+        return {availability : $rootScope.currentUser.availability};
     };
 
     var formatBlockedDays = function() {
-        return $rootScope.currentUser.blockedDays;
+        return {blockedDays: $rootScope.currentUser.blockedDays};
     };
 
     var formatAppState = function() {
-        return $rootScope.currentUser.appState || {};
+        return {appState: $rootScope.currentUser.appState || {}};
     };
 
+    var formatPersonalInfo = function() {
+        return {
+            address: JSON.parse(angular.toJson($rootScope.currentUser.address)), // to remove $$hashkey
+            dob: $rootScope.currentUser.dob,
+            ssn: $rootScope.currentUser.ssn,
+        };
+    };
     var reCalculateTotalHours = function() {
         var totalHours = 0;
         for (var i = 0; i < $rootScope.days.length; i++) {
@@ -622,5 +628,6 @@ function formatUploadData($rootScope) {
         availability: formatAvailability,
         blockedDays: formatBlockedDays,
         appState: formatAppState,
+        personalInfo: formatPersonalInfo,
     };
 }

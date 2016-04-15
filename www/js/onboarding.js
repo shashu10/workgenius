@@ -1,8 +1,8 @@
 angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
 
 .controller('OnboardingCtrl',
-    ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', 'setUserData', 'getUserData', 'formatUploadData',
-    function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, setUserData, getUserData, formatUploadData) {
+    ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', 'setUserData', 'getUserData',
+    function($scope, $state, $ionicLoading, $rootScope, $ionicHistory, setUserData, getUserData) {
 
     $scope.showPager = true;
 
