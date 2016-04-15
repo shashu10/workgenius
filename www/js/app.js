@@ -388,7 +388,7 @@ angular.module('workgenius', [
             views: {
                 'content': {
                     templateUrl: 'templates/onboarding/vehicle-type.html',
-                    // controller: 'VehiclesCtrl'
+                    controller: 'VehicleTypeCtrl'
                 }
             }
         })

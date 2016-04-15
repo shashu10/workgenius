@@ -1,4 +1,4 @@
-<ion-view class="register" title="Personal Information">
+<ion-view class="register" title="Personal Info">
     <ion-content has-header="true">
 		<p class="wg-title-instruction padding">
             We need some more information to get you working
@@ -15,7 +15,7 @@
 		    </label>
 		    <label class="item item-input item-stacked-label padding-top">
 		        <span class="input-label"><strong>Social Security Number</strong></span>
-		        <input type="text" placeholder="XXX-XX-XXXX">
+		        <input type="text" ng-model="ssn" placeholder="###-##-####" ssn-field="" ssn-field-mask="true">
 		    </label>
 		</ion-list>
 

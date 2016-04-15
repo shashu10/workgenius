@@ -1,4 +1,4 @@
-angular.module('workgenius.onboarding', [])
+angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
 
 .controller('OnboardingCtrl',
     ['$scope', '$state', '$ionicLoading', '$rootScope', '$ionicHistory', 'setUserData', 'getUserData', 'formatUploadData',
@@ -9,6 +9,8 @@ angular.module('workgenius.onboarding', [])
     $scope.pages = [
       // 'onboarding.work-types',
       // 'onboarding.target-hours',
+      'onboarding.personal-info',
+      'onboarding.vehicle-type',
       'onboarding.availability-questions',
       'onboarding.availability',
     ];
@@ -115,6 +117,22 @@ angular.module('workgenius.onboarding', [])
       else dayAvail.push(i);
     }
   }
+}])
+
+.controller('PersonalInfoCtrl',
+  ['$rootScope',
+  function($rootScope) {
+
+}])
+.controller('VehicleTypeCtrl',
+  ['$rootScope', '$scope',
+  function($rootScope, $scope) {
+
+    $scope.showNext = function () {
+      return $rootScope.currentUser.vehicles.filter(function(vehicle) {
+            return vehicle.selected;
+        }).length;
+    };
 }])
 
 .controller('WorkTypesCtrl',
