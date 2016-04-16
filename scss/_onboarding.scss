@@ -1,0 +1,11 @@
+.onboarding {
+	background-color: #f8f8f8;
+
+	// personal info
+    .item-stacked-label {
+		background-color: #fff;
+	    &.disabled {
+	        background-color: #f8f8f8;
+	    }
+    }
+}

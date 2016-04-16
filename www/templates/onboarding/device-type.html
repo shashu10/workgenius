@@ -1,0 +1,30 @@
+<ion-view class="onboarding" title="Vehicle Type">
+    <ion-content class="has-header has-subheader">
+		<p class="wg-title-instruction padding">
+            What kind of device do you have?
+        </p>
+		
+        <ion-list>
+            <label class="item item-input item-stacked-label" ng-class="{disabled: prefilledDevice}">
+                <span class="input-label"><strong>Platform</strong></span>
+                <input ng-change="onChange()" ng-disabled="prefilledDevice" type="text" ng-model="device.platform" placeholder="Eg: iOS">
+            </label>
+            <label class="item item-input item-stacked-label" ng-class="{disabled: prefilledDevice}">
+                <span class="input-label"><strong>Model</strong></span>
+                <input ng-change="onChange()" ng-disabled="prefilledDevice" type="text" ng-model="device.model" placeholder="Eg: iPhone 5s"/>
+            </label>
+            <label class="item item-input item-stacked-label padding-top">
+                <span class="input-label"><strong>Carrier</strong></span>
+                <input ng-change="onChange()" type="text" ng-model="device.carrier" placeholder="Eg: AT&T">
+            </label>
+        </ion-list>
+
+    </ion-content>
+
+    <div class="bar bar-footer bar-positive" ng-click="next(); save('device')" ng-show="showNext">
+      <h1 class="title">CONTINUE >></h1>
+    </div>
+</ion-view>
+
+
+

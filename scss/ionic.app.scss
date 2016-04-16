@@ -85,6 +85,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 @import 'connect_accounts';
 
+@import 'onboarding';
+
 @font-face { font-family: Avenir-Book; src: url('../font/Avenir-Book.ttf'); }
 @font-face { font-family: Avenir-Medium; src: url('../font/Avenir-Medium.ttf'); }
 @font-face { font-family: Avenir-Roman; src: url('../font/Avenir-Roman.ttf'); }
@@ -182,7 +184,7 @@ html * {
 .bar-light .title,
 .bar-light .button.button-clear {
     color: $positive !important;
-    font-size: 12px;
+    font-size: 14px;
     text-transform: uppercase;
 }
 
@@ -205,7 +207,7 @@ html * {
     padding-left: 10px;
     padding-right: 10px;
     font-family: Avenir-Roman;
-    font-size: 14px;
+    font-size: 16px;
     text-align: center;
     color: #4C4C4C;
 
