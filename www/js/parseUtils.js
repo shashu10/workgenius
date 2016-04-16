@@ -112,7 +112,7 @@ function updateAppSettings($rootScope, $ionicPopup, checkUpdates) {
                 checkUpdates(currentVersion, appSettings.appInfo, $rootScope.$new());
             },
             error: function(error) {
-                console.log('could get settings');
+                console.log('could not get settings');
                 console.log(error);
             }
         });

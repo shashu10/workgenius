@@ -70,7 +70,9 @@ function setUserData($rootScope, formatUploadData) {
             if (!Parse.User.current()) return success && success();
 
             var data = formatUploadData[type]();
-            console.log(data);
+            
+            if (!data) console.log('user property to save not specified');
+
             $rootScope.currentUser.save(data, {
                 success: function(obj) {
                     if (success) {
@@ -343,9 +345,9 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
 
     var getVehicles = function(user) {
         return [{
-            name: "car",
-            icon: "ion-android-car",
-            selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('car') > -1
+            name: "none",
+            icon: "ion-ios-body",
+            selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('none') > -1
         }, {
             name: "bicycle",
             icon: "ion-android-bicycle",
@@ -355,9 +357,10 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             icon: "ion-android-bicycle",
             selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('motorbike') > -1
         }, {
-            name: "none",
-            icon: "ion-ios-body",
-            selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('none') > -1
+            name: "car",
+            info: "",
+            icon: "ion-android-car",
+            selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('car') > -1
         }, ];
     };
 
@@ -556,6 +559,17 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                 $rootScope.$apply();
 
                 setupPush();
+
+            }, function failure(error) {
+
+                Parse.User.logOut();
+                console.log('Something went wrong. Probably user doesn\'t exist');
+                console.log(error);
+                setDefaultPrefs('AJ Shewki', 'aj@workgeni.us', false);
+                Raven.setUserContext();
+                mixpanel.identify();
+
+                deferred.resolve(false);
             });
         }
 
@@ -573,8 +587,10 @@ function formatUploadData($rootScope) {
 
         var filtered = $rootScope.currentUser.vehicles.filter(function(vehicle) {
             return vehicle.selected;
-        }).map(function(item) {
-            return item.name;
+        }).map(function(vehicle) {
+            // For car "car: Toyota Prius 2013"
+            // For everything else just vehicle type "bike"
+            return vehicle.name + (vehicle.info ? ": " + vehicle.info : "");
         });
 
         return {vehicles: filtered};
@@ -591,6 +607,7 @@ function formatUploadData($rootScope) {
     };
 
     var formatAvailability = function() {
+        // Total shown in menu and avail pages. Recalculated because availability was set & saved
         reCalculateTotalHours();
         return {availability : $rootScope.currentUser.availability};
     };
@@ -609,6 +626,9 @@ function formatUploadData($rootScope) {
             dob: $rootScope.currentUser.dob,
             ssn: $rootScope.currentUser.ssn,
         };
+    };
+    var formatDevice = function() {
+        return $rootScope.device;
     };
     var reCalculateTotalHours = function() {
         var totalHours = 0;
@@ -629,5 +649,6 @@ function formatUploadData($rootScope) {
         blockedDays: formatBlockedDays,
         appState: formatAppState,
         personalInfo: formatPersonalInfo,
+        device: formatDevice,
     };
 }

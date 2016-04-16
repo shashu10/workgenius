@@ -11,6 +11,7 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
       // 'onboarding.target-hours',
       'onboarding.personal-info',
       'onboarding.vehicle-type',
+      'onboarding.device-type',
       'onboarding.availability-questions',
       'onboarding.availability',
     ];
@@ -54,32 +55,22 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
 .controller('AvailabilityQuestionsCtrl', ['$scope', '$rootScope', '$filter', function ($scope, $rootScope, $filter) {
 
   $rootScope.currentUser.availQuestions = $rootScope.currentUser.availQuestions || {
-    days: [{
-        name: 'monday', selected: false
-      }, {
-        name: 'tuesday', selected: false
-      }, {
-        name: 'wednesday', selected: false
-      }, {
-        name: 'thursday', selected: false
-      }, {
-        name: 'friday', selected: false
-      }, {
-        name: 'saturday', selected: false
-      }, {
-        name: 'sunday', selected: false
-      }],
-    timeSlots: [{
-        name: 'mornings', start: '6am', end: '10am', selected: false
-      }, {
-        name: 'lunch', start: '10am', end: '2pm', selected: false
-      }, {
-        name: 'afternoons', start: '2pm', end: '5pm', selected: false
-      }, {
-        name: 'evenings', start: '5pm', end: '9pm', selected: false
-      }, {
-        name: 'nights', start: '9pm', end: '2am', selected: false,
-      }],
+    days: [
+      {name: 'monday',    selected: false},
+      {name: 'tuesday',   selected: false},
+      {name: 'wednesday', selected: false},
+      {name: 'thursday',  selected: false},
+      {name: 'friday',    selected: false},
+      {name: 'saturday',  selected: false},
+      {name: 'sunday',    selected: false},
+    ],
+    timeSlots: [
+      {name: 'mornings',   start: '6am',  end: '10am', selected: false},
+      {name: 'lunch',      start: '10am', end: '2pm',  selected: false},
+      {name: 'afternoons', start: '2pm',  end: '5pm',  selected: false},
+      {name: 'evenings',   start: '5pm',  end: '9pm',  selected: false},
+      {name: 'nights',     start: '9pm',  end: '2am',  selected: false},
+    ],
   };
   var availQ = $rootScope.currentUser.availQuestions;
   
@@ -128,11 +119,37 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
   ['$rootScope', '$scope',
   function($rootScope, $scope) {
 
-    $scope.showNext = function () {
+    $scope.showNext = shouldShowNext();
+
+    $scope.car = $rootScope.currentUser.vehicles.find(function (vehicle) {
+      return vehicle.name === "car";
+    });
+    $scope.onChange = function (vehicle) {
+      $scope.showNext = shouldShowNext();
+    };
+    function shouldShowNext () {
+      if ($scope.car && $scope.car.selected) return $scope.car.info;
       return $rootScope.currentUser.vehicles.filter(function(vehicle) {
             return vehicle.selected;
         }).length;
+    }
+}])
+.controller('DeviceTypeCtrl',
+  ['$rootScope', '$scope',
+  function($rootScope, $scope) {
+    $scope.prefilledDevice = $rootScope.prefilledDevice;
+    $scope.device = $rootScope.device;
+    console.log('$scope.device');
+    console.log($scope.device);
+
+    $scope.showNext = shouldShowNext();
+
+    $scope.onChange = function () {
+      $scope.showNext = shouldShowNext();
     };
+    function shouldShowNext () {
+      return $scope.device.platform && $scope.device.model && $scope.device.carrier;
+    }
 }])
 
 .controller('WorkTypesCtrl',

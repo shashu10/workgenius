@@ -1,22 +1,26 @@
-<ion-view class="register" title="Vehicle Type">
-    <ion-content has-header="true">
+<ion-view class="onboarding" title="Vehicle Type">
+    <ion-content class="has-header has-subheader">
 		<p class="wg-title-instruction padding">
-            Whay kind of vehicle do you have?
+            What kind of vehicle do you have?
         </p>
 		
 		<ion-list>
             <ion-item class="item-checkbox item-icon-right" ng-repeat="vehicle in currentUser.vehicles">
                 <label class="checkbox">
-                    <input type="checkbox" ng-change="onChange()" ng-model="vehicle.selected">
+                    <input type="checkbox" ng-change="onChange(vehicle)" ng-model="vehicle.selected">
                 </label>
                 {{vehicle.name}}
                 <i class="icon {{vehicle.icon}}"></i>
             </ion-item>
+            <label ng-show="car.selected" class="item item-input item-stacked-label padding-top">
+                <span class="input-label"><strong>Make, model and year</strong></span>
+                <input type="text" ng-change="onChange(vehicle)" ng-model="car.info" placeholder="Eg: Toyota Prius 2013">
+            </label>
         </ion-list>
 
     </ion-content>
 
-    <div class="bar bar-footer bar-positive" ng-click="next(); save('vehicles')" ng-show="showNext()">
+    <div class="bar bar-footer bar-positive" ng-click="next(); save('vehicles')" ng-show="showNext">
       <h1 class="title">CONTINUE >></h1>
     </div>
 </ion-view>

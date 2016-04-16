@@ -44,6 +44,7 @@ angular.module('workgenius', [
         Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
 
         // Setup variables used through out the app
+        $rootScope.device = {};
         $rootScope.appVersion = "9.9.9";
         // $rootScope.hourlyRate = 15; // For when we don't have the actual earnings
         // $rootScope.imageURL = "img/profile_default.jpg";
@@ -72,7 +73,13 @@ angular.module('workgenius', [
                 $rootScope.appVersion = version;
 
                 var platform = "ios";
-                if (window.device && window.device.platform) platform = device.platform.toLowerCase();
+                if (window.device && window.device.platform){
+                    console.log('got device info');
+                    $rootScope.prefilledDevice = true;
+                    $rootScope.device = device;
+                    platform = device.platform.toLowerCase();
+                    console.log(device);
+                }
 
                 updateAppSettings(version, platform);
             });
@@ -389,6 +396,16 @@ angular.module('workgenius', [
                 'content': {
                     templateUrl: 'templates/onboarding/vehicle-type.html',
                     controller: 'VehicleTypeCtrl'
+                }
+            }
+        })
+
+        .state('onboarding.device-type', {
+            url: '/device-type',
+            views: {
+                'content': {
+                    templateUrl: 'templates/onboarding/device-type.html',
+                    controller: 'DeviceTypeCtrl'
                 }
             }
         })
