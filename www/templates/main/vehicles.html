@@ -1,14 +1,6 @@
 <ion-view view-title="Vehicles">
-    <ion-content>
-        <ion-list>
-            <ion-item class="item-checkbox item-icon-right" ng-repeat="vehicle in currentUser.vehicles">
-                <label class="checkbox">
-                    <input type="checkbox" ng-change="onChange()" ng-model="vehicle.selected">
-                </label>
-                {{vehicle.name}}
-                <i class="icon {{vehicle.icon}}"></i>
-            </ion-item>
-        </ion-list>
+    <ion-content class="vehicles-page">
+        <vehicle-types vehicles="currentUser.vehicles" on-change="onChange"></vehicle-types>
     </ion-content>
 
     <wg-save-bar wg-on-change="onChange" wg-prop='"vehicles"'></wg-save-bar>

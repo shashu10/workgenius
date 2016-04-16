@@ -113,7 +113,7 @@ function connectedShifts($rootScope) {
         for (var i = 0, j = 0; i < shifts.length; i++) {
             var s = shifts[i];
 
-            if (!s || !s.startsAt) continue;
+            if (!s || !s.startsAt || moment(s.startsAt).isBefore()) continue;
 
             while (!day || !moment(day.date).isSame(s.startsAt, 'day')) {
                 day = {

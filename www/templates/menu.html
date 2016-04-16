@@ -21,14 +21,10 @@
 
   <ion-side-menu side="left" expose-aside-when="large">
 
-    <ion-content class="padding-top menu-list">
+    <ion-content class=" menu-list">
       <!-- <div><wg-profile-photo/></div> -->
       <!-- <h4 class="center-text">{{currentUser.name}}</h4> -->
       <ion-list>
-        <ion-item class="item-icon-left" menu-close href="#/app/schedule">
-          <i class="icon ion-calendar"></i>
-          Schedule
-        </ion-item>
         <!-- Functionality hidden -->
         <!-- <ion-item class="item-icon-left" menu-close href="#/app/available-shifts">
           <i class="icon ion-network"></i>
@@ -41,6 +37,10 @@
             {{currentUser.target}} {{currentUser.target == 1 ? 'hour' : 'hours'}}
           </span>
         </ion-item> -->
+        <ion-item class="item-icon-left" menu-close href="#/app/schedule">
+          <i class="icon ion-calendar"></i>
+          Schedule
+        </ion-item>
         <ion-item class="item-icon-left" menu-close href="#/app/availability-tabs/availability">
           <i class="icon ion-grid"></i>
           Availability
@@ -67,7 +67,6 @@
           Preferences
         </ion-item>
 
-        <br>
         <br>
         <br>
         <br>

@@ -1,0 +1,13 @@
+<ion-list>
+    <ion-item class="item-checkbox item-icon-right" ng-repeat="vehicle in vehicles">
+        <label class="checkbox">
+            <input type="checkbox" ng-change="onChangeIntercept(vehicle)" ng-model="vehicle.selected">
+        </label>
+        {{vehicle.name | capitalize}}
+        <i class="icon {{vehicle.icon}}"></i>
+    </ion-item>
+    <label ng-show="car.selected" class="item item-input item-stacked-label padding-top">
+        <span class="input-label"><strong>Make, model and year</strong></span>
+        <input type="text" ng-change="onChangeIntercept(car)" ng-model="car.info" placeholder="Eg: Toyota Prius 2013">
+    </label>
+</ion-list>

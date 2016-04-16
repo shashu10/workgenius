@@ -28,7 +28,8 @@
 					{{currentUser.totalHours}} {{currentUser.totalHours == 1 ? 'Hour' : 'Hours'}}
 				</span>
 			</ion-item> -->
-			<ion-item href="#/app/vehicles">
+			<ion-item href="#/app/vehicles" class="item-icon-right">
+	           <i class="icon ion-ios-arrow-right"></i>
 			   My Vehicles
 				<span class="item-note">
 					<span ng-repeat="vehicle in currentUser.vehicles | filter:{ selected: true }" >{{vehicle.name}}{{$last ? '' : ', '}}</span>

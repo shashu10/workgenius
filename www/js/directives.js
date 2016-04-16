@@ -15,6 +15,30 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/companies.html'
   };
 })
+.directive('vehicleTypes', function() {
+  return {
+    templateUrl: 'templates/shared/vehicle-types.html',
+    scope: {
+        vehicles: '=',
+        onChange: '=',
+    },
+    controller: ['$scope', '$rootScope',
+    function($scope, $rootScope) {
+      // $scope.currentUser = $rootScope.currentUser;
+      $scope.car = $scope.vehicles && $scope.vehicles.find(function (vehicle) {
+        return vehicle.name === "car";
+      });
+
+      // Don't call onChange immediately to save info. If it's a car, make sure the make and model is set
+      $scope.onChangeIntercept = function (vehicle) {
+        console.log(vehicle);
+        if (vehicle.name === "car" && vehicle.selected) if (!vehicle.info) return;
+        
+        if ($scope.onChange) $scope.onChange();
+      };
+    }]
+  };
+})
 .directive('shiftList', function() {
   return {
     templateUrl: 'templates/shared/shift-list.html'
