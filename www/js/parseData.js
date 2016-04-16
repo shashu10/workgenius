@@ -611,6 +611,9 @@ function formatUploadData($rootScope) {
         reCalculateTotalHours();
         return {availability : $rootScope.currentUser.availability};
     };
+    var formatAvailabilityQuestions = function() {
+        return {availabilityQuestions : $rootScope.currentUser.availabilityQuestions};
+    };
 
     var formatBlockedDays = function() {
         return {blockedDays: $rootScope.currentUser.blockedDays};
@@ -645,6 +648,7 @@ function formatUploadData($rootScope) {
         target: formatTargetHours,
         vehicles: formatVehicles,
         workTypes: formatWorkTypes,
+        availabilityQuestions: formatAvailabilityQuestions,
         availability: formatAvailability,
         blockedDays: formatBlockedDays,
         appState: formatAppState,

@@ -1,11 +1,15 @@
 .onboarding {
-	background-color: #f8f8f8;
+	background-color: #f5f6f8;
 
 	// personal info
     .item-stacked-label {
 		background-color: #fff;
 	    &.disabled {
-	        background-color: #f8f8f8;
+	        background-color: #f5f6f8;
 	    }
     }
+
+    .wg-title-instruction {
+	    margin-top: 10px;
+	}
 }

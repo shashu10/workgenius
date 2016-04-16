@@ -4,7 +4,7 @@
 		<ion-cal calendar-type="week" options="options" events="currentUser.shifts"></ion-cal>
 	</ion-header-bar>
 
-    <ion-content delegate-handle="scheduleScroll" class="has-ion-cal-subheader" >
+    <ion-content delegate-handle="scheduleScroll" class="has-ion-cal-subheader schedule" >
 	    	<ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
 			</ion-refresher>
 	        <shift-list></shift-list>

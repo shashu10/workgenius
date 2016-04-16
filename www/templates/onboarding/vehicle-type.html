@@ -9,7 +9,7 @@
                 <label class="checkbox">
                     <input type="checkbox" ng-change="onChange(vehicle)" ng-model="vehicle.selected">
                 </label>
-                {{vehicle.name}}
+                {{vehicle.name | capitalize}}
                 <i class="icon {{vehicle.icon}}"></i>
             </ion-item>
             <label ng-show="car.selected" class="item item-input item-stacked-label padding-top">

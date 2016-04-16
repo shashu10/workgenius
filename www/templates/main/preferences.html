@@ -1,20 +1,17 @@
 <ion-view view-title="Preferences">
 	<ion-content class="wg-preferences">
 
-		<p class="wg-list-title">Work Preferences</p>
+		<!-- <p class="wg-list-title">Work Preferences</p> -->
 
-		<ion-list type="card">
+		<br>
+		<ion-list>
+			<div class="item item-divider">
+				Work Preferences
+			</div>
 			<!-- <ion-item href="#/app/target">
 			   Weekly Hours Target
 				<span class="item-note">
 					{{currentUser.target}} {{currentUser.target == 1 ? 'Hour' : 'Hours'}}
-				</span>
-			</ion-item> -->
-
-			<!-- <ion-item href="#/app/availability-tabs/availability">
-			   Manage Availability
-				<span class="item-note">
-					{{currentUser.totalHours}} {{currentUser.totalHours == 1 ? 'Hour' : 'Hours'}}
 				</span>
 			</ion-item> -->
 
@@ -25,6 +22,12 @@
 				</span>
 			</ion-item> -->
 
+			<!-- <ion-item href="#/app/availability-tabs/availability">
+			   Manage Availability
+				<span class="item-note">
+					{{currentUser.totalHours}} {{currentUser.totalHours == 1 ? 'Hour' : 'Hours'}}
+				</span>
+			</ion-item> -->
 			<ion-item href="#/app/vehicles">
 			   My Vehicles
 				<span class="item-note">
@@ -34,16 +37,20 @@
 
 		</ion-list>
 
-		<p class="wg-list-title">Personal Information</p>
+		<!-- <p class="wg-list-title">Personal Information</p> -->
 
-		<ion-list type="card">
+		<br>
+		<ion-list>
+			<div class="item item-divider">
+				Personal Information
+			</div>
 			<ion-item>{{currentUser.name}} <span class="item-note">Name</span></ion-item>
 			<ion-item ng-if="currentUser.phone">{{currentUser.phone}} <span class="item-note">Phone</span></ion-item>
 			<ion-item>{{currentUser.email}} <span class="item-note">Email</span></ion-item>
 		</ion-list>
 
 		<!-- Enable once edit is working properly -->
-		<!-- <ion-list type="card">
+		<!-- <ion-list>
 			<ion-item class="item-input-element">
 			   <input type="text" ng-model="currentUser.name" readonly="readonly">
 			</ion-item>
@@ -56,8 +63,9 @@
 			   <span class="item-note wg-floating-note">Edit</span>
 			</ion-item>
 		</ion-list> -->
-
-		<ion-list type="card">
+		<br>
+		<br>
+		<ion-list>
 			<ion-item class="item-icon-right assertive" ng-click="logout()">
 	          Logout
 	          <i class="icon ion-log-out"></i>

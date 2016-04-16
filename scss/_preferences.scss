@@ -1,6 +1,10 @@
 .wg-preferences {
-    background-color: #f8f8f8;
-    padding-top: 20px;
+    background-color: #f5f6f8;
+
+    .item-divider {
+        background-color: transparent;
+        border: 0;
+    }
     
     .item-content {
         padding-right: 20px;
