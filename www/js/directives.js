@@ -15,6 +15,11 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/companies.html'
   };
 })
+.directive('claimShiftInfo', function() {
+  return {
+    templateUrl: 'templates/shared/claim-shift-info.html'
+  };
+})
 .directive('vehicleTypes', function() {
   return {
     templateUrl: 'templates/shared/vehicle-types.html',
