@@ -524,7 +524,6 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             }).then(function(results) {
 
                 var eligibility = [];
-                var availShifts = [];
 
                 for (var i = 0; i < results.length; i++) {
                     var el = results[i];
@@ -542,10 +541,9 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                     });
 
                     // Append shifts
-                    Array.prototype.push.apply(availShifts, el.get('shifts'));
+                    connectedShifts.appendNewShifts(el.get('shifts'), company);
                 }
 
-                connectedShifts.updateWith(availShifts);
                 $rootScope.currentUser.eligibility = eligibility;
 
                 return getShifts();

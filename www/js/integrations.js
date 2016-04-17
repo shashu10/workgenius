@@ -11,8 +11,6 @@ function connectedShifts($rootScope) {
             var s = $rootScope.currentUser.shifts[i];
             // proof: https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap/325964#325964
             // (StartA <= EndB) and (EndA >= StartB)
-            console.log(s.startsAt <= end);
-            console.log(s.endsAt >= start);
             if (s.startsAt <= end && s.endsAt >= start) {
                 return true;
             }
@@ -27,22 +25,27 @@ function connectedShifts($rootScope) {
         }
         return undefined;
     }
-    function appendNewShifts(shifts, company, $rootScope) {
+    function appendNewShifts(shifts, company) {
 
         // Get all current available shifts in list form
-        var availShifts = $rootScope.currentUser.availableShiftsArr;
+        var availShifts = $rootScope.currentUser.availableShiftsArr || [];
 
         // Remove current company shifts
         removeCompanyShifts(availShifts, company);
 
+        // add company name
+        shifts = shifts.map(function (shift) {
+            shift.company = company;
+            return shift;
+        });
+
         // Merge old and new shifts
         Array.prototype.push.apply(availShifts, shifts);
 
-        console.log(availShifts);
-
         updateWith(availShifts);
 
-        $rootScope.$apply();
+        // When is this called?
+        // $rootScope.$apply();
     }
     function removeCompanyShifts(shifts, company) {
         _.remove(shifts, function(o) { return o.company === company; });
@@ -61,8 +64,8 @@ function connectedShifts($rootScope) {
 
                 el.object.set('shifts', shifts);
                 el.shifts = shifts;
-
-                appendNewShifts(shifts, el.company, $rootScope);
+                console.log(shifts);
+                appendNewShifts(shifts, el.company);
 
                 if (success) success();
                 $rootScope.$apply();
@@ -134,6 +137,8 @@ function connectedShifts($rootScope) {
         $rootScope.currentUser.availableShifts = groupByDay($rootScope.currentUser.availableShiftsArr);
     }
     return {
+
+        appendNewShifts: appendNewShifts,
 
         updateWith: updateWith,
 
