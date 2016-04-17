@@ -154,16 +154,49 @@ angular.module('workgenius.controllers', ['integrations'])
   };
 
 }])
-.controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$rootScope', '$state',
-  function($stateParams, $scope, $rootScope, $state) {
+.controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$rootScope', '$ionicPopup', '$state', '$filter', 'connectedShifts',
+  function($stateParams, $scope, $rootScope, $ionicPopup, $state, $filter, connectedShifts) {
 
   $scope.day = $rootScope.currentUser.availableShifts[$stateParams.index];
   $scope.title = moment($scope.day.date).format("ddd Do");
   $scope.shifts = $scope.day.shifts;
 
   $scope.select = function(shift) {
-    $state.go("app.claim-detail", {shift: JSON.stringify(shift)});
+    // $state.go("app.claim-detail", {shift: JSON.stringify(shift)});
+    $scope.selectedShift = shift;
+    $scope.selectedShift.claimStatus = 0;
+    $scope.selectedShift.claimText = "Claim";
+    $scope.claim = function (shift) {
+
+      $scope.selectedShift.claimStatus = 1;
+      $scope.selectedShift.claimText = "";
+      connectedShifts.claim(shift, function success() {
+        $scope.selectedShift.claimStatus = 2;
+        $scope.selectedShift.claimText = "Claimed Shift!";
+        // If no user, then it's just a demo. Don't need to apply scope.
+      }, function failure(error) {
+        console.log(error);
+        $scope.selectedShift.claimStatus = 3;
+        $scope.selectedShift.claimText = "Failed to claim";
+        if (error && error.message === 'conflict') {
+          $scope.selectedShift.claimMessage = "There's a conflict! You are already working a shift at this time.";
+        } else
+          $scope.selectedShift.claimMessage = "Something went wrong. This shift may have already been claimed by someone else.";
+      });
+    };
+    $ionicPopup.show(newClaimPopup())
+    .then(function(connect) {
+
+    });
   };
+  function newClaimPopup() {
+    return {
+        template: '<claim-shift-info></claim-shift-info>',
+        title: $filter('capitalize')($scope.selectedShift.company),
+        scope: $scope,
+        cssClass: 'claim-popup'
+    };
+  }
 }])
 .controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope', 'connectedShifts',
   function($stateParams, $scope, $rootScope, connectedShifts) {

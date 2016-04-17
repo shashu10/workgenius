@@ -1,0 +1,31 @@
+<img ng-src="img/companies/{{selectedShift.company.toLowerCase()  | spaceless}}.png" alt="">
+
+<!-- <p><strong>Location:</strong> {{selectedShift.location | capitalize:true}}</p> -->
+<!-- <p><i class="icon ion-location"></i> {{selectedShift.location | capitalize:true}}</p> -->
+<p><i class="icon ion-calendar"></i>&nbsp;{{selectedShift.startsAt | date: 'EEE, MMMM d, y'}}</p>
+
+<!-- Showing flex time -->
+<!-- <p><strong>Start time:</strong> <span ng-class="{positive : selectedShift.flex}">{{selectedShift.flex ? "Flexible" : selectedShift.startsAt}}</span></p> -->
+<p ng-if="!selectedShift.flex"><strong>Start time:</strong> {{selectedShift.startsAt | date: "h:mm a" | lowercase}}</p>
+<p ng-if="!selectedShift.flex"><strong>End time:</strong> {{selectedShift.endsAt | date: "h:mm a" | lowercase}}</p>
+<p ng-if="selectedShift.bonus"><strong>Bonus:</strong> <span class="positive">{{selectedShift.bonus}}</span></p>
+<ion-list ng-if="selectedShift.flex">
+    <p class="flex-info padding">
+    	<i class="icon ion-information-circled"></i>
+		<span>You can change the start and end time of Flex shifts as long as they fall within the shift times</span>
+    </p>
+    <ion-item class="item-icon-right" >
+        <p><strong>Start time:</strong> {{selectedShift.startsAt | date: "h:mm a" | lowercase}}</p>
+        <i class="icon ion-ios-arrow-right"></i>
+    </ion-item>
+    <ion-item class="item-icon-right" >
+        <p><strong>End time:</strong> {{selectedShift.endsAt | date: "h:mm a" | lowercase}}</p>
+        <i class="icon ion-ios-arrow-right"></i>
+    </ion-item>
+</ion-list>
+<p ng-if="selectedShift.claimStatus === 3" class="padding">{{selectedShift.claimMessage}}</p>
+
+<button class="button button-block claim-button button-large" ng-class="{'button-positive' : selectedShift.claimStatus === 0, 'button-positive disabled' : selectedShift.claimStatus === 1, 'button-balanced disabled' : selectedShift.claimStatus === 2, 'button-assertive disabled' : selectedShift.claimStatus === 3}" ng-click="claim(selectedShift)">
+    <span ng-if="selectedShift.claimStatus !== 1">{{selectedShift.claimText}}</span>
+    <ion-spinner ng-if="selectedShift.claimStatus === 1" icon="dots" class="spinner-light"></ion-spinner>
+</button>
