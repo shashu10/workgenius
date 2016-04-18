@@ -56,13 +56,6 @@
     .list-inset {
         margin-left: 20px;
         margin-right: 20px;
-        .item {
-            border-right: 0;
-            border-left: 0;
-        }
-        .item:first-child {
-            border-top-width: 0;
-        }
     }
     .button-full {
         font-family: Avenir-Heavy

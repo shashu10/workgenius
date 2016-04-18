@@ -1,26 +1,30 @@
 <ion-view class="onboarding" title="Vehicle Type">
     <ion-content class="has-header has-subheader">
-		<p class="wg-title-instruction padding">
-            What kind of vehicle do you have?
-        </p>
-		
-		<ion-list>
-            <ion-item class="item-checkbox item-icon-right" ng-repeat="vehicle in currentUser.vehicles">
-                <label class="checkbox">
-                    <input type="checkbox" ng-change="onChange(vehicle)" ng-model="vehicle.selected">
+        <form name="vehicleForm" ng-submit="submit()" novalidate>
+    		<p class="wg-title-instruction padding">
+                What kind of vehicle do you have?
+            </p>
+    		
+    		<ion-list>
+                <ion-item class="item-checkbox item-icon-right" ng-repeat="vehicle in currentUser.vehicles">
+                    <label class="checkbox">
+                        <input type="checkbox" ng-change="onChange(vehicle)" ng-model="vehicle.selected">
+                    </label>
+                    {{vehicle.name | capitalize}}
+                    <i class="icon {{vehicle.icon}}"></i>
+                </ion-item>
+                <label ng-show="car.selected" class="item item-input item-stacked-label padding-top">
+                    <span class="input-label"><strong>Make, model and year</strong></span>
+                    <input type="text" ng-change="onChange(vehicle)" ng-model="car.info" placeholder="Eg: Toyota Prius 2013">
                 </label>
-                {{vehicle.name | capitalize}}
-                <i class="icon {{vehicle.icon}}"></i>
-            </ion-item>
-            <label ng-show="car.selected" class="item item-input item-stacked-label padding-top">
-                <span class="input-label"><strong>Make, model and year</strong></span>
-                <input type="text" ng-change="onChange(vehicle)" ng-model="car.info" placeholder="Eg: Toyota Prius 2013">
-            </label>
-        </ion-list>
-
+                <!-- Hidden input button necessary to make keyboard next button work -->
+                <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+            </ion-list>
+        </form>
+    
     </ion-content>
 
-    <div class="bar bar-footer bar-positive" ng-click="next(); save('vehicles')" ng-show="showNext">
+    <div class="bar bar-footer bar-positive" ng-click="continue()" ng-show="showNext">
       <h1 class="title">CONTINUE >></h1>
     </div>
 </ion-view>

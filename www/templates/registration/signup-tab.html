@@ -1,23 +1,27 @@
 <ion-view>
     <ion-content has-bouncing class="has-header">
-        <div class="list list-inset">
-            <label class="item item-input">
-                <i class="icon ion-person placeholder-icon"></i>
-                <input type="text" ng-model="user.name" placeholder="Full Name">
-            </label>
-            <label class="item item-input">
-                <i class="icon ion-email placeholder-icon"></i>
-                <input type="email" ng-model="user.email" placeholder="Email">
-            </label>
-            <label class="item item-input">
-                <i class="icon ion-lock-combination placeholder-icon"></i>
-                <input type="password" ng-model="user.password" placeholder="Password">
-            </label>
-            <label class="item item-input">
-                <i class="icon ion-lock-combination placeholder-icon"></i>
-                <input type="password" ng-model="user.password1" placeholder="Confirm Password">
-            </label>
-        </div>
+        <form name="deviceForm" ng-submit="register()" novalidate>
+            <div class="list list-inset borderless-input">
+                <label class="item item-input">
+                    <i class="icon ion-person placeholder-icon"></i>
+                    <input autofocus type="text" ng-model="user.name" placeholder="Full Name">
+                </label>
+                <label class="item item-input">
+                    <i class="icon ion-email placeholder-icon"></i>
+                    <input type="email" ng-model="user.email" placeholder="Email">
+                </label>
+                <label class="item item-input">
+                    <i class="icon ion-lock-combination placeholder-icon"></i>
+                    <input type="password" ng-model="user.password" placeholder="Password">
+                </label>
+                <label class="item item-input">
+                    <i class="icon ion-lock-combination placeholder-icon"></i>
+                    <input type="password" ng-model="user.password1" placeholder="Confirm Password">
+                </label>
+            </div>
+            <!-- Hidden input button necessary to make keyboard next button work -->
+            <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+        </form>
 
         <div class="assertive padding" ng-show="error.message">{{error.message}}</div>
         <button ng-click="register()" class="button button-full button-positive">

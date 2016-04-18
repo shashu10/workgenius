@@ -233,3 +233,13 @@ i.icon.ion-ios-arrow-back:before {
 .platform-android .header-item.buttons {
     transition-duration: 0ms;
 }
+
+.borderless-input {
+    .item {
+        border-right: 0;
+        border-left: 0;
+    }
+    .item:first-child {
+        border-top-width: 0;
+    }
+}

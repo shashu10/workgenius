@@ -344,6 +344,8 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
     };
 
     var getVehicles = function(user) {
+        var car = _.find(user && user.get('vehicles'), function(v) { return v.indexOf('car') > -1; });
+
         return [{
             name: "none",
             icon: "ion-ios-body",
@@ -358,9 +360,9 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('motorbike') > -1
         }, {
             name: "car",
-            info: "",
+            info: (car && car.substring(5)) || "",
             icon: "ion-android-car",
-            selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('car') > -1
+            selected: !!car
         }, ];
     };
 

@@ -50,6 +50,7 @@ angular.module('workgenius.registration', [])
 
             Parse.User.logIn(('' + $scope.user.email).toLowerCase(), $scope.user.password, {
                 success: function(user) {
+                    $scope.error.message = "";
 
                     getUserData().then(function (onboarding) {
                         mixpanel.register({
@@ -171,6 +172,8 @@ angular.module('workgenius.registration', [])
 
             user.signUp(null, {
                 success: function(user) {
+                    $scope.error.message = "";
+
                     $ionicLoading.hide();
                     getUserData(true, $rootScope.user.name, $rootScope.user.email);
 

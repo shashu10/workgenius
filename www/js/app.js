@@ -49,7 +49,14 @@ angular.module('workgenius', [
         // $rootScope.hourlyRate = 15; // For when we don't have the actual earnings
         // $rootScope.imageURL = "img/profile_default.jpg";
         $rootScope.days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-
+        $rootScope.availabilityLock = {
+            // Using ISO day numbers Monday - 1, Sunday - 7
+            // Users cannot edit their availability in App on or after start day
+            start: "Sunday",
+            // and on or before end day
+            end: "Sunday",
+            disableLock: true,
+        };
                 
         // Testing on the browser. Unregister tracking and error logging.
         if (!ionic.Platform.isWebView()) {
@@ -64,7 +71,7 @@ angular.module('workgenius', [
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
             cordova.plugins.Keyboard.disableScroll(true);
         }
 

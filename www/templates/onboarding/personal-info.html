@@ -1,28 +1,30 @@
 <ion-view class="onboarding" title="Personal Info">
 	<!-- Form needs to be outside for continue button to access info -->
-	<form name="form" novalidate>
-	    <ion-content class="has-header has-subheader">
+    <ion-content class="has-header has-subheader">
+		<form name="form" ng-submit="submit()" novalidate>
 			<p class="wg-title-instruction padding">
 	            We need some more information to get you working
 	        </p>
-				<ion-list>
-				    <label class="item item-input item-stacked-label">
-				        <span class="input-label"><strong>Full address</strong></span>
-				        <ion-google-place type="text" placeholder="Eg: 548 Market St, San Francisco, CA 94104" name="address" ng-model="currentUser.address" current-location="true">
-				    </label>
-				    <label class="item item-input item-stacked-label">
-				        <span class="input-label"><strong>Date of Birth</strong></span>
-				        <input type="date" name="dob" ng-model="currentUser.dob" placeholder="mm/dd/yyyy"/>
-				    </label>
-				    <label class="item item-input item-stacked-label padding-top">
-				        <span class="input-label"><strong>Social Security Number</strong></span>
-				        <input type="text" name="ssn" ng-model="currentUser.ssn" placeholder="###-##-####" ssn-field="" ssn-field-mask="true" minlength="11" maxlength="11">
-				    </label>
-				</ion-list>
-	    </ion-content>
-	</form>
+			<ion-list>
+			    <label class="item item-input item-stacked-label">
+			        <span class="input-label"><strong>Full address</strong></span>
+			        <ion-google-place ng-change="onChange()" type="text" placeholder="Eg: 548 Market St, San Francisco, CA 94104" name="address" ng-model="currentUser.address" current-location="true">
+			    </label>
+			    <label class="item item-input item-stacked-label">
+			        <span class="input-label"><strong>Date of Birth</strong></span>
+			        <input ng-change="onChange()" type="date" name="dob" ng-model="currentUser.dob" placeholder="mm/dd/yyyy"/>
+			    </label>
+			    <label class="item item-input item-stacked-label padding-top">
+			        <span class="input-label"><strong>Social Security Number</strong></span>
+			        <input ng-change="onChange()" type="text" name="ssn" ng-model="currentUser.ssn" placeholder="###-##-####" ssn-field="" ssn-field-mask="true">
+			    </label>
+			    <!-- Hidden input button necessary to make keyboard next button work -->
+			    <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+			</ion-list>
+		</form>
+    </ion-content>
 
-	<div class="bar bar-footer bar-positive" ng-click="next(); save('personalInfo')" ng-show="form.address.$dirty && form.dob.$dirty && form.ssn.$dirty && form.ssn.$valid">
+	<div class="bar bar-footer bar-positive" ng-click="continue()" ng-show="showNext">
 	  <h1 class="title">CONTINUE >></h1>
 	</div>
 </ion-view>

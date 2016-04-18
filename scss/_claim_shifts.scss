@@ -1,5 +1,11 @@
 .connect-popup {
     padding-bottom: 200px;
+    .popup {
+        background-color: white;
+        form {
+            margin-bottom: 10px;
+        }
+    }
 }
 
 .claim-days {

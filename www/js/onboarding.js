@@ -111,9 +111,26 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
 }])
 
 .controller('PersonalInfoCtrl',
-  ['$rootScope',
-  function($rootScope) {
+  ['$rootScope', '$scope',
+  function($rootScope, $scope) {
+    $scope.showNext = shouldShowNext();
 
+    $scope.onChange = function (vehicle) {
+      $scope.showNext = shouldShowNext();
+    };
+    function shouldShowNext () {
+      return $rootScope.currentUser.address &&
+             $rootScope.currentUser.dob &&
+             $rootScope.currentUser.ssn &&
+             $rootScope.currentUser.ssn.length === 9;
+    }
+    $scope.continue = function () {
+      $scope.next();
+      $scope.save('personalInfo');
+    };
+    $scope.submit = function() {
+      if (shouldShowNext()) $scope.continue();
+    };
 }])
 .controller('VehicleTypeCtrl',
   ['$rootScope', '$scope',
@@ -128,11 +145,22 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
       $scope.showNext = shouldShowNext();
     };
     function shouldShowNext () {
+
+      // If car is selected, make and model must be entered
       if ($scope.car && $scope.car.selected) return $scope.car.info;
+
+      // At least one is selected
       return $rootScope.currentUser.vehicles.filter(function(vehicle) {
             return vehicle.selected;
         }).length;
     }
+    $scope.continue = function () {
+      $scope.next();
+      $scope.save('vehicles');
+    };
+    $scope.submit = function() {
+      if (shouldShowNext()) $scope.continue();
+    };
 }])
 .controller('DeviceTypeCtrl',
   ['$rootScope', '$scope',
@@ -150,6 +178,13 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
     function shouldShowNext () {
       return $scope.device.platform && $scope.device.model && $scope.device.carrier;
     }
+    $scope.continue = function () {
+      $scope.next();
+      $scope.save('device');
+    };
+    $scope.submit = function() {
+      if (shouldShowNext()) $scope.continue();
+    };
 }])
 
 .controller('WorkTypesCtrl',
