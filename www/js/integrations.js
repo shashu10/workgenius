@@ -193,6 +193,7 @@ function connectedShifts($rootScope) {
 
 	        var el = getEligibility(shift.company);
 
+            // For claiming your own dropped shift in WIW. Logic should be moved server side
             var ownShift = false;
             if (parseInt(shift.workerId) === parseInt(el.workerId))
                 ownShift = true;

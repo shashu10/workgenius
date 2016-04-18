@@ -29,11 +29,17 @@
             </ion-list>
 
         </div>
-        <button class="button button-full claim-button button-large" ng-class="{'button-positive' : shift.claimStatus === 0, 'button-positive disabled' : shift.claimStatus === 1, 'button-balanced disabled' : shift.claimStatus === 2, 'button-assertive disabled' : shift.claimStatus === 3}" ng-click="claim(shift)">
-            <span ng-if="shift.claimStatus !== 1">{{shift.claimText}}</span>
-            <ion-spinner ng-if="shift.claimStatus === 1" icon="dots" class="spinner-light"></ion-spinner>
-        </button>
+        <div class="padding">
+            <button class="button button-block claim-button button-large" ng-class="{'button-positive' : shift.claimStatus === 0, 'button-positive disabled' : shift.claimStatus === 1, 'button-balanced disabled' : shift.claimStatus === 2, 'button-assertive disabled' : shift.claimStatus === 3}" ng-click="claim(shift)">
+                <span ng-if="shift.claimStatus !== 1">{{shift.claimText}}</span>
+                <ion-spinner ng-if="shift.claimStatus === 1" icon="dots" class="spinner-light"></ion-spinner>
+            </button>
+        </div>
 
+        <!-- success -->
+        <p ng-if="shift.claimStatus === 2" class="padding">{{shift.claimMessage}}</p>
+
+        <!-- failure -->
         <p ng-if="shift.claimStatus === 3" class="padding">{{shift.claimMessage}}</p>
     </ion-content>
 </ion-view>

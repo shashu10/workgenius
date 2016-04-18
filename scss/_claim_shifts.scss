@@ -45,7 +45,8 @@
         height: 60px;
     }
     .card {
-        padding-top: 10px;
+        padding: 35px;
+        margin-bottom: 0;
     }
     .list {
     	padding: 10px 0;
@@ -75,7 +76,9 @@
         .spinner {
             position: absolute;
             top: 50%;
-            margin-top: -20px;
+            left: 50%;
+            margin-top: -18px;
+            margin-left: -14px;
         }
     }
 }
