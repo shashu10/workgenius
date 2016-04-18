@@ -537,6 +537,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                         connected: el.get('connected'),
                         username: el.get('username'),
                         token: el.get('token'),
+                        workerId: el.get('workerId'),
                         object: el
                     });
 

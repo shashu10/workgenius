@@ -10,8 +10,8 @@ function connectedShifts($rootScope) {
         for (var i = 0; i < $rootScope.currentUser.shifts.length; i++) {
             var s = $rootScope.currentUser.shifts[i];
             // proof: https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap/325964#325964
-            // (StartA <= EndB) and (EndA >= StartB)
-            if (s.startsAt <= end && s.endsAt >= start) {
+            // (StartA < EndB) and (EndA > StartB)
+            if (s.startsAt < end && s.endsAt > start) {
                 return true;
             }
         }
@@ -192,6 +192,11 @@ function connectedShifts($rootScope) {
             }
 
 	        var el = getEligibility(shift.company);
+
+            var ownShift = false;
+            if (parseInt(shift.workerId) === parseInt(el.workerId))
+                ownShift = true;
+
 	        return Parse.Cloud.run('claimShift',
 	        {
 	            shiftId : shift.shiftId,
@@ -199,6 +204,7 @@ function connectedShifts($rootScope) {
 	            companyId : el.object.get('company').id,
 	            company : el.company,
 	            token : el.token,
+                ownShift: ownShift
 	        },
 	        {
 	            success: function(shift) {
