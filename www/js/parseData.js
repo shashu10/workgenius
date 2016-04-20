@@ -584,13 +584,16 @@ function formatUploadData($rootScope) {
 
     var formatVehicles = function() {
 
-        var filtered = $rootScope.currentUser.vehicles.filter(function(vehicle) {
+        var filtered = _($rootScope.currentUser.vehicles)
+        .chain()
+        .filter(function (vehicle) {
             return vehicle.selected;
-        }).map(function(vehicle) {
-            // For car "car: Toyota Prius 2013"
-            // For everything else just vehicle type "bike"
+        })
+        // First convert to dates
+        .map(function(vehicle) {
             return vehicle.name + (vehicle.info ? ": " + vehicle.info : "");
-        });
+        })
+        .value();
 
         return {vehicles: filtered};
     };

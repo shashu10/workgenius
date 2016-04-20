@@ -13,3 +13,7 @@
 	    margin-top: 10px;
 	}
 }
+// So that continue button doesn't block input fields
+.platform-android .has-blocking-footer .scroll {
+	padding-bottom: 43px;
+}
