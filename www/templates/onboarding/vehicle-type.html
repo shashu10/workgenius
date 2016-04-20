@@ -4,22 +4,11 @@
     		<p class="wg-title-instruction padding">
                 What kind of vehicle do you have?
             </p>
-    		
-    		<ion-list>
-                <ion-item class="item-checkbox item-icon-right" ng-repeat="vehicle in currentUser.vehicles">
-                    <label class="checkbox">
-                        <input type="checkbox" ng-change="onChange(vehicle)" ng-model="vehicle.selected">
-                    </label>
-                    {{vehicle.name | capitalize}}
-                    <i class="icon {{vehicle.icon}}"></i>
-                </ion-item>
-                <label ng-show="car.selected" class="item item-input item-stacked-label padding-top">
-                    <span class="input-label"><strong>Make, model and year</strong></span>
-                    <input type="text" ng-change="onChange(vehicle)" ng-model="car.info" placeholder="Eg: Toyota Prius 2013">
-                </label>
-                <!-- Hidden input button necessary to make keyboard next button work -->
-                <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
-            </ion-list>
+
+            <vehicle-types vehicles="currentUser.vehicles" on-change="onChange"></vehicle-types>
+
+            <!-- Hidden input button necessary to make keyboard next button work -->
+            <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
         </form>
     
     </ion-content>

@@ -1,0 +1,25 @@
+<ion-view view-title="Personal Info">
+
+    <ion-content class="personal-info-page">
+
+		<br>
+
+        <ion-list>
+            <label class="item item-input item-stacked-label disabled">
+                <span class="input-label"><strong>Full Name</strong></span>
+                <input ng-change="onChange()" disabled type="text" placeholder="John Genius" name="name" ng-model="currentUser.name">
+            </label>
+            <label class="item item-input item-stacked-label disabled">
+                <span class="input-label"><strong>Email</strong></span>
+                <input ng-change="onChange()" disabled type="email" placeholder="johngenius@gmail.com" name="email" ng-model="currentUser.email">
+            </label>
+        </ion-list>
+
+        <br>
+
+        <personal-info current-user="currentUser" on-change="onChange"></personal-info>
+
+    </ion-content>
+
+    <wg-save-bar wg-on-change="onChange" wg-prop='"personalInfo"'></wg-save-bar>
+</ion-view>

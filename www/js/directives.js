@@ -15,28 +15,6 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/companies.html'
   };
 })
-.directive('vehicleTypes', function() {
-  return {
-    templateUrl: 'templates/shared/vehicle-types.html',
-    scope: {
-        vehicles: '=',
-        onChange: '=',
-    },
-    controller: ['$scope', '$rootScope',
-    function($scope, $rootScope) {
-      // $scope.currentUser = $rootScope.currentUser;
-      $scope.car = _.find($scope.vehicles, function(vehicle) { return vehicle.name === "car"; });
-
-      // Don't call onChange immediately to save info. If it's a car, make sure the make and model is set
-      $scope.onChangeIntercept = function (vehicle) {
-        console.log(vehicle);
-        if (vehicle.name === "car" && vehicle.selected) if (!vehicle.info) return;
-        
-        if ($scope.onChange) $scope.onChange();
-      };
-    }]
-  };
-})
 .directive('shiftList', function() {
   return {
     templateUrl: 'templates/shared/shift-list.html'
@@ -72,6 +50,37 @@ angular.module('workgenius.directives', [])
   return  {
     templateUrl: 'templates/shared/wg-work-types-footer.html',
     restrict: 'E',
+  };
+})
+.directive('vehicleTypes', function() {
+  return {
+    templateUrl: 'templates/shared/vehicle-types.html',
+    scope: {
+        vehicles: '=',
+        onChange: '=',
+    },
+    controller: ['$scope', '$rootScope',
+    function($scope, $rootScope) {
+      $scope.car = _.find($scope.vehicles, function(vehicle) { return vehicle.name === "car"; });
+    }]
+  };
+})
+.directive('deviceType', function() {
+  return {
+    templateUrl: 'templates/shared/device-type.html',
+    scope: {
+        device: '=',
+        onChange: '=',
+    }
+  };
+})
+.directive('personalInfo', function() {
+  return {
+    templateUrl: 'templates/shared/personal-info.html',
+    scope: {
+        currentUser: '=',
+        onChange: '=',
+    }
   };
 })
 .directive('wgDraggableFooter', ['$ionicGesture', function($ionicGesture) {

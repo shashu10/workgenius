@@ -1,0 +1,14 @@
+<ion-list>
+    <label class="item item-input item-stacked-label">
+        <span class="input-label"><strong>Full address</strong></span>
+        <ion-google-place ng-change="onChange()" type="text" placeholder="Eg: 548 Market St, San Francisco, CA 94104" name="address" ng-model="currentUser.address" current-location="false">
+    </label>
+    <label class="item item-input item-stacked-label">
+        <span class="input-label"><strong>Date of Birth</strong></span>
+        <input ng-change="onChange()" type="date" name="dob" ng-model="currentUser.dob" placeholder="mm/dd/yyyy" max="1999-12-31" min="1950-01-01" />
+    </label>
+    <label class="item item-input item-stacked-label padding-top">
+        <span class="input-label"><strong>Social Security Number</strong></span>
+        <input autocorrect="off" pattern="\d*" ng-change="onChange()" type="text" name="ssn" ng-model="currentUser.ssn" placeholder="###-##-####" ssn-field="" ssn-field-mask="true">
+    </label>
+</ion-list>

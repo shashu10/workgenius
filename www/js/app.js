@@ -33,8 +33,8 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
 ])
 
-.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory',
-    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory) {
+.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map',
+    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map) {
 
         // ionic platform should be ready now
         if (window.location.hostname !== 'localhost') $state.go('splash');
@@ -81,9 +81,11 @@ angular.module('workgenius', [
                 var platform = "ios";
                 if (window.device && window.device.platform){
                     console.log('got device info');
+                    platform = device.platform.toLowerCase();
+                    if (platform === 'ios') // Converts iPhone "iPhone7,2" to "iPhone 6"
+                        device.model = ios_modes_map[device.model] || device.model;
                     $rootScope.prefilledDevice = true;
                     $rootScope.device = device;
-                    platform = device.platform.toLowerCase();
                     console.log(device);
                 }
 
@@ -239,6 +241,16 @@ angular.module('workgenius', [
                 'menuContent': {
                     templateUrl: 'templates/main/vehicles.html',
                     // controller: 'VehiclesCtrl'
+                }
+            }
+        })
+
+        .state('app.personal-info', {
+            url: '/personal-info',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/personal-info.html',
+                    // controller: 'PersonalInfoCtrl'
                 }
             }
         })
