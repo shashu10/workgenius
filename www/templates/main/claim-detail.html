@@ -1,40 +1,43 @@
 <ion-view view-title="Shift Info">
     <ion-content class="claim-detail padding-top">
-        <div class="card">
+        <div class="list claim-info" ng-class="{'claim-info-big' : !shift.flex}">
             <img ng-src="img/companies/{{shift.company.toLowerCase()  | spaceless}}.png" alt="">
             <h1>{{shift.company | capitalize}}</h1>
             
             <!-- <p><strong>Location:</strong> {{shift.location | capitalize:true}}</p> -->
-            <!-- <p><i class="icon ion-location"></i> {{shift.location | capitalize:true}}</p> -->
+            <p><i class="icon ion-location"></i> {{shift.location | capitalize:true}}</p>
             <p><i class="icon ion-calendar"></i>&nbsp;{{shift.startsAt | date: 'EEE, MMMM d, y'}}</p>
 
             <!-- Showing flex time -->
             <!-- <p><strong>Start time:</strong> <span ng-class="{positive : shift.flex}">{{shift.flex ? "Flexible" : shift.startsAt}}</span></p> -->
             <p ng-if="!shift.flex"><strong>Start time:</strong> {{shift.startsAt | date: "h:mm a" | lowercase}}</p>
             <p ng-if="!shift.flex"><strong>End time:</strong> {{shift.endsAt | date: "h:mm a" | lowercase}}</p>
-    		<p ng-if="shift.bonus"><strong>Bonus:</strong> <span class="positive">{{shift.bonus}}</span></p>
-            <ion-list ng-if="shift.flex">
-                <p class="flex-info padding">
-                	<i class="icon ion-information-circled"></i>
-    				<span>You can change the start and end time of Flex shifts as long as they fall within the shift times</span>
-                </p>
-                <ion-item class="item-icon-right" >
-                    <p><strong>Start time:</strong> {{shift.startsAt | date: "h:mm a" | lowercase}}</p>
-                    <i class="icon ion-ios-arrow-right"></i>
-                </ion-item>
-                <ion-item class="item-icon-right" >
-                    <p><strong>End time:</strong> {{shift.endsAt | date: "h:mm a" | lowercase}}</p>
-                    <i class="icon ion-ios-arrow-right"></i>
-                </ion-item>
-            </ion-list>
+            
+            <p ng-if="shift.bonus"><strong>Bonus:</strong> <span class="positive">{{shift.bonus}}</span></p>
 
         </div>
-        <div class="padding">
-            <button class="button button-block claim-button button-large" ng-class="{'button-positive' : shift.claimStatus === 0, 'button-positive disabled' : shift.claimStatus === 1, 'button-balanced disabled' : shift.claimStatus === 2, 'button-assertive disabled' : shift.claimStatus === 3}" ng-click="claim(shift)">
-                <span ng-if="shift.claimStatus !== 1">{{shift.claimText}}</span>
-                <ion-spinner ng-if="shift.claimStatus === 1" icon="dots" class="spinner-light"></ion-spinner>
-            </button>
-        </div>
+
+        <!-- <div ng-if="shift.flex" class="list flex-times">
+            <p class="flex-info padding">
+            	<i class="icon ion-information-circled"></i>
+				<span>You can change the start and end time for Flex shifts</span>
+            </p>
+            <ion-item class="item-input item-icon-right" >
+                <span class="input-label"><strong>Start time</strong></span>
+                <input type="time" step="1800">
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+            <ion-item class="item-input item-icon-right" >
+                <span class="input-label"><strong>End time</strong></span>
+                <input type="time" ng-model="date" ng-value="{{dateValue}}" step="1800" ng-change="onChange(date)">
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+        </div> -->
+
+        <button class="button button-full claim-button button-large" ng-class="{'button-positive' : shift.claimStatus === 0, 'button-positive disabled' : shift.claimStatus === 1, 'button-balanced disabled' : shift.claimStatus === 2, 'button-assertive disabled' : shift.claimStatus === 3}" ng-click="claim(shift)">
+            <span ng-if="shift.claimStatus !== 1">{{shift.claimText}}</span>
+            <ion-spinner ng-if="shift.claimStatus === 1" icon="dots" class="spinner-light"></ion-spinner>
+        </button>
 
         <!-- success -->
         <p ng-if="shift.claimStatus === 2" class="padding">{{shift.claimMessage}}</p>

@@ -98,9 +98,7 @@ function getCompanyData($rootScope, companies) {
 
     function createWorkTypeAndAppend(workType, array, company) {
 
-        var found = workType && array && array.find && array.find(function(element, index, array) {
-            return element.name === workType.get('name');
-        });
+        var found = _.find(array, function(o) { return o.name === workType.get('name'); });
 
         if (!found) {
             found = {

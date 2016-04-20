@@ -12,11 +12,11 @@
 			    </label>
 			    <label class="item item-input item-stacked-label">
 			        <span class="input-label"><strong>Date of Birth</strong></span>
-			        <input ng-change="onChange()" type="date" name="dob" ng-model="currentUser.dob" placeholder="mm/dd/yyyy"/>
+			        <input ng-change="onChange()" type="date" name="dob" ng-model="currentUser.dob" placeholder="mm/dd/yyyy" max="1999-12-31" min="1950-01-01"/>
 			    </label>
 			    <label class="item item-input item-stacked-label padding-top">
 			        <span class="input-label"><strong>Social Security Number</strong></span>
-			        <input ng-change="onChange()" type="text" name="ssn" ng-model="currentUser.ssn" placeholder="###-##-####" ssn-field="" ssn-field-mask="true">
+			        <input autocorrect="off" pattern="\d*" ng-change="onChange()" type="text" name="ssn" ng-model="currentUser.ssn" placeholder="###-##-####" ssn-field="" ssn-field-mask="true">
 			    </label>
 			    <!-- Hidden input button necessary to make keyboard next button work -->
 			    <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>

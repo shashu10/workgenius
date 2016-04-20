@@ -39,7 +39,8 @@
     {
       "locator": "https://github.com/fastrde/phonegap-parse-plugin.git",
       "id": "org.apache.cordova.core.parseplugin"
-    }
+    },
+    "cordova-plugin-datepicker"
   ],
   "cordovaPlatforms": [
     "ios",

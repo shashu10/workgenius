@@ -25,9 +25,7 @@ angular.module('workgenius.directives', [])
     controller: ['$scope', '$rootScope',
     function($scope, $rootScope) {
       // $scope.currentUser = $rootScope.currentUser;
-      $scope.car = $scope.vehicles && $scope.vehicles.find(function (vehicle) {
-        return vehicle.name === "car";
-      });
+      $scope.car = _.find($scope.vehicles, function(vehicle) { return vehicle.name === "car"; });
 
       // Don't call onChange immediately to save info. If it's a car, make sure the make and model is set
       $scope.onChangeIntercept = function (vehicle) {

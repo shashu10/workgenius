@@ -138,9 +138,8 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
 
     $scope.showNext = shouldShowNext();
 
-    $scope.car = $rootScope.currentUser.vehicles.find(function (vehicle) {
-      return vehicle.name === "car";
-    });
+    $scope.car = _.find($rootScope.currentUser.vehicles, function(vehicle) { return vehicle.name === "car"; });
+    
     $scope.onChange = function (vehicle) {
       $scope.showNext = shouldShowNext();
     };
@@ -150,9 +149,7 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
       if ($scope.car && $scope.car.selected) return $scope.car.info;
 
       // At least one is selected
-      return $rootScope.currentUser.vehicles.filter(function(vehicle) {
-            return vehicle.selected;
-        }).length;
+      return _.filter($rootScope.currentUser.vehicles, function(vehicle) { return vehicle.selected; }).length;
     }
     $scope.continue = function () {
       $scope.next();

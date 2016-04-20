@@ -27,6 +27,8 @@ function connectedShifts($rootScope) {
     }
     function appendNewShifts(shifts, company) {
 
+        shifts = shifts || [];
+
         // Get all current available shifts in list form
         var availShifts = $rootScope.currentUser.availableShiftsArr || [];
 
@@ -86,7 +88,7 @@ function connectedShifts($rootScope) {
         .chain()
         // First convert to dates
         .map(function(s) {
-            s.location = "san francisco";
+            s.location = s.location || "san francisco";
             s.startsAt = new Date(s.startsAt);
             s.endsAt = new Date(s.endsAt);
             return s;

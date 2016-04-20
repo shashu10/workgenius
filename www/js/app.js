@@ -20,7 +20,6 @@ angular.module('workgenius', [
     'parseUtils',
     'integrations',
     'phoneFormatting',
-    'ionic-timepicker',
     'angular.filter',
     'ioncal',
     'pascalprecht.translate',
@@ -38,7 +37,7 @@ angular.module('workgenius', [
     function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory) {
 
         // ionic platform should be ready now
-        $state.go('splash');
+        if (window.location.hostname !== 'localhost') $state.go('splash');
 
         // Initialize Parse here with AppID and JavascriptID
         Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
@@ -109,7 +108,7 @@ angular.module('workgenius', [
         // Get user data and store it in the rootscope.
         // Goto correct state after deviceready
         getUserData().then(function(user) {
-
+            if (window.location.hostname === 'localhost' && window.location.hash !== "") return;
             if (window.location.hash === "" || window.location.hash === "#/splash") {
                 $ionicHistory.nextViewOptions({
                     historyRoot: true,

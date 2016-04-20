@@ -167,6 +167,8 @@ angular.module('workgenius.controllers', ['integrations'])
 }])
 .controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope', 'connectedShifts',
   function($stateParams, $scope, $rootScope, connectedShifts) {
+
+    $scope.date = new Date();
   $scope.shift = JSON.parse($stateParams.shift);
   // Claim Status:
   // 0: nothing
@@ -193,6 +195,24 @@ angular.module('workgenius.controllers', ['integrations'])
         $scope.shift.claimMessage = "Something went wrong. This shift may have already been claimed by someone else.";
     });
   };
+
+  // $scope.showTimePicker = function (min, max, selected) {
+
+  //   if (window.datePicker) {
+  //     datePicker.show({
+  //         date: new Date(),
+  //         mode: 'time',
+  //         minDate: new Date(),
+  //         maxDate: undefined,
+  //         minuteInterval: 30
+  //     }, function onSuccess(date) {
+  //         alert('Selected date: ' + date);
+  //     }, function onError(error) { // Android only
+  //         alert('Error: ' + error);
+  //     });
+  //   }
+  // };
+  // $scope.showTimePicker();
 }])
 .controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup', 'eligibilities',
   function($scope, $rootScope, $ionicPopup, eligibilities) {
@@ -226,7 +246,7 @@ angular.module('workgenius.controllers', ['integrations'])
       } else {
         $scope.selectedCompany.connected = false;
       }
-    }
+    };
     $scope.toggleConnection = function(company) {
         $scope.selectedCompany = company;
         // If toggle is turned on
