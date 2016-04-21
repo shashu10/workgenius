@@ -1,5 +1,5 @@
 <ion-view class="onboarding" title="Vehicle Type">
-    <ion-content class="has-header has-subheader has-blocking-footer">
+    <ion-content class="has-header has-subheader">
         <form name="vehicleForm" ng-submit="submit()" novalidate>
     		<p class="wg-title-instruction padding">
                 What kind of vehicle do you have?
@@ -9,7 +9,8 @@
 
             <hidden-submit></hidden-submit>
         </form>
-    
+        
+        <div class="android-bottom-padder"></div>
     </ion-content>
 
     <div class="bar bar-footer bar-positive" ng-click="submit()" ng-show="showNext">

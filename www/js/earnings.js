@@ -4,10 +4,15 @@ angular.module('workgenius.earnings', [])
 
 function earningsEstimate($rootScope) {
 	function avgCompanyPay (name) {
+		if (!name) {
+			Raven.captureMessage('copmany not defined in avgCompanyPay');
+			return 15;
+		}
 	    for (var i = 0; i < $rootScope.companyList.length; i++) {
 	        if (name.toLowerCase() === $rootScope.companyList[i].name.toLowerCase())
 	            return $rootScope.companyList[i].earningsEst;
 	    }
+	    Raven.captureMessage('copmany not found in avgCompanyPay');
 	    return 15;
 	}
 	return {

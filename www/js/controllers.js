@@ -335,9 +335,11 @@ angular.module('workgenius.controllers', ['integrations'])
 }])
 
 
-
 // .controller('EarningsController', [ '$scope', function($scope) {
 // }])
+.controller('PersonalInfoPageCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+  $scope.currentUser = $rootScope.currentUser;
+}])
 // .controller('VehiclesCtrl', ['$scope', function($scope) {
 // }])
 // .controller('TargetCtrl', ['$scope', function($scope) {

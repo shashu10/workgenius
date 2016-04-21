@@ -44,9 +44,9 @@ angular.module('workgenius', [
 
         // Setup variables used through out the app
         $rootScope.device = {
-            platform: 'ios',
-            model: 'iPhone7,1',
-            carrier: 'Verizon'
+            platform: '',
+            model: '',
+            carrier: ''
         };
         $rootScope.appVersion = "9.9.9";
         // $rootScope.hourlyRate = 15; // For when we don't have the actual earnings
@@ -263,7 +263,7 @@ angular.module('workgenius', [
             views: {
                 'menuContent': {
                     templateUrl: 'templates/main/personal-info.html',
-                    // controller: 'PersonalInfoCtrl'
+                    controller: 'PersonalInfoPageCtrl'
                 }
             }
         })

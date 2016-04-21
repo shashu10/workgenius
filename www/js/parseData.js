@@ -492,6 +492,30 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                     appVersion: $rootScope.appVersion,
                 });
 
+                // Legacy
+                $rootScope.device.platform = user.get('platform') || $rootScope.device.platform;
+                $rootScope.device.carrier = user.get('carrier') || $rootScope.device.carrier;
+                $rootScope.device.model = user.get('model') || $rootScope.device.model;
+
+                // New version
+                var deviceInfo = user.get('deviceInfo');
+                // if device info is empty, set it.
+                if (!deviceInfo) {
+                    $rootScope.currentUser.save({
+                        deviceInfo : {
+                            platform: $rootScope.device.platform,
+                            carrier: $rootScope.device.carrier,
+                            model: $rootScope.device.model,
+                        }
+                    });
+
+                // else, use it to set rootscope device
+                } else {
+                    $rootScope.device.platform = deviceInfo.platform || $rootScope.device.platform;
+                    $rootScope.device.carrier = deviceInfo.carrier || $rootScope.device.carrier;
+                    $rootScope.device.model = deviceInfo.model || $rootScope.device.model;
+                }
+
                 angular.extend($rootScope.currentUser, {
                     name: user.get('name') || '',
                     email: user.get('email') || '',
@@ -499,6 +523,9 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                     target: user.get('target') || 0,
                     strikes: user.get('strikes') || 0,
                     appState: user.get('appState') || {},
+                    address: user.get('address') || {},
+                    dob: user.get('dob') || undefined,
+                    ssn: user.get('ssn') || "",
                     hoursTotal: user.get('hoursTotal') || {
                         day: 0,
                         week: 0,
@@ -633,7 +660,7 @@ function formatUploadData($rootScope) {
         };
     };
     var formatDevice = function() {
-        return $rootScope.device;
+        return {deviceInfo: $rootScope.device};
     };
     var reCalculateTotalHours = function() {
         var totalHours = 0;

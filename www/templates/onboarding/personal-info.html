@@ -1,6 +1,6 @@
 <ion-view class="onboarding" title="Personal Info">
 	<!-- Form needs to be outside for continue button to access info -->
-    <ion-content class="has-header has-subheader has-blocking-footer">
+    <ion-content class="has-header has-subheader">
 		<form name="form" ng-submit="submit()" novalidate>
 			<p class="wg-title-instruction padding">
 	            We need some more information to get you working
@@ -10,6 +10,8 @@
 
 		    <hidden-submit></hidden-submit>
 		</form>
+
+		<div class="android-bottom-padder"></div>
     </ion-content>
 
 	<div class="bar bar-footer bar-positive" ng-click="submit()" ng-show="showNext">
