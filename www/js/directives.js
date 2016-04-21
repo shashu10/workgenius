@@ -74,6 +74,7 @@ angular.module('workgenius.directives', [])
   return {
     templateUrl: 'templates/shared/device-type.html',
     scope: {
+        prefilledDevice: '=',
         device: '=',
         onChange: '=',
     }

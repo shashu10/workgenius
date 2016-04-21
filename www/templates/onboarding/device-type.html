@@ -5,20 +5,8 @@
                 What kind of device do you have?
             </p>
     		
-            <ion-list>
-                <label class="item item-input item-stacked-label" ng-class="{disabled: prefilledDevice}">
-                    <span class="input-label"><strong>Platform</strong></span>
-                    <input ng-change="onChange()" ng-disabled="prefilledDevice" type="text" ng-model="device.platform" placeholder="Eg: iOS">
-                </label>
-                <label class="item item-input item-stacked-label" ng-class="{disabled: prefilledDevice}">
-                    <span class="input-label"><strong>Model</strong></span>
-                    <input ng-change="onChange()" ng-disabled="prefilledDevice" type="text" ng-model="device.model" placeholder="Eg: iPhone 5s"/>
-                </label>
-                <label class="item item-input item-stacked-label padding-top">
-                    <span class="input-label"><strong>Carrier</strong></span>
-                    <input ng-change="onChange()" type="text" ng-model="device.carrier" placeholder="Eg: AT&T">
-                </label>
-            </ion-list>
+            <device-type prefilled-device="prefilledDevice" device="device" on-change="onChange"></device-type>
+
             <hidden-submit></hidden-submit>
 
         </form>

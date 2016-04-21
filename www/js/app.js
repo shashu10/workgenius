@@ -43,7 +43,11 @@ angular.module('workgenius', [
         Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
 
         // Setup variables used through out the app
-        $rootScope.device = {};
+        $rootScope.device = {
+            platform: 'ios',
+            model: 'iPhone7,1',
+            carrier: 'Verizon'
+        };
         $rootScope.appVersion = "9.9.9";
         // $rootScope.hourlyRate = 15; // For when we don't have the actual earnings
         // $rootScope.imageURL = "img/profile_default.jpg";
@@ -241,6 +245,15 @@ angular.module('workgenius', [
                 'menuContent': {
                     templateUrl: 'templates/main/vehicles.html',
                     // controller: 'VehiclesCtrl'
+                }
+            }
+        })
+
+        .state('app.device-type-page', {
+            url: '/device-type-page',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/device-type-page.html',
                 }
             }
         })
