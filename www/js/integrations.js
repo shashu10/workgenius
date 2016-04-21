@@ -202,12 +202,22 @@ function connectedShifts($rootScope) {
 
 	        return Parse.Cloud.run('claimShift',
 	        {
-	            shiftId : shift.shiftId,
-	            swapId : shift.swapId, // only for wiw swaps
-	            companyId : el.object.get('company').id,
-	            company : el.company,
-	            token : el.token,
-                ownShift: ownShift
+                // Doordash
+                starting_point: shift.starting_point,
+                startsAt: moment(shift.startsAt).format('YYYY-MM-DDTHH:MM:00Z'),
+                endsAt: moment(shift.endsAt).format('YYYY-MM-DDTHH:MM:00Z'),
+	            vehicle: el.vehicle_id,
+                workerId: el.workerId,
+
+                // WIW
+                shiftId : shift.shiftId,
+                swapId : shift.swapId, // only for wiw swaps
+                ownShift: ownShift,
+
+                // All
+                companyId : el.object.get('company').id,
+                company : el.company,
+                token : el.token,
 	        },
 	        {
 	            success: function(shift) {

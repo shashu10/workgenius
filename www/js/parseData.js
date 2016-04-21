@@ -50,6 +50,7 @@ function setShifts($rootScope, $q, eligibilities) {
                 companyShiftId: shift.object.get('shiftId'), // company shift id
                 company: shift.company,
                 token : el.token,
+                workerId : el.workerId,
             }, {
                 success: function(result) {
                     console.log('removed shift');
@@ -565,6 +566,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                         username: el.get('username'),
                         token: el.get('token'),
                         workerId: el.get('workerId'),
+                        vehicle_id: el.get('vehicle_id'),
                         object: el
                     });
 

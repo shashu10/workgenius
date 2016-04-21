@@ -82,7 +82,7 @@ angular.module('workgenius', [
             cordova.getAppVersion.getVersionNumber().then(function(version) {
                 $rootScope.appVersion = version;
 
-                var platform = "ios";
+                var platform = "localhost";
                 if (window.device && window.device.platform){
                     console.log('got device info');
                     platform = device.platform.toLowerCase();
