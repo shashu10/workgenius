@@ -4,6 +4,7 @@ angular.module('workgenius.constants', [])
 // https://gist.github.com/kamermans/698af6d22d1fc539a249265a41634bdc
 // from Github Gist: kamermans/ios_models_map.json
 .constant('ios_modes_map', {
+    "x86_64": "Simulator",
     "AppleTV2,1": "Apple TV 2G",
     "AppleTV3,1": "Apple TV 3",
     "AppleTV3,2": "Apple TV 3 (2013)",

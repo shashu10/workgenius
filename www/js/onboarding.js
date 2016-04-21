@@ -34,6 +34,10 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
           clear: true
       });
     };
+    $scope.continue = function (toSave) {
+      $scope.next();
+      $scope.save(toSave);
+    };
     $scope.save = function (value) {
       setUserData.save(value);
     };
@@ -124,12 +128,9 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
              $rootScope.currentUser.ssn &&
              $rootScope.currentUser.ssn.length === 9;
     }
-    $scope.continue = function () {
-      $scope.next();
-      $scope.save('personalInfo');
-    };
+
     $scope.submit = function() {
-      if (shouldShowNext()) $scope.continue();
+      if (shouldShowNext()) $scope.continue('personalInfo');
     };
 }])
 .controller('VehicleTypeCtrl',
@@ -151,12 +152,8 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
       // At least one is selected
       return _.filter($rootScope.currentUser.vehicles, function(vehicle) { return vehicle.selected; }).length;
     }
-    $scope.continue = function () {
-      $scope.next();
-      $scope.save('vehicles');
-    };
     $scope.submit = function() {
-      if (shouldShowNext()) $scope.continue();
+      if (shouldShowNext()) $scope.continue('vehicles');
     };
 }])
 .controller('DeviceTypeCtrl',
@@ -175,12 +172,8 @@ angular.module('workgenius.onboarding', ['ion-google-place', 'SSN-formatter'])
     function shouldShowNext () {
       return $scope.device.platform && $scope.device.model && $scope.device.carrier;
     }
-    $scope.continue = function () {
-      $scope.next();
-      $scope.save('device');
-    };
     $scope.submit = function() {
-      if (shouldShowNext()) $scope.continue();
+      if (shouldShowNext()) $scope.continue('device');
     };
 }])
 
