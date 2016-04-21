@@ -168,51 +168,72 @@ angular.module('workgenius.controllers', ['integrations'])
 .controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope', 'connectedShifts',
   function($stateParams, $scope, $rootScope, connectedShifts) {
 
-    $scope.date = new Date();
+  // Shift Info
   $scope.shift = JSON.parse($stateParams.shift);
-  // Claim Status:
-  // 0: nothing
-  // 1: loading
-  // 2: success
-  // 3: failure
-  $scope.shift.claimStatus = 0;
-  $scope.shift.claimText = "Claim";
-  $scope.claim = function (shift) {
+  var s = $scope.shift;
+  s.startsAt = new Date(s.startsAt);
+  s.endsAt = new Date(s.endsAt);
 
-    $scope.shift.claimStatus = 1;
-    $scope.shift.claimText = "";
-    connectedShifts.claim(shift, function success() {
-      $scope.shift.claimStatus = 2;
-      $scope.shift.claimText = "Claimed Shift!";
+  console.log(s);
+
+  s.claimStatus = 0;
+  s.claimText = "Claim";
+
+  $scope.claim = function () {
+
+    s.claimStatus = 1;
+    s.claimText = "";
+
+    connectedShifts.claim(s, function success() {
+      s.claimStatus = 2;
+      s.claimText = "Claimed Shift!";
       // If no user, then it's just a demo. Don't need to apply scope.
+
     }, function failure(error) {
+
       console.log(error);
-      $scope.shift.claimStatus = 3;
-      $scope.shift.claimText = "Failed to claim";
+      s.claimStatus = 3;
+      s.claimText = "Failed to claim";
+
       if (error && error.message === 'conflict') {
-        $scope.shift.claimMessage = "There's a conflict! You are already working a shift at this time.";
+        s.claimMessage = "There's a conflict! You are already working a shift at this time.";
       } else
-        $scope.shift.claimMessage = "Something went wrong. This shift may have already been claimed by someone else.";
+        s.claimMessage = "Something went wrong. This shift may have already been claimed by someone else.";
     });
   };
 
-  // $scope.showTimePicker = function (min, max, selected) {
+  // iOS only date picker
+  $scope.platform = $rootScope.device.platform || "";
 
-  //   if (window.datePicker) {
-  //     datePicker.show({
-  //         date: new Date(),
-  //         mode: 'time',
-  //         minDate: new Date(),
-  //         maxDate: undefined,
-  //         minuteInterval: 30
-  //     }, function onSuccess(date) {
-  //         alert('Selected date: ' + date);
-  //     }, function onError(error) { // Android only
-  //         alert('Error: ' + error);
-  //     });
-  //   }
-  // };
-  // $scope.showTimePicker();
+  var min = new Date(s.startsAt);
+  var max = new Date(s.endsAt);
+
+  $scope.showStartTimePicker = function() {
+    showTimePicker(min, moment(s.endsAt).subtract(30, 'minute').toDate(), s.startsAt, function (date) {
+      s.startsAt = date || s.startsAt; // date is undefined if cancelled
+      $scope.$apply();
+    });
+  };
+  $scope.showEndTimePicker = function() {
+    showTimePicker(moment(s.startsAt).add(30, 'minute').toDate(), max, s.endsAt, function (date) {
+      s.endsAt = date || s.endsAt; // date is undefined if cancelled
+      $scope.$apply();
+    });
+  };
+  function showTimePicker (min, max, selected, callback) {
+
+    if (window.datePicker) {
+      datePicker.show({
+          date: selected,
+          mode: 'time',
+          minDate: min,
+          maxDate: max,
+          minuteInterval: 30
+      }, callback);
+    }
+  }
+
+  ////////////////
 }])
 .controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup', 'eligibilities',
   function($scope, $rootScope, $ionicPopup, eligibilities) {
