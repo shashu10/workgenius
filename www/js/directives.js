@@ -35,6 +35,11 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/targetControls.html'
   };
 })
+.directive('hiddenSubmit', function() {
+  return {
+    templateUrl: 'templates/shared/hidden-submit.html'
+  };
+})
 .directive('wgPager', function() {
   return {
     templateUrl: 'templates/shared/wg-pager.html'

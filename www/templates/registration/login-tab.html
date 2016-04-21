@@ -12,8 +12,7 @@
                     <i class="icon ion-lock-combination placeholder-icon"></i>
                     <input placeholder="Password" type="password" ng-model="user.password">
                 </label>
-                <!-- Hidden input button necessary to make keyboard next button work -->
-                <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+                <hidden-submit></hidden-submit>
             </div>
         </form>
         <div class="assertive padding-left" ng-show="error.message">{{error.message}}</div>

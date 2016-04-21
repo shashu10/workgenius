@@ -5,7 +5,8 @@
     </label>
     <label class="item item-input item-stacked-label">
         <span class="input-label"><strong>Date of Birth</strong></span>
-        <input ng-change="onChange()" type="date" name="dob" ng-model="currentUser.dob" placeholder="mm/dd/yyyy" max="1999-12-31" min="1950-01-01" />
+        <!-- Don't use min/max. Will not fire ng-change outside those values and will have undefined $modelValue -->
+        <input ng-change="onChange()" type="date" name="dob" ng-model="currentUser.dob" placeholder="mm/dd/yyyy"/>
     </label>
     <label class="item item-input item-stacked-label padding-top">
         <span class="input-label"><strong>Social Security Number</strong></span>

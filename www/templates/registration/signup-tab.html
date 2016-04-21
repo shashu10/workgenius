@@ -19,8 +19,7 @@
                     <input type="password" ng-model="user.password1" placeholder="Confirm Password">
                 </label>
             </div>
-            <!-- Hidden input button necessary to make keyboard next button work -->
-            <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+            <hidden-submit></hidden-submit>
         </form>
 
         <div class="assertive padding" ng-show="error.message">{{error.message}}</div>
