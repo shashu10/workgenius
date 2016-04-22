@@ -1,4 +1,4 @@
-angular.module('workgenius.availability', ['workgenius.earnings'])
+angular.module('workgenius.availability', ['workgenius.earnings', 'parseShifts'])
 
 // ============ //
 // AVAILABILITY //

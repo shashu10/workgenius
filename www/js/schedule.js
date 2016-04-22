@@ -1,22 +1,16 @@
-angular.module('workgenius.schedule', ['workgenius.earnings'])
+angular.module('workgenius.schedule', ['workgenius.earnings', 'parseShifts', 'integrations'])
 
 // ============ //
 //   SCHEDULE   //
 // ============ //
 
-.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', '$timeout', 'setShifts', 'getShifts', 'earningsEstimate',
-    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, $timeout, setShifts, getShifts, earningsEstimate) {
+.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', '$timeout', 'setShifts', 'getShifts', 'earningsEstimate', 'connectedShifts',
+    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, $timeout, setShifts, getShifts, earningsEstimate, connectedShifts) {
 
         $scope.earningsEstimate = earningsEstimate;
 
         $scope.doRefresh = function() {
-            getShifts().then(function(shifts) {
-                $rootScope.currentUser.shifts = shifts;
-
-                // If user is not logged in, we use fakeshifts and don't need to update scope
-                if (Parse.User.current()) {
-                    $rootScope.$apply();
-                }
+            connectedShifts.getAllScheduled(function() {
                 $scope.$broadcast('scroll.refreshComplete');
             });
         };

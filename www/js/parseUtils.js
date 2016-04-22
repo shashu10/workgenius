@@ -1,8 +1,20 @@
 angular.module('parseUtils', [])
     .factory('checkUpdates', ['$ionicPopup', checkUpdates])
     .factory('setupPush', ['$interval', setupPush])
+    .factory('getCompanyEligibility', ['$rootScope', getCompanyEligibility])
     .factory('updateAppSettings', ['$rootScope', '$ionicPopup', 'checkUpdates', updateAppSettings]);
 
+function getCompanyEligibility($rootScope) {
+    return function (name) {
+        var el = $rootScope.currentUser.eligibility;
+        for (var i = 0; i < el.length; i++) {
+            if (name === el[i].company) {
+                return el[i];
+            }
+        }
+        return undefined;  
+    };
+}
 function setupPush($interval) {
     return function () {
 

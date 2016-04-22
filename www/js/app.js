@@ -18,6 +18,7 @@ angular.module('workgenius', [
     'workgenius.availability',
     'parseData',
     'parseUtils',
+    'parseShifts',
     'integrations',
     'phoneFormatting',
     'angular.filter',

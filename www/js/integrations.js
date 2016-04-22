@@ -1,9 +1,9 @@
-angular.module('integrations', [])
+angular.module('integrations', ['parseUtils', 'parseShifts'])
     .factory('eligibilities', ['$rootScope', 'connectedShifts', eligibilities])
 
-    .factory('connectedShifts', ['$rootScope', connectedShifts]);
+    .factory('connectedShifts', ['$rootScope', 'getCompanyEligibility', 'getShifts', connectedShifts]);
 
-function connectedShifts($rootScope) {
+function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
     function hasConflict(shift) {
         var start = new Date(shift.startsAt);
         var end = new Date(shift.endsAt);
@@ -15,15 +15,6 @@ function connectedShifts($rootScope) {
                 return true;
             }
         }
-    }
-    function getEligibility(companyName) {
-        var el = $rootScope.currentUser.eligibility;
-        for (var i = 0; i < el.length; i++) {
-            if (companyName === el[i].company) {
-                return el[i];
-            }
-        }
-        return undefined;
     }
     function appendNewShifts(shifts, company) {
 
@@ -173,16 +164,23 @@ function connectedShifts($rootScope) {
 	        });
 		},
         getAllScheduled: function(success, failure) {
-        if (!Parse.User.current()) return success && success();
+            if (!Parse.User.current()) return success && success();
 
             Parse.Cloud.run('getAllScheduledShifts', {},
             {
                 success: function(shifts) {
                     console.log('Successfully got all connected shifts');
 
-                    updateWith(shifts);
-                    if (success) success();
-                    $rootScope.$apply();
+                    getShifts().then(function(shifts) {
+                        $rootScope.currentUser.shifts = shifts;
+                        if (success) success();
+                        $rootScope.$apply();
+                    }, function(error) {
+                        console.log('Could not get all connected shifts');
+                        console.log(error);
+                        if (success) success();
+                        $rootScope.$apply();
+                    });
                 },
                 error: function(error) {
                     console.log('Could not get all connected shifts');
@@ -200,7 +198,7 @@ function connectedShifts($rootScope) {
                 return failure && failure({message: 'conflict'});
             }
 
-	        var el = getEligibility(shift.company);
+	        var el = getCompanyEligibility(shift.company);
 
             // For claiming your own dropped shift in WIW. Logic should be moved server side
             var ownShift = false;
@@ -231,6 +229,11 @@ function connectedShifts($rootScope) {
 	                console.log('success');
 	                // update shifts after claiming one
                     removeShift(shift);
+
+                    getShifts().then(function(shifts) {
+                        $rootScope.currentUser.shifts = shifts;
+                        $rootScope.$apply();
+                    }); // Don't worry about failure
 
                     if (success) success();
                     $rootScope.$apply();
