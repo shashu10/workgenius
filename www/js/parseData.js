@@ -198,7 +198,7 @@ function acknowledgeShifts($q, $rootScope, $ionicPopup, earningsEstimate) {
         return moment(date).format('ddd, MMM Do');
     };
     var formatAMPM = function(date) {
-        return moment(date).format('ha');
+        return moment(date).format('h:mma');
     };
     var batchSave = function(shifts) {
 

@@ -301,7 +301,7 @@ angular.module('workgenius', [
         })
 
         .state('app.claim-detail', {
-            url: '/claim-detail/:shift',
+            url: '/claim-detail',
             views: {
                 'menuContent': {
                     templateUrl: 'templates/main/claim-detail.html',

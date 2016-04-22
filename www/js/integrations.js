@@ -138,6 +138,13 @@ function connectedShifts($rootScope) {
         $rootScope.currentUser.availableShiftsArr = sortAndFormatShifts(shifts);
         $rootScope.currentUser.availableShifts = groupByDay($rootScope.currentUser.availableShiftsArr);
     }
+
+    function removeShift(shift) {
+        var removed = _.remove($rootScope.currentUser.availableShiftsArr, function (s) {
+            return s === shift;
+        });
+        updateWith($rootScope.currentUser.availableShiftsArr);
+    }
     return {
 
         appendNewShifts: appendNewShifts,
@@ -204,9 +211,9 @@ function connectedShifts($rootScope) {
 	        {
                 // Doordash
                 starting_point: shift.starting_point,
-                startsAt: moment(shift.startsAt).format('YYYY-MM-DDTHH:MM:00Z'),
-                endsAt: moment(shift.endsAt).format('YYYY-MM-DDTHH:MM:00Z'),
-	            vehicle: el.vehicle_id,
+                startsAt: moment(shift.startsAt).format('YYYY-MM-DDTHH:mm:00Z'),
+                endsAt: moment(shift.endsAt).format('YYYY-MM-DDTHH:mm:00Z'),
+	            vehicle_id: el.vehicle_id,
                 workerId: el.workerId,
 
                 // WIW
@@ -220,22 +227,23 @@ function connectedShifts($rootScope) {
                 token : el.token,
 	        },
 	        {
-	            success: function(shift) {
+	            success: function(s) {
 	                console.log('success');
 	                // update shifts after claiming one
-	                if (success) success();
-	                $rootScope.$apply();
+                    removeShift(shift);
 
-	                getConnectedShifts(el);
+                    if (success) success();
+                    $rootScope.$apply();
 	            },
 	            error: function(error) {
 	                console.log('Could not claim shift');
 	                console.log(error);
 	                // update shifts. Error might have been caused because of out of date shifts
-	                if (failure) failure(error);
-	                $rootScope.$apply();
+                    removeShift(shift);
 
-	                getConnectedShifts(el);
+                    if (failure) failure(error);
+                    $rootScope.$apply();
+
 	            }
 	        });
 	    }

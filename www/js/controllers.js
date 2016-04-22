@@ -154,25 +154,35 @@ angular.module('workgenius.controllers', ['integrations'])
   };
 
 }])
-.controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$rootScope', '$state',
-  function($stateParams, $scope, $rootScope, $state) {
+.service('shiftToClaim', function() {
+    var shift = {};
+    return {
+        get: function() {
+            return shift;
+        },
+        set: function(value) {
+            shift = value;
+        }
+    };
+})
+.controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$rootScope', '$state', 'shiftToClaim',
+  function($stateParams, $scope, $rootScope, $state, shiftToClaim) {
 
   $scope.day = $rootScope.currentUser.availableShifts[$stateParams.index];
   $scope.title = moment($scope.day.date).format("ddd Do");
   $scope.shifts = $scope.day.shifts;
 
   $scope.select = function(shift) {
-    $state.go("app.claim-detail", {shift: JSON.stringify(shift)});
+    shiftToClaim.set(shift);
+    $state.go("app.claim-detail");
   };
 }])
-.controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope', 'connectedShifts',
-  function($stateParams, $scope, $rootScope, connectedShifts) {
+.controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope', 'connectedShifts', 'shiftToClaim',
+  function($stateParams, $scope, $rootScope, connectedShifts, shiftToClaim) {
 
   // Shift Info
-  $scope.shift = JSON.parse($stateParams.shift);
+  $scope.shift = shiftToClaim.get();
   var s = $scope.shift;
-  s.startsAt = new Date(s.startsAt);
-  s.endsAt = new Date(s.endsAt);
 
   console.log(s);
 
@@ -204,6 +214,7 @@ angular.module('workgenius.controllers', ['integrations'])
 
   // iOS only date picker
   $scope.platform = $rootScope.device.platform || "";
+  if (window.location.hostname === 'localhost') $scope.platform = "localhost";
 
   var min = new Date(s.startsAt);
   var max = new Date(s.endsAt);
