@@ -228,7 +228,7 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
 	            success: function(s) {
 	                console.log('success');
 	                // update shifts after claiming one
-                    removeShift(shift);
+                    // removeShift(shift);
 
                     getShifts().then(function(shifts) {
                         $rootScope.currentUser.shifts = shifts;
@@ -242,7 +242,7 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
 	                console.log('Could not claim shift');
 	                console.log(error);
 	                // update shifts. Error might have been caused because of out of date shifts
-                    removeShift(shift);
+                    // removeShift(shift);
 
                     if (failure) failure(error);
                     $rootScope.$apply();

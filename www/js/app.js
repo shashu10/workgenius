@@ -87,10 +87,10 @@ angular.module('workgenius', [
                 if (window.device && window.device.platform){
                     console.log('got device info');
                     platform = device.platform.toLowerCase();
+                    $rootScope.device = angular.copy(device);
                     if (platform === 'ios') // Converts iPhone "iPhone7,2" to "iPhone 6"
-                        device.model = ios_modes_map[device.model] || device.model;
+                        $rootScope.device.model = ios_modes_map[device.model] || device.model;
                     $rootScope.prefilledDevice = true;
-                    $rootScope.device = device;
                     console.log(device);
                 }
 

@@ -22,9 +22,10 @@
                 <i class="icon ion-information-circled"></i>
                 <span>You can change the start and end time for Flex shifts</span>
             </p>
-            <div ng-switch="platform">
 
-                <div ng-switch-when="iOS">
+            <div ng-switch="whichPlatform">
+
+                <div ng-switch-when="ios">
                     <ion-item class="item-input item-icon-right" ng-click="showStartTimePicker()">
                         <span class="input-label"><strong>Start time</strong></span>
                         <span>{{shift.startsAt | date: "h:mm a"}}</span>
@@ -38,8 +39,17 @@
 
                 </div>
 
-                <div ng-switch-when="Android">
-                    
+                <div ng-switch-when="android">
+                    <ion-item class="item-input item-icon-right" ng-click="showStartTimePicker()">
+                        <span class="input-label"><strong>Start time</strong></span>
+                        <span>{{shift.startsAt | date: "h:mm a"}}</span>
+                        <i class="icon ion-ios-arrow-right"></i>
+                    </ion-item>
+                    <ion-item class="item-input item-icon-right" ng-click="showEndTimePicker()">
+                        <span class="input-label"><strong>End time</strong></span>
+                        <span>{{shift.endsAt | date: "h:mm a"}}</span>
+                        <i class="icon ion-ios-arrow-right"></i>
+                    </ion-item>
                 </div>
 
                 <div ng-switch-default>

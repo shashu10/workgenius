@@ -1,7 +1,7 @@
 <ion-view view-title='{{title}}'>
     <ion-content class="claim-shifts">
         <ion-list>
-            <ion-item class="" ng-repeat="shift in shifts" ng-click="select(shift)">
+            <ion-item class="item-remove-animate" ng-class="{'claim-success' : shift.claimStatus === 2, 'claim-failure' : shift.claimStatus === 3}" ng-repeat="shift in shifts" ng-click="select(shift)">
                 <div class="row">
                     <div class="img-container">
                         <img ng-src="img/companies/{{shift.company.toLowerCase()  | spaceless}}.png" alt="">

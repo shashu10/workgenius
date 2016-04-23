@@ -156,12 +156,21 @@ angular.module('workgenius.controllers', ['integrations'])
 }])
 .service('shiftToClaim', function() {
     var shift = {};
+    var group = [];
     return {
         get: function() {
             return shift;
         },
         set: function(value) {
             shift = value;
+        },
+        setGroup: function(value) {
+          group = value;
+        },
+        removeFromGroup: function() {
+          var removed = _.remove(group, function (s) {
+            return s === shift;
+          });
         }
     };
 })
@@ -174,11 +183,17 @@ angular.module('workgenius.controllers', ['integrations'])
 
   $scope.select = function(shift) {
     shiftToClaim.set(shift);
+    shiftToClaim.setGroup($scope.shifts);
     $state.go("app.claim-detail");
   };
 }])
-.controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope', 'connectedShifts', 'shiftToClaim',
-  function($stateParams, $scope, $rootScope, connectedShifts, shiftToClaim) {
+.controller('ClaimDetailCtrl', ['$stateParams', '$scope', '$rootScope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate',
+  function($stateParams, $scope, $rootScope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate) {
+
+  // device is overwritten by something else
+  var deviceInformation = ionic.Platform.device();
+  $scope.whichPlatform = 'localhost';
+  if (deviceInformation && deviceInformation.platform) $scope.whichPlatform = deviceInformation.platform.toLowerCase();
 
   // Shift Info
   $scope.shift = shiftToClaim.get();
@@ -186,8 +201,9 @@ angular.module('workgenius.controllers', ['integrations'])
 
   console.log(s);
 
-  s.claimStatus = 0;
-  s.claimText = "Claim";
+  // Keep claim status if already interracted with this element
+  s.claimStatus = s.claimStatus || 0;
+  s.claimText = s.claimText || "Claim";
 
   $scope.claim = function () {
 
@@ -207,44 +223,66 @@ angular.module('workgenius.controllers', ['integrations'])
 
       if (error && error.message === 'conflict') {
         s.claimMessage = "There's a conflict! You are already working a shift at this time.";
+        s.conflict = true;
       } else
         s.claimMessage = "Something went wrong. This shift may have already been claimed by someone else.";
+
+      // Scroll to the bottom to show error message
+      $ionicScrollDelegate.scrollBottom(true);
     });
   };
 
-  // iOS only date picker
-  $scope.platform = $rootScope.device.platform || "";
-  if (window.location.hostname === 'localhost') $scope.platform = "localhost";
+  if (s.flex) {
 
-  var min = new Date(s.startsAt);
-  var max = new Date(s.endsAt);
-
-  $scope.showStartTimePicker = function() {
-    showTimePicker(min, moment(s.endsAt).subtract(30, 'minute').toDate(), s.startsAt, function (date) {
-      s.startsAt = date || s.startsAt; // date is undefined if cancelled
-      $scope.$apply();
-    });
-  };
-  $scope.showEndTimePicker = function() {
-    showTimePicker(moment(s.startsAt).add(30, 'minute').toDate(), max, s.endsAt, function (date) {
-      s.endsAt = date || s.endsAt; // date is undefined if cancelled
-      $scope.$apply();
-    });
-  };
-  function showTimePicker (min, max, selected, callback) {
-
-    if (window.datePicker) {
-      datePicker.show({
-          date: selected,
-          mode: 'time',
-          minDate: min,
-          maxDate: max,
-          minuteInterval: 30
-      }, callback);
+    // If it was a conflict with a flex shift, reset it so user can try again
+    if (s.claimStatus === 3 && s.conflict)  {
+      s.claimStatus = 0;
+      s.claimText = "Claim";
+      s.conflict = undefined;
+      s.claimMessage = "";
     }
-  }
 
-  ////////////////
+    // iOS only date picker
+    $scope.platform = $rootScope.device.platform || "";
+    if (window.location.hostname === 'localhost') $scope.platform = "localhost";
+
+    var min = new Date(s.startsAt);
+    var max = new Date(s.endsAt);
+
+    var showTimePicker = function (min, max, selected, callback) {
+      if (window.datePicker) {
+        datePicker.show({
+            date: selected,
+            mode: 'time',
+            minDate: min,
+            maxDate: max,
+            minuteInterval: 30
+        }, callback);
+      }
+    };
+    $scope.showStartTimePicker = function() {
+      showTimePicker(min, moment(s.endsAt).subtract(30, 'minute').toDate(), s.startsAt, function (date) {
+        s.startsAt = date || s.startsAt; // date is undefined if cancelled
+        $scope.$apply();
+      });
+    };
+    $scope.showEndTimePicker = function() {
+      showTimePicker(moment(s.startsAt).add(30, 'minute').toDate(), max, s.endsAt, function (date) {
+        s.endsAt = date || s.endsAt; // date is undefined if cancelled
+        $scope.$apply();
+      });
+    };
+
+    // Reset start and end times when going back to the claim shifts view
+    $scope.$on('$ionicView.beforeLeave', function(){
+      // If it was a conflict with a flex shift, reset it so user can try again
+      if (s.claimStatus === 3 && s.conflict) {
+        s.startsAt = min;
+        s.endsAt = max;
+      }
+    });
+    ////////////////
+  }
 }])
 .controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup', 'eligibilities',
   function($scope, $rootScope, $ionicPopup, eligibilities) {

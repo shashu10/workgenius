@@ -19,6 +19,20 @@
     .item {
         font-size: 14px;
         padding: 0; // row and col inside have plenty of padding
+
+        // For success or failure replace padding right with a colored border
+        &.claim-success {
+            .row {
+                border-right: 5px solid $balanced;
+                padding-right: 0;
+            }
+        }
+        &.claim-failure {
+            .row {
+                border-right: 5px solid $assertive;
+                padding-right: 0;
+            }
+        }
         .img-container {
             line-height: 50px;
             padding: 0 4px;
