@@ -1,0 +1,8 @@
+<label class="item item-input item-select">
+    <span class="input-label"><strong>Start time</strong></span>
+	<select ng-model="shift.startsAt" ng-change="updateStart()" ng-options="obj.value as obj.label for obj in shift.startTimes"></select>
+</label>
+<label class="item item-input item-select">
+    <span class="input-label"><strong>End time</strong></span>
+	<select ng-model="shift.endsAt" ng-change="updateEnd()" ng-options="obj.value as obj.label for obj in shift.endTimes"></select>
+</label>

@@ -109,6 +109,7 @@ angular.module('workgenius.constants', [])
         startsAt: moment({hour: 7}).add(1, 'days').toDate(),
         endsAt: moment({hour: 11}).add(1, 'days').toDate(),
         company: "doordash",
+        flex: true,
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 10}).add(1, 'days').toDate(),
@@ -124,6 +125,7 @@ angular.module('workgenius.constants', [])
         startsAt: moment({hour: 16}).add(1, 'days').toDate(),
         endsAt: moment({hour: 19}).add(1, 'days').toDate(),
         company: "doordash",
+        flex: true,
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(1, 'days').toDate(),
@@ -144,6 +146,7 @@ angular.module('workgenius.constants', [])
         startsAt: moment({hour: 10}).add(2, 'days').toDate(),
         endsAt: moment({hour: 8}).add(2, 'days').toDate(),
         company: "doordash",
+        flex: true,
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 11}).add(2, 'days').toDate(),
@@ -154,6 +157,7 @@ angular.module('workgenius.constants', [])
         startsAt: moment({hour: 16}).add(2, 'days').toDate(),
         endsAt: moment({hour: 19}).add(2, 'days').toDate(),
         company: "doordash",
+        flex: true,
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(2, 'days').toDate(),
@@ -169,6 +173,7 @@ angular.module('workgenius.constants', [])
         startsAt: moment({hour: 7}).add(3, 'days').toDate(),
         endsAt: moment({hour: 11}).add(3, 'days').toDate(),
         company: "doordash",
+        flex: true,
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 10}).add(3, 'days').toDate(),
@@ -214,6 +219,7 @@ angular.module('workgenius.constants', [])
         startsAt: moment({hour: 16}).add(4, 'days').toDate(),
         endsAt: moment({hour: 19}).add(4, 'days').toDate(),
         company: "doordash",
+        flex: true,
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(4, 'days').toDate(),
@@ -259,16 +265,19 @@ angular.module('workgenius.constants', [])
         startsAt: moment({hour: 6}).add(6, 'days').toDate(),
         endsAt: moment({hour: 8}).add(6, 'days').toDate(),
         company: "doordash",
+        flex: true,
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 7}).add(6, 'days').toDate(),
         endsAt: moment({hour: 11}).add(6, 'days').toDate(),
         company: "doordash",
+        flex: true,
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 10}).add(6, 'days').toDate(),
         endsAt: moment({hour: 8}).add(6, 'days').toDate(),
         company: "doordash",
+        flex: true,
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 11}).add(6, 'days').toDate(),
@@ -279,6 +288,7 @@ angular.module('workgenius.constants', [])
         startsAt: moment({hour: 16}).add(6, 'days').toDate(),
         endsAt: moment({hour: 19}).add(6, 'days').toDate(),
         company: "doordash",
+        flex: true,
         location: "san Francisco"
     }, {
         startsAt: moment({hour: 18}).add(6, 'days').toDate(),

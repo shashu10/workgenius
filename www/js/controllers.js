@@ -198,8 +198,25 @@ angular.module('workgenius.controllers', ['integrations'])
   // Shift Info
   $scope.shift = shiftToClaim.get();
   var s = $scope.shift;
-
   console.log(s);
+
+  // If it was a conflict with a flex shift, reset it so user can try again
+  if (s.flex && s.claimStatus === 3 && s.conflict)  {
+    s.claimStatus = 0;
+    s.claimText = "Claim";
+    s.conflict = undefined;
+    s.claimMessage = "";
+  }
+  var min = new Date(s.startsAt);
+  var max = new Date(s.endsAt);
+  // Reset start and end times when going back to the claim shifts view
+  $scope.$on('$ionicView.beforeLeave', function(){
+    // If it was a conflict with a flex shift, reset it so user can try again
+    if (s.claimStatus === 0 || (s.claimStatus === 3 && s.conflict)) {
+      s.startsAt = min;
+      s.endsAt = max;
+    }
+  });
 
   // Keep claim status if already interracted with this element
   s.claimStatus = s.claimStatus || 0;
@@ -231,58 +248,6 @@ angular.module('workgenius.controllers', ['integrations'])
       $ionicScrollDelegate.scrollBottom(true);
     });
   };
-
-  if (s.flex) {
-
-    // If it was a conflict with a flex shift, reset it so user can try again
-    if (s.claimStatus === 3 && s.conflict)  {
-      s.claimStatus = 0;
-      s.claimText = "Claim";
-      s.conflict = undefined;
-      s.claimMessage = "";
-    }
-
-    // iOS only date picker
-    $scope.platform = $rootScope.device.platform || "";
-    if (window.location.hostname === 'localhost') $scope.platform = "localhost";
-
-    var min = new Date(s.startsAt);
-    var max = new Date(s.endsAt);
-
-    var showTimePicker = function (min, max, selected, callback) {
-      if (window.datePicker) {
-        datePicker.show({
-            date: selected,
-            mode: 'time',
-            minDate: min,
-            maxDate: max,
-            minuteInterval: 30
-        }, callback);
-      }
-    };
-    $scope.showStartTimePicker = function() {
-      showTimePicker(min, moment(s.endsAt).subtract(30, 'minute').toDate(), s.startsAt, function (date) {
-        s.startsAt = date || s.startsAt; // date is undefined if cancelled
-        $scope.$apply();
-      });
-    };
-    $scope.showEndTimePicker = function() {
-      showTimePicker(moment(s.startsAt).add(30, 'minute').toDate(), max, s.endsAt, function (date) {
-        s.endsAt = date || s.endsAt; // date is undefined if cancelled
-        $scope.$apply();
-      });
-    };
-
-    // Reset start and end times when going back to the claim shifts view
-    $scope.$on('$ionicView.beforeLeave', function(){
-      // If it was a conflict with a flex shift, reset it so user can try again
-      if (s.claimStatus === 3 && s.conflict) {
-        s.startsAt = min;
-        s.endsAt = max;
-      }
-    });
-    ////////////////
-  }
 }])
 .controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup', 'eligibilities',
   function($scope, $rootScope, $ionicPopup, eligibilities) {
