@@ -20,17 +20,6 @@ angular.module('workgenius.directives', [])
     templateUrl: 'templates/shared/shift-list.html'
   };
 })
-.directive('shift', function() {
-  return {
-    restrict: 'E',
-    templateUrl: 'templates/shared/shift.html'
-  };
-})
-.directive('colorDivider', function() {
-  return {
-    templateUrl: 'templates/shared/colorDivider.html'
-  };
-})
 .directive('targetControls', function() {
   return {
     templateUrl: 'templates/shared/targetControls.html'

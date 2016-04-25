@@ -344,16 +344,6 @@ angular.module('workgenius', [
             }
         })
 
-        // .state('app.available-shifts', {
-        //   url: '/available-shifts',
-        //   views: {
-        //     'menuContent': {
-        //       templateUrl: 'templates/main/available-shifts.html',
-        //       controller: "AvailableShiftsCtrl"
-        //     }
-        //   }
-        // })
-
         //  - - - - End Main App - - - -
 
         // ============ //
