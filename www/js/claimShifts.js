@@ -1,59 +1,9 @@
 angular.module('workgenius.claimShifts', ['integrations'])
 
-.directive('flexTimePicker', ['$ionicGesture', function($ionicGesture) {
+// ============ //
+//     Claim    //
+// ============ //
 
-  var getTimes = function(min, max) {
-    var intervals = [];
-    var d = {
-      label: moment(min).format('h:mm a'),
-      value: new Date(min)
-    };
-
-    while (moment(d.value).isSameOrBefore(max)) {
-      intervals.push(d);
-      d = {
-        label: moment(d.value).add(30, 'minutes').format('h:mm a'),
-        value: moment(d.value).add(30, 'minutes').toDate()
-      };
-    }
-    return intervals;
-  };
-  var getValue = function(times, date) {
-    return _.find(times, function(t) { return moment(t.value).isSame(date);}).value;
-  };
-
-  var link = function (scope, element, attr) {
-
-    var s = scope.shift;
-
-    s.startsAt = new Date(s.startsAt);
-    s.endsAt = new Date(s.endsAt);
-    var min = new Date(s.startsAt);
-    var max = new Date(s.endsAt);
-
-    scope.updateStart = function () {
-      var time = moment(s.startsAt).add(30, 'minutes').toDate();
-      s.endTimes = getTimes(time, max);
-      s.endsAt = getValue(s.endTimes, s.endsAt);
-    };
-    scope.updateEnd = function () {
-      var time = moment(s.endsAt).subtract(30, 'minutes').toDate();
-      s.startTimes = getTimes(min, time);
-      s.startsAt = getValue(s.startTimes, s.startsAt);
-    };
-
-    scope.updateEnd();
-    scope.updateStart();
-  };
-
-  return  {
-    templateUrl: 'templates/shared/flex-time-picker.html',
-    scope: {
-        shift: '=',
-    },
-    link: link
-  };
-}])
 .service('shiftToClaim', function() {
     var shift = {};
     var group = [];
@@ -63,14 +13,6 @@ angular.module('workgenius.claimShifts', ['integrations'])
         },
         set: function(value) {
             shift = value;
-        },
-        setGroup: function(value) {
-          group = value;
-        },
-        removeFromGroup: function() {
-          var removed = _.remove(group, function (s) {
-            return s === shift;
-          });
         }
     };
 })
@@ -96,7 +38,6 @@ angular.module('workgenius.claimShifts', ['integrations'])
 
   $scope.select = function(shift) {
     shiftToClaim.set(shift);
-    shiftToClaim.setGroup($scope.shifts);
     $state.go("app.claim-detail");
   };
 }])
@@ -162,6 +103,11 @@ angular.module('workgenius.claimShifts', ['integrations'])
     });
   };
 }])
+
+// ============ //
+//    Connect   //
+// ============ //
+
 .controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup', 'eligibilities',
   function($scope, $rootScope, $ionicPopup, eligibilities) {
 
@@ -272,4 +218,63 @@ angular.module('workgenius.claimShifts', ['integrations'])
         var eligibility = eligibilities.get(name);
         return eligibility && eligibility.connected;
     }
+}])
+
+// ============ //
+//    Helpers   //
+// ============ //
+
+.directive('flexTimePicker', ['$ionicGesture', function($ionicGesture) {
+
+  var getTimes = function(min, max) {
+    var intervals = [];
+    var d = {
+      label: moment(min).format('h:mm a'),
+      value: new Date(min)
+    };
+
+    while (moment(d.value).isSameOrBefore(max)) {
+      intervals.push(d);
+      d = {
+        label: moment(d.value).add(30, 'minutes').format('h:mm a'),
+        value: moment(d.value).add(30, 'minutes').toDate()
+      };
+    }
+    return intervals;
+  };
+  var getValue = function(times, date) {
+    return _.find(times, function(t) { return moment(t.value).isSame(date);}).value;
+  };
+
+  var link = function (scope, element, attr) {
+
+    var s = scope.shift;
+
+    s.startsAt = new Date(s.startsAt);
+    s.endsAt = new Date(s.endsAt);
+    var min = new Date(s.startsAt);
+    var max = new Date(s.endsAt);
+
+    scope.updateStart = function () {
+      var time = moment(s.startsAt).add(30, 'minutes').toDate();
+      s.endTimes = getTimes(time, max);
+      s.endsAt = getValue(s.endTimes, s.endsAt);
+    };
+    scope.updateEnd = function () {
+      var time = moment(s.endsAt).subtract(30, 'minutes').toDate();
+      s.startTimes = getTimes(min, time);
+      s.startsAt = getValue(s.startTimes, s.startsAt);
+    };
+
+    scope.updateEnd();
+    scope.updateStart();
+  };
+
+  return  {
+    templateUrl: 'templates/shared/flex-time-picker.html',
+    scope: {
+        shift: '=',
+    },
+    link: link
+  };
 }]);
