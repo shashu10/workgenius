@@ -3,36 +3,43 @@ angular.module('workgenius.directives', [])
 .directive('gridDays', function() {
   return {
     templateUrl: 'templates/shared/grid-days.html',
+    restrict: 'E',
   };
 })
 .directive('workTypes', function() {
   return {
-    templateUrl: 'templates/shared/work-types.html'
+    templateUrl: 'templates/shared/work-types.html',
+    restrict: 'E',
   };
 })
 .directive('companies', function() {
   return {
-    templateUrl: 'templates/shared/companies.html'
+    templateUrl: 'templates/shared/companies.html',
+    restrict: 'E',
   };
 })
 .directive('shiftList', function() {
   return {
-    templateUrl: 'templates/shared/shift-list.html'
+    templateUrl: 'templates/shared/shift-list.html',
+    restrict: 'E',
   };
 })
 .directive('targetControls', function() {
   return {
-    templateUrl: 'templates/shared/targetControls.html'
+    templateUrl: 'templates/shared/targetControls.html',
+    restrict: 'E',
   };
 })
 .directive('hiddenSubmit', function() {
   return {
-    templateUrl: 'templates/shared/hidden-submit.html'
+    templateUrl: 'templates/shared/hidden-submit.html',
+    restrict: 'E',
   };
 })
 .directive('wgPager', function() {
   return {
-    templateUrl: 'templates/shared/wg-pager.html'
+    templateUrl: 'templates/shared/wg-pager.html',
+    restrict: 'E',
   };
 })
 .directive('wgCompanyFooter', function() {
@@ -133,48 +140,6 @@ angular.module('workgenius.directives', [])
     }
   };
 })
-.directive('wgDraggableFooter', ['$ionicGesture', function($ionicGesture) {
-
-  var link = function (scope, element, attr) {
-    var el = angular.element(element.children()[0]);
-    var startY = 0, y = 0;
-    var dragGesture = null, dragendGesture = null;
-    $ionicGesture.on('tap', hide, element);
-    $ionicGesture.on('touch', function(event) {
-      // Prevent default dragging of selected content
-      startY = event.gesture.center.pageY;
-      dragGesture = $ionicGesture.on('drag', drag, element);
-      dragendGesture = $ionicGesture.on('dragend', dragend, element);
-    }, element);
-
-    function drag (event) {
-
-      y = Math.max(event.gesture.center.pageY - startY, 0);
-      el.css({
-        transform: "translate3d(0, " + y + "px, 0)"
-      });
-    }
-
-    function dragend (event) {
-      $ionicGesture.off(dragGesture, 'drag', drag);
-      $ionicGesture.off(dragendGesture, 'dragend', dragend);
-      if (y > 10) {
-        hide();
-      }
-    }
-
-    function hide () {
-      el.css({
-        transform: "translate3d(0, 100%, 0)"
-      });
-    }
-  };
-
-  return  {
-    restrict: 'A',
-    link: link
-  };
-}])
 
 /**
  * Save bar looks for changes in a property and saves it on that property's onChange event.
@@ -249,231 +214,6 @@ angular.module('workgenius.directives', [])
     };
   };
 }])
-.directive('bounceLeft', ['$interval', function($interval) {
-  var isOpen = function (element) {
-    var children = element.children();
-    if (children && children[0] && children[0].style.transform) {
-      if (children[0].style.transform.indexOf('translate3d') > -1) {
-        return children[0].style;
-      }
-    }
-    return false;
-  };
-  var close = function (style) {
-    style.transform = '';
-  };
-  return function(scope, element, attr) {
-    var bounce;
-    // stops bounce when dragging left
-    element.on('drag', function(event) {
-      element.removeClass('bounce-left');
-      $interval.cancel(bounce);
-      bounce = undefined;
-    });
-    element.on('click', function(event) {
-      var open = isOpen(element);
-      if (open) {
-        close(open);
-        return;
-      }
-
-      // Prevent default dragging of selected content
-      if (element.hasClass('bounce-left')) return;
-      event.preventDefault();
-      element.addClass('bounce-left');
-      bounce = $interval(function() {
-        element.removeClass('bounce-left');
-      }, 1000, 1);
-
-    });
-  };
-}])
-.directive('ionCalSubheader', function() {
-  return {
-    link: function(scope, element, attrs) {
-      scope.$watch(function() {
-
-        var height = element[0].offsetHeight + element[0].offsetTop;
-        
-        // Get the ion-content element containing has-subheader
-        var content = angular.element(document.querySelector('.has-ion-cal-subheader'));
-
-        content.css("top", height + "px");
-      });
-    }
-  };
-})
-.directive('focusOnTap', ['$ionicGesture', '$timeout', function($ionicGesture, $timeout) {
-  return function(scope, element, attr) {
-    var listener = function (event) {
-      $timeout(function() {
-        element.children()[0].focus(); 
-      });
-    };
-    var gesture = $ionicGesture.on('tap', listener, element);
-
-    scope.$on('$destroy', function() {
-      $ionicGesture.off(gesture, 'tap', listener);
-    });
-  };
-}])
-// .directive('wgProfilePhoto', function() {
-//   return {
-//       templateUrl: 'templates/shared/wg-profile-photo.html',
-//       controller: ['$scope', '$ionicActionSheet', '$cordovaCamera', '$rootScope', function($scope, $ionicActionSheet, $cordovaCamera, $rootScope) {
-
-//           $scope.changePhoto = function() {
-//               // Show the action sheet
-//               var hideSheet = $ionicActionSheet.show({
-//                   buttons: [{
-//                       text: 'Choose from library'
-//                   }, {
-//                       text: 'Take profile picture'
-//                   }],
-//                   destructiveText: 'Remove photo',
-//                   titleText: 'Change your profile photo',
-//                   cancelText: 'Cancel',
-//                   cancel: function() {
-//                       // add cancel code..
-//                   },
-//                   destructiveButtonClicked: function () {
-//                     $rootScope.imageURL = "img/profile_default.jpg";
-//                     hideSheet();
-//                   },
-//                   buttonClicked: function(index) {
-//                       switch(index) {
-//                         case 0:
-//                           $scope.addImage("PHOTOLIBRARY");
-//                           break;
-//                         case 1:
-//                           $scope.addImage("CAMERA");
-//                           break;
-//                       }
-//                       hideSheet();
-//                   }
-//               });
-//           };
-
-//           $scope.addImage = function(type) {
-//               // 2
-//               var options = {
-//                   destinationType: Camera.DestinationType.FILE_URI,
-//                   sourceType: Camera.PictureSourceType[type],
-//                   allowEdit: false,
-//                   encodingType: Camera.EncodingType.JPEG,
-//                   correctOrientation: true,
-//                   popoverOptions: CameraPopoverOptions,
-//               };
-
-//               // 3
-//               $cordovaCamera.getPicture(options).then(function(imageData) {
-
-//                   // 4
-//                   onImageSuccess(imageData);
-
-//                   function onImageSuccess(fileURI) {
-//                       createFileEntry(fileURI);
-//                   }
-
-//                   function createFileEntry(fileURI) {
-//                       window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
-//                   }
-
-//                   // 5
-//                   function copyFile(fileEntry) {
-//                       var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
-//                       var newName = makeid() + name;
-
-//                       window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
-//                               fileEntry.copyTo(
-//                                   fileSystem2,
-//                                   newName,
-//                                   onCopySuccess,
-//                                   fail
-//                               );
-//                           },
-//                           fail);
-//                   }
-
-//                   // 6
-//                   function onCopySuccess(entry) {
-//                       $scope.$apply(function() {
-//                           var name = entry.nativeURL.substr(entry.nativeURL.lastIndexOf('/') + 1);
-//                           $rootScope.imageURL = cordova.file.dataDirectory + name;
-//                       });
-//                   }
-
-//                   function fail(error) {
-//                       console.log("fail: " + error.code);
-//                   }
-
-//                   function makeid() {
-//                       var text = "";
-//                       var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-//                       for (var i = 0; i < 5; i++) {
-//                           text += possible.charAt(Math.floor(Math.random() * possible.length));
-//                       }
-//                       return text;
-//                   }
-
-//               }, function(err) {
-//                   console.log(err);
-//               });
-//           };
-
-//           $scope.urlForImage = function(imageName) {
-//               var name = imageName.substr(imageName.lastIndexOf('/') + 1);
-//               var trueOrigin = cordova.file.dataDirectory + name;
-//               return trueOrigin;
-//           };
-//       }],
-//   };
-// })
-.directive('standardTimeMeridian', function () {
-    return {
-        restrict: 'AE',
-        replace: true,
-        scope: {
-            etime: '=etime'
-        },
-        template: "<strong>{{stime}}</strong>",
-        link: function (scope, elem, attrs) {
-
-            scope.stime = epochParser(scope.etime, 'time');
-
-            function prependZero(param) {
-                if (String(param).length < 2) {
-                    return "0" + String(param);
-                }
-                return param;
-            }
-
-            function epochParser(val, opType) {
-                if (val === null) {
-                    return "00:00";
-                } else {
-                    var meridian = ['AM', 'PM'];
-
-                    if (opType === 'time') {
-                        var hours = parseInt(val / 3600);
-                        var minutes = (val / 60) % 60;
-                        var hoursRes = hours > 12 ? (hours - 12) : hours;
-
-                        var currentMeridian = meridian[parseInt(hours / 12)];
-
-                        return (prependZero(hoursRes) + ":" + prependZero(minutes) + " " + currentMeridian);
-                    }
-                }
-            }
-
-            scope.$watch('etime', function (newValue, oldValue) {
-                scope.stime = epochParser(scope.etime, 'time');
-            });
-
-        }
-    };
-})
 // Only one instance of ionAffix works at a time.
  .directive('ionAffix', ['$compile', 'utils', function ($compile, utils) {
     // keeping the Ionic specific stuff separated so that they can be changed and used within another context

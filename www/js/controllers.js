@@ -289,14 +289,6 @@ angular.module('workgenius.controllers', ['integrations'])
             $scope.isEditing = true;
 
             $scope.user = {};
-            // if (window.cordova && window.cordova.getAppVersion && window.device && window.device.platform) {
-            //     document.addEventListener("hidekeyboard", function onHide() {
-                  
-            //     }, false);
-            //     document.addEventListener("showkeyboard", function onShow() {
-                  
-            //     }, false);
-            // }
 
             $scope.connectPopup = $ionicPopup.show(newConnectPopup());
 
@@ -369,47 +361,9 @@ angular.module('workgenius.controllers', ['integrations'])
     }
 }])
 
-
-// .controller('EarningsController', [ '$scope', function($scope) {
-// }])
 .controller('PersonalInfoPageCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
   $scope.currentUser = $rootScope.currentUser;
 }])
-// .controller('VehiclesCtrl', ['$scope', function($scope) {
-// }])
-// .controller('TargetCtrl', ['$scope', function($scope) {
-// // }])
-// .controller('AvailableShiftsCtrl', ['$scope', '$ionicModal', function($scope, $ionicModal) {
-
-//   $scope.shifts=[
-//     {
-//       name:"Coleen", company: "caviar", earnings: 62,
-//       date: new Date("October 23, 2014"),
-//       startsAt: new Date("October 23, 2014 18:30:00"),
-//       endsAt: new Date("October 23, 2014 21:30:00")
-//     },
-//   ];
-//   $scope.selectedShift = $scope.shifts[0];
-//   // Create the login modal that we will use later
-//   $ionicModal.fromTemplateUrl('templates/shared/accept-shift.html', {
-//     scope: $scope
-//   }).then(function(modal) {
-//     $scope.modal = modal;
-//   });
-
-//   $scope.accept = function (shift) {
-//     $scope.selectedShift = shift;
-//     $scope.modal.show();
-//   };
-
-//   $scope.acceptShift = function (shift) {
-//     $scope.modal.hide();
-//   };
-//   $scope.declineShift = function (shift) {
-//     $scope.modal.hide();
-//   };
-
-// }])
 
 // - END -
 ;

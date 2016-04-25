@@ -4,6 +4,60 @@ angular.module('workgenius.schedule', ['workgenius.earnings', 'parseShifts', 'in
 //   SCHEDULE   //
 // ============ //
 
+.directive('bounceLeft', ['$interval', function($interval) {
+  var isOpen = function (element) {
+    var children = element.children();
+    if (children && children[0] && children[0].style.transform) {
+      if (children[0].style.transform.indexOf('translate3d') > -1) {
+        return children[0].style;
+      }
+    }
+    return false;
+  };
+  var close = function (style) {
+    style.transform = '';
+  };
+  return function(scope, element, attr) {
+    var bounce;
+    // stops bounce when dragging left
+    element.on('drag', function(event) {
+      element.removeClass('bounce-left');
+      $interval.cancel(bounce);
+      bounce = undefined;
+    });
+    element.on('click', function(event) {
+      var open = isOpen(element);
+      if (open) {
+        close(open);
+        return;
+      }
+
+      // Prevent default dragging of selected content
+      if (element.hasClass('bounce-left')) return;
+      event.preventDefault();
+      element.addClass('bounce-left');
+      bounce = $interval(function() {
+        element.removeClass('bounce-left');
+      }, 1000, 1);
+
+    });
+  };
+}])
+.directive('ionCalSubheader', function() {
+  return {
+    link: function(scope, element, attrs) {
+      scope.$watch(function() {
+
+        var height = element[0].offsetHeight + element[0].offsetTop;
+        
+        // Get the ion-content element containing has-subheader
+        var content = angular.element(document.querySelector('.has-ion-cal-subheader'));
+
+        content.css("top", height + "px");
+      });
+    }
+  };
+})
 .controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', '$timeout', 'setShifts', 'getShifts', 'earningsEstimate', 'connectedShifts',
     function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, $timeout, setShifts, getShifts, earningsEstimate, connectedShifts) {
 
