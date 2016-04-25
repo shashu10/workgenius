@@ -16,6 +16,7 @@ angular.module('workgenius', [
     'workgenius.filters',
     'workgenius.schedule',
     'workgenius.availability',
+    'workgenius.claimShifts',
     'parseData',
     'parseUtils',
     'parseShifts',

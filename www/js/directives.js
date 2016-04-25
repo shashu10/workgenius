@@ -54,73 +54,6 @@ angular.module('workgenius.directives', [])
     restrict: 'E',
   };
 })
-.directive('flexTimePicker', ['$ionicGesture', function($ionicGesture) {
-
-  var getTimes = function(min, max) {
-    var intervals = [];
-    var d = {
-      label: moment(min).format('h:mm a'),
-      value: new Date(min)
-    };
-
-    while (moment(d.value).isSameOrBefore(max)) {
-      intervals.push(d);
-      d = {
-        label: moment(d.value).add(30, 'minutes').format('h:mm a'),
-        value: moment(d.value).add(30, 'minutes').toDate()
-      };
-    }
-    return intervals;
-  };
-  var getValue = function(times, date) {
-    return _.find(times, function(t) { return moment(t.value).isSame(date);}).value;
-  };
-
-  var link = function (scope, element, attr) {
-
-    var s = scope.shift;
-
-    s.startsAt = new Date(s.startsAt);
-    s.endsAt = new Date(s.endsAt);
-    var min = new Date(s.startsAt);
-    var max = new Date(s.endsAt);
-
-    scope.updateStart = function () {
-      var time = moment(s.startsAt).add(30, 'minutes').toDate();
-      s.endTimes = getTimes(time, max);
-      s.endsAt = getValue(s.endTimes, s.endsAt);
-    };
-    scope.updateEnd = function () {
-      var time = moment(s.endsAt).subtract(30, 'minutes').toDate();
-      s.startTimes = getTimes(min, time);
-      s.startsAt = getValue(s.startTimes, s.startsAt);
-    };
-
-    scope.updateEnd();
-    scope.updateStart();
-  };
-
-  return  {
-    templateUrl: 'templates/shared/flex-time-picker.html',
-    scope: {
-        shift: '=',
-    },
-    link: link
-  };
-}])
-.directive('vehicleTypes', function() {
-  return {
-    templateUrl: 'templates/shared/vehicle-types.html',
-    scope: {
-        vehicles: '=',
-        onChange: '=',
-    },
-    controller: ['$scope', '$rootScope',
-    function($scope, $rootScope) {
-      $scope.car = _.find($scope.vehicles, function(vehicle) { return vehicle.name === "car"; });
-    }]
-  };
-})
 .directive('deviceType', function() {
   return {
     templateUrl: 'templates/shared/device-type.html',
@@ -138,6 +71,19 @@ angular.module('workgenius.directives', [])
         currentUser: '=',
         onChange: '=',
     }
+  };
+})
+.directive('vehicleTypes', function() {
+  return {
+    templateUrl: 'templates/shared/vehicle-types.html',
+    scope: {
+        vehicles: '=',
+        onChange: '=',
+    },
+    controller: ['$scope', '$rootScope',
+    function($scope, $rootScope) {
+      $scope.car = _.find($scope.vehicles, function(vehicle) { return vehicle.name === "car"; });
+    }]
   };
 })
 
