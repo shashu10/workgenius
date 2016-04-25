@@ -7,9 +7,7 @@
         // For placing right arrow closer to the right border
         padding: 40px 16px 40px 90px;
 
-        p strong {
-
-        }
+        // Company Icon
         > img:first-child {
             max-width: 50px;
             max-height: 50px;
@@ -17,10 +15,16 @@
             left: 20px;
             border-radius: 0;
         }
+        .item-note {
+            // vertical align for right arrow
+            margin-top: 9px;
+        }
     }
-    .item-note {
-        // for placing right arrow in the middle
-        margin-top: 9px;
+    // Option buttons
+    .item-options {
+        .button {
+            line-height: 20px;
+        }
     }
 }
 
