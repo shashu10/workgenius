@@ -211,7 +211,7 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
                 starting_point: shift.starting_point,
                 startsAt: moment(shift.startsAt).format('YYYY-MM-DDTHH:mm:00Z'),
                 endsAt: moment(shift.endsAt).format('YYYY-MM-DDTHH:mm:00Z'),
-	            vehicle_id: el.vehicle_id,
+                vehicle_id: el.vehicle_id,
                 workerId: el.workerId,
 
                 // WIW
@@ -328,6 +328,10 @@ function eligibilities($rootScope, connectedShifts, $interval) {
                     console.log(result);
                     el.object.set('token', result.token);
                     el.token = result.token;
+                    el.object.set('vehicle_id', result.vehicle_id);
+                    el.vehicle_id = result.vehicle_id;
+                    el.object.set('workerId', result.workerId);
+                    el.workerId = result.workerId;
                     el.id = result.id; // In case it's a new eligibility that has not had it's ID set
                     connectedShifts.getAvailable(el);
                     if (success) success();
