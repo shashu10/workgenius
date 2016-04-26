@@ -90,6 +90,7 @@ function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
                 company: sh.get('company') && sh.get('company').get('name'),
                 startsAt: sh.get('startsAt'),
                 endsAt: sh.get('endsAt'),
+                location: sh.get('location'),
                 acknowledged: sh.get('acknowledged'),
                 // date for ion-cal needs to be in format: YYYY-MM-DD 2015-01-01
                 // Flex cal error displays one day behind date
