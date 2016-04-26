@@ -1,5 +1,5 @@
 angular.module('integrations', ['parseUtils', 'parseShifts'])
-    .factory('eligibilities', ['$rootScope', 'connectedShifts', eligibilities])
+    .factory('eligibilities', ['$rootScope', 'connectedShifts', '$interval', eligibilities])
 
     .factory('connectedShifts', ['$rootScope', 'getCompanyEligibility', 'getShifts', connectedShifts]);
 
@@ -253,7 +253,7 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
     };
 }
 
-function eligibilities($rootScope, connectedShifts) {
+function eligibilities($rootScope, connectedShifts, $interval) {
 
     var get = function(name) {
         var el = $rootScope.currentUser.eligibility;
@@ -340,10 +340,30 @@ function eligibilities($rootScope, connectedShifts) {
             });
     };
 
-    var refreshToken = function(el) {
+    var createRefresherTimer = function (el, minutesInterval, expiration) {
 
-        if (!Parse.User.current()) return success && success();
+        if (el.refresher) {
+            $interval.cancel(el.refresher);
+        }
 
+        el.refresher = $interval(function() {
+            refreshToken(el, minutesInterval);
+            el.refresher = null;
+        }, moment(expiration).diff(moment()) + 10, 1);
+    };
+    var refreshToken = function(el, minutesInterval) {
+
+        if (!Parse.User.current()) return;
+
+        var expiration = moment(el.tokenRefreshedAt).add(minutesInterval, 'minutes');
+
+        // Not expired
+        if (el.tokenRefreshedAt && expiration.isAfter(moment())) {
+            createRefresherTimer(el, minutesInterval, expiration);
+            return;
+        }
+
+        // Expired
         return Parse.Cloud.run('refreshToken',
             {
                 eligibilityId : el.id
@@ -355,6 +375,9 @@ function eligibilities($rootScope, connectedShifts) {
                     el.token = result.token;
                     el.object.set('tokenRefreshedAt', result.tokenRefreshedAt);
                     el.tokenRefreshedAt = result.tokenRefreshedAt;
+
+                    expiration = moment(el.tokenRefreshedAt).add(minutesInterval, 'minutes');
+                    createRefresherTimer(el, minutesInterval, expiration);
                 },
                 error: function(error) {
                     console.log('Could not refresh token');
@@ -450,20 +473,20 @@ function eligibilities($rootScope, connectedShifts) {
             else
                 el.interested = toggle;
         },
+
+        // Refresh tokens that expire. Currently it's only doordash.
+        // Needs to be called only once.
+        // Will refresh and/or set a timer to automatically refresh when tokens will expire
         refreshAllTokens: function () {
             for (var i = 0; i < $rootScope.currentUser.eligibility.length; i++) {
 
                 var el = $rootScope.currentUser.eligibility[i];
 
                 if (el.company === 'doordash') {
-                    if (!el.tokenRefreshedAt || moment(el.tokenRefreshedAt).add(180, 'minutes').isBefore(moment())) {
-                        // Is expired
-                        refreshToken(el);
-                    }
+                    refreshToken(el, 180);
                 }
             }
         },
-        refreshToken: refreshToken,
         get: get
     };
 }
