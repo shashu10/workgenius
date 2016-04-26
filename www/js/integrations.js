@@ -280,7 +280,7 @@ function eligibilities($rootScope, connectedShifts) {
         el.set("interested", true);
 
         // Wrapper obj
-        var el = {
+        var wrapper = {
             id: undefined,
             company: name,
             eligible: undefined,
@@ -288,8 +288,8 @@ function eligibilities($rootScope, connectedShifts) {
             object: el
         };
 
-        $rootScope.currentUser.eligibility.push(el);
-        return el;
+        $rootScope.currentUser.eligibility.push(wrapper);
+        return wrapper;
     };
     var getCompany = function(name) {
         for (var i = 0; i < $rootScope.companyList.length; i++) {
@@ -336,6 +336,29 @@ function eligibilities($rootScope, connectedShifts) {
                     console.log('Could not connect account');
                     console.log(error);
                     if (failure) failure();
+                }
+            });
+    };
+
+    var refreshToken = function(el) {
+
+        if (!Parse.User.current()) return success && success();
+
+        return Parse.Cloud.run('refreshToken',
+            {
+                eligibilityId : el.id
+            },
+            {
+                success: function(result) {
+                    console.log(result);
+                    el.object.set('token', result.token);
+                    el.token = result.token;
+                    el.object.set('tokenRefreshedAt', result.tokenRefreshedAt);
+                    el.tokenRefreshedAt = result.tokenRefreshedAt;
+                },
+                error: function(error) {
+                    console.log('Could not refresh token');
+                    console.log(error);
                 }
             });
     };
@@ -427,6 +450,20 @@ function eligibilities($rootScope, connectedShifts) {
             else
                 el.interested = toggle;
         },
+        refreshAllTokens: function () {
+            for (var i = 0; i < $rootScope.currentUser.eligibility.length; i++) {
+
+                var el = $rootScope.currentUser.eligibility[i];
+
+                if (el.company === 'doordash') {
+                    if (!el.tokenRefreshedAt || moment(el.tokenRefreshedAt).add(180, 'minutes').isBefore(moment())) {
+                        // Is expired
+                        refreshToken(el);
+                    }
+                }
+            }
+        },
+        refreshToken: refreshToken,
         get: get
     };
 }

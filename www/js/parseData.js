@@ -3,7 +3,7 @@ angular.module('parseData', ['workgenius.constants', 'workgenius.earnings', 'par
     .factory('formatUploadData', ['$rootScope', formatUploadData])
     .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
 
-    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'getShifts', 'setupPush', 'connectedShifts', getUserData])
+    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'getShifts', 'setupPush', 'connectedShifts', 'eligibilities', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 function setUserData($rootScope, formatUploadData) {
@@ -134,7 +134,7 @@ function getCompanyData($rootScope, companies) {
     };
 }
 
-function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAvailableShifts, getShifts, setupPush, connectedShifts) {
+function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAvailableShifts, getShifts, setupPush, connectedShifts, eligibilities) {
 
     var Eligibility = Parse.Object.extend("Eligibility");
 
@@ -376,6 +376,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                         connected: el.get('connected'),
                         username: el.get('username'),
                         token: el.get('token'),
+                        tokenRefreshedAt: el.get('tokenRefreshedAt'),
                         workerId: el.get('workerId'),
                         vehicle_id: el.get('vehicle_id'),
                         object: el
@@ -386,7 +387,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                 }
 
                 $rootScope.currentUser.eligibility = eligibility;
-
+                eligibilities.refreshAllTokens();
                 return getShifts();
 
                 // Get Shift List
