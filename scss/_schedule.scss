@@ -1,6 +1,3 @@
-.schedule-text {
-    float: left;
-}
 
 .item-company-icon.item-avatar {
     .item-content {
@@ -18,6 +15,22 @@
         .item-note {
             // vertical align for right arrow
             margin-top: 9px;
+        }
+        .schedule-text {
+            max-width: 100%;
+            float: left;
+        }
+        .shift-location {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            font-size: 10px;
+            padding-left: 90px;
+            padding-right: 40px;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
     // Option buttons
