@@ -78,7 +78,7 @@ function setupPush($interval) {
     };
 }
 function checkUpdates($ionicPopup) {
-    return function (currentVersion, appInfo, scope) {
+    return function (currentVersion, platform, appInfo, scope) {
         console.log('new app version: ' + appInfo.version);
         console.log(currentVersion);
         console.log(currentVersion < appInfo.version);
@@ -107,7 +107,8 @@ function checkUpdates($ionicPopup) {
             .then(function(install) {
                 // Pressed Install Button
                 if (install) {
-                    window.location = appInfo.url;
+                    // Uses the device browser because android sucks and won't download the app
+                    window.open(appInfo.url, '_system');
                 }
             });
         }
@@ -121,7 +122,7 @@ function updateAppSettings($rootScope, $ionicPopup, checkUpdates) {
                 $rootScope.appSettings = appSettings;
                 $rootScope.availabilityLock = appSettings.availabilityLock;
 
-                checkUpdates(currentVersion, appSettings.appInfo, $rootScope.$new());
+                checkUpdates(currentVersion, platform, appSettings.appInfo, $rootScope.$new());
             },
             error: function(error) {
                 console.log('could not get settings');
