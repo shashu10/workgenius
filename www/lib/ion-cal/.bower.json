@@ -1,0 +1,40 @@
+{
+  "name": "ion-cal",
+  "homepage": "https://github.com/shashu10/ion-cal",
+  "authors": [
+    "Shashank Bharadwaj <shashu10@gmail.com>"
+  ],
+  "description": "Angular JS Cal for Ionic",
+  "keywords": [
+    "cal",
+    "angular",
+    "ion"
+  ],
+  "main": [
+    "dist/ion-cal.css",
+    "dist/ion-cal.min.css",
+    "dist/ion-cal.js",
+    "dist/ion-cal.min.js"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-translate": "~2.7.2"
+  },
+  "_release": "e9b43329fd",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "e9b43329fd3aa0673d362a1362e361895c7aeb92"
+  },
+  "_source": "git://github.com/shashu10/ion-cal.git",
+  "_target": "*",
+  "_originalSource": "ion-cal",
+  "_direct": true
+}

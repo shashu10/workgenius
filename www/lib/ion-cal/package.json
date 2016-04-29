@@ -1,0 +1,36 @@
+{
+  "name": "ion-cal",
+  "version": "0.1.0",
+  "description": "Angular JS Cal for Ionic",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shashu10/ion-cal.git"
+  },
+  "keywords": [
+    "cal",
+    "angular",
+    "ion"
+  ],
+  "author": "Shashank Bharadwaj",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shashu10/ion-cal/issues"
+  },
+  "homepage": "https://github.com/shashu10/ion-cal#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-minify-css": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.2.0",
+    "gulp-concat": "^2.6.0"
+  },
+  "dependencies": {
+    "gulp-minify-css": "^1.2.3",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.1"
+  }
+}
