@@ -13,8 +13,6 @@
           events: '=?'
         },
         template: function(elem, attr){
-          console.log("attr");
-          console.log(attr);
           if (attr.calendarType === 'week')
             return weekTemplate
           else
@@ -83,11 +81,7 @@
       $scope.options.dayNamesLength = $scope.options.dayNamesLength || 1;
       $scope.options.mondayIsFirstDay = $scope.options.mondayIsFirstDay || false;
 
-      if ($scope.options.disableClickedDates) {
-        $scope.onClick = onClickBlock;
-      } else {
-        $scope.onClick = onClick;
-      }
+      $scope.onClick = onClick;
 
       $scope.allowedPrevMonth = allowedPrevMonth;
       $scope.allowedNextMonth = allowedNextMonth;
@@ -215,93 +209,18 @@
 
       /////////////////
 
-      $scope.dividerFunction = function(date){
-        return moment(date).format('MMM dddd Do');
-      };
-
-      $scope.formatAMPM = function (date) {
-        return moment(date).format('ha');
-      };
-
-      $scope.shiftEarnings = function(shift) {
-          return (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * 15;
-      };
-      $scope.strikes = function (shifts) {
-        var strikes = 0;
-        for (var i = 0; i < shifts.length; i++) {
-          var shift = shifts[i];
-          var deadline = moment().add(72, 'hours');
-          if (deadline.isAfter(shift.startsAt)) {
-            strikes++;
-          }
-        }
-        return strikes;
-      };
-      function blockWithEvents (date) {
-        $scope.selectedEvents = date.event;
-        var thisThese = $scope.selectedEvents.length > 1 ? 'these shifts' : 'this shift';
-        return $ionicPopup.show({
-          cssClass: 'block-popup',
-          template: '<ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{shiftToCancel.company}} | Earnings Est: ${{shiftEarnings(shiftToCancel)}}</p><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><p ng-if="strikes(selectedEvents)">WARNING: You\'ll get {{strikes(selectedEvents)}} strike{{strikes(selectedEvents) > 1 ? "s" : ""}}</p></ion-list>',
-          title: 'Blocking this day will<br>cancel ' + thisThese,
-          scope: $scope,
-          buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
-              text: 'No, Leave it',
-              type: 'button-dark',
-              onTap: function(e) {
-                return false;
-              }
-            }, {
-              text: 'Yes, Block',
-              type: 'button-assertive',
-              onTap: function(e) {
-                return true;
-              }
-            }]
-        });
-      }
-
-      function onClickBlock(date, index, domEvent) {
-        if (date && !date.disabled && isAfterToday(date.date)) {
-          if (date.event.length) {
-            blockWithEvents(date)
-            .then(function(block) {
-
-              if (block) {
-                date.blocked = !date.blocked;
-                date.event = [];
-                var blockedDays = getBlockedDays();
-
-                $scope.options.blockClick(date, blockedDays, domEvent);
-              }
-            });
-            return;
-          }
-          date.blocked = !date.blocked;
-          var blockedDays = getBlockedDays();
-
-          $scope.options.blockClick(date, blockedDays, domEvent);
-        }
-      }
-
       function getBlockedDays () {
         var blockedDays = [];
-        for (var i = 0; i < $scope.months.length; i++) {
-          var month = $scope.months[i];
-
-          for (var j = 0; j < month.weeks.length; j++) {
-            var week = month.weeks[j];
-
-            for (var k = 0; k < week.length; k++) {
-              var day = week[k];
-
-              if (day && day.blocked) {
-                blockedDays.push({
-                  day: day.day,
-                  month: Number(day.month) + 1,
-                  year: day.year,
-                });
-              }
+        for (var i = 0; i < $scope.allWeeks.length; i++) {
+          var week = $scope.allWeeks[i];
+          for (var j = 0; j < week.length; j++) {
+            var day = week[j];
+            if (day && day.blocked) {
+              blockedDays.push({
+                day: day.day,
+                month: Number(day.month) + 1,
+                year: day.year,
+              });
             }
           }
         }
@@ -310,17 +229,21 @@
 
       function onClick(date, index, domEvent) {
         if (!date || date.disabled) { return; }
-        $scope.options.defaultDate = date.date;
-        clickHandler(date, domEvent);
+        if ($scope.options.disableClickedDates) {
+          clickHandler(date, domEvent, getBlockedDays);
+        } else {
+          $scope.options.defaultDate = date.date;
+          clickHandler(date, domEvent);
+        }
       }
 
-      function clickHandler (date, domEvent) {
+      function clickHandler (date, domEvent, getBlockedDays) {
 
         if (date.event && date.event.length) {
-          $scope.options.eventClick(date, domEvent);
+          $scope.options.eventClick(date, domEvent, getBlockedDays);
 
         } else {
-          $scope.options.dateClick(date, domEvent);
+          $scope.options.dateClick(date, domEvent, getBlockedDays);
         }
       }
       function bindEvent(date) {
