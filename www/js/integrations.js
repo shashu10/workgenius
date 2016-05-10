@@ -150,14 +150,14 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
 	        Parse.Cloud.run('getAllConnectedShifts', {},
 	        {
 	            success: function(shifts) {
-	                console.log('Successfully got all connected shifts');
+	                console.log('Successfully got all available shifts');
 
                     updateWith(shifts);
 	                if (success) success();
                     $rootScope.$apply();
 	            },
 	            error: function(error) {
-	                console.log('Could not get all connected shifts');
+	                console.log('Could not get all available shifts');
 	                console.log(error);
 	                if (failure) failure();
 	            }
@@ -169,21 +169,21 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
             Parse.Cloud.run('getAllScheduledShifts', {},
             {
                 success: function(shifts) {
-                    console.log('Successfully got all connected shifts');
+                    console.log('Successfully got all scheduled shifts');
 
                     getShifts().then(function(shifts) {
                         $rootScope.currentUser.shifts = shifts;
                         if (success) success();
                         $rootScope.$apply();
                     }, function(error) {
-                        console.log('Could not get all connected shifts');
+                        console.log('Could not get all scheduled shifts');
                         console.log(error);
                         if (success) success();
                         $rootScope.$apply();
                     });
                 },
                 error: function(error) {
-                    console.log('Could not get all connected shifts');
+                    console.log('Could not get all scheduled shifts');
                     console.log(error);
                     if (failure) failure();
                 }

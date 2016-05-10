@@ -35,8 +35,8 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
 ])
 
-.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map',
-    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map) {
+.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService',
+    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map, connectedShifts, PtrService) {
 
         // ionic platform should be ready now
         if (window.location.hostname !== 'localhost') $state.go('splash');
@@ -71,7 +71,7 @@ angular.module('workgenius', [
 
         // $ionicAnalytics.register();
         // Reload shifts if sent to background and reopened
-        document.addEventListener("resume", onResume, false);
+        document.addEventListener("resume", reloadConnectedShifts, false);
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -114,21 +114,35 @@ angular.module('workgenius', [
         // Update the company data
         getCompanyData();
 
+
         // Get user data and store it in the rootscope.
         // Goto correct state after deviceready
         getUserData().then(function(user) {
-            if (window.location.hostname === 'localhost' && window.location.hash !== "") return;
-            if (window.location.hash === "" || window.location.hash === "#/splash") {
+
+            var transition;
+
+            // Don't transition anywhere if testing on localhost.
+            if (window.location.hostname === 'localhost' && window.location.hash !== "") {}
+
+            // If on a device disable transition and go straight to the right view.
+            else if (window.location.hash === "" || window.location.hash === "#/splash") {
                 $ionicHistory.nextViewOptions({
                     historyRoot: true,
                     disableAnimate: true
                 });
                 if (user)
-                    $state.go('app.schedule', {clear: true});
+                    transition = $state.go('app.schedule', {clear: true});
                 else
-                    $state.go('registration.signup', {clear: true});
+                    transition = $state.go('registration.signup', {clear: true});
             } else {
-                $state.go('registration.signup', {clear: true});
+                transition = $state.go('registration.signup', {clear: true});
+            }
+
+            // After transitioning to the right state, reload connected shifts to trigger refresh spinner
+            if (transition) {
+                transition.then(function () {
+                    reloadConnectedShifts();
+                });
             }
 
         }, function (error) {
@@ -137,20 +151,20 @@ angular.module('workgenius', [
 
         //////////
 
-        function onResume() {
+        function reloadConnectedShifts() {
             console.log('resumed app');
 
-            // Refresh available shifts
-            connectedShifts.getAllAvailable();
+            // Refresh connected and available shifts. Show refresh spinner if on the right page
+            if ($state.current.name.indexOf('app.schedule') > -1)
+                PtrService.triggerPtr('scheduleScroll');
+            else
+                connectedShifts.getAllScheduled();
 
-            if ($state.current.name.indexOf('app.schedule') > -1) {
-                getShifts().then(function(shifts) {
-                    $rootScope.currentUser.shifts = shifts;
+            if ($state.current.name.indexOf('app.claim-days') > -1)
+                PtrService.triggerPtr('claimDaysScroll');
+            else
+                connectedShifts.getAllAvailable();
 
-                    // If user is logged in, update scope
-                    if (Parse.User.current()) $rootScope.$apply();
-                });
-            }
         }
     }
 ])

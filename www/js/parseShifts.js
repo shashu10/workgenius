@@ -1,7 +1,7 @@
 angular.module('parseShifts', ['workgenius.earnings', 'parseUtils', 'workgenius.directives'])
 
     .factory('setShifts', ['$rootScope', '$q', 'getCompanyEligibility', setShifts])
-    .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', 'debounce', getShifts])
+    .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', getShifts])
     .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', 'earningsEstimate', acknowledgeShifts]);
 
 var Shift = Parse.Object.extend("Shift");
@@ -60,11 +60,7 @@ function setShifts($rootScope, $q, getCompanyEligibility) {
     };
 }
 
-function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
-
-    var debouncedAcknowledge = debounce(function (newShifts) {
-      acknowledgeShifts(newShifts);
-    }, 1000, false);
+function getShifts($q, $rootScope, acknowledgeShifts) {
 
     var shiftSort = function(a, b) {
         if (a.startsAt.getTime() > b.startsAt.getTime())
@@ -110,8 +106,7 @@ function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
         shifts.sort(shiftSort);
         newShifts.sort(shiftSort);
 
-        // Get shifts is called in app.js and schedule.js in a short interval
-        debouncedAcknowledge(newShifts);
+        acknowledgeShifts(newShifts);
 
         return shifts;
     };
@@ -133,8 +128,10 @@ function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
     };
 }
 
-
+// If called multiple times, will only show one popup at a time.
 function acknowledgeShifts($q, $rootScope, $ionicPopup, earningsEstimate) {
+
+    var _popupIsVisible = false;
 
     var shiftDateFormatter = function(date) {
         return moment(date).format('ddd, MMM Do');
@@ -166,7 +163,9 @@ function acknowledgeShifts($q, $rootScope, $ionicPopup, earningsEstimate) {
         });
     };
     return function(shifts) {
-        if (!shifts.length) return;
+        if (!shifts.length || _popupIsVisible) return;
+
+        _popupIsVisible = true;
 
         var scope = $rootScope.$new();
 
@@ -175,6 +174,7 @@ function acknowledgeShifts($q, $rootScope, $ionicPopup, earningsEstimate) {
 
         scope.shiftDateFormatter = shiftDateFormatter;
         scope.formatAMPM = formatAMPM;
+
 
         $ionicPopup.show({
             cssClass: 'shift-popup',
@@ -185,6 +185,7 @@ function acknowledgeShifts($q, $rootScope, $ionicPopup, earningsEstimate) {
                 text: 'Acknowledge',
                 type: 'button-positive',
                 onTap: function(e) {
+                    _popupIsVisible = false;
                     batchSave(shifts);
 
                 }

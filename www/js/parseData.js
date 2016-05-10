@@ -390,27 +390,27 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
 
             deferred.resolve(true);
 
-            Parse.Promise.when([Parse.User.current().fetch(), getEligibility(), getShifts()])
-            .then(function(user, results, shifts) {
-                // Must do in order
-                processUserInfo(user);
-                processEligibility(results);
-
-                $rootScope.currentUser.shifts = shifts;
-
-                $rootScope.$apply();
-
-                setupPush();
-
-            }, function failure(error) {
-
+            var p1 = Parse.User.current().fetch().then(processUserInfo, function error(err) {
+                console.log(err);
                 Parse.User.logOut();
                 console.log('Something went wrong. Probably user doesn\'t exist');
                 console.log(error);
                 setDefaultPrefs('AJ Shewki', 'aj@workgeni.us', false);
                 Raven.setUserContext();
                 mixpanel.identify();
+            });
 
+            var p2 = getEligibility().then(processEligibility);
+
+            var p3 = getShifts().then(function (shifts) {
+                $rootScope.currentUser.shifts = shifts;
+            });
+
+            // When everything is done, refresh scope;
+            Parse.Promise.when([p1, p2, p3])
+            .then(function() {
+                $rootScope.$apply();
+                setupPush();
             });
         }
 

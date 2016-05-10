@@ -39,7 +39,9 @@
     {
       "locator": "https://github.com/fastrde/phonegap-parse-plugin.git",
       "id": "org.apache.cordova.core.parseplugin"
-    }
+    },
+    "ionic-plugin-keyboard",
+    "cordova-plugin-whitelist"
   ],
   "cordovaPlatforms": [
     "ios",

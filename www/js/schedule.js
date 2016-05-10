@@ -58,14 +58,8 @@ angular.module('workgenius.schedule', ['workgenius.earnings', 'parseShifts', 'in
     }
   };
 })
-.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', '$timeout', 'setShifts', 'getShifts', 'earningsEstimate', 'connectedShifts', 'PtrService',
-    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, $timeout, setShifts, getShifts, earningsEstimate, connectedShifts, PtrService) {
-
-
-        // Reload shifts if sent to background and reopened
-        document.addEventListener("resume", function () {
-            PtrService.triggerPtr('scheduleScroll');
-        }, false);
+.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', '$timeout', 'setShifts', 'getShifts', 'earningsEstimate', 'connectedShifts',
+    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, $timeout, setShifts, getShifts, earningsEstimate, connectedShifts) {
 
         $scope.earningsEstimate = earningsEstimate;
 

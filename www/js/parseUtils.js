@@ -36,14 +36,13 @@ function setupPush($interval) {
                         query.first({
                             success: function(object) {
                                 // Successfully retrieved the object.
-                                console.log('Success');
+                                console.log('Parse.Installation');
                                 console.log(object);
                                     object.set('user', Parse.User.current());
                                     object.save({}, {
                                         success: function(object) {
                                             // The object was saved successfully.
                                             console.log('User saved in installation');
-                                            console.log(object);
                                             // $rootScope.currentUser.set('allowNotifications', true);
                                             // $rootScope.currentUser.save({});
                                         },
@@ -79,9 +78,8 @@ function setupPush($interval) {
 }
 function checkUpdates($ionicPopup) {
     return function (currentVersion, platform, appInfo, scope) {
+        console.log('Current version: ' + currentVersion);
         console.log('new app version: ' + appInfo.version);
-        console.log(currentVersion);
-        console.log(currentVersion < appInfo.version);
         scope.appInfo = appInfo;
 
         if (currentVersion < appInfo.version) {
