@@ -151,7 +151,7 @@ angular.module('workgenius', [
                         reloadConnectedShifts();
 
                     // What's the magic number?
-                    }, 200, 1);
+                    }, 400, 1);
                 });
             }
 
