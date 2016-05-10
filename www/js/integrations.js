@@ -215,14 +215,15 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
                 workerId: el.workerId,
 
                 // WIW
-                shiftId : shift.shiftId,
                 swapId : shift.swapId, // only for wiw swaps
                 ownShift: ownShift,
 
-                // All
+                // Common
+                shiftId : shift.shiftId,
                 companyId : el.object.get('company').id,
                 company : el.company,
                 token : el.token,
+                location : shift.location,
 	        },
 	        {
 	            success: function(s) {

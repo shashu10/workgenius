@@ -389,13 +389,12 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             setDefaultPrefs();
 
             deferred.resolve(true);
-            
+
             Parse.Promise.when([Parse.User.current().fetch(), getEligibility(), getShifts()])
             .then(function(user, results, shifts) {
                 // Must do in order
                 processUserInfo(user);
                 processEligibility(results);
-                
 
                 $rootScope.currentUser.shifts = shifts;
 
@@ -412,7 +411,6 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                 Raven.setUserContext();
                 mixpanel.identify();
 
-                deferred.resolve(false);
             });
         }
 

@@ -8151,6 +8151,13 @@ ionic.scroll = {
       if (!self.isDragging && !self._dragOp) {
         self._startDrag(e);
       }
+      // If you're dragging to the right and the list item is closed, pass the touch event up
+      if (self._dragOp &&
+          self._dragOp._currentDrag &&
+          self._dragOp._currentDrag.startOffsetX === 0 &&
+          e.gesture.direction == 'right') {
+        return;
+      }
 
       // No drag still, pass it up
       if (!self._dragOp) {

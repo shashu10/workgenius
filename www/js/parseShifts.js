@@ -125,6 +125,7 @@ function getShifts($q, $rootScope, acknowledgeShifts, debounce) {
         }
 
         var query = new Parse.Query(Shift);
+        query.include("company");
         query.equalTo("worker", Parse.User.current());
         query.descending('startsAt');
 

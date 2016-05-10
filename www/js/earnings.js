@@ -3,21 +3,13 @@ angular.module('workgenius.earnings', [])
 
 
 function earningsEstimate($rootScope) {
-	function avgCompanyPay (name) {
-		if (!name) {
-			Raven.captureMessage('copmany not defined in avgCompanyPay');
-			return 15;
-		}
-	    for (var i = 0; i < $rootScope.companyList.length; i++) {
-	        if (name.toLowerCase() === $rootScope.companyList[i].name.toLowerCase())
-	            return $rootScope.companyList[i].earningsEst;
-	    }
-	    Raven.captureMessage('copmany not found in avgCompanyPay');
-	    return 15;
-	}
 	return {
 		shift: function (shift) {
-			var raw = (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * avgCompanyPay(shift.company);
+			var est = (shift.object.get &&
+					   shift.object.get('company') &&
+					   shift.object.get('company').get &&
+					   shift.object.get('company').get('earningsEst')) || 15;
+			var raw = (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * est;
 			return Math.round(raw);
 		},
 		group: function (group) {
