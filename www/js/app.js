@@ -113,6 +113,7 @@ angular.module('workgenius', [
 
         // Update the company data
         getCompanyData();
+
         // Get user data and store it in the rootscope.
         // Goto correct state after deviceready
         getUserData().then(function(user) {
@@ -138,6 +139,9 @@ angular.module('workgenius', [
 
         function onResume() {
             console.log('resumed app');
+
+            // Refresh available shifts
+            connectedShifts.getAllAvailable();
 
             if ($state.current.name.indexOf('app.schedule') > -1) {
                 getShifts().then(function(shifts) {

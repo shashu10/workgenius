@@ -22,6 +22,8 @@ angular.module('workgenius.claimShifts', ['integrations'])
   $scope.doRefresh = function() {
     connectedShifts.getAllAvailable(function success() {
       $scope.$broadcast('scroll.refreshComplete');
+    }, function failure() {
+      $scope.$broadcast('scroll.refreshComplete');
     });
   };
   $scope.select = function(index) {

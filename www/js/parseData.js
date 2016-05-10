@@ -255,6 +255,113 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
         });
     }
 
+    function processEligibility(object) {
+
+        var eligibility = [];
+
+        for (var i = 0; i < object.length; i++) {
+            var el = object[i];
+            var company = el.get('company') && el.get('company').get('name');
+
+            eligibility.push({
+                id: el.id,
+                company: company,
+                eligible: el.get('eligible'),
+                interested: el.get('interested'),
+                connected: el.get('connected'),
+                username: el.get('username'),
+                token: el.get('token'),
+                tokenRefreshedAt: el.get('tokenRefreshedAt'),
+                workerId: el.get('workerId'),
+                vehicle_id: el.get('vehicle_id'),
+                object: el
+            });
+
+            // Append shifts
+            connectedShifts.appendNewShifts(el.get('shifts'), company);
+        }
+
+        $rootScope.currentUser.eligibility = eligibility;
+        eligibilities.refreshAllTokens();
+        return getShifts();
+
+        // Get Shift List
+    }
+    function processUserInfo(user) {
+
+        // if (user.get('allowNotifications') === undefined) {
+        //     askAndSetupPush();
+        // }
+
+        mixpanel.identify(user.id);
+        // only special properties need the $
+        mixpanel.people.set({
+            "$email": user.get('email'),
+            "$name": user.get('name'),
+            "$phone": user.get('phone'),
+            "$last_login": new Date(),
+            "$created": user.get('createdAt'),
+            "appVersion": $rootScope.appVersion,
+        });
+        Raven.setUserContext({
+            email: user.get('email'),
+            id: user.id,
+            appVersion: $rootScope.appVersion,
+        });
+
+        // Legacy
+        $rootScope.device.platform = user.get('platform') || $rootScope.device.platform;
+        $rootScope.device.carrier = user.get('carrier') || $rootScope.device.carrier;
+        $rootScope.device.model = user.get('model') || $rootScope.device.model;
+
+        // New version
+        var deviceInfo = user.get('deviceInfo');
+        // if device info is empty, set it.
+        if (!deviceInfo) {
+            $rootScope.currentUser.save({
+                deviceInfo : {
+                    platform: $rootScope.device.platform,
+                    carrier: $rootScope.device.carrier,
+                    model: $rootScope.device.model,
+                }
+            });
+
+        // else, use it to set rootscope device
+        } else {
+            $rootScope.device.platform = deviceInfo.platform || $rootScope.device.platform;
+            $rootScope.device.carrier = deviceInfo.carrier || $rootScope.device.carrier;
+            $rootScope.device.model = deviceInfo.model || $rootScope.device.model;
+        }
+
+        angular.extend($rootScope.currentUser, {
+            name: user.get('name') || '',
+            email: user.get('email') || '',
+            phone: user.get('phone') || '',
+            target: user.get('target') || 0,
+            strikes: user.get('strikes') || 0,
+            appState: user.get('appState') || {},
+            address: user.get('address') || {},
+            dob: user.get('dob') || undefined,
+            ssn: user.get('ssn') || "",
+            hoursTotal: user.get('hoursTotal') || {
+                day: 0,
+                week: 0,
+                month: 0,
+                lifetime: 0
+            },
+            earningsTotal: user.get('earningsTotal') || {
+                day: 0,
+                week: 0,
+                month: 0,
+                lifetime: 0
+            },
+            vehicles: getVehicles(user),
+            workTypes: getWorkTypes(user),
+            blockedDays: getBlockedDays(user),
+            availability: getAvailability(user),
+            totalHours: calculateTotalHours(user)
+        });
+    }
     return function(newUser, name, email) {
 
         // To do some async stuff after data has loaded
@@ -281,121 +388,17 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             // setup default values while actual values load 
             setDefaultPrefs();
 
-            // Get User Information
-            Parse.User.current().fetch().then(function(user) {
-
-                // if (user.get('allowNotifications') === undefined) {
-                //     askAndSetupPush();
-                // }
-
-                mixpanel.identify(user.id);
-                // only special properties need the $
-                mixpanel.people.set({
-                    "$email": user.get('email'),
-                    "$name": user.get('name'),
-                    "$phone": user.get('phone'),
-                    "$last_login": new Date(),
-                    "$created": user.get('createdAt'),
-                    "appVersion": $rootScope.appVersion,
-                });
-                Raven.setUserContext({
-                    email: user.get('email'),
-                    id: user.id,
-                    appVersion: $rootScope.appVersion,
-                });
-
-                // Legacy
-                $rootScope.device.platform = user.get('platform') || $rootScope.device.platform;
-                $rootScope.device.carrier = user.get('carrier') || $rootScope.device.carrier;
-                $rootScope.device.model = user.get('model') || $rootScope.device.model;
-
-                // New version
-                var deviceInfo = user.get('deviceInfo');
-                // if device info is empty, set it.
-                if (!deviceInfo) {
-                    $rootScope.currentUser.save({
-                        deviceInfo : {
-                            platform: $rootScope.device.platform,
-                            carrier: $rootScope.device.carrier,
-                            model: $rootScope.device.model,
-                        }
-                    });
-
-                // else, use it to set rootscope device
-                } else {
-                    $rootScope.device.platform = deviceInfo.platform || $rootScope.device.platform;
-                    $rootScope.device.carrier = deviceInfo.carrier || $rootScope.device.carrier;
-                    $rootScope.device.model = deviceInfo.model || $rootScope.device.model;
-                }
-
-                angular.extend($rootScope.currentUser, {
-                    name: user.get('name') || '',
-                    email: user.get('email') || '',
-                    phone: user.get('phone') || '',
-                    target: user.get('target') || 0,
-                    strikes: user.get('strikes') || 0,
-                    appState: user.get('appState') || {},
-                    address: user.get('address') || {},
-                    dob: user.get('dob') || undefined,
-                    ssn: user.get('ssn') || "",
-                    hoursTotal: user.get('hoursTotal') || {
-                        day: 0,
-                        week: 0,
-                        month: 0,
-                        lifetime: 0
-                    },
-                    earningsTotal: user.get('earningsTotal') || {
-                        day: 0,
-                        week: 0,
-                        month: 0,
-                        lifetime: 0
-                    },
-                    vehicles: getVehicles(user),
-                    workTypes: getWorkTypes(user),
-                    blockedDays: getBlockedDays(user),
-                    availability: getAvailability(user),
-                    totalHours: calculateTotalHours(user)
-                });
-
-                return getEligibility();
-
-                // Get Company Eligibility
-            }).then(function(results) {
-
-                var eligibility = [];
-
-                for (var i = 0; i < results.length; i++) {
-                    var el = results[i];
-                    var company = el.get('company') && el.get('company').get('name');
-
-                    eligibility.push({
-                        id: el.id,
-                        company: company,
-                        eligible: el.get('eligible'),
-                        interested: el.get('interested'),
-                        connected: el.get('connected'),
-                        username: el.get('username'),
-                        token: el.get('token'),
-                        tokenRefreshedAt: el.get('tokenRefreshedAt'),
-                        workerId: el.get('workerId'),
-                        vehicle_id: el.get('vehicle_id'),
-                        object: el
-                    });
-
-                    // Append shifts
-                    connectedShifts.appendNewShifts(el.get('shifts'), company);
-                }
-
-                $rootScope.currentUser.eligibility = eligibility;
-                eligibilities.refreshAllTokens();
-                return getShifts();
-
-                // Get Shift List
-            }).then(function(shifts) {
+            deferred.resolve(true);
+            
+            Parse.Promise.when([Parse.User.current().fetch(), getEligibility(), getShifts()])
+            .then(function(user, results, shifts) {
+                // Must do in order
+                processUserInfo(user);
+                processEligibility(results);
+                
 
                 $rootScope.currentUser.shifts = shifts;
 
-                deferred.resolve(true);
                 $rootScope.$apply();
 
                 setupPush();
