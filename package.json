@@ -41,7 +41,8 @@
       "id": "org.apache.cordova.core.parseplugin"
     },
     "ionic-plugin-keyboard",
-    "cordova-plugin-whitelist"
+    "cordova-plugin-whitelist",
+    "cordova-plugin-splashscreen"
   ],
   "cordovaPlatforms": [
     "ios",

@@ -134,6 +134,8 @@ angular.module('workgenius', [
                     transition = $state.go('app.schedule', {clear: true});
                 else
                     transition = $state.go('registration.signup', {clear: true});
+
+            // Default case
             } else {
                 transition = $state.go('registration.signup', {clear: true});
             }
@@ -141,7 +143,15 @@ angular.module('workgenius', [
             // After transitioning to the right state, reload connected shifts to trigger refresh spinner
             if (transition) {
                 transition.then(function () {
-                    reloadConnectedShifts();
+
+                    // Wait for dom to render
+                    $interval(function () {
+                        // hide splash screen
+                        if (navigator && navigator.splashscreen) navigator.splashscreen.hide();
+                        reloadConnectedShifts();
+
+                    // What's the magic number?
+                    }, 200, 1);
                 });
             }
 

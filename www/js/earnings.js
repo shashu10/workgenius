@@ -5,7 +5,8 @@ angular.module('workgenius.earnings', [])
 function earningsEstimate($rootScope) {
 	return {
 		shift: function (shift) {
-			var est = (shift.object.get &&
+			var est = (shift.object &&
+					   shift.object.get &&
 					   shift.object.get('company') &&
 					   shift.object.get('company').get &&
 					   shift.object.get('company').get('earningsEst')) || 15;
