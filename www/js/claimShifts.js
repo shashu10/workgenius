@@ -160,8 +160,8 @@ angular.module('workgenius.claimShifts', ['integrations'])
                     $scope.connectPopup = null;
                     $scope.isEditing = false;
 
-                    // Pressed connect
-                    if (connect) {
+                    // Pressed connect or hit enter/go on keyboard
+                    if (connect || connect === undefined) {
                         $scope.connect(company);
                         // Pressed never mind
                     } else {
