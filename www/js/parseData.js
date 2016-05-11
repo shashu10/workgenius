@@ -157,7 +157,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
         var car = _.find(user && user.get('vehicles'), function(v) { return v.indexOf('car') > -1; });
 
         return [{
-            name: "none",
+            name: "walking",
             icon: "ion-ios-body",
             selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('none') > -1
         }, {

@@ -7,6 +7,12 @@
 }
 .wg-preferences {
 
+    .vehicle-item-list {
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .item-divider {
         background-color: transparent;
         border: 0;
@@ -37,5 +43,13 @@
         position: absolute;
         top: 16px;
         right: 20px;
+    }
+
+    .item-icon-right .icon:first-child {
+        font-size: 24px;
+    }
+    .item-icon-right .icon:last-child {
+        font-size: 20px;
+        color: #7B7B7B;
     }
 }

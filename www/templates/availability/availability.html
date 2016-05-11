@@ -1,12 +1,12 @@
 <ion-view view-title="Manage Availability">
-	<div class="wg-grid-days has-header has-subheader" ng-show="showHeader">
+	<div class="wg-grid-days has-header" ng-show="showHeader">
 	    <div class="row wg-grid-header">
 	        <div class="first"></div>
 	        <div class="col" ng-click="select(day, null)" ng-repeat="day in days">{{day | limitTo: 1}}</div>
 	    </div>
 	</div>
 
-	<ion-content view-title="Manage Availability" delegate-handle="availabilityScroll" class="has-subheader has-wg-save-bar availability-tabs-page" on-scroll="onScroll()">
+	<ion-content view-title="Manage Availability" delegate-handle="availabilityScroll" class="has-wg-save-bar availability-tabs-page" on-scroll="onScroll()">
 		<div ng-if="canEditAvailability">
 			<p class="wg-title-instruction padding-top">
 	            Tap to add or remove hours.

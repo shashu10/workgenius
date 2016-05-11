@@ -181,6 +181,8 @@ angular.module('workgenius', [
 
 .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$analyticsProvider',
     function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $analyticsProvider) {
+
+        $ionicConfigProvider.tabs.position('bottom');
         // $ionicConfigProvider.views.forwardCache(true);
 
         $analyticsProvider.firstPageview(true); /* Records pages that don't use $state or $route */
@@ -203,14 +205,14 @@ angular.module('workgenius', [
         .state('app', {
             url: '/app',
             abstract: true,
-            templateUrl: 'templates/menu.html',
+            templateUrl: 'templates/tabs.html',
             controller: 'MenuCtrl'
         })
 
         .state('app.preferences', {
             url: '/preferences',
             views: {
-                'menuContent': {
+                'tab-preferences': {
                     templateUrl: 'templates/main/preferences.html'
                 }
             }
@@ -219,7 +221,7 @@ angular.module('workgenius', [
         .state('app.schedule', {
             url: '/schedule',
             views: {
-                'menuContent': {
+                'tab-schedule': {
                     templateUrl: 'templates/main/schedule.html'
                 }
             }
@@ -230,7 +232,7 @@ angular.module('workgenius', [
         .state('app.earnings', {
             url: '/earnings',
             views: {
-                'menuContent': {
+                'tab-preferences': {
                     templateUrl: 'templates/main/earnings.html',
                     // controller: "EarningsController"
                 }
@@ -240,7 +242,7 @@ angular.module('workgenius', [
         .state('app.hours', {
             url: '/hours',
             views: {
-                'menuContent': {
+                'tab-preferences': {
                     templateUrl: 'templates/main/hours.html',
                     // controller: "EarningsController"
                 }
@@ -272,7 +274,7 @@ angular.module('workgenius', [
         .state('app.vehicles', {
             url: '/vehicles',
             views: {
-                'menuContent': {
+                'tab-preferences': {
                     templateUrl: 'templates/main/vehicles.html',
                     // controller: 'VehiclesCtrl'
                 }
@@ -282,7 +284,7 @@ angular.module('workgenius', [
         .state('app.device-type-page', {
             url: '/device-type-page',
             views: {
-                'menuContent': {
+                'tab-preferences': {
                     templateUrl: 'templates/main/device-type-page.html',
                 }
             }
@@ -291,7 +293,7 @@ angular.module('workgenius', [
         .state('app.personal-info', {
             url: '/personal-info',
             views: {
-                'menuContent': {
+                'tab-preferences': {
                     templateUrl: 'templates/main/personal-info.html',
                     controller: 'PersonalInfoPageCtrl'
                 }
@@ -301,7 +303,7 @@ angular.module('workgenius', [
         .state('app.connect-accounts', {
             url: '/connect-accounts',
             views: {
-                'menuContent': {
+                'tab-connect-accounts': {
                     templateUrl: 'templates/main/connect-accounts.html',
                     controller: 'ConnectAccountsCtrl'
                 }
@@ -313,7 +315,7 @@ angular.module('workgenius', [
         .state('app.claim-days', {
             url: '/claim-days',
             views: {
-                'menuContent': {
+                'tab-claim-days': {
                     templateUrl: 'templates/main/claim-days.html',
                     controller: 'ClaimDaysCtrl'
                 }
@@ -323,7 +325,7 @@ angular.module('workgenius', [
         .state('app.claim-shifts', {
             url: '/claim-shifts/:index',
             views: {
-                'menuContent': {
+                'tab-claim-days': {
                     templateUrl: 'templates/main/claim-shifts.html',
                     controller: 'ClaimShiftsCtrl'
                 }
@@ -333,7 +335,7 @@ angular.module('workgenius', [
         .state('app.claim-group-detail', {
             url: '/claim-group-detail',
             views: {
-                'menuContent': {
+                'tab-claim-days': {
                     templateUrl: 'templates/main/claim-group-detail.html',
                     controller: 'ClaimGroupDetailCtrl'
                 }
@@ -343,7 +345,7 @@ angular.module('workgenius', [
         .state('app.claim-detail', {
             url: '/claim-detail',
             views: {
-                'menuContent': {
+                'tab-claim-days': {
                     templateUrl: 'templates/main/claim-detail.html',
                     controller: 'ClaimDetailCtrl'
                 }
@@ -356,27 +358,27 @@ angular.module('workgenius', [
             abstract: true,
             url: "/availability-tabs",
             views: {
-                'menuContent': {
+                'tab-preferences': {
                     templateUrl: "templates/availability/availability-tabs.html",
                     controller: 'AvailabilityTabsCtrl'
                 }
             }
         })
 
-        .state('app.availability-tabs.availability', {
+        .state('app.availability', {
             url: '/availability',
             views: {
-                'content': {
+                'tab-preferences': {
                     templateUrl: 'templates/availability/availability.html',
                     controller: 'AvailabilityCtrl'
                 }
             }
         })
 
-        .state('app.availability-tabs.block-days', {
+        .state('app.block-days', {
             url: '/block-days',
             views: {
-                'content': {
+                'tab-preferences': {
                     templateUrl: 'templates/availability/block-days.html',
                     controller: 'BlockDaysCtrl'
                 }

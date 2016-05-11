@@ -19,9 +19,9 @@
                 {{shift.timeSlotStr}}
                 <i class="icon ion-flash positive" ng-if="shift.blitz"></i>
 
-                <button class="button mini-claim-button button-outline" ng-class="{'button-positive' : shift.claimStatus === 0, 'button-positive disabled' : shift.claimStatus === 1, 'button-balanced disabled' : shift.claimStatus === 2, 'button-assertive disabled' : shift.claimStatus === 3}" ng-click="claim(shift)">
+                <button class="button mini-claim-button" ng-class="{'button-positive button-outline' : shift.claimStatus === 0, 'button-positive disabled' : shift.claimStatus === 1, 'button-balanced disabled' : shift.claimStatus === 2, 'button-assertive disabled' : shift.claimStatus === 3}" ng-click="claim(shift)">
                     <span ng-if="shift.claimStatus !== 1">{{shift.claimText}}</span>
-                    <ion-spinner ng-if="shift.claimStatus === 1" icon="dots" class="spinner-positive short-spinner"></ion-spinner>
+                    <ion-spinner ng-if="shift.claimStatus === 1" icon="dots" class="spinner-light short-spinner"></ion-spinner>
                 </button>
 
                 <!-- failure -->

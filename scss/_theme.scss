@@ -24,3 +24,22 @@
     	background-color: white;
     }
 }
+
+// Tab styling
+.tabs-color-active-positive {
+
+    .tab-nav.tabs {
+
+        background-color: $light;
+
+        span.tab-title {
+            font-size: 11px;
+        }
+    }
+}
+
+.tabs-color-active-positive.tabs-striped .tab-item.tab-item-active,
+.tabs-color-active-positive.tabs-striped .tab-item.active,
+.tabs-color-active-positive.tabs-striped .tab-item.activated {
+    border-color: $positive;
+}
