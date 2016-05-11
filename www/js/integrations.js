@@ -530,6 +530,8 @@ function eligibilities($rootScope, connectedShifts, $interval) {
 
                 if (el.company === 'doordash') {
                     refreshToken(el, 180);
+                } else if (el.company === 'postmates') {
+                    refreshToken(el, 1200);
                 }
             }
         },
