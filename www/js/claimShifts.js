@@ -41,17 +41,63 @@ angular.module('workgenius.claimShifts', ['integrations'])
 
             $scope.select = function(shift) {
                 shiftToClaim.set(shift);
-                $state.go("app.claim-detail");
+                if (shift.groupedShift) 
+                    $state.go("app.claim-group-detail");
+                else
+                    $state.go("app.claim-detail");
+            };
+        }
+    ])
+    .controller('ClaimGroupDetailCtrl', ['$stateParams', '$scope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate',
+        function($stateParams, $scope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate) {
+
+            // Shift Info
+            $scope.group = shiftToClaim.get();
+            $scope.group.showBlitzInfo = false;
+
+            _($scope.group.shifts).forEach(function(shift) {
+
+                // Set time string
+                var start = moment(shift.startsAt);
+                var end = moment(shift.endsAt);
+                if (start.format('h') === '11')
+                    shift.timeSlotStr = start.format('h a - ') + end.format('h a');
+                else
+                    shift.timeSlotStr = start.format('h - ') + end.format('h a');
+
+                shift.claimStatus = shift.claimStatus || 0;
+                shift.claimText = shift.claimText || "Claim";
+
+                if (shift.blitz) $scope.group.showBlitzInfo = true;
+            });
+
+            $scope.claim = function(s) {
+
+                s.claimStatus = 1;
+                s.claimText = "";
+
+                connectedShifts.claim(s, function success() {
+                    s.claimStatus = 2;
+                    s.claimText = "Claimed";
+                    // If no user, then it's just a demo. Don't need to apply scope.
+
+                }, function failure(error) {
+
+                    console.log(error);
+                    s.claimStatus = 3;
+                    s.claimText = "Failed";
+
+                    if (error && error.message === 'conflict') {
+                        s.claimMessage = "You have a conflict";
+                        s.conflict = true;
+                    } else
+                        s.claimMessage = "Could not claim";
+                });
             };
         }
     ])
     .controller('ClaimDetailCtrl', ['$stateParams', '$scope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate',
         function($stateParams, $scope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate) {
-
-            // device is overwritten by something else
-            var deviceInformation = ionic.Platform.device();
-            $scope.whichPlatform = 'localhost';
-            if (deviceInformation && deviceInformation.platform) $scope.whichPlatform = deviceInformation.platform.toLowerCase();
 
             // Shift Info
             $scope.shift = shiftToClaim.get();

@@ -1,0 +1,35 @@
+<ion-view view-title="Shifts Info">
+    <ion-content class="claim-detail padding-top">
+        <div class="list bordered-list claim-info claim-info-big">
+            <img ng-src="img/companies/{{group.company.toLowerCase()  | spaceless}}.png" alt="">
+            <h1>{{group.company | capitalize}}</h1>
+            
+            <!-- <p><strong>Location:</strong> {{group.location | capitalize:true}}</p> -->
+            <p><i class="icon ion-location"></i> {{group.location | capitalize:true}}</p>
+            <p><i class="icon ion-calendar"></i>&nbsp;{{group.startsAt | date: 'EEE, MMMM d, y'}}</p>
+            
+            <p ng-if="group.showBlitzInfo">Shifts with <i class="icon ion-flash positive"></i> next to them have higher pay</p>
+
+        </div>
+
+        <div class="list">
+
+            <ion-item class="item-button-right" ng-repeat="shift in group.shifts">
+
+                {{shift.timeSlotStr}}
+                <i class="icon ion-flash positive" ng-if="shift.blitz"></i>
+
+                <button class="button mini-claim-button button-outline" ng-class="{'button-positive' : shift.claimStatus === 0, 'button-positive disabled' : shift.claimStatus === 1, 'button-balanced disabled' : shift.claimStatus === 2, 'button-assertive disabled' : shift.claimStatus === 3}" ng-click="claim(shift)">
+                    <span ng-if="shift.claimStatus !== 1">{{shift.claimText}}</span>
+                    <ion-spinner ng-if="shift.claimStatus === 1" icon="dots" class="spinner-positive short-spinner"></ion-spinner>
+                </button>
+
+                <!-- failure -->
+                <span ng-if="shift.claimStatus === 3" class="padding claim-warning">{{shift.claimMessage}}</span>
+                <!-- <i class="icon ion-android-add"></i> -->
+            </ion-item>
+            
+        </div>
+
+    </ion-content>
+</ion-view>

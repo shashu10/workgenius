@@ -330,6 +330,16 @@ angular.module('workgenius', [
             }
         })
 
+        .state('app.claim-group-detail', {
+            url: '/claim-group-detail',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/main/claim-group-detail.html',
+                    controller: 'ClaimGroupDetailCtrl'
+                }
+            }
+        })
+
         .state('app.claim-detail', {
             url: '/claim-detail',
             views: {

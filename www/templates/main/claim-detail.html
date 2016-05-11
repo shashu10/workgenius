@@ -1,6 +1,6 @@
 <ion-view view-title="Shift Info">
     <ion-content class="claim-detail padding-top">
-        <div class="list claim-info" ng-class="{'claim-info-big' : !shift.flex}">
+        <div class="list bordered-list claim-info" ng-class="{'claim-info-big' : !shift.flex}">
             <img ng-src="img/companies/{{shift.company.toLowerCase()  | spaceless}}.png" alt="">
             <h1>{{shift.company | capitalize}}</h1>
             
@@ -17,68 +17,14 @@
 
         </div>
 
-        <div ng-if="shift.flex" class="list flex-times">
+        <div ng-if="shift.flex" class="list bordered-list flex-times">
             <p class="flex-info padding">
                 <i class="icon ion-information-circled"></i>
-                <span>You can change the start and end time for Flex shifts</span>
+                <span>You can change the start and end time</span>
             </p>
 
             <flex-time-picker shift="shift"></flex-time-picker>
-            <!-- <label class="item item-input item-select">
-                <span class="input-label"><strong>Start time</strong></span>
-                <select ng-model="shift.startsAt" ng-change="updateStart()">
-                    <option ng-value="time" ng-selected="isStart(time)" ng-repeat="time in startTimes">{{time | date: 'h:mm a'}}</option>
-                </select>
-            </label>
-            <label class="item item-input item-select">
-                <span class="input-label"><strong>End time</strong></span>
-                <select ng-model="shift.endsAt" ng-change="updateEnd()">
-                    <option ng-value="time" ng-selected="isEnd(time)" ng-repeat="time in endTimes">{{time | date: 'h:mm a'}}</option>
-                </select>
-            </label> -->
-            <!-- <div ng-switch="whichPlatform">
-                <div ng-switch-when="ios">
-                    <ion-item class="item-input item-icon-right" ng-click="showStartTimePicker()">
-                        <span class="input-label"><strong>Start time</strong></span>
-                        <span>{{shift.startsAt | date: "h:mm a"}}</span>
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </ion-item>
-                    <ion-item class="item-input item-icon-right" ng-click="showEndTimePicker()">
-                        <span class="input-label"><strong>End time</strong></span>
-                        <span>{{shift.endsAt | date: "h:mm a"}}</span>
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </ion-item>
-
-                </div>
-
-                <div ng-switch-when="android">
-
-                    <ion-item class="item-input item-icon-right" ng-click="showStartTimePicker()">
-                        <span class="input-label"><strong>Start time</strong></span>
-                        <span>{{shift.startsAt | date: "h:mm a"}}</span>
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </ion-item>
-                    <ion-item class="item-input item-icon-right" ng-click="showEndTimePicker()">
-                        <span class="input-label"><strong>End time</strong></span>
-                        <span>{{shift.endsAt | date: "h:mm a"}}</span>
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </ion-item>
-                </div>
-
-                <div ng-switch-default>
-                    <ion-item class="item-input item-icon-right" >
-                        <span class="input-label"><strong>Start time</strong></span>
-                        <input type="time" ng-model="shift.startsAt" step="1800">
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </ion-item>
-                    <ion-item class="item-input item-icon-right" >
-                        <span class="input-label"><strong>End time</strong></span>
-                        <input type="time" ng-model="shift.endsAt" step="1800">
-                        <i class="icon ion-ios-arrow-right"></i>
-                    </ion-item>
-                    
-                </div>
-            </div> -->
+            
         </div>
 
         <button class="button button-full claim-button button-large" ng-class="{'button-positive' : shift.claimStatus === 0, 'button-positive disabled' : shift.claimStatus === 1, 'button-balanced disabled' : shift.claimStatus === 2, 'button-assertive disabled' : shift.claimStatus === 3}" ng-click="claim()">

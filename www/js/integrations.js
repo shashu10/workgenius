@@ -96,6 +96,44 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
         .value();
     }
 
+    function groupPostmatesShifts(days) {
+
+        _.forEach(days, function function_name(day) {
+            var shifts = day.shifts;
+            // get postmates only shifts
+            var PMShifts = _.remove(shifts, function (shift) {
+                return shift.company === 'postmates';
+            });
+            if (!PMShifts.length) return;
+
+            // Group contiguous shifts into one master shift
+
+            var curr, prev, groups = [];
+
+            while (curr = PMShifts.shift()) {
+
+                if (prev && moment(prev.endsAt).isSame(curr.startsAt)) { // Get the first element in the array
+
+                    prev.endsAt = curr.endsAt;
+                    prev.shifts.push(curr);
+
+                } else {
+                    prev = {
+                        location: curr.location,
+                        groupedShift: true,
+                        company: 'postmates',
+                        startsAt: curr.startsAt,
+                        endsAt: curr.endsAt,
+                        shifts: [curr]
+                    };
+                    groups.push(prev);
+                }
+            }
+            Array.prototype.push.apply(shifts, groups);
+            day.shifts = sortAndFormatShifts(shifts); // sort again after adding postmates at the end
+        });
+        return days;
+    }
     // Shifts are sorted by startsAt
     function groupByDay(shifts) {
 
@@ -127,7 +165,8 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
     // Update currentUser with new available shifts
     function updateWith(shifts) {
         $rootScope.currentUser.availableShiftsArr = sortAndFormatShifts(shifts);
-        $rootScope.currentUser.availableShifts = groupByDay($rootScope.currentUser.availableShiftsArr);
+        var grouped = groupByDay($rootScope.currentUser.availableShiftsArr);
+        $rootScope.currentUser.availableShifts = groupPostmatesShifts(grouped);
     }
 
     function removeShift(shift) {

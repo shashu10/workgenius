@@ -17,6 +17,7 @@
 
 .claim-shifts {
     .item {
+
         font-size: 14px;
         padding: 0; // row and col inside have plenty of padding
 
@@ -42,34 +43,49 @@
             height: 30px;
             vertical-align: middle;
         }
-        .col-separator {
+        .time-slot {
             border-left: 1px solid #D9D9D9; // matches item activated
-            padding-left: 15px;
-            min-width: 180px;
+            padding: 5px 10px;
+            min-width: 156px;
+            line-height: 40px;
         }
-        .highlighted-note {
-            color: $positive;
+        .company-name {
+            font-family: Avenir-Medium;
+            font-size: 15px;
         }
-        .bold-note {
+        .company-location {
+            color: #666;
             font-family: Avenir-medium;
             font-size: 12px;
-            max-width: 80px;
+            max-width: 106px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+        .highlighted-note {
+            color: $positive;
         }
     }
 }
 
 .claim-detail {
-    text-align: center;
     h1 {
         margin-top: 0;
     }
     img {
         height: 60px;
     }
+    .short-spinner {
+        height: 28px;
+    }
+    .claim-warning {
+        color: $assertive;
+        display: block;
+        padding: 10px 0 0 0;
+        font-size: 14px;
+    }
     .claim-info {
+        text-align: center;
         padding: 22px 5px;
     }
     .claim-info-big {
@@ -79,7 +95,7 @@
     .card {  
         margin: 0;
     }
-    .list {
+    .bordered-list {
         background-color: white;
         border-top: 1px solid $wg-gray-border;
         border-bottom: 1px solid $wg-gray-border;
@@ -90,12 +106,20 @@
             border-bottom: 0; // clashes with list bottom border
         }
         .flex-info {
+
+            text-align: center;
+            margin-bottom: 0;
+
     		i {
-    			float: left;
-    			font-size: 34px;
     			padding-right: 5px;
     			color: $positive;
     		}
+        }
+    }
+    .mini-claim-button {
+        min-width: 94px;
+        span, .short-spinner {
+            margin: auto;
         }
     }
     .claim-button {
