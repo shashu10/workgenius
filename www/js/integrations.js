@@ -120,6 +120,7 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
                 } else {
                     prev = {
                         location: curr.location,
+                        flex: true,
                         groupedShift: true,
                         company: 'postmates',
                         startsAt: curr.startsAt,

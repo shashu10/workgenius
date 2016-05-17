@@ -12,6 +12,13 @@
                     </div>
                     <div class="col time-slot">
                         <div>{{shift.startsAt | date: "h:mm a" | lowercase}} <i ng-if="shift.flex"class='icon ion-ios-more'></i>{{shift.flex ? "" : "-"}} {{shift.endsAt | date: "h:mm a" | lowercase}}</div>
+                        <div>
+                            <span ng-if="shift.flex">up to </span>
+                            <strong class="light-green">
+                                <span ng-if="shift.shifts.length">{{earningsEstimate.group(shift.shifts) | currency:undefined:0}}</span>
+                                <span ng-if="!shift.shifts.length">{{earningsEstimate.shift(shift) | currency:undefined:0}}</span>
+                            </strong>
+                        </div>
                     </div>
                 </div>
                 <!-- <i class="icon ion-android-add"></i> -->

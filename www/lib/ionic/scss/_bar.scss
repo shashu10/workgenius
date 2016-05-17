@@ -265,9 +265,10 @@
 
 .platform-android {
 
-  .nav-bar-has-subheader .bar {
-    background-image: none;
-  }
+  // Removed because we need a bottom border with the subheader
+  // .nav-bar-has-subheader .bar {
+  //   background-image: none;
+  // }
 
   .bar {
 

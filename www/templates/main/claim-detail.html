@@ -13,7 +13,13 @@
             <p ng-if="!shift.flex"><strong>Start time:</strong> {{shift.startsAt | date: "h:mm a" | lowercase}}</p>
             <p ng-if="!shift.flex"><strong>End time:</strong> {{shift.endsAt | date: "h:mm a" | lowercase}}</p>
             
-            <p ng-if="shift.bonus"><strong>Bonus:</strong> <span class="positive">{{shift.bonus}}</span></p>
+            <div>
+                Earn
+                <span ng-if="shift.flex">up to </span>
+                <strong class="light-green">
+                    {{earningsEstimate.shift(shift) | currency:undefined:0}}
+                </strong>
+            </div>
 
         </div>
 

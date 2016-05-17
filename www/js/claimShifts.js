@@ -5,8 +5,7 @@ angular.module('workgenius.claimShifts', ['integrations'])
 // ============ //
 
 .service('shiftToClaim', function() {
-        var shift = {};
-        var group = [];
+        var shift;
         return {
             get: function() {
                 return shift;
@@ -32,8 +31,21 @@ angular.module('workgenius.claimShifts', ['integrations'])
 
         }
     ])
-    .controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$rootScope', '$state', 'shiftToClaim',
-        function($stateParams, $scope, $rootScope, $state, shiftToClaim) {
+    .controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$rootScope', '$state', 'shiftToClaim', 'earningsEstimate', '$ionicHistory',
+        function($stateParams, $scope, $rootScope, $state, shiftToClaim, earningsEstimate, $ionicHistory) {
+
+            // When testing and refreshing page on localhost
+            // If available shifts don't exist, go back to claim days
+            if (!$rootScope.currentUser || !$rootScope.currentUser.availableShifts) {
+                $ionicHistory.nextViewOptions({
+                    historyRoot: true,
+                    disableAnimate: true
+                });
+                $state.go("app.claim-days");
+                return;
+            }
+
+            $scope.earningsEstimate = earningsEstimate;
 
             $scope.day = $rootScope.currentUser.availableShifts[$stateParams.index];
             $scope.title = moment($scope.day.date).format("ddd Do");
@@ -48,11 +60,26 @@ angular.module('workgenius.claimShifts', ['integrations'])
             };
         }
     ])
-    .controller('ClaimGroupDetailCtrl', ['$stateParams', '$scope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate',
-        function($stateParams, $scope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate) {
+    .controller('ClaimGroupDetailCtrl', ['$stateParams', '$scope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate', 'earningsEstimate', '$state',
+        function($stateParams, $scope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate, earningsEstimate, $state) {
+
+            $scope.earningsEstimate = earningsEstimate;
 
             // Shift Info
             $scope.group = shiftToClaim.get();
+
+            // When testing and refreshing page on localhost
+            // If shiftToClaim dones't exist, go back to claim days
+            if (_.isEmpty($scope.group)) {
+                console.log("done")
+                $ionicHistory.nextViewOptions({
+                    historyRoot: true,
+                    disableAnimate: true
+                });
+                $state.go("app.claim-days");
+                return;
+            }
+
             $scope.group.showBlitzInfo = false;
 
             _($scope.group.shifts).forEach(function(shift) {
@@ -96,13 +123,26 @@ angular.module('workgenius.claimShifts', ['integrations'])
             };
         }
     ])
-    .controller('ClaimDetailCtrl', ['$stateParams', '$scope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate',
-        function($stateParams, $scope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate) {
+    .controller('ClaimDetailCtrl', ['$stateParams', '$scope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate', 'earningsEstimate', '$state',
+        function($stateParams, $scope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate, earningsEstimate, $state) {
+
+            $scope.earningsEstimate = earningsEstimate;
 
             // Shift Info
             $scope.shift = shiftToClaim.get();
             var s = $scope.shift;
             console.log(s);
+
+            // When testing and refreshing page on localhost
+            // If shiftToClaim dones't exist, go back to claim days
+            if (_.isEmpty(s)) {
+                $ionicHistory.nextViewOptions({
+                    historyRoot: true,
+                    disableAnimate: true
+                });
+                $state.go("app.claim-days");
+                return;
+            }
 
             // If it was a conflict with a flex shift, reset it so user can try again
             if (s.flex && s.claimStatus === 3 && s.conflict) {

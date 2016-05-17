@@ -9,7 +9,13 @@
             <p><i class="icon ion-calendar"></i>&nbsp;{{group.startsAt | date: 'EEE, MMMM d, y'}}</p>
             
             <p ng-if="group.showBlitzInfo">Shifts with <i class="icon ion-flash positive"></i> next to them have higher pay</p>
-
+            
+            <div>
+                Earn up to
+                <strong class="light-green">
+                    {{earningsEstimate.group(group.shifts) | currency:undefined:0}}
+                </strong>
+            </div>
         </div>
 
         <div class="list">
