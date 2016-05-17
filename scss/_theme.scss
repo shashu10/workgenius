@@ -43,3 +43,11 @@
 .tabs-color-active-positive.tabs-striped .tab-item.activated {
     border-color: $positive;
 }
+
+.platform-android {
+    .tabs-bottom {
+        .tab-nav.tabs {
+            border-top: 1px solid #ddd !important;
+        }
+    }
+}
