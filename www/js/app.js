@@ -42,7 +42,8 @@ angular.module('workgenius', [
         if (window.location.hostname !== 'localhost') $state.go('splash');
 
         // Initialize Parse here with AppID and JavascriptID
-        Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l");
+        Parse.initialize("ZFIycMGWcOUBFskGJBYzvdMyOPzL10qx5SBQF26Z", "fvCMrNSnudkYmHVFtKQL9SGcuE30i0UG5b8X0Wub"); // Dev
+        // Parse.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l"); // Prod
 
         // Setup variables used through out the app
         $rootScope.device = {
@@ -63,11 +64,11 @@ angular.module('workgenius', [
             disableLock: true,
         };
                 
-        // Testing on the browser. Unregister tracking and error logging.
-        if (!ionic.Platform.isWebView()) {
-            mixpanel.register({ "$ignore": true });
-            Raven.uninstall();
-        }
+        // // Testing on the browser. Unregister tracking and error logging.
+        // if (!ionic.Platform.isWebView()) {
+        //     mixpanel.register({ "$ignore": true });
+        //     Raven.uninstall();
+        // }
 
         // $ionicAnalytics.register();
         // Reload shifts if sent to background and reopened
