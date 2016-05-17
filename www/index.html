@@ -7,6 +7,20 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>workgeni.us</title>
 
+    <script type="text/javascript">
+        // Dev
+        var SENTRY_KEY = 'https://32d978f77abe4e71b2b9313aee74ed34@app.getsentry.com/66644';
+        var MIXPANEL_KEY = 'fba8e4e697fac89ae81e4f50166aff40';
+        var PARSE_APP_ID = 'ZFIycMGWcOUBFskGJBYzvdMyOPzL10qx5SBQF26Z';
+        var PARSE_JS_KEY = 'fvCMrNSnudkYmHVFtKQL9SGcuE30i0UG5b8X0Wub';
+
+        // // Prod
+        // var SENTRY_KEY = 'https://1bbb696b285145f89e99cee10e540956@app.getsentry.com/66644';
+        // var MIXPANEL_KEY = '421322d6ea2e590a3de81ee102ea5331';
+        // var PARSE_APP_ID = 'cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT';
+        // var PARSE_JS_KEY = 'JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l';
+
+    </script>
     <!-- 1. Load Cordova first -->
     <!-- cordova script (this will be a 404 during development) -->
     <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
@@ -22,8 +36,7 @@
     <script src="lib/raven-js/dist/plugins/angular.min.js"></script>
     <script>
         Raven
-            .config('https://32d978f77abe4e71b2b9313aee74ed34@app.getsentry.com/66644') // Dev
-            // .config('https://1bbb696b285145f89e99cee10e540956@app.getsentry.com/66644') // Prod
+            .config(SENTRY_KEY)
             .addPlugin(Raven.Plugins.Angular)
             .install();
     </script>
@@ -84,11 +97,7 @@
 
     <!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
     for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
-
-    mixpanel.init("fba8e4e697fac89ae81e4f50166aff40", { track_pageview: false }); // Dev
-    // mixpanel.init("421322d6ea2e590a3de81ee102ea5331", { track_pageview: false }); // Prod
-
-    </script><!-- end Mixpanel -->
+        mixpanel.init(MIXPANEL_KEY, { track_pageview: false });</script><!-- end Mixpanel -->
 
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC6zPki0AnMmY_YvQmrUirgmAeZLxdOHfY&amp;libraries=places"></script>
 
