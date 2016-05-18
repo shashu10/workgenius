@@ -38,6 +38,9 @@ angular.module('workgenius', [
 .run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService',
     function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map, connectedShifts, PtrService) {
 
+        // OTA App update
+        if (window.codePush) codePush.sync();
+
         // ionic platform should be ready now
         if (window.location.hostname !== 'localhost') $state.go('splash');
 
@@ -71,7 +74,13 @@ angular.module('workgenius', [
 
         // $ionicAnalytics.register();
         // Reload shifts if sent to background and reopened
-        document.addEventListener("resume", reloadConnectedShifts, false);
+        document.addEventListener("resume", function () {
+            
+            // OTA App update
+            if (window.codePush) codePush.sync();
+
+            reloadConnectedShifts();
+        }, false);
 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -162,7 +171,6 @@ angular.module('workgenius', [
         //////////
 
         function reloadConnectedShifts() {
-            console.log('resumed app');
 
             // Refresh connected and available shifts. Show refresh spinner if on the right page
             if ($state.current.name.indexOf('app.schedule') > -1)
