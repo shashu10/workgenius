@@ -6,6 +6,12 @@ angular.module('workgenius.filters', [])
         }
     };
 })
+// returns hours between two times
+.filter('hoursBetween', function() {
+    return function(start, end) {
+        return moment(end).diff(start, 'minutes')/60;
+    };
+})
 // capitalize: true, capitalizes all words. False/undefined capitalizes only first word
 .filter('capitalize', function() {
     return function(input, all) {

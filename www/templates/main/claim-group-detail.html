@@ -15,6 +15,7 @@
                 <strong class="light-green">
                     {{earningsEstimate.group(group.shifts) | currency:undefined:0}}
                 </strong>
+                in {{time = (group.startsAt | hoursBetween : group.endsAt)}} {{time === 1 ? 'hour' : 'hours'}}
             </div>
         </div>
 
