@@ -251,17 +251,18 @@ angular.module('workgenius.directives', [])
                   {trailing: false}
               );
               angular.element($ionicScroll.element).on('scroll', function (event) {
-                  var scrollTop = (event.detail || event.originalEvent && event.originalEvent.detail).scrollTop;
+                var ev = (event.detail || event.originalEvent && event.originalEvent.detail);
+                  var scrollTop = (ev && ev.scrollTop) || 0;
                   // when scroll to top, we should always execute the immediate calculation.
                   // this is because of some weird problem which is hard to describe.
                   // if you want to experiment, always use the throttled one and just click on the page
                   // you will see all affix elements stacked on top
-                  // if (scrollTop === 0) {
+                  if (scrollTop === 0) {
                       calculateScrollLimits(scrollTop);
-                  // }
-                  // else {
-                  //     throttledCalculateScrollLimits(scrollTop);
-                  // }
+                  }
+                  else {
+                      throttledCalculateScrollLimits(scrollTop);
+                  }
 
                   // when we scrolled to the container, create the clone of element and place it on top
                   if (scrollTop > scrollMin + 1 && scrollTop <= scrollMax) {

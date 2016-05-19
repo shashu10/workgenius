@@ -93,6 +93,13 @@ angular.module('workgenius', [
             cordova.getAppVersion.getVersionNumber().then(function(version) {
                 $rootScope.appVersion = version;
 
+                // update app version in sentry and mixpanel
+                var rvContext = Raven.getContext();
+                rvContext = (rvContext && rvContext.user) || {};
+                rvContext.appVersion = $rootScope.appVersion;
+                Raven.setUserContext(rvContext);
+                mixpanel.people.set({"appVersion": $rootScope.appVersion});
+
                 var platform = "localhost";
                 if (window.device && window.device.platform){
                     console.log('got device info');
