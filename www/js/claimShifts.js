@@ -104,6 +104,8 @@ angular.module('workgenius.claimShifts', ['integrations'])
                 s.claimText = "";
 
                 connectedShifts.claim(s, function success() {
+
+                    mixpanel.track("Claimed Shift - " + s.company);
                     s.claimStatus = 2;
                     s.claimText = "Claimed";
                     // If no user, then it's just a demo. Don't need to apply scope.
@@ -172,6 +174,8 @@ angular.module('workgenius.claimShifts', ['integrations'])
                 s.claimText = "";
 
                 connectedShifts.claim(s, function success() {
+
+                    mixpanel.track("Claimed Shift - " + s.company);
                     s.claimStatus = 2;
                     s.claimText = "Claimed Shift!";
                     // If no user, then it's just a demo. Don't need to apply scope.
@@ -217,10 +221,14 @@ angular.module('workgenius.claimShifts', ['integrations'])
                     $scope.user.username,
                     $scope.user.password,
                     function success() {
+
+                        mixpanel.track("Connected company - " + $scope.selectedCompany.name);
                         // Pulls up wg-save-bar
                         if ($scope.wgSuccess) $scope.wgSuccess();
                     },
                     function failure(something) {
+
+                        mixpanel.track("Failed company connect - " + $scope.selectedCompany.name);
                         $scope.selectedCompany.connected = false;
                         if (Parse.User.current()) $scope.$apply();
                         $ionicPopup.show(newFailurePopup());

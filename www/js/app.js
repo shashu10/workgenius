@@ -38,8 +38,6 @@ angular.module('workgenius', [
 .run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService',
     function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map, connectedShifts, PtrService) {
 
-        // OTA App update
-        if (window.codePush) codePush.sync();
 
         // ionic platform should be ready now
         if (window.location.hostname !== 'localhost') $state.go('splash');
@@ -75,9 +73,6 @@ angular.module('workgenius', [
         // $ionicAnalytics.register();
         // Reload shifts if sent to background and reopened
         document.addEventListener("resume", function () {
-            
-            // OTA App update
-            if (window.codePush) codePush.sync();
 
             reloadConnectedShifts();
         }, false);
@@ -93,12 +88,13 @@ angular.module('workgenius', [
             cordova.getAppVersion.getVersionNumber().then(function(version) {
                 $rootScope.appVersion = version;
 
-                // update app version in sentry and mixpanel
-                var rvContext = Raven.getContext();
-                rvContext = (rvContext && rvContext.user) || {};
-                rvContext.appVersion = $rootScope.appVersion;
-                Raven.setUserContext(rvContext);
-                mixpanel.people.set({"appVersion": $rootScope.appVersion});
+                trackNewAppVersion(version);
+                // If codepush update available, track that in mixpanel
+                codePush.getCurrentPackage(function (update) {
+                    if (update && update.label) {
+                        trackNewAppVersion(version + " " + update.label);
+                    }
+                });
 
                 var platform = "localhost";
                 if (window.device && window.device.platform){
@@ -190,6 +186,15 @@ angular.module('workgenius', [
             else
                 connectedShifts.getAllAvailable();
 
+        }
+
+        function trackNewAppVersion(version) {
+            // update app version in sentry and mixpanel
+            var rvContext = Raven.getContext();
+            rvContext = (rvContext && rvContext.user) || {};
+            rvContext.appVersion = version;
+            Raven.setUserContext(rvContext);
+            mixpanel.people.set({"appVersion": version});
         }
     }
 ])

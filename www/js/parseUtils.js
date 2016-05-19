@@ -115,6 +115,11 @@ function checkUpdates($ionicPopup) {
 
 function updateAppSettings($rootScope, $ionicPopup, checkUpdates) {
     return function (currentVersion, platform) {
+
+        // OTA App update
+        if (window.codePush) codePush.sync();
+
+        // Manual update for binary changes
         return Parse.Cloud.run('getAppSettings', {platform: platform}, {
             success: function(appSettings) {
                 $rootScope.appSettings = appSettings;

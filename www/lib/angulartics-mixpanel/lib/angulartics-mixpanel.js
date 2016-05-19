@@ -28,7 +28,9 @@ angular.module('angulartics.mixpanel', ['angulartics'])
       mixpanel.people.set(properties);
     });
     $analyticsProvider.registerPageTrack(function (path) {
-      mixpanel.track( "Page Viewed", { "page": path } );
+      var hrefStart = (path || "").indexOf('#/');
+      var page = (path || "").substr(hrefStart ? hrefStart + 2 : 0);
+      mixpanel.track( "Page View - " + page, { "page": path } );
     });
     $analyticsProvider.registerEventTrack(function (action, properties) {
       mixpanel.track(action, properties);

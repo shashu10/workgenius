@@ -316,9 +316,8 @@ angular.module('workgenius.availability', ['workgenius.earnings', 'parseShifts']
 
                     // Set Updated At value here. User will be saved onChange with wg-save-bar directive
                     if (Parse.User.current()) $rootScope.currentUser.set("blockedDaysUpdatedAt", new Date());
-                    mixpanel.track("Blocked Days Changed", {
-                        "change": before - after,
-                    });
+
+                    mixpanel.track("Blocked Days Changed");
 
                     $scope.onChange();
                 }
