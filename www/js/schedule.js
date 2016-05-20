@@ -141,6 +141,7 @@ angular.module('workgenius.schedule', ['workgenius.earnings', 'parseShifts', 'in
             $ionicScrollDelegate.scrollBottom();
         };
         $scope.cancelShift = function (shift) {
+            mixpanel.track("Pressed Cancel - " + shift.company);
             $scope.shiftToCancel = shift;
             // Disabled strikes
             // if ($scope.isWithin72Hr(shift.startsAt) && $rootScope.currentUser.strikes >= 3) {

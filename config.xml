@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.workgenius.app" version="0.2.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.workgenius.app" version="0.2.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>WorkGenius</name>
     <description>
         Scheduling for on-demand work
@@ -21,7 +21,6 @@
     <preference name="FadeSplashScreen" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="SplashScreenDelay" value="3000" />
-    <preference name="CodePushDeploymentKey" value="a6WziqHjk3H7jWznWFKssZJKAqiRVkp9vsHfW" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
@@ -74,5 +73,4 @@
     <plugin name="cordova-plugin-device" spec="~1.1.2" />
     <plugin name="cordova-plugin-console" spec="~1.0.3" />
     <plugin name="cordova-plugin-app-version" spec="~0.1.8" />
-    <plugin name="cordova-plugin-code-push" spec="~1.7.1-beta" />
 </widget>

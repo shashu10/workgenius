@@ -73,7 +73,7 @@ angular.module('workgenius', [
         // $ionicAnalytics.register();
         // Reload shifts if sent to background and reopened
         document.addEventListener("resume", function () {
-
+            mixpanel.track('Resumed app');
             reloadConnectedShifts();
         }, false);
 
@@ -86,15 +86,8 @@ angular.module('workgenius', [
 
         if (window.cordova && window.cordova.getAppVersion) {
             cordova.getAppVersion.getVersionNumber().then(function(version) {
-                $rootScope.appVersion = version;
 
                 trackNewAppVersion(version);
-                // If codepush update available, track that in mixpanel
-                codePush.getCurrentPackage(function (update) {
-                    if (update && update.label) {
-                        trackNewAppVersion(version + " " + update.label);
-                    }
-                });
 
                 var platform = "localhost";
                 if (window.device && window.device.platform){
@@ -189,6 +182,7 @@ angular.module('workgenius', [
         }
 
         function trackNewAppVersion(version) {
+            $rootScope.appVersion = version;
             // update app version in sentry and mixpanel
             var rvContext = Raven.getContext();
             rvContext = (rvContext && rvContext.user) || {};

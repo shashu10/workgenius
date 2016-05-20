@@ -326,7 +326,7 @@ angular.module('workgenius.claimShifts', ['integrations'])
 //    Helpers   //
 // ============ //
 
-.directive('flexTimePicker', ['$ionicGesture', function($ionicGesture) {
+.directive('flexTimePicker', [function() {
 
     var getTimes = function(min, max) {
         var intervals = [];

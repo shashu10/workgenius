@@ -16,6 +16,7 @@ angular.module('workgenius.controllers', ['integrations'])
         //});
 
         $scope.logout = function() {
+            mixpanel.track('Logout');
             Parse.User.logOut();
 
             getUserData();
