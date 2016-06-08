@@ -1,0 +1,28 @@
+<ion-view>
+    <ion-content class="has-header">
+        <form name="deviceForm" ng-submit="login()" novalidate>
+            <div class="list list-inset borderless-input">
+                <label class="item item-input">
+                    <i class="icon ion-email placeholder-icon"></i>
+                    <input placeholder="Email" type="email" ng-model="user.email">
+                </label>
+                <label class="item item-input">
+                    <i class="icon ion-lock-combination placeholder-icon"></i>
+                    <input placeholder="Password" type="password" ng-model="user.password">
+                </label>
+                <hidden-submit></hidden-submit>
+            </div>
+        </form>
+        <div class="assertive padding-left" ng-show="error.message">{{error.message}}</div>
+            <button class="button button-full button-positive" ng-click="login()">
+                LOG IN >>
+            </button>
+        <button class="button button-block button-clear button-positive" ng-click="forgot()">
+            Forgot your password?
+        </button>
+
+        <button ng-if="!appVersion" class="button button-block button-clear button-calm" ng-click="loginDemoUser()">
+            Skip
+        </button>
+    </ion-content>
+</ion-view>

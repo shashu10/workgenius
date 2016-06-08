@@ -138,7 +138,8 @@ angular.module('workgenius', [
                 if (user)
                     transition = $state.go('app.schedule', {clear: true});
                 else
-                    transition = $state.go('registration.signup', {clear: true});
+                    transition = $state.go('splash', {clear: true});
+                    // transition = $state.go('registration.signup', {clear: true});
 
             // Default case
             } else {

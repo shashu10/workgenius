@@ -1,0 +1,22 @@
+<ion-nav-bar class="wg-registration-bar-container">
+	<ion-nav-title>
+        <div class="wg-register-bar">
+		    <div class="title">
+		        <span ng-class="{selected: signupActive}" ng-click="toggleWithoutAnimation('registration.signup')">
+		      Sign up
+		      <div class="arrow"></div>
+		    </span>
+		        <span ng-class="{selected: !signupActive}" ng-click="toggleWithoutAnimation('registration.login')">
+		      Log in
+		      <div class="arrow"></div>
+		    </span>
+		    </div>
+		</div>
+    </ion-nav-title>
+</ion-nav-bar>
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+<ion-nav-view name="content" class="wg-register-content"></ion-nav-view>
