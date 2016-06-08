@@ -180,7 +180,8 @@ angular.module('workgenius.registration', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     });
-                    $state.go('onboarding.personal-info', {
+                    // $state.go('onboarding.personal-info', {
+                    $state.go('app.schedule', {
                         clear: true
                     });
                 },
