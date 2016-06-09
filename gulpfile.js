@@ -18,10 +18,15 @@ var prefix = require('gulp-autoprefixer');
 
 var paths = {
   sass: ['./scss/**/*.scss'],
-  templates: ['./www/templates/**/*.html']
+  templates: ['./www/templates/**/*.html'],
+  ts: [
+    './www/ts/*.ts',
+    './www/templates/**/*.ts'
+  ]
 };
 
 gulp.task('serve', shell.task(['ionic serve']));
+gulp.task('compile', shell.task(['tsc']));
 
 gulp.task('cache', function () {
     gulp.src('./www/templates/**/*.html')
@@ -46,6 +51,7 @@ gulp.task('sass', function(done) {
 gulp.task('watch', function() {
   gulp.watch(paths.templates, ['cache']);
   gulp.watch(paths.sass, ['sass']);
+  gulp.watch(paths.ts, ['compile']);
 });
 
 gulp.task('install', ['git-check'], function() {

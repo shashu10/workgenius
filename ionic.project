@@ -4,10 +4,12 @@
   "gulpStartupTasks": [
     "sass",
     "cache",
+    "compile",
     "watch"
   ],
   "watchPatterns": [
     "www/**/*",
-    "!www/lib/**/*"
+    "!www/lib/**/*",
+    "!www/**/*.ts"
   ]
 }
