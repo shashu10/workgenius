@@ -2,7 +2,7 @@ class WelcomeCtrl {
     
     public $inject = ['$state', 'currentUser']
 
-    constructor(public $state, public currentUser: CurrentUser) {
+    constructor(public $state, public currentUser: CurrentUser, public getUserData: any) {
         this.currentUser.create()
     }
 
@@ -15,10 +15,13 @@ class WelcomeCtrl {
         this.$state.go('signup-name')
     }
     skip() {
+        this.getUserData();
         this.$state.go('app.schedule')
     }
 }
 
-angular.module('workgenius.registration', ['wg.signup', 'wg.login'])
+WelcomeCtrl.$inject = ["$state", "currentUser", "getUserData"];
+
+angular.module('wg.auth', ['wg.signup', 'wg.login', 'parseData'])
 
     .controller('WelcomeCtrl', WelcomeCtrl);

@@ -7,7 +7,6 @@
 angular.module('workgenius', [
     'ionic',
     'ngCordova',
-    'workgenius.registration',
     'workgenius.onboarding',
     'workgenius.controllers',
     'workgenius.directives',
@@ -17,6 +16,7 @@ angular.module('workgenius', [
     'workgenius.schedule',
     'workgenius.availability',
     'workgenius.claimShifts',
+    'wg.auth',
     'wg.user',
     'parseData',
     'parseUtils',

@@ -1,19 +1,14 @@
 class SignupCtrl {
 
-    // public $inject = ['$state', 'currentUser']
-    public user : CurrentUser
     public error: string
 
-    constructor(public $scope: any, public $state: any, public $ionicHistory: any, public currentUser: CurrentUser) {
-        this.user = currentUser
-    }
+    constructor(public $scope: any, public $state: any, public $ionicHistory: any, public currentUser: CurrentUser, public getUserData: any) {}
 
     doSignup() {
         this.currentUser.signUp()
 
             .then((argument) => {
-
-                console.log("success")
+                this.getUserData(true);
                 this.$state.go("app.schedule")
             },
 
@@ -21,12 +16,11 @@ class SignupCtrl {
                 if (err.code === 125) // invalid email
                     this.error = "Please enter a valid email address"
                 else if (err.code === 202) // invalid email
-                    this.error = "This email is already taken. Try Logging in"
+                    this.error = "This user already exists. Try logging in instead"
                 else
                     this.error = "Something went wrong :( Try again later"
 
                 this.$scope.$apply()
-                console.log(err)
             })
     }
 
@@ -36,8 +30,7 @@ class SignupCtrl {
     }
 
     next(type: string, stateName:string) {
-        console.log(type)
-        console.log(this.currentUser)
+
         switch (type) {
             case "name":
                 if (!this.currentUser.name)
@@ -56,8 +49,8 @@ class SignupCtrl {
     }
 }
 
-SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser"];
+SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData"];
 
-angular.module('wg.signup', ['wg.user', 'workgenius.directives'])
+angular.module('wg.signup', ['wg.user', 'parseData'])
 
 .controller('SignupCtrl', SignupCtrl)

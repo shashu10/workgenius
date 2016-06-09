@@ -1,20 +1,24 @@
 class LoginCtrl {
 
-    // public $inject = ['$state', 'currentUser']
-    public user : CurrentUser
     public error: string
 
-    constructor(public $scope: any, public $state: any, public $ionicHistory: any, public currentUser: CurrentUser) {
-        this.user = currentUser
-    }
+    constructor(public $scope: any, public $state: any, public $ionicHistory: any, public currentUser: CurrentUser, public getUserData: any) {}
 
     doLogin() {
         this.currentUser.logIn()
 
             .then((argument) => {
+                this.getUserData().then(function(onboarding) {
+                    mixpanel.register({
+                        'Email': this.currentUser.email,
+                        'Name': this.currentUser.email,
+                        'Target': this.currentUser.email,
+                    });
 
-                console.log("success")
-                this.$state.go("app.schedule")
+                    this.$state.go('app.schedule', {
+                        clear: true
+                    });
+                });
             },
 
             (err) => {
@@ -33,7 +37,7 @@ class LoginCtrl {
     }
 
     next(type: string, stateName:string) {
-        console.log(type)
+
         switch (type) {
             case "name":
                 if (!this.currentUser.name)
@@ -52,8 +56,8 @@ class LoginCtrl {
     }
 }
 
-LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser"];
+LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData"];
 
-angular.module('wg.login', ['wg.user'])
+angular.module('wg.login', ['wg.user', 'parseData'])
 
 .controller('LoginCtrl', LoginCtrl)

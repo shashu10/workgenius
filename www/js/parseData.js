@@ -362,7 +362,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             totalHours: calculateTotalHours(user)
         });
     }
-    return function(newUser, name, email) {
+    return function(newUser) {
 
         // To do some async stuff after data has loaded
         var deferred = $q.defer();
