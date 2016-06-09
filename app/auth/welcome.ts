@@ -14,6 +14,9 @@ class WelcomeCtrl {
     signup() {
         this.$state.go('signup-name')
     }
+    skip() {
+        this.$state.go('app.schedule')
+    }
 }
 
 angular.module('workgenius.registration', ['wg.signup', 'wg.login'])
