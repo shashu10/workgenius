@@ -1,0 +1,65 @@
+$form-color: #4C4C4C;
+.big-form {
+    color: $form-color;
+    background-color: #F7F7F7;
+    h1 {
+        color: $positive;
+        font-size: 30px;
+        margin: 0 0 0 16px;
+        font-weight: 600;
+
+        &:first-child {
+            margin-top: 16px;
+        }
+    }
+    input,
+    .input-label {
+        color: #4C4C4C;
+    }
+    .error {
+        color: $assertive;
+        margin: 0 0 0 16px;
+        min-height: 20px; // So the height doesn't change when it appears
+    }
+    input {
+        font-size: 28px;
+        &::placeholder {
+            font-size: 20px;
+        }
+    }
+    .button-wrapper {
+        text-align: center;
+        padding-top: 20px
+    }
+    button {
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+    .item.item-input {
+        border: 0;
+        background: transparent;
+    }
+    @keyframes shake {
+        0% {
+            transform: translateX(0);
+        }
+        12.5% {
+            transform: translateX(-6px) rotateY(-5deg)
+        }
+        37.5% {
+            transform: translateX(5px) rotateY(4deg)
+        }
+        62.5% {
+            transform: translateX(-3px) rotateY(-2deg)
+        }
+        87.5% {
+            transform: translateX(2px) rotateY(1deg)
+        }
+        100% {
+            transform: translateX(0)
+        }
+    }
+    .shake {
+        animation: shake 400ms ease-in-out;
+    }
+}

@@ -1,0 +1,23 @@
+<ion-view hide-nav-bar="true" title="Signup" ng-controller="SignupCtrl as signup">
+    <ion-content class="big-form" scroll="false">
+        <button ng-click="signup.goBack()" class="button back-button buttons button-clear header-item">
+            <i class="icon ion-ios-arrow-back"></i> Back
+        </button>
+        <form name="form" shake-that novalidate submitted="submitted" ng-submit="signup.next('name', 'signup-email')">
+            <div ng-class="{'has-error': form.email.$invalid && submitted}">
+                <h1>Hi there!</h1>
+                <h1>What's your name?</h1>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">Full Name</span>
+                    <input type="text" ng-model="signup.user.name" placeholder="Full Name" required>
+                </label>
+                <div class="button-wrapper">
+                    <button type="submit" class="button button-positive">
+                        Next
+                        <i class="icon ion-android-arrow-forward"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

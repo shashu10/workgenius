@@ -1,0 +1,23 @@
+<ion-view hide-nav-bar="true" title="Login" ng-controller="LoginCtrl as login">
+    <ion-content class="big-form" scroll="false">
+        <button ng-click="login.goBack()" class="button back-button buttons button-clear header-item">
+            <i class="icon ion-ios-arrow-back"></i> Back
+        </button>
+        <form name="form" shake-that novalidate submitted="submitted" submit="login.next('email', 'login-password')">
+            <div ng-class="{'has-error': form.email.$invalid && submitted}">
+                <h1>Welcome back!</h1>
+                <h1>What's your email?</h1>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">Email</span>
+                    <input type="email" ng-model="login.user.email" placeholder="Email" required>
+                </label>
+                <div class="button-wrapper">
+                    <button type="submit" class="button button-positive">
+                        Next
+                        <i class="icon ion-android-arrow-forward"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

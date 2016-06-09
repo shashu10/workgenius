@@ -1,0 +1,19 @@
+<ion-view hide-nav-bar="true" ng-controller="WelcomeCtrl as welcome">
+    <ion-content class="welcome" scroll="false">
+        <div>
+            <img src="img/LogoLightbulbOnly.png" width="40px">
+            <h1>WorkGenius</h1>
+            <h4>The easiest way to find part-time work</h4>
+
+            <button class="button button-positive" ng-click="welcome.signup()">
+                Sign Up
+            </button>
+
+            <p>Do you already have an account?</p>
+            <button class="button button-light button-clear underline" ng-click="welcome.login()">
+                Login Here
+            </button>
+            <!-- <ion-spinner icon="lines" class="spinner-positive"></ion-spinner> -->
+        </div>
+    </ion-content>
+</ion-view>

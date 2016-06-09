@@ -17,6 +17,7 @@ angular.module('workgenius', [
     'workgenius.schedule',
     'workgenius.availability',
     'workgenius.claimShifts',
+    'wg.user',
     'parseData',
     'parseUtils',
     'parseShifts',
@@ -138,7 +139,7 @@ angular.module('workgenius', [
                 if (user)
                     transition = $state.go('app.schedule', {clear: true});
                 else
-                    transition = $state.go('splash', {clear: true});
+                    transition = $state.go('welcome', {clear: true});
                     // transition = $state.go('registration.signup', {clear: true});
 
             // Default case
@@ -207,11 +208,35 @@ angular.module('workgenius', [
 
         // Main Side Menu pages
 
-            .state('splash', {
-            url: '/splash',
-            templateUrl: 'templates/main/splash.html',
+        .state('welcome', {
+            url: '/welcome',
+            templateUrl: 'auth/welcome.html',
         })
 
+        .state('signup-name', {
+            url: '/signup-name',
+            templateUrl: 'auth/signup/name.html',
+        })
+
+        .state('signup-email', {
+            url: '/signup-email',
+            templateUrl: 'auth/signup/email.html',
+        })
+
+        .state('signup-password', {
+            url: '/signup-password',
+            templateUrl: 'auth/signup/password.html',
+        })
+
+        .state('login-email', {
+            url: '/login-email',
+            templateUrl: 'auth/login/email.html',
+        })
+
+        .state('login-password', {
+            url: '/login-password',
+            templateUrl: 'auth/login/password.html',
+        })
 
         // ============ //
         //     APP      //
@@ -220,7 +245,7 @@ angular.module('workgenius', [
         .state('app', {
             url: '/app',
             abstract: true,
-            templateUrl: 'templates/tabs.html',
+            templateUrl: 'tabs.html',
             controller: 'MenuCtrl'
         })
 
@@ -228,7 +253,7 @@ angular.module('workgenius', [
             url: '/preferences',
             views: {
                 'tab-preferences': {
-                    templateUrl: 'templates/main/preferences.html'
+                    templateUrl: 'main/preferences.html'
                 }
             }
         })
@@ -237,7 +262,7 @@ angular.module('workgenius', [
             url: '/schedule',
             views: {
                 'tab-schedule': {
-                    templateUrl: 'templates/main/schedule.html'
+                    templateUrl: 'main/schedule.html'
                 }
             }
         })
@@ -248,7 +273,7 @@ angular.module('workgenius', [
             url: '/earnings',
             views: {
                 'tab-preferences': {
-                    templateUrl: 'templates/main/earnings.html',
+                    templateUrl: 'main/earnings.html',
                     // controller: "EarningsController"
                 }
             }
@@ -258,7 +283,7 @@ angular.module('workgenius', [
             url: '/hours',
             views: {
                 'tab-preferences': {
-                    templateUrl: 'templates/main/hours.html',
+                    templateUrl: 'main/hours.html',
                     // controller: "EarningsController"
                 }
             }
@@ -270,7 +295,7 @@ angular.module('workgenius', [
             url: '/target',
             views: {
                 'menuContent': {
-                    templateUrl: 'templates/main/target.html',
+                    templateUrl: 'main/target.html',
                     // controller: 'TargetCtrl'
                 }
             }
@@ -280,7 +305,7 @@ angular.module('workgenius', [
             url: '/companies',
             views: {
                 'menuContent': {
-                    templateUrl: 'templates/main/companies.html',
+                    templateUrl: 'main/companies.html',
                     controller: 'CompaniesCtrl'
                 }
             }
@@ -290,7 +315,7 @@ angular.module('workgenius', [
             url: '/vehicles',
             views: {
                 'tab-preferences': {
-                    templateUrl: 'templates/main/vehicles.html',
+                    templateUrl: 'main/vehicles.html',
                     // controller: 'VehiclesCtrl'
                 }
             }
@@ -300,7 +325,7 @@ angular.module('workgenius', [
             url: '/device-type-page',
             views: {
                 'tab-preferences': {
-                    templateUrl: 'templates/main/device-type-page.html',
+                    templateUrl: 'main/device-type-page.html',
                 }
             }
         })
@@ -309,7 +334,7 @@ angular.module('workgenius', [
             url: '/personal-info',
             views: {
                 'tab-preferences': {
-                    templateUrl: 'templates/main/personal-info.html',
+                    templateUrl: 'main/personal-info.html',
                     controller: 'PersonalInfoPageCtrl'
                 }
             }
@@ -319,7 +344,7 @@ angular.module('workgenius', [
             url: '/connect-accounts',
             views: {
                 'tab-connect-accounts': {
-                    templateUrl: 'templates/main/connect-accounts.html',
+                    templateUrl: 'main/connect-accounts.html',
                     controller: 'ConnectAccountsCtrl'
                 }
             }
@@ -331,7 +356,7 @@ angular.module('workgenius', [
             url: '/claim-days',
             views: {
                 'tab-claim-days': {
-                    templateUrl: 'templates/main/claim-days.html',
+                    templateUrl: 'main/claim-days.html',
                     controller: 'ClaimDaysCtrl'
                 }
             }
@@ -341,7 +366,7 @@ angular.module('workgenius', [
             url: '/claim-shifts/:index',
             views: {
                 'tab-claim-days': {
-                    templateUrl: 'templates/main/claim-shifts.html',
+                    templateUrl: 'main/claim-shifts.html',
                     controller: 'ClaimShiftsCtrl'
                 }
             }
@@ -351,7 +376,7 @@ angular.module('workgenius', [
             url: '/claim-group-detail',
             views: {
                 'tab-claim-days': {
-                    templateUrl: 'templates/main/claim-group-detail.html',
+                    templateUrl: 'main/claim-group-detail.html',
                     controller: 'ClaimGroupDetailCtrl'
                 }
             }
@@ -361,7 +386,7 @@ angular.module('workgenius', [
             url: '/claim-detail',
             views: {
                 'tab-claim-days': {
-                    templateUrl: 'templates/main/claim-detail.html',
+                    templateUrl: 'main/claim-detail.html',
                     controller: 'ClaimDetailCtrl'
                 }
             }
@@ -374,7 +399,7 @@ angular.module('workgenius', [
             url: "/availability-tabs",
             views: {
                 'tab-preferences': {
-                    templateUrl: "templates/availability/availability-tabs.html",
+                    templateUrl: "availability/availability-tabs.html",
                     controller: 'AvailabilityTabsCtrl'
                 }
             }
@@ -384,7 +409,7 @@ angular.module('workgenius', [
             url: '/availability',
             views: {
                 'tab-preferences': {
-                    templateUrl: 'templates/availability/availability.html',
+                    templateUrl: 'availability/availability.html',
                     controller: 'AvailabilityCtrl'
                 }
             }
@@ -394,7 +419,7 @@ angular.module('workgenius', [
             url: '/block-days',
             views: {
                 'tab-preferences': {
-                    templateUrl: 'templates/availability/block-days.html',
+                    templateUrl: 'availability/block-days.html',
                     controller: 'BlockDaysCtrl'
                 }
             }
@@ -407,42 +432,6 @@ angular.module('workgenius', [
         // ============ //
 
         // setup an abstract state for the tabs directive
-        .state('registration', {
-            url: '/registration',
-            abstract: true,
-            templateUrl: 'templates/registration/registration.html',
-            controller: 'RegisterCtrl' // Needs to persist across register pages
-        })
-
-        .state('registration.signup', {
-            url: '/signup',
-            views: {
-                'content': {
-                    templateUrl: 'templates/registration/signup-tab.html',
-                    controller: 'SignupCtrl'
-                }
-            }
-        })
-
-        .state('registration.login', {
-            url: '/login',
-            views: {
-                'content': {
-                    templateUrl: 'templates/registration/login-tab.html',
-                    controller: 'LoginCtrl'
-                }
-            }
-        })
-
-        .state('registration.forgot-password', {
-            url: '/forgot-password',
-            views: {
-                'content': {
-                    templateUrl: 'templates/registration/forgot-password.html',
-                    controller: 'ForgotCtrl'
-                }
-            }
-        })
 
         //  - - - - End Registration - - - -
 
@@ -454,7 +443,7 @@ angular.module('workgenius', [
         .state('onboarding', {
             url: '/onboarding',
             abstract: true,
-            templateUrl: 'templates/onboarding/onboarding.html',
+            templateUrl: 'onboarding/onboarding.html',
             controller: 'OnboardingCtrl' // Needs to persist across register pages
         })
 
@@ -462,7 +451,7 @@ angular.module('workgenius', [
             url: '/personal-info',
             views: {
                 'content': {
-                    templateUrl: 'templates/onboarding/personal-info.html',
+                    templateUrl: 'onboarding/personal-info.html',
                     controller: 'PersonalInfoCtrl'
                 }
             }
@@ -472,7 +461,7 @@ angular.module('workgenius', [
             url: '/vehicle-type',
             views: {
                 'content': {
-                    templateUrl: 'templates/onboarding/vehicle-type.html',
+                    templateUrl: 'onboarding/vehicle-type.html',
                     controller: 'VehicleTypeCtrl'
                 }
             }
@@ -482,7 +471,7 @@ angular.module('workgenius', [
             url: '/device-type',
             views: {
                 'content': {
-                    templateUrl: 'templates/onboarding/device-type.html',
+                    templateUrl: 'onboarding/device-type.html',
                     controller: 'DeviceTypeCtrl'
                 }
             }
@@ -492,7 +481,7 @@ angular.module('workgenius', [
             url: '/target-hours',
             views: {
                 'content': {
-                    templateUrl: 'templates/onboarding/target-hours.html',
+                    templateUrl: 'onboarding/target-hours.html',
                     // controller: 'TargetCtrl'
                 }
             }
@@ -502,7 +491,7 @@ angular.module('workgenius', [
             url: '/work-types',
             views: {
                 'content': {
-                    templateUrl: 'templates/onboarding/work-types.html',
+                    templateUrl: 'onboarding/work-types.html',
                     controller: 'WorkTypesCtrl'
                 }
             }
@@ -512,7 +501,7 @@ angular.module('workgenius', [
             url: '/availability-questions',
             views: {
                 'content': {
-                    templateUrl: 'templates/onboarding/availability-questions.html',
+                    templateUrl: 'onboarding/availability-questions.html',
                     controller: 'AvailabilityQuestionsCtrl'
                 }
             }
@@ -522,7 +511,7 @@ angular.module('workgenius', [
             url: '/availability',
             views: {
                 'content': {
-                    templateUrl: 'templates/onboarding/availability.html',
+                    templateUrl: 'onboarding/availability.html',
                     controller: 'AvailabilityCtrl'
                 }
             }

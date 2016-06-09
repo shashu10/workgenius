@@ -15,7 +15,7 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 
-$positive: #69BFF8;
+$positive: #0099FF;
 $button-positive-active-bg: #4EB0F1;
 $assertive: #f86969;
 $button-assertive-active-bg: #E95252;
@@ -39,11 +39,11 @@ $wg-cream: #F1ECE6;
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
-@import "../www/lib/ionic/scss/ionic";
+@import "../../www/lib/ionic/scss/ionic";
 
-@import "../www/lib/ion-cal/src/ion-cal";
+@import "../../www/lib/ion-cal/src/ion-cal";
 
-@import 'splash';
+@import 'welcome';
 
 @import 'menu';
 
@@ -82,6 +82,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import 'connect_accounts';
 
 @import 'onboarding';
+
+@import 'big_form';
 
 @import 'theme'; // For light background on all pages
 
