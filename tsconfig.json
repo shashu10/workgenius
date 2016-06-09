@@ -9,8 +9,7 @@
     "exclude": [
         "platforms",
         "plugins",
-        "typings",
-        "www/lib",
+        "www",
         "node_modules"
     ]
 }

@@ -17,11 +17,14 @@ var sourcemaps = require('gulp-sourcemaps');
 var prefix = require('gulp-autoprefixer');
 
 var paths = {
-  sass: ['./scss/**/*.scss'],
-  templates: ['./www/templates/**/*.html'],
+  sass: ['./app/scss/**/*.scss'],
+  templates: [
+    './www/templates/**/*.html',
+    './app/**/*.html'
+  ],
   ts: [
     './www/ts/*.ts',
-    './www/templates/**/*.ts'
+    './app/**/*.ts'
   ]
 };
 
@@ -29,15 +32,15 @@ gulp.task('serve', shell.task(['ionic serve']));
 gulp.task('compile', shell.task(['tsc']));
 
 gulp.task('cache', function () {
-    gulp.src('./www/templates/**/*.html')
-        .pipe(templateCache('templatescache.js', { module:'templatescache', standalone:true, root: 'templates/' }))
+    gulp.src(paths.templates)
+        .pipe(templateCache('templatescache.js', { module:'templatescache', standalone:true}))
         .pipe(gulp.dest('./www/templates/'));
 });
 
 gulp.task('default', ['serve']);
 
 gulp.task('sass', function(done) {
-    sass('./scss/ionic.app.scss', {sourcemap: true, style: 'compact'})
+    sass('./app/scss/ionic.app.scss', {sourcemap: true, style: 'compact'})
         .pipe(prefix("last 5 version"))
         .pipe(sourcemaps.write('.'))
         // .pipe(minifyCss({
