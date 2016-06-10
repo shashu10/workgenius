@@ -2,6 +2,10 @@ class CurrentUser {
 
     private _currentUser = Parse.User.current() || new Parse.User()
 
+    // User for availability questionaire but not saved to parse
+    public availabilityDays: Object[];
+    public availabilityTimes: Object[];
+
     constructor() {}
 
     create() {
@@ -16,6 +20,16 @@ class CurrentUser {
 
     get email(): string { return this._currentUser.get('email') }
     set email(email: string) { this._currentUser.set('email', email); this._currentUser.set('username', email) }
+
+    get goal(): number { return this._currentUser.get('goal') }
+    set goal(goal: number) { this._currentUser.set('goal', goal) }
+
+    save() {
+        if (Parse.User.current()) // Testing env may not have current user
+            return this._currentUser.save()
+        else
+            return Parse.Promise.as(this._currentUser)
+    }
 
     logIn(): Parse.Promise<any> {
     	return Parse.User.logIn(this.email, this.password)

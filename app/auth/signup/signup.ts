@@ -9,7 +9,11 @@ class SignupCtrl {
 
             .then((argument) => {
                 this.getUserData(true);
-                this.$state.go("app.schedule")
+                this.$ionicHistory.nextViewOptions({
+                    historyRoot: true,
+                    // disableAnimate: true
+                });
+                this.$state.go("wizard-goal", { clear: true });
             },
 
             (err) => {
@@ -29,28 +33,19 @@ class SignupCtrl {
         this.$ionicHistory.goBack();
     }
 
-    next(type: string, stateName:string) {
+    next() {
 
-        switch (type) {
-            case "name":
-                if (!this.currentUser.name)
-                    return this.error = 'Please enter your full name';
-                break;
-            case "email":
-                if (!this.currentUser.email)
-                    return this.error = 'Please enter a valid email';
-                break;
-            case "password":
-                if (!this.currentUser.password)
-                    return this.error = 'Please enter a password';
-                break;
+        switch (this.$state.current.name) {
+            case "signup-name":
+                if (!this.currentUser.name) return this.error = 'Please enter your full name';
+                else return this.$state.go('signup-email');
+
+            case "signup-email":
+                if (!this.currentUser.email) return this.error = 'Please enter a valid email';
+                else return this.$state.go('signup-password');
+
         }
-        this.$state.go(stateName)
     }
 }
 
 SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData"];
-
-angular.module('wg.signup', ['wg.user', 'parseData'])
-
-.controller('SignupCtrl', SignupCtrl)

@@ -5,6 +5,11 @@
 // the 2nd parameter is an array of 'requires'
 // 'workgenius.controllers' is found in controllers.js
 angular.module('workgenius', [
+    // Typescript
+    'wg.auth',
+    'wg.wizard',
+    'wg.user',
+    
     'ionic',
     'ngCordova',
     'workgenius.onboarding',
@@ -16,8 +21,6 @@ angular.module('workgenius', [
     'workgenius.schedule',
     'workgenius.availability',
     'workgenius.claimShifts',
-    'wg.auth',
-    'wg.user',
     'parseData',
     'parseUtils',
     'parseShifts',
@@ -199,6 +202,7 @@ angular.module('workgenius', [
     function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $analyticsProvider) {
 
         $ionicConfigProvider.tabs.position('bottom');
+        $ionicConfigProvider.backButton.text('Back');
         // $ionicConfigProvider.views.forwardCache(true);
 
         $analyticsProvider.firstPageview(true); /* Records pages that don't use $state or $route */
@@ -208,9 +212,13 @@ angular.module('workgenius', [
 
         // Main Side Menu pages
 
+        // ============ //
+        //     AUTH     //
+        // ============ //
+
         .state('welcome', {
             url: '/welcome',
-            templateUrl: 'auth/welcome.html',
+            templateUrl: 'auth/welcome/welcome.html',
         })
 
         .state('signup-name', {

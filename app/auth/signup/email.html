@@ -3,7 +3,7 @@
         <button ng-click="signup.goBack()" class="button back-button buttons button-clear header-item">
             <i class="icon ion-ios-arrow-back"></i> Back
         </button>
-        <form name="form" shake-that novalidate submitted="submitted" submit="signup.next('email', 'signup-password')">
+        <form name="form" shake-that novalidate submitted="submitted" submit="signup.next()">
             <div ng-class="{'has-error': form.email.$invalid && submitted}">
                 <h1>Hello {{signup.name}}</h1>
                 <h1>What's your email?</h1>

@@ -90,7 +90,3 @@ class LoginCtrl {
 }
 
 LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData"];
-
-angular.module('wg.login', ['wg.user', 'parseData'])
-
-.controller('LoginCtrl', LoginCtrl)

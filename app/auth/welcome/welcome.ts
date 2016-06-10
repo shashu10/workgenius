@@ -1,6 +1,6 @@
 class WelcomeCtrl {
-    
-    public $inject = ['$state', 'currentUser']
+
+    private $inject = ["$state", "currentUser", "getUserData"];
 
     constructor(public $state, public currentUser: CurrentUser, public getUserData: any) {
         this.currentUser.create()
@@ -19,9 +19,3 @@ class WelcomeCtrl {
         this.$state.go('app.schedule')
     }
 }
-
-WelcomeCtrl.$inject = ["$state", "currentUser", "getUserData"];
-
-angular.module('wg.auth', ['wg.signup', 'wg.login', 'parseData'])
-
-    .controller('WelcomeCtrl', WelcomeCtrl);

@@ -1,47 +1,45 @@
-/*
-To customize the look and feel of Ionic, you can override the variables
-in ionic's _variables.scss file.
+// To customize the look and feel of Ionic, you can override the variables
+// in ionic's _variables.scss file.
 
-For example, you might change some of the default colors:
+// For example, you might change some of the default colors:
 
-$light:                           #fff !default;
-$stable:                          #f8f8f8 !default;
-$positive:                        #387ef5 !default;
-$calm:                            #11c1f3 !default;
-$balanced:                        #33cd5f !default;
-$energized:                       #ffc900 !default;
-$assertive:                       #ef473a !default;
-$royal:                           #886aea !default;
-$dark:                            #444 !default;
-*/
+// $light:                           #fff !default;
+// $stable:                          #f8f8f8 !default;
+// $positive:                        #387ef5 !default;
+// $calm:                            #11c1f3 !default;
+// $balanced:                        #33cd5f !default;
+// $energized:                       #ffc900 !default;
+// $assertive:                       #ef473a !default;
+// $royal:                           #886aea !default;
+// $dark:                            #444 !default;
 
-$positive: #0099FF;
-$button-positive-active-bg: #4EB0F1;
+$positive: #09f;
+$button-positive-active-bg: #4eb0f1;
 $assertive: #f86969;
-$button-assertive-active-bg: #E95252;
+$button-assertive-active-bg: #e95252;
 // $button-dark-bg: #d8d8d8;
 $button-dark-bg: #bdc3c7;
 // $button-dark-active-bg: #B3B3B3;
 $button-dark-active-bg: #a1a6a9;
 // $button-dark-border: #c1c1c1;
-$button-dark-border: #B1B5B7;
+$button-dark-border: #b1b5b7;
 // $button-dark-active-border: #969696;
-$button-dark-active-border: #74797C;
+$button-dark-active-border: #74797c;
 
 // Colors
 $wg-light-gray: #f5f5f5;
-$wg-gray-border: #DDD;
+$wg-gray-border: #ddd;
 $wg-gray-text: #898989;
-$wg-light-gray-text: #E1E1E1;
-$wg-cream: #F1ECE6;
+$wg-light-gray-text: #e1e1e1;
+$wg-cream: #f1ece6;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
-$ionicons-font-path: "../lib/ionic/fonts" !default;
+$ionicons-font-path: '../lib/ionic/fonts' !default;
 
 // Include all of Ionic
-@import "../../www/lib/ionic/scss/ionic";
+@import '../../www/lib/ionic/scss/ionic';
 
-@import "../../www/lib/ion-cal/src/ion-cal";
+@import '../../www/lib/ion-cal/src/ion-cal';
 
 @import 'welcome';
 
@@ -83,6 +81,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 @import 'onboarding';
 
+@import 'wizard_goal';
+
+@import 'wizard_availability';
+
+@import 'wizard_vehicles';
+
 @import 'big_form';
 
 @import 'theme'; // For light background on all pages
@@ -102,12 +106,6 @@ html * {
 
 // FLEX Calendar
 
-.ion-cal {
-    i.left-icon,
-    i.right-icon {
-      color: $positive;
-    }
-}
 .custom-subheader {
     height: auto !important;
     padding: 0;
@@ -120,9 +118,10 @@ html * {
 }
 
 .wg-title {
-    text-align: center;
-    padding: 10px;
     margin: 0;
+    padding: 10px;
+    text-align: center;
+
     p {
         margin: 0;
     }
@@ -145,8 +144,9 @@ html * {
         padding-bottom: 44px;
     }
 }
+
 .has-ion-cal-subheader {
-    
+
     .scroll > shift-list > div:first-child {
         .item-divider {
             border-top: 1px solid $wg-gray-border;
@@ -155,35 +155,22 @@ html * {
     }
 }
 
-.popover {
-    height: 50px;
-    p {
-        color: #444;
-        text-align: center;
-        &._2lines {
-            
-        }
-        &._1line {
-
-        }
-    }
-}
-
 .available-jobs {
-    padding-top: 10px;
     color: $positive;
-}
-.coming-soon {
     padding-top: 10px;
-    color: $wg-gray-text;
+}
+
+.coming-soon {
     border-top: 1px solid #DDDDDD;
+    color: $wg-gray-text;
+    padding-top: 10px;
 }
 
 .bar-light .title,
 .bar-light .button.button-clear {
-    color: $positive !important;
-    // font-size: 14px;
-    // text-transform: uppercase;
+    // color: $positive !important;
+    font-size: 14px;
+    text-transform: uppercase;
 }
 
 .bar.bar-positive .title {
@@ -192,39 +179,43 @@ html * {
     letter-spacing: 1px;
     // text-transform: uppercase;
 }
+
 .bar .button-bar .button {
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 1px;
     // text-transform: uppercase;
 }
+
 .button.back-button.buttons.button-clear.header-item {
     font-weight: 600;
 }
+
 .wg-title-instruction {
-    padding-left: 10px;
-    padding-right: 10px;
+    color: #4C4C4C;
     font-family: Avenir-Roman;
     font-size: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
     text-align: center;
-    color: #4C4C4C;
 
     p:not(:last-child) {
         margin: 0;
     }
 }
+
 .work-types-grid {
     .row {
         padding: 0;
     }
 }
-i.icon.ion-ios-arrow-back:before {
+
+.ion-ios-arrow-back::before {
     font-size: 23px !important;
 }
-/*
-    CSS styles to eliminate the annoying flickering header when changing tabs in an Ionic app on Android:
-    http://forum.ionicframework.com/t/flickering-when-navigating-via-tabs-on-android/27281/2
-*/
+
+//    CSS styles to eliminate the annoying flickering header when changing tabs in an Ionic app on Android:
+//    http://forum.ionicframework.com/t/flickering-when-navigating-via-tabs-on-android/27281/2
 
 .platform-android {
     .header-item.title,
@@ -240,10 +231,12 @@ i.icon.ion-ios-arrow-back:before {
 }
 
 .borderless-input {
+
     .item {
-        border-right: 0;
         border-left: 0;
+        border-right: 0;
     }
+
     .item:first-child {
         border-top-width: 0;
     }
