@@ -251,6 +251,31 @@ angular.module('workgenius', [
             templateUrl: 'auth/login/forgot-password.html',
         })
 
+
+        // ============ //
+        //  ONBOARDING  //
+        // ============ //
+
+        .state('wizard-goal', {
+            url: '/wizard-goal',
+            templateUrl: 'wizard/goal/goal.html',
+        })
+
+        .state('wizard-availability-days', {
+            url: '/wizard-availability-days',
+            templateUrl: 'wizard/availability/availability-days.html',
+        })
+
+        .state('wizard-availability-times', {
+            url: '/wizard-availability-times',
+            templateUrl: 'wizard/availability/availability-times.html',
+        })
+
+        .state('wizard-vehicles', {
+            url: '/wizard-vehicles',
+            templateUrl: 'wizard/vehicles/vehicles.html',
+        })
+
         // ============ //
         //     APP      //
         // ============ //
@@ -304,15 +329,6 @@ angular.module('workgenius', [
 
         // SUB VIEWS TABS //
 
-        .state('app.target', {
-            url: '/target',
-            views: {
-                'menuContent': {
-                    templateUrl: 'main/target.html',
-                    // controller: 'TargetCtrl'
-                }
-            }
-        })
 
         .state('app.companies', {
             url: '/companies',
@@ -452,83 +468,6 @@ angular.module('workgenius', [
         //  ONBOARDING  //
         // ============ //
 
-        // setup an abstract state for the tabs directive
-        .state('onboarding', {
-            url: '/onboarding',
-            abstract: true,
-            templateUrl: 'onboarding/onboarding.html',
-            controller: 'OnboardingCtrl' // Needs to persist across register pages
-        })
-
-        .state('onboarding.personal-info', {
-            url: '/personal-info',
-            views: {
-                'content': {
-                    templateUrl: 'onboarding/personal-info.html',
-                    controller: 'PersonalInfoCtrl'
-                }
-            }
-        })
-
-        .state('onboarding.vehicle-type', {
-            url: '/vehicle-type',
-            views: {
-                'content': {
-                    templateUrl: 'onboarding/vehicle-type.html',
-                    controller: 'VehicleTypeCtrl'
-                }
-            }
-        })
-
-        .state('onboarding.device-type', {
-            url: '/device-type',
-            views: {
-                'content': {
-                    templateUrl: 'onboarding/device-type.html',
-                    controller: 'DeviceTypeCtrl'
-                }
-            }
-        })
-
-        .state('onboarding.target-hours', {
-            url: '/target-hours',
-            views: {
-                'content': {
-                    templateUrl: 'onboarding/target-hours.html',
-                    // controller: 'TargetCtrl'
-                }
-            }
-        })
-
-        .state('onboarding.work-types', {
-            url: '/work-types',
-            views: {
-                'content': {
-                    templateUrl: 'onboarding/work-types.html',
-                    controller: 'WorkTypesCtrl'
-                }
-            }
-        })
-
-        .state('onboarding.availability-questions', {
-            url: '/availability-questions',
-            views: {
-                'content': {
-                    templateUrl: 'onboarding/availability-questions.html',
-                    controller: 'AvailabilityQuestionsCtrl'
-                }
-            }
-        })
-
-        .state('onboarding.availability', {
-            url: '/availability',
-            views: {
-                'content': {
-                    templateUrl: 'onboarding/availability.html',
-                    controller: 'AvailabilityCtrl'
-                }
-            }
-        });
 
         //  - - - - End Onboarding - - - -
 

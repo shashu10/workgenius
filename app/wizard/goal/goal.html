@@ -1,0 +1,28 @@
+<ion-view title="Setup Wizard" ng-controller="GoalCtrl as goal">
+    <ion-content class="big-form wizard-goal" scroll="false">
+
+        <h3>
+            What is your
+            <br>
+            <strong>daily earnings goal?</strong>
+        </h3>
+
+        <div>
+            <p class="goal-text">{{goal.currentUser.goal | currency : undefined : 0}}</p>
+
+            <div class="item range range-positive">
+                0
+                <!-- ng-change="update(currentUser.target)" -->
+                <input type="range" ng-model="goal.currentUser.goal" name="hours" min="0" max="200"> 200
+            </div>
+        </div>
+
+        <div class="main-button">
+            <button ng-click="goal.next()" class="button button-positive">
+                Continue
+                <i class="icon ion-android-arrow-forward"></i>
+            </button>
+        </div>
+
+    </ion-content>
+</ion-view>

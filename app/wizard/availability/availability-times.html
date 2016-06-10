@@ -1,0 +1,22 @@
+<ion-view title="Setup Wizard" ng-controller="AvailabilityTimesCtrl as avail">
+    <ion-content class="big-form wizard-availability">
+
+        <h3>
+            Select the times you
+            <br>
+            <strong>want to work</strong>
+        </h3>
+
+        <ion-checkbox ng-repeat="option in avail.options" ng-model="option.selected" class="item-checkbox-right">
+            <strong>{{option.title | uppercase}}</strong>
+        </ion-checkbox>
+
+        <div class="main-button">
+            <button ng-click="avail.next()" class="button button-positive">
+                Continue
+                <i class="icon ion-android-arrow-forward"></i>
+            </button>
+        </div>
+
+    </ion-content>
+</ion-view>
