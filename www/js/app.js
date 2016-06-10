@@ -238,6 +238,11 @@ angular.module('workgenius', [
             templateUrl: 'auth/login/password.html',
         })
 
+        .state('login-forgot-password', {
+            url: '/login-forgot-password',
+            templateUrl: 'auth/login/forgot-password.html',
+        })
+
         // ============ //
         //     APP      //
         // ============ //

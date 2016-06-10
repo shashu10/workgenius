@@ -1,6 +1,7 @@
 class LoginCtrl {
 
     public error: string
+    public success: string
 
     constructor(public $scope: any, public $state: any, public $ionicHistory: any, public currentUser: CurrentUser, public getUserData: any) {}
 
@@ -32,6 +33,7 @@ class LoginCtrl {
     }
 
     goBack() {
+        this.success = undefined
         this.error = undefined
         this.$ionicHistory.goBack();
     }
@@ -53,6 +55,37 @@ class LoginCtrl {
                 break;
         }
         this.$state.go(stateName)
+    }
+
+    forgotPassword() {
+        this.$state.go('login-forgot-password')
+    }
+
+    resetPassword() {
+
+        this.currentUser.resetPassword()
+
+            .then((argument) => {
+
+                this.error = undefined
+                this.success = 'Password  sent';
+                this.$scope.$apply()
+            },
+
+            (err) => {
+
+                this.success = undefined
+
+                if (err.code === 125)
+                    this.error = 'This is not a valid email address';
+                else if (err.code === 205)
+                    this.error = 'This email is not registered';
+                else
+                    this.error = "Something went wrong :( Try again later"
+
+                console.log(err)
+                this.$scope.$apply()
+            });
     }
 }
 
