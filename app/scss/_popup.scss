@@ -1,35 +1,36 @@
-.popup-container .popup {
-    width: 270px;
+.popup {
+    border: 1px solid #7b7b7b;
     border-radius: 4px;
-    border: 1px solid #7B7B7B;
     // Cancel Popup
-    text-align: center;
     overflow: hidden;
+    text-align: center;
+    width: 270px;
 
-	.popup-head {
-		border: 0;
+    .popup-head {
+        border: 0;
         padding-bottom: 0;
-	}
+    }
 
     img {
         width: 20%;
     }
 
     .popup-buttons {
-		padding: 0;
-		
-    	.button {
-		    margin: 0;
-		    border: 0;
-		    border-radius: 0;
-    	}
+        padding: 0;
+
+        .button {
+            border: 0;
+            border-radius: 0;
+            margin: 0;
+        }
     }
 }
+
 .shift-popup {
     .popup-body {
         .item {
-            border-color: transparent;
             background-color: transparent;
+            border-color: transparent;
             padding-left: 35px;
 
             p {
@@ -37,6 +38,7 @@
                 text-align: right;
             }
         }
+
         img {
             width: 30px !important;
             position: absolute;

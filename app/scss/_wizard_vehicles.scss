@@ -1,8 +1,57 @@
+$positive-text: #fff;
+
 .wizard-vehicles {
 
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    text-align: center;
+
+    > * {
+        flex: 1;
+    }
+
+    .header-container {
+        align-items: center; // align vertical
+        display: flex;
+        justify-content: center; // align horizontal
+    }
+
     h3 {
-        margin: 20px 10px;
-        text-align: center;
+        // margin: 10px;
+        // text-align: center;
+    }
+
+    .vehicle-group {
+        display: flex;
+        margin: 20px 0;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .vehicle-button {
+        margin: auto;
+        padding-top: 10px;
+        width: 120px;
+
+        &.activated { // have different active and resting selected states
+            background-color: $positive;
+            color: $positive-text;
+        }
+
+        .icon::before {
+            font-size: 40px;
+        }
+
+        p {
+            margin-bottom: 0;
+        }
     }
 
 }

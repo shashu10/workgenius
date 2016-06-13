@@ -1,63 +1,63 @@
-// Registration tabs
-.wg-registration-bar-container {
-    // Remove the 'background-image' border at the bottom. We're setting our own border.
-    // Also the cached nav-bar is visible in ios and android which shows this below the active nav-bar.
-    background-image: none;
-    border: 0;
-    .title {
-        margin: 0;
-    }
-}
-.wg-register-bar {
-    background-image: none !important;
-    border-color: white !important;
-    .title {
-        display: flex;
-        font-size: medium;
-        margin: 0;
-        font-size: 16px;
-        font-weight: 600;
+// // Registration tabs
+// .wg-registration-bar-container {
+//     // Remove the 'background-image' border at the bottom. We're setting our own border.
+//     // Also the cached nav-bar is visible in ios and android which shows this below the active nav-bar.
+//     background-image: none;
+//     border: 0;
+//     .title {
+//         margin: 0;
+//     }
+// }
+// .wg-register-bar {
+//     background-image: none !important;
+//     border-color: white !important;
+//     .title {
+//         display: flex;
+//         font-size: medium;
+//         margin: 0;
+//         font-size: 16px;
+//         font-weight: 600;
 
-        span {
-            flex-grow: 1;
-            color: $wg-light-gray-text;
-            transition: all 0.1s;
-            border-bottom: 0px solid transparent;
-            position: relative;
-            border-bottom: 2px solid $wg-light-gray-text;
+//         span {
+//             flex-grow: 1;
+//             color: $wg-light-gray-text;
+//             transition: all 0.1s;
+//             border-bottom: 0px solid transparent;
+//             position: relative;
+//             border-bottom: 2px solid $wg-light-gray-text;
 
-            .arrow {
-                transition: all 0.1s;
-                margin-left: -3px;
-                position: absolute;
-                bottom: 0;
-                left: 50%;
-                margin-left: -3px;
-                width: 0;
-                height: 0;
-                border-style: solid;
-                border-width: 0;
-                border-color: transparent;
-            }
-            &.selected {
-                color: $positive;
-                border-bottom: 2px solid $positive;
-                .arrow {
-                    border-width: 0 6px 6px 6px;
-                    border-color: transparent transparent $positive transparent;
-                }
-            }
-        }
-    }
-}
+//             .arrow {
+//                 transition: all 0.1s;
+//                 margin-left: -3px;
+//                 position: absolute;
+//                 bottom: 0;
+//                 left: 50%;
+//                 margin-left: -3px;
+//                 width: 0;
+//                 height: 0;
+//                 border-style: solid;
+//                 border-width: 0;
+//                 border-color: transparent;
+//             }
+//             &.selected {
+//                 color: $positive;
+//                 border-bottom: 2px solid $positive;
+//                 .arrow {
+//                     border-width: 0 6px 6px 6px;
+//                     border-color: transparent transparent $positive transparent;
+//                 }
+//             }
+//         }
+//     }
+// }
 
-// Registration input fields
-.wg-register-content {
-    .list-inset {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-    .button-full {
-        font-family: Avenir-Heavy
-    }
-}
+// // Registration input fields
+// .wg-register-content {
+//     .list-inset {
+//         margin-left: 20px;
+//         margin-right: 20px;
+//     }
+//     .button-full {
+//         font-family: Avenir-Heavy
+//     }
+// }

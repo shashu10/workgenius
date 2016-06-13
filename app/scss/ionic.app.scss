@@ -43,8 +43,6 @@ $ionicons-font-path: '../lib/ionic/fonts' !default;
 
 @import 'welcome';
 
-@import 'menu';
-
 @import 'company';
 
 @import 'grid_days';
@@ -53,23 +51,15 @@ $ionicons-font-path: '../lib/ionic/fonts' !default;
 
 @import 'schedule';
 
-@import 'pager';
-
 @import 'earnings'; // Earnings and Hours stats
 
 @import 'contact_us';
-
-@import 'registration'; // Custom Tabs
 
 @import 'preferences';
 
 @import 'availability_questions'; // Question tags
 
 @import 'availability_tabs'; // Custom tab subheader
-
-@import 'target_hours';
-
-@import 'work_types'; // Work types and modal
 
 @import 'save_bar'; // Work types and modal
 
@@ -78,8 +68,6 @@ $ionicons-font-path: '../lib/ionic/fonts' !default;
 @import 'claim_shifts';
 
 @import 'connect_accounts';
-
-@import 'onboarding';
 
 @import 'wizard_goal';
 
@@ -90,6 +78,18 @@ $ionicons-font-path: '../lib/ionic/fonts' !default;
 @import 'big_form';
 
 @import 'theme'; // For light background on all pages
+
+// @import 'registration'; // Custom Tabs
+
+// @import 'target_hours';
+
+// @import 'work_types'; // Work types and modal
+
+// @import 'onboarding';
+
+// @import 'menu';
+
+// @import 'pager';
 
 @font-face { font-family: Avenir-Book; src: url('../font/Avenir-Book.ttf'); }
 @font-face { font-family: Avenir-Medium; src: url('../font/Avenir-Medium.ttf'); }
