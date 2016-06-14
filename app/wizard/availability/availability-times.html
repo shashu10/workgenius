@@ -12,7 +12,11 @@
         </ion-checkbox>
 
         <div class="main-button">
-            <button ng-click="avail.next()" class="button button-positive">
+            <button
+            ng-class="(avail.options | filter: {selected:true}).length ? 'button-positive' : 'button-light disabled'"
+            ng-click="avail.next()"
+            class="button"
+            >
                 Continue
                 <i class="icon ion-android-arrow-forward"></i>
             </button>

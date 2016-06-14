@@ -13,7 +13,7 @@
                 </label>
                 <br>
                 <div class="main-button">
-                    <button type="submit" class="button button-positive">
+                    <button ng-class="form.$valid ? 'button-positive' : 'button-light disabled'" type="submit" class="button">
                         Next
                         <i class="icon ion-android-arrow-forward"></i>
                     </button>

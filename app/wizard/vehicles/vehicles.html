@@ -1,12 +1,28 @@
-<ion-view title="Setup Wizard" ng-controller="GoalCtrl as goal">
+<ion-view title="Setup Wizard" ng-controller="VehiclesCtrl as vehicles">
     <ion-content class="big-form wizard-vehicles" scroll="false">
-
-        <h3>
-            Select your <strong>vehicles</strong>
-        </h3>
-
+        
+        <div class="header-container">
+            <h3>
+                Select your <strong>vehicles</strong>
+            </h3>
+        </div>
+        
+        <div>
+            <div class="vehicle-group" ng-repeat="group in vehicles.vehicles | chunkBy: 2">
+                <button class="vehicle-button button" ng-class="vehicle.selected ? 'button-positive' : 'button-light'" ng-click="vehicle.selected = !vehicle.selected" ng-repeat="vehicle in group">
+                    <i class="icon" ng-class="vehicle.icon"></i>
+                    <p>
+                        {{vehicle.name}}
+                    </p>
+                </button>
+            </div>
+        </div>
         <div class="main-button">
-            <button ng-click="goal.next()" class="button button-positive">
+            <button
+            class="button"
+            ng-click="vehicles.next()"
+            ng-class="(vehicles.vehicles | filter: {selected:true}).length ? 'button-positive' : 'button-light disabled'"
+            >
                 Continue
                 <i class="icon ion-android-arrow-forward"></i>
             </button>

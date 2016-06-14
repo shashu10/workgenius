@@ -34,6 +34,7 @@ class CurrentUser {
     logIn(): Parse.Promise<any> {
     	return Parse.User.logIn(this.email, this.password)
     }
+
     signUp(): Parse.Promise<any> {
 
         // Make them lowercase so we don't have people signing up twice

@@ -9,6 +9,10 @@ class LoginCtrl {
         this.currentUser.logIn()
 
             .then((argument) => {
+
+                this.success = undefined
+                this.error = undefined
+
                 this.getUserData().then(function(onboarding) {
                     mixpanel.register({
                         'Email': this.currentUser.email,
@@ -23,6 +27,8 @@ class LoginCtrl {
             },
 
             (err) => {
+                this.success = undefined
+
                 if (err.code === 101) // invalid email
                     this.error = "Email or password was incorrect"
                 else
