@@ -13,7 +13,6 @@ angular.module('workgenius', [
 
     'ionic',
     'ngCordova',
-    'workgenius.onboarding',
     'workgenius.controllers',
     'workgenius.directives',
     'workgenius.services',
