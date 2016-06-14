@@ -1,7 +1,7 @@
 class GoalCtrl {
 
-    constructor(public $timeout: any, public $scope: any, public $state: any, public $ionicHistory: any, public currentUser: CurrentUser, public getUserData: any) {
-        this.currentUser.goal = 100;
+    constructor(public $state: any, public currentUser: CurrentUser) {
+        this.currentUser.goal = 100
     }
 
     next() {
@@ -10,4 +10,4 @@ class GoalCtrl {
     }
 }
 
-GoalCtrl.$inject = ["$timeout", "$scope", "$state", "$ionicHistory", "currentUser", "getUserData"];
+GoalCtrl.$inject = ["$state", "currentUser"]

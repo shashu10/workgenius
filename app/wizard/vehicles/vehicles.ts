@@ -15,8 +15,7 @@ class VehiclesCtrl {
         { selected: false, name: 'Bicycle', icon: 'ion-android-bicycle' },
         { selected: false, name: 'None', icon: 'ion-android-cancel' },
     ]
-    constructor(public $timeout: any, public $scope: any, public $state: any, public $ionicHistory: any, public currentUser: CurrentUser, public getUserData: any) {
-    }
+    constructor(public $state: any, public currentUser: CurrentUser) {}
 
     next() {
         this.currentUser.save()
@@ -24,4 +23,4 @@ class VehiclesCtrl {
     }
 }
 
-VehiclesCtrl.$inject = ["$timeout", "$scope", "$state", "$ionicHistory", "currentUser", "getUserData"];
+VehiclesCtrl.$inject = ["$state", "currentUser"];
