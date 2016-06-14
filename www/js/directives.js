@@ -24,12 +24,6 @@ angular.module('workgenius.directives', [])
     restrict: 'E',
   };
 })
-.directive('targetControls', function() {
-  return {
-    templateUrl: 'templates/shared/targetControls.html',
-    restrict: 'E',
-  };
-})
 .directive('hiddenSubmit', function() {
   return {
     templateUrl: 'templates/shared/hidden-submit.html',

@@ -7,21 +7,20 @@
             <strong>want to work</strong>
         </h3>
 
+        <ion-list>
 
-<ion-list>
-
-    <div ng-repeat="group in location.PostmatesLocations">
-        <ion-item
-        ng-click="location.toggleState(group)"
-        ng-class="{active: location.isStateShown(group)}">
-            <i class="icon" ng-class="location.isStateShown(group) ? 'ion-minus' : 'ion-plus'"></i> &nbsp;
-            {{group.state}}
-        </ion-item>
-        <ion-checkbox ng-click="location.toggleCity(city)" ng-repeat="city in group.cities" class="item-checkbox-right item-accordion" ng-show="location.isStateShown(group)">
-            {{city | capitalize}}
-        </ion-checkbox>
-    </div>
-</ion-list>
+            <div ng-repeat="group in location.PostmatesLocations">
+                <ion-item
+                ng-click="location.toggleState(group)"
+                ng-class="{active: location.isStateShown(group)}">
+                    <i class="icon" ng-class="location.isStateShown(group) ? 'ion-minus' : 'ion-plus'"></i> &nbsp;
+                    {{group.state}}
+                </ion-item>
+                <ion-checkbox ng-click="location.toggleCity(city)" ng-repeat="city in group.cities" class="item-checkbox-right item-accordion" ng-show="location.isStateShown(group)">
+                    {{city | capitalize}}
+                </ion-checkbox>
+            </div>
+        </ion-list>
 
         <div class="main-button">
             <button

@@ -94,55 +94,6 @@ angular.module('workgenius.controllers', ['integrations'])
 ])
 
 // ============ //
-//   COMPANIES  //
-// ============ //
-
-.controller('CompaniesCtrl', ['$rootScope', '$scope', '$ionicModal', 'setUserData', 'eligibilities',
-    function($rootScope, $scope, $ionicModal, setUserData, eligibilities) {
-
-        $scope.customSave = eligibilities.saveAll;
-        $scope.selectedWorkType = null;
-
-        $ionicModal.fromTemplateUrl('templates/shared/companies-modal.html', {
-            scope: $scope
-        }).then(function(modal) {
-            $scope.modal = modal;
-        });
-        $scope.decline = function(company) {
-            $scope.modal.hide();
-        };
-        $scope.accept = function(company) {
-
-            eligibilities.toggleInterest(company.name, true);
-            $scope.modal.hide();
-            if ($scope.onChange) $scope.onChange();
-        };
-        $scope.select = function(company) {
-            // Unselect type if it's already selected
-            if ($scope.isInterested(company.name)) {
-                eligibilities.toggleInterest(company.name, false);
-
-                if ($scope.onChange) $scope.onChange();
-
-                // Open detailed modal when unselected option is clicked
-            } else {
-                $scope.selectedCompany = company;
-                $scope.modal.show();
-            }
-        };
-
-        $scope.isEligible = function(name) {
-            var eligibility = eligibilities.get(name);
-            return eligibility && eligibility.eligible;
-        };
-        $scope.isInterested = function(name) {
-            var eligibility = eligibilities.get(name);
-            return eligibility && eligibility.interested;
-        };
-    }
-])
-
-// ============ //
 //     Other    //
 // ============ //
 

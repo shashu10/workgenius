@@ -1,13 +1,13 @@
 class GoalCtrl {
 
-    constructor(public $state: any, public currentUser: CurrentUser) {
+    constructor(public $state: any, public currentUser: CurrentUser, public WizardStates: any) {
         this.currentUser.goal = 100
     }
 
     next() {
         this.currentUser.save()
-        this.$state.go('wizard-locations')
+        this.WizardStates.next()
     }
 }
 
-GoalCtrl.$inject = ["$state", "currentUser"]
+GoalCtrl.$inject = ["$state", "currentUser", "WizardStates"]

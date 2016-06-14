@@ -8,6 +8,7 @@ angular.module('workgenius', [
     // Typescript
     'wg.auth',
     'wg.wizard',
+    'wg.apply',
     'wg.user',
     'wg.constants',
 
@@ -282,6 +283,45 @@ angular.module('workgenius', [
         })
 
         // ============ //
+        //  APPLICATION //
+        // ============ //
+
+        .state('apply-phone', {
+            url: '/apply-phone',
+            templateUrl: 'apply/phone/phone.html',
+        })
+
+        .state('apply-address', {
+            url: '/apply-address',
+            templateUrl: 'apply/address/address.html',
+        })
+
+        .state('apply-lift', {
+            url: '/apply-lift',
+            templateUrl: 'apply/lift/lift.html',
+        })
+
+        .state('apply-car-info', {
+            url: '/apply-car-info',
+            templateUrl: 'apply/car/car-info.html',
+        })
+
+        .state('apply-car-documents', {
+            url: '/apply-car-documents',
+            templateUrl: 'apply/car/car-documents.html',
+        })
+
+        .state('apply-headshot', {
+            url: '/apply-headshot',
+            templateUrl: 'apply/headshot/headshot.html',
+        })
+
+        .state('apply-background-check', {
+            url: '/apply-background-check',
+            templateUrl: 'apply/background/background-check.html',
+        })
+
+        // ============ //
         //     APP      //
         // ============ //
 
@@ -333,17 +373,6 @@ angular.module('workgenius', [
         })
 
         // SUB VIEWS TABS //
-
-
-        .state('app.companies', {
-            url: '/companies',
-            views: {
-                'menuContent': {
-                    templateUrl: 'main/companies.html',
-                    controller: 'CompaniesCtrl'
-                }
-            }
-        })
 
         .state('app.vehicles', {
             url: '/vehicles',
@@ -457,24 +486,7 @@ angular.module('workgenius', [
                     controller: 'BlockDaysCtrl'
                 }
             }
-        })
-
-        //  - - - - End Main App - - - -
-
-        // ============ //
-        // REGISTRATION //
-        // ============ //
-
-        // setup an abstract state for the tabs directive
-
-        //  - - - - End Registration - - - -
-
-        // ============ //
-        //  ONBOARDING  //
-        // ============ //
-
-
-        //  - - - - End Onboarding - - - -
+        });
 
         // if none of the above states are matched, use this as the fallback
         // $urlRouterProvider.otherwise('/registration/signup');

@@ -10,13 +10,13 @@ class AvailabilityDaysCtrl {
         { selected: false, title: "sunday" },
     ]
 
-    constructor(public $state: any, public currentUser: CurrentUser) {}
+    constructor(public $state: any, public currentUser: CurrentUser, public WizardStates: any) { }
 
     next() {
         this.currentUser.availabilityDays = this.options;
-        this.$state.go('wizard-availability-times')
+        this.WizardStates.next()
     }
 
 }
 
-AvailabilityDaysCtrl.$inject = ["$state", "currentUser"];
+AvailabilityDaysCtrl.$inject = ["$state", "currentUser", "WizardStates"];

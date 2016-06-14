@@ -15,12 +15,12 @@ class VehiclesCtrl {
         { selected: false, name: 'Bicycle', icon: 'ion-android-bicycle' },
         { selected: false, name: 'None', icon: 'ion-android-cancel' },
     ]
-    constructor(public $state: any, public currentUser: CurrentUser) {}
+    constructor(public $state: any, public currentUser: CurrentUser, public WizardStates: any) {}
 
     next() {
         this.currentUser.save()
-        this.$state.go('wizard-availability-days')
+        this.WizardStates.next()
     }
 }
 
-VehiclesCtrl.$inject = ["$state", "currentUser"];
+VehiclesCtrl.$inject = ["$state", "currentUser", "WizardStates"];

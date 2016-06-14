@@ -11,7 +11,7 @@ class LocationsCtrl {
     private shownState: any
     private selectedCities: string[] = []
 
-    constructor(public $state: any, public currentUser: CurrentUser, private PostmatesLocations: Object[]) {
+    constructor(public $state: any, public currentUser: CurrentUser, private PostmatesLocations: Object[], public WizardStates: any) {
 
         // Northern california
         this.shownState = PostmatesLocations[1]
@@ -35,9 +35,9 @@ class LocationsCtrl {
 
     next() {
         this.currentUser.locations = this.selectedCities
-        this.$state.go('wizard-availability-days')
+        this.WizardStates.next()
     }
 
 }
 
-LocationsCtrl.$inject = ["$state", "currentUser", "PostmatesLocations"]
+LocationsCtrl.$inject = ["$state", "currentUser", "PostmatesLocations", "WizardStates"]
