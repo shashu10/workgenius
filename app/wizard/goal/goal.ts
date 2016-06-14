@@ -6,7 +6,7 @@ class GoalCtrl {
 
     next() {
         this.currentUser.save()
-        this.$state.go('wizard-availability-days')
+        this.$state.go('wizard-locations')
     }
 }
 

@@ -41,6 +41,8 @@ $ionicons-font-path: '../lib/ionic/fonts' !default;
 
 @import '../../www/lib/ion-cal/src/ion-cal';
 
+@import 'accordion';
+
 @import 'welcome';
 
 @import 'company';
@@ -74,6 +76,8 @@ $ionicons-font-path: '../lib/ionic/fonts' !default;
 @import 'wizard_availability';
 
 @import 'wizard_vehicles';
+
+@import 'wizard_locations';
 
 @import 'big_form';
 

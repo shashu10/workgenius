@@ -1,0 +1,16 @@
+// http://docs.angularjs.org/api/ng/directive/ngShow#usage_animations
+.item.item-accordion {
+    line-height: 54px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    transition: .2s all ease;
+
+    &.ng-hide {
+        line-height: 0px;
+    }
+
+    &.ng-hide-add,
+    &.ng-hide-remove {
+        display: block !important;
+    }
+}

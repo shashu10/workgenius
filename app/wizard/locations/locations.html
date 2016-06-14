@@ -1,0 +1,38 @@
+<ion-view title="Setup Wizard" ng-controller="LocationsCtrl as location">
+    <ion-content class="big-form wizard-locations">
+
+        <h3>
+            Select the area(s) that you
+            <br>
+            <strong>want to work</strong>
+        </h3>
+
+
+<ion-list>
+
+    <div ng-repeat="group in location.PostmatesLocations">
+        <ion-item
+        ng-click="location.toggleState(group)"
+        ng-class="{active: location.isStateShown(group)}">
+            <i class="icon" ng-class="location.isStateShown(group) ? 'ion-minus' : 'ion-plus'"></i> &nbsp;
+            {{group.state}}
+        </ion-item>
+        <ion-checkbox ng-click="location.toggleCity(city)" ng-repeat="city in group.cities" class="item-checkbox-right item-accordion" ng-show="location.isStateShown(group)">
+            {{city | capitalize}}
+        </ion-checkbox>
+    </div>
+</ion-list>
+
+        <div class="main-button">
+            <button
+            ng-class="location.selectedCities.length ? 'button-positive' : 'button-light disabled'"
+            ng-click="location.next()"
+            class="button"
+            >
+                Continue
+                <i class="icon ion-android-arrow-forward"></i>
+            </button>
+        </div>
+
+    </ion-content>
+</ion-view>

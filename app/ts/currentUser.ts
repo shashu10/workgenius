@@ -24,6 +24,9 @@ class CurrentUser {
     get goal(): number { return this._currentUser.get('goal') }
     set goal(goal: number) { this._currentUser.set('goal', goal) }
 
+    get locations(): string[] { return this._currentUser.get('locations') }
+    set locations(locations: string[]) { this._currentUser.set('locations', locations) }
+
     save() {
         if (Parse.User.current()) // Testing env may not have current user
             return this._currentUser.save()

@@ -9,7 +9,8 @@ angular.module('workgenius', [
     'wg.auth',
     'wg.wizard',
     'wg.user',
-    
+    'wg.constants',
+
     'ionic',
     'ngCordova',
     'workgenius.onboarding',
@@ -274,6 +275,11 @@ angular.module('workgenius', [
         .state('wizard-vehicles', {
             url: '/wizard-vehicles',
             templateUrl: 'wizard/vehicles/vehicles.html',
+        })
+
+        .state('wizard-locations', {
+            url: '/wizard-locations',
+            templateUrl: 'wizard/locations/locations.html',
         })
 
         // ============ //
