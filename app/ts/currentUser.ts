@@ -27,6 +27,16 @@ class CurrentUser {
     get locations(): string[] { return this._currentUser.get('locations') }
     set locations(locations: string[]) { this._currentUser.set('locations', locations) }
 
+    get phone(): string { return this._currentUser.get('phone') }
+    set phone(phone: string) { this._currentUser.set('phone', phone) }
+
+    get carrier(): string { return (this._currentUser.get('deviceInfo') || {}).carrier }
+    set carrier(carrier: string) {
+        var deviceInfo = this._currentUser.get('deviceInfo') || {}
+        deviceInfo.carrier = carrier
+        this._currentUser.set('deviceInfo', deviceInfo)
+    }
+
     save() {
         if (Parse.User.current()) // Testing env may not have current user
             return this._currentUser.save()

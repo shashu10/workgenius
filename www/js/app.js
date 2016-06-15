@@ -26,7 +26,7 @@ angular.module('workgenius', [
     'parseUtils',
     'parseShifts',
     'integrations',
-    'phoneFormatting',
+    'inputFormatter',
     'angular.filter',
     'ioncal',
     'pascalprecht.translate',
@@ -35,6 +35,7 @@ angular.module('workgenius', [
     'angulartics',
     'angulartics.mixpanel',
     'ngRaven',
+
     // 'workgenius.tracker',
     // 'ionic.service.core',
     // 'ionic.service.analytics'
@@ -316,9 +317,14 @@ angular.module('workgenius', [
             templateUrl: 'apply/headshot/headshot.html',
         })
 
-        .state('apply-background-check', {
-            url: '/apply-background-check',
-            templateUrl: 'apply/background/background-check.html',
+        .state('apply-background-check-info', {
+            url: '/apply-background-check-info',
+            templateUrl: 'apply/background/background-check-info.html',
+        })
+
+        .state('apply-background-check-ssn', {
+            url: '/apply-background-check-ssn',
+            templateUrl: 'apply/background/background-check-ssn.html',
         })
 
         // ============ //

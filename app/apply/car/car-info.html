@@ -1,0 +1,33 @@
+<ion-view title="Setup Wizard" ng-controller="CarInfoCtrl as car">
+    <ion-content class="big-form wg-application apply-car">
+
+        <h4>
+            Next, we need some
+            <br>
+            info about your car!
+        </h4>
+
+        <form name="form" shake-that novalidate submitted="submitted" submit="car.next()">
+
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Make</span>
+                <input type="text" ng-model="car.currentUser.carMake" placeholder="Eg: Toyota" required>
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Model</span>
+                <input type="text" ng-model="car.currentUser.carModel" placeholder="Eg: Prius" required>
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Year</span>
+                <input type="number" ng-model="car.currentUser.carYear" placeholder="Eg: 2009" required min="1950" max="2020">
+            </label>
+            <div class="main-button">
+                <button type="submit" class="button button-positive">
+                    Continue
+                    <i class="icon ion-android-arrow-forward"></i>
+                </button>
+            </div>
+
+        </form>
+    </ion-content>
+</ion-view>

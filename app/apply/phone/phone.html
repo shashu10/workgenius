@@ -1,0 +1,30 @@
+<ion-view title="Setup Wizard" ng-controller="PhoneCtrl as phone">
+    <ion-content class="big-form wg-application apply-phone">
+
+        <h4>
+            We need some information to
+            <br>
+            <strong>complete your application</strong>
+        </h4>
+        <form name="form" shake-that novalidate submitted="submitted" submit="phone.next()">
+            <h3> What's your phone number? </h3>
+
+            <label class="item item-input">
+                <input name="phone" type="text" formatted-input format-type="tel" ng-model="phone.currentUser.phone" placeholder="(XXX) XXX-XXXX" pattern="^[0-9]{10}$">
+            </label>
+
+            <h3> What is your carrier? </h3>
+
+            <label class="item item-input">
+                <input name="carrier" type="text" ng-model="phone.currentUser.carrier" placeholder="Eg: AT&T" required>
+            </label>
+
+            <div class="main-button">
+                <button type="submit" class="button button-positive">
+                    Continue
+                    <i class="icon ion-android-arrow-forward"></i>
+                </button>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

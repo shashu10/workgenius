@@ -1,0 +1,22 @@
+<ion-view title="Onboarding" ng-controller="AddressCtrl as address">
+    <ion-content class="big-form wg-application apply-address" scroll="false">
+        <h4>
+            What is your
+            <br>
+            <strong>home address?</strong>
+        </h4>
+        <form name="form" shake-that novalidate submitted="submitted" submit="address.next()">
+
+            <label class="item item-input">
+                <input type="text" ng-model="address.currentUser.address" placeholder="50 Market Street, San Francisco CA 94552" required>
+            </label>
+
+            <div class="main-button">
+                <button type="submit" class="button button-positive">
+                    Continue
+                    <i class="icon ion-android-arrow-forward"></i>
+                </button>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

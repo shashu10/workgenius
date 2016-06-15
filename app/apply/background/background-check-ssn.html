@@ -1,0 +1,21 @@
+<ion-view title="Onboarding" ng-controller="BackgroundCheckSSNCtrl as background">
+    <ion-content class="big-form wg-application apply-background" scroll="false">
+        <h4>
+            What's your SSN?
+        </h4>
+        <form name="form" shake-that novalidate submitted="submitted" submit="background.next()">
+            <label class="item item-input">
+                <input name="ssn" type="text" formatted-input format-type="ssn" ng-model="background.currentUser.ssn" placeholder="XXX-XX-XXXX" pattern="^[0-9]{9}$">
+            </label>
+
+            <ion-checkbox ng-model="canLift">I consent to a background check.</ion-checkbox>
+
+            <div class="main-button">
+                <button type="submit" ng-class="canLift ? 'button-positive' : 'button-light disabled'" class="button">
+                    Continue
+                    <i class="icon ion-android-arrow-forward"></i>
+                </button>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

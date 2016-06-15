@@ -91,19 +91,33 @@ angular.module('workgenius.directives', [])
             submitted: '='
         },
         link: function(scope, element, attrs, form) {
-            var input = element[0].querySelector('input');
+            var inputs = element[0].querySelectorAll('input');
+
             // listen on submit event
             element.on('submit', function() {
                 // tell angular to update scope
                 scope.$apply(function() {
+
+                    var validity = true;
+                    _.forEach(inputs, function(input) {
+                        var el = angular.element(input);
+                        if (el.attr('pattern') && !el.val()) {
+                            validity = false;
+                            el.removeClass('ng-valid');
+                        }
+                    });
+
                     // everything ok -> call submit fn from controller
-                    if (form.$valid) return scope.submit();
+                    if (validity && form.$valid) return scope.submit();
 
                     // show error messages on submit
                     scope.submitted = true;
                     // shake that form
-                    $animate.addClass(input, 'shake').then(function() {
-                        $animate.removeClass(input, 'shake');
+                    _.forEach(inputs, function(input) {
+                        if (angular.element(input).hasClass('ng-valid')) return;
+                        $animate.addClass(input, 'shake').then(function() {
+                            $animate.removeClass(input, 'shake');
+                        });
                     });
                 });
             });

@@ -4,7 +4,6 @@
             <i class="icon ion-ios-arrow-back"></i> Back
         </button>
         <form name="form" shake-that novalidate submitted="submitted" submit="login.next('email', 'login-password')">
-            <div ng-class="{'has-error': form.email.$invalid && submitted}">
                 <h1>Welcome back!</h1>
                 <h1>What's your email?</h1>
                 <label class="item item-input item-floating-label">
@@ -13,7 +12,7 @@
                 </label>
                 <br>
                 <div class="main-button">
-                    <button ng-class="form.$valid ? 'button-positive' : 'button-light disabled'" type="submit" class="button">
+                    <button type="submit" class="button button-positive">
                         Next
                         <i class="icon ion-android-arrow-forward"></i>
                     </button>

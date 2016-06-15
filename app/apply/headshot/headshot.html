@@ -1,0 +1,26 @@
+<ion-view title="Setup Wizard" ng-controller="HeadshotCtrl as headshot">
+    <ion-content class="big-form wg-application wizard-headshot" scroll="false">
+        
+        <div class="header-container">
+            <h4>
+                Select your <strong>headshot</strong>
+            </h4>
+        </div>
+        
+        <button class="button button-outline button-positive button-block">
+          Upload Headshot
+        </button>
+
+        <div class="main-button">
+            <button
+            class="button"
+            ng-click="headshot.next()"
+            ng-class="true ? 'button-positive' : 'button-light disabled'"
+            >
+                Continue
+                <i class="icon ion-android-arrow-forward"></i>
+            </button>
+        </div>
+
+    </ion-content>
+</ion-view>
