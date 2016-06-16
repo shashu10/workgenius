@@ -28,6 +28,6 @@
     "mixpanel": "registry:dt/mixpanel#0.0.0+20160317120654",
     "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729",
     "parse": "github:DefinitelyTyped/DefinitelyTyped/parse/parse.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729",
-    "underscore": "github:DefinitelyTyped/DefinitelyTyped/underscore/underscore.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729"
+    "lodash": "registry:npm/lodash#4.0.0+20160416211519"
   }
 }
