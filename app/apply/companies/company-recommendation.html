@@ -1,0 +1,56 @@
+<ion-view title="Onboarding" ng-controller="CompaniesRecCtrl as companies">
+    <ion-content class="big-form wg-application apply-companies">
+        <h4>
+            Here are some recommended jobs
+            <br>
+            based on your profile!
+        </h4>
+
+        <ion-list>
+            <ion-checkbox ng-repeat="company in companies.recommended" class="item-checkbox-right">
+                <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
+                {{company.name | capitalize: true}}
+                <div>
+                    <strong>{{company.employmentType}}</strong>
+                </div>
+                <div>
+                    Avg {{company.earningsEst | currency:undefined:0}}/hr
+                </div>
+
+            </ion-checkbox>
+        </ion-list>
+
+        <div class="main-button">
+
+            <button ng-click="companies.showMore = true" class="button button-stable" ng-if="!companies.showMore">
+                Show more companies
+            </button>
+
+            <button ng-click="companies.showMore = false" class="button button-stable" ng-if="companies.showMore">
+                Don't show more companies
+            </button>
+
+        </div>
+
+        <ion-list ng-if="companies.showMore">
+            <ion-checkbox ng-repeat="company in companies.nonRecommended" class="item-checkbox-right">
+                <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
+                {{company.name | capitalize: true}}
+                <div>
+                    <strong>{{company.employmentType}}</strong>
+                </div>
+                <div>
+                    Avg {{company.earningsEst | currency:undefined:0}}/hr
+                </div>
+
+            </ion-checkbox>
+        </ion-list>
+
+        <div class="main-button">
+            <button ng-click="companies.next()" class="button button-positive">
+                Continue
+                <i class="icon ion-android-arrow-forward"></i>
+            </button>
+        </div>
+    </ion-content>
+</ion-view>

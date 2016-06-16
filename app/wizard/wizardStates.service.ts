@@ -6,7 +6,7 @@ class WizardStatesService {
         'wizard-availability-days',
         'wizard-availability-times',
         'wizard-vehicles',
-        'apply-phone',
+        'apply-company-recommendation',
     ]
 
     constructor(public $state: any) { }

@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'wg-icons';
+    src: url('../font/wg-icons.ttf?dyetkk') format('truetype'),
+         url('../font/wg-icons.woff?dyetkk') format('woff'),
+         url('../font/wg-icons.svg?dyetkk#wg-icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.wg-icon {
+    // use !important to prevent issues with browser extensions that change fonts
+    font-family: 'wg-icons';
+
+    // Better Font Rendering ===========
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+}
+
+.wg-icon-bicycle::before {
+    content: '\e900';
+}
+
+.wg-icon-car::before {
+    content: '\e901';
+}
+
+.wg-icon-motorcycle::before {
+    content: '\e902';
+}
+
+.wg-icon-none::before {
+    content: '\e903';
+}
+
+.wg-icon-scooter::before {
+    content: '\e904';
+}
+
+.wg-icon-truck::before {
+    content: '\e905';
+}

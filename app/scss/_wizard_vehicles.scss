@@ -36,17 +36,18 @@ $positive-text: #fff;
     }
 
     .vehicle-button {
+        line-height: 34px;
         margin: auto;
         padding-top: 10px;
-        width: 120px;
+        width: 110px;
 
         &.activated { // have different active and resting selected states
             background-color: $positive;
             color: $positive-text;
         }
 
-        .icon::before {
-            font-size: 40px;
+        .wg-icon::before {
+            font-size: 56px;
         }
 
         p {

@@ -1,6 +1,7 @@
 class ApplicationStatesService {
 
     private _states = [
+        'apply-company-recommendation',
         'apply-phone',
         'apply-address',
         'apply-lift',
@@ -9,7 +10,6 @@ class ApplicationStatesService {
         'apply-headshot',
         'apply-background-check-info',
         'apply-background-check-ssn',
-        // 'apply-company-recommendation',
         'app.schedule'
     ]
 

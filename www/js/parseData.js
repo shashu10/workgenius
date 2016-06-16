@@ -67,33 +67,6 @@ function getCompanyData($rootScope, companies) {
         return count;
     }
 
-    function setupWorkTypes(workTypes) {
-
-        // Sort in order of most available companies
-        workTypes.sort(function(a, b) {
-            var aCount = countAvailable(a.companies);
-            var bCount = countAvailable(b.companies);
-
-            if (aCount > bCount) return -1;
-            else if (aCount < bCount) return 1;
-            else if (a.companies.length > a.companies.length) return -1;
-            else if (a.companies.length < a.companies.length) return 1;
-            else return 0;
-        });
-
-        // Get earnings estimate from companies
-        workTypes.forEach(function(wType) {
-            var count = 0;
-            var total = 0;
-            wType.companies.forEach(function(c) {
-                if (c.availableNow) {
-                    count++;
-                    total += c.earningsEst;
-                }
-            });
-            wType.earningsEst = Math.floor(total / count);
-        });
-    }
     return function() {
         var Company = Parse.Object.extend("Company");
         var query = new Parse.Query(Company);
@@ -104,7 +77,6 @@ function getCompanyData($rootScope, companies) {
             success: function(results) {
                 // Do something with the returned Parse.Object values
                 var companyList = [];
-                var workTypes = [];
 
                 for (var i = 0; i < results.length; i++) {
                     var c = results[i];
@@ -119,12 +91,7 @@ function getCompanyData($rootScope, companies) {
                     };
                     companyList.push(company);
 
-                    createWorkTypeAndAppend(c.get('workType'), workTypes, company);
                 }
-
-                setupWorkTypes(workTypes);
-
-                $rootScope.workTypes = workTypes;
                 $rootScope.companyList = companyList;
             },
             error: function(error) {
@@ -143,14 +110,6 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
         query.include('company');
         query.equalTo("worker", Parse.User.current());
         return query.find();
-    };
-
-    var getWorkTypes = function(user) {
-        var workTypes = {};
-        for (var type in user.get('workTypes')) {
-            workTypes[user.get('workTypes')[type]] = true;
-        }
-        return workTypes;
     };
 
     var getVehicles = function(user) {
@@ -209,7 +168,6 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             eligibility: [],
             blockedDays: [],
             availability: {},
-            workTypes: {},
             appState: {},
             shifts: isDemoUser ? fakeShifts : [],
             earningsTotal: {
@@ -356,7 +314,6 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                 lifetime: 0
             },
             vehicles: getVehicles(user),
-            workTypes: getWorkTypes(user),
             blockedDays: getBlockedDays(user),
             availability: getAvailability(user),
             totalHours: calculateTotalHours(user)
@@ -440,16 +397,6 @@ function formatUploadData($rootScope) {
         return {vehicles: filtered};
     };
 
-    var formatWorkTypes = function() {
-
-        var selected = [];
-        for (var type in $rootScope.currentUser.workTypes) {
-            if ($rootScope.currentUser.workTypes[type])
-                selected.push(type);
-        }
-        return {workTypes: selected};
-    };
-
     var formatAvailability = function() {
         // Total shown in menu and avail pages. Recalculated because availability was set & saved
         reCalculateTotalHours();
@@ -491,7 +438,6 @@ function formatUploadData($rootScope) {
     return {
         target: formatTargetHours,
         vehicles: formatVehicles,
-        workTypes: formatWorkTypes,
         availabilityQuestions: formatAvailabilityQuestions,
         availability: formatAvailability,
         blockedDays: formatBlockedDays,

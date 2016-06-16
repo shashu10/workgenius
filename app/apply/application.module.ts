@@ -1,4 +1,5 @@
 /// <reference path="./applicationStates.service.ts" />
+/// <reference path="./companies/company-recommendation.ts" />
 /// <reference path="./phone/phone.ts" />
 /// <reference path="./address/address.ts" />
 /// <reference path="./lift/lift.ts" />
@@ -12,6 +13,8 @@
 angular.module('wg.apply', ['wg.user', 'parseData'])
 
     .service('ApplicationStates', ApplicationStatesService)
+
+    .controller('CompaniesRecCtrl', CompaniesRecCtrl)
 
     .controller('PhoneCtrl', PhoneCtrl)
 

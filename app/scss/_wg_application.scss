@@ -9,10 +9,21 @@
         margin-left: 16px;
         margin-right: 16px;
     }
+}
+
+.apply-lift,
+.apply-background {
 
     .item-checkbox {
         background: transparent;
         border: 0;
     }
+}
 
+.apply-companies {
+    .item {
+        img {
+            width: 30px;
+        }
+    }
 }

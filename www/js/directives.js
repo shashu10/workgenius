@@ -6,12 +6,6 @@ angular.module('workgenius.directives', [])
     restrict: 'E',
   };
 })
-.directive('workTypes', function() {
-  return {
-    templateUrl: 'templates/shared/work-types.html',
-    restrict: 'E',
-  };
-})
 .directive('companies', function() {
   return {
     templateUrl: 'templates/shared/companies.html',
@@ -39,12 +33,6 @@ angular.module('workgenius.directives', [])
 .directive('wgCompanyFooter', function() {
   return  {
     templateUrl: 'templates/shared/wg-company-footer.html',
-    restrict: 'E',
-  };
-})
-.directive('wgWorkTypesFooter', function() {
-  return  {
-    templateUrl: 'templates/shared/wg-work-types-footer.html',
     restrict: 'E',
   };
 })

@@ -11,6 +11,7 @@ angular.module('workgenius', [
     'wg.apply',
     'wg.user',
     'wg.constants',
+    'wg.data',
 
     'ionic',
     'ngCordova',
@@ -41,8 +42,8 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
 ])
 
-.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService',
-    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map, connectedShifts, PtrService) {
+.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService', 'wgCompanies',
+    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map, connectedShifts, PtrService, wgCompanies) {
 
 
         // ionic platform should be ready now
@@ -50,6 +51,9 @@ angular.module('workgenius', [
 
         // Initialize Parse here with AppID and JavascriptID
         Parse.initialize(PARSE_APP_ID, PARSE_JS_KEY);
+
+        // TS initialization
+        wgCompanies.fetchAll();
 
         // Setup variables used through out the app
         $rootScope.device = {
@@ -286,6 +290,11 @@ angular.module('workgenius', [
         // ============ //
         //  APPLICATION //
         // ============ //
+
+        .state('apply-company-recommendation', {
+            url: '/apply-company-recommendation',
+            templateUrl: 'apply/companies/company-recommendation.html',
+        })
 
         .state('apply-phone', {
             url: '/apply-phone',
