@@ -7,7 +7,7 @@
         </h4>
 
         <ion-list>
-            <ion-checkbox ng-repeat="company in companies.recommended" class="item-checkbox-right">
+            <ion-checkbox ng-model="company.interested" ng-repeat="company in companies.recommended" class="item-checkbox-right">
                 <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
                 {{company.name | capitalize: true}}
                 <div>
@@ -33,7 +33,7 @@
         </div>
 
         <ion-list ng-if="companies.showMore">
-            <ion-checkbox ng-repeat="company in companies.nonRecommended" class="item-checkbox-right">
+            <ion-checkbox ng-model="company.interested" ng-repeat="company in companies.nonRecommended" class="item-checkbox-right">
                 <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
                 {{company.name | capitalize: true}}
                 <div>
@@ -47,7 +47,7 @@
         </ion-list>
 
         <div class="main-button">
-            <button ng-click="companies.next()" class="button button-positive">
+            <button ng-click="companies.next()" ng-class="companies.canContinue() ? 'button-positive' : 'button-light disabled'" class="button">
                 Continue
                 <i class="icon ion-android-arrow-forward"></i>
             </button>

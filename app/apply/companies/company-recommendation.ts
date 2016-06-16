@@ -13,6 +13,10 @@ class CompaniesRecCtrl {
     next() {
         this.ApplicationStates.next()
     }
+
+    canContinue() {
+        return _.filter(this.wgCompanies.companies, (c) => c.interested).length
+    }
 }
 
 CompaniesRecCtrl.$inject = ["$state", "wgCompanies", "ApplicationStates"]

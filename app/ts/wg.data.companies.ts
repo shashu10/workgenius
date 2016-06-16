@@ -3,6 +3,10 @@ class WGCompany extends Parse.Object {
     constructor() {
         super('Company');
     }
+
+    // If user wants to onboard with the company
+    public interested: boolean
+
     get name(): string { return this.get('name') }
     set name(name: string) { this.set('name', name) }
 
@@ -16,10 +20,6 @@ class WGCompany extends Parse.Object {
     // If not available now don't show anywhere
     get availableNow(): boolean { return this.get('availableNow') }
     set availableNow(availableNow: boolean) { this.set('availableNow', availableNow) }
-
-    // If user wants to onboard with them
-    get interested(): boolean { return this.get('interested') }
-    set interested(interested: boolean) { this.set('interested', interested) }
 
     // W2/1099
     get employmentType(): string { return this.get('employmentType') }
@@ -50,7 +50,12 @@ class WGCompanies {
 
             success: (results: WGCompany[]) => {
 
-                this.companies = _.sortBy(results, (c) => c.order);
+                this.companies = 
+
+                _.chain(results)
+                .filter((c) => c.availableNow)
+                .sortBy((c) => c.order)
+                .value();
 
                 this.$rootScope.$apply()
 
