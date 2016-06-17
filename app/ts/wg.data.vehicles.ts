@@ -77,7 +77,6 @@ class WGVehicles {
     saveAll() {
         console.log(this.currentUser.obj)
         let toSave = _.filter(this.list, (v) => {
-            if (v.type === 'None') return false
             // Save new selected vehicles OR existing vehiles that have changed
             return (!v.existed() && v.selected) || (v.existed() && v.dirtyKeys().length)
         })
