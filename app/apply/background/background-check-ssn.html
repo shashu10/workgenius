@@ -5,7 +5,8 @@
         </h4>
         <form name="form" shake-that novalidate submitted="submitted" submit="background.next()">
             <label class="item item-input">
-                <input name="ssn" type="text" formatted-input format-type="ssn" ng-model="background.currentUser.ssn" placeholder="XXX-XX-XXXX" pattern="^[0-9]{9}$">
+                <!-- pattern needs to be 9-11 to account for some browsers including dashes and others not -->
+                <input name="ssn" type="text" formatted-input format-type="ssn" ng-model="background.currentUser.ssn" placeholder="XXX-XX-XXXX" pattern="^[0-9]{9,11}$">
             </label>
 
             <ion-checkbox ng-model="canLift">I consent to a background check.</ion-checkbox>

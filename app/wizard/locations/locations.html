@@ -9,6 +9,15 @@
 
         <ion-list>
 
+            <ion-checkbox ng-click="" ng-repeat="city in location.options" class="item-checkbox-right item-accordion">
+                <strong>{{city | capitalize}}</strong>
+            </ion-checkbox>
+
+        </ion-list>
+
+        <!-- Accordion Effect -->
+        <!-- <ion-list>
+
             <div ng-repeat="group in location.PostmatesLocations">
                 <ion-item
                 ng-click="location.toggleState(group)"
@@ -20,13 +29,14 @@
                     {{city | capitalize}}
                 </ion-checkbox>
             </div>
-        </ion-list>
+        </ion-list> -->
+
+        <!--ng-class="location.selectedCities.length ? 'button-positive' : 'button-light disabled'"-->
 
         <div class="main-button">
             <button
-            ng-class="location.selectedCities.length ? 'button-positive' : 'button-light disabled'"
             ng-click="location.next()"
-            class="button"
+            class="button button-positive"
             >
                 Continue
                 <i class="icon ion-android-arrow-forward"></i>

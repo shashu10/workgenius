@@ -1,0 +1,15 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    //-------- Files configuration --------
+
+    // Configure glob patterns for excluding files and folders.
+    "files.exclude": {
+        "platforms/": true,
+        "plugins/": true,
+        "resources/": true,
+        "node_modules/": true,
+        "hooks/": true,
+        ".**/": true,
+        "old/": true
+    }
+}
