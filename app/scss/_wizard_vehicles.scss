@@ -40,6 +40,8 @@ $positive-text: #fff;
         margin: auto;
         padding-top: 10px;
         width: 110px;
+        border: 1px solid #DBDBDB;
+        box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.05);
 
         &.activated { // have different active and resting selected states
             background-color: $positive;

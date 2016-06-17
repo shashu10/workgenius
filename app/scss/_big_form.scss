@@ -44,12 +44,11 @@ $big-form-color: #4c4c4c;
     }
 
     .main-button {
-        padding-bottom: 20px;
-        padding-top: 20px;
+        padding: 20px;
         text-align: center;
 
         button {
-
+            width: 100%;
             font-weight: 600;
             text-transform: uppercase;
         }
