@@ -13,7 +13,7 @@ class LoginCtrl {
                 this.success = undefined
                 this.error = undefined
 
-                this.getUserData().then(function(onboarding) {
+                this.getUserData().then((onboarding) => {
                     mixpanel.register({
                         'Email': this.currentUser.email,
                         'Name': this.currentUser.email,

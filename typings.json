@@ -25,9 +25,9 @@
     "cordova": "github:DefinitelyTyped/DefinitelyTyped/cordova/cordova.d.ts#e0e746833c4cd61e07f24d00e32baa9481e7ba59",
     "ionic": "github:DefinitelyTyped/DefinitelyTyped/ionic/ionic.d.ts#e0e746833c4cd61e07f24d00e32baa9481e7ba59",
     "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729",
+    "lodash": "registry:dt/lodash#3.10.0+20160330154726",
     "mixpanel": "registry:dt/mixpanel#0.0.0+20160317120654",
     "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729",
-    "parse": "github:DefinitelyTyped/DefinitelyTyped/parse/parse.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729",
-    "lodash": "registry:npm/lodash#4.0.0+20160416211519"
+    "parse": "github:DefinitelyTyped/DefinitelyTyped/parse/parse.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729"
   }
 }

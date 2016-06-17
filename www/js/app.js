@@ -42,8 +42,8 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
 ])
 
-.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService', 'wgCompanies',
-    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map, connectedShifts, PtrService, wgCompanies) {
+.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService', 'wgCompanies', 'wgVehicles', 'currentUser',
+    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map, connectedShifts, PtrService, wgCompanies, wgVehicles, currentUser) {
 
 
         // ionic platform should be ready now
@@ -53,6 +53,9 @@ angular.module('workgenius', [
         Parse.initialize(PARSE_APP_ID, PARSE_JS_KEY);
 
         // TS initialization
+        currentUser.init();
+        wgVehicles.init();
+
         wgCompanies.fetchAll();
 
         // Setup variables used through out the app

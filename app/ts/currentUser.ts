@@ -1,6 +1,6 @@
 class CurrentUser {
 
-    private _currentUser = Parse.User.current() || new Parse.User()
+    public obj: Parse.User
 
     // User for availability questionaire but not saved to parse
     public availabilityDays: Object[];
@@ -8,40 +8,47 @@ class CurrentUser {
 
     constructor() {}
 
+    init() {
+        this.obj = Parse.User.current()
+    }
     create() {
-        this._currentUser = new Parse.User();
+        this.obj = new Parse.User();
     }
 
-    get password(): string { return this._currentUser.get('password') }
-    set password(password: string) { this._currentUser.set('password', password) }
+    get password(): string { return this.obj.get('password') }
+    set password(password: string) { this.obj.set('password', password) }
 
-    get name(): string { return this._currentUser.get('name') }
-    set name(name: string) { this._currentUser.set('name', name) }
+    get name(): string { return this.obj.get('name') }
+    set name(name: string) { this.obj.set('name', name) }
 
-    get email(): string { return this._currentUser.get('email') }
-    set email(email: string) { this._currentUser.set('email', email); this._currentUser.set('username', email) }
+    get email(): string { return this.obj.get('email') }
+    set email(email: string) { this.obj.set('email', email); this.obj.set('username', email) }
 
-    get goal(): number { return this._currentUser.get('goal') }
-    set goal(goal: number) { this._currentUser.set('goal', goal) }
+    get goal(): number { return this.obj.get('goal') }
+    set goal(goal: number) { this.obj.set('goal', goal) }
 
-    get locations(): string[] { return this._currentUser.get('locations') }
-    set locations(locations: string[]) { this._currentUser.set('locations', locations) }
+    get locations(): string[] { return this.obj.get('locations') }
+    set locations(locations: string[]) { this.obj.set('locations', locations) }
 
-    get phone(): string { return this._currentUser.get('phone') }
-    set phone(phone: string) { this._currentUser.set('phone', phone) }
+    get phone(): string { return this.obj.get('phone') }
+    set phone(phone: string) { this.obj.set('phone', phone) }
 
-    get carrier(): string { return (this._currentUser.get('deviceInfo') || {}).carrier }
+    get carrier(): string { return (this.obj.get('deviceInfo') || {}).carrier }
     set carrier(carrier: string) {
-        var deviceInfo = this._currentUser.get('deviceInfo') || {}
+        var deviceInfo = this.obj.get('deviceInfo') || {}
         deviceInfo.carrier = carrier
-        this._currentUser.set('deviceInfo', deviceInfo)
+        this.obj.set('deviceInfo', deviceInfo)
+    }
+
+    hasCar() {
+        return true
     }
 
     save() {
         if (Parse.User.current()) // Testing env may not have current user
-            return this._currentUser.save()
+            return this.obj.save()
         else
-            return Parse.Promise.as(this._currentUser)
+            return Parse.Promise.as(this.obj)
     }
 
     logIn(): Parse.Promise<any> {
@@ -51,10 +58,10 @@ class CurrentUser {
     signUp(): Parse.Promise<any> {
 
         // Make them lowercase so we don't have people signing up twice
-        this._currentUser.set('email', this.email.toLowerCase());
-        this._currentUser.set('username', this.email.toLowerCase());
+        this.obj.set('email', this.email.toLowerCase());
+        this.obj.set('username', this.email.toLowerCase());
 
-    	return this._currentUser.signUp()
+    	return this.obj.signUp()
     }
     resetPassword(): Parse.Promise<any> {
         return Parse.User.requestPasswordReset(this.email.toLowerCase())

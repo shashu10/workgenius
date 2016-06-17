@@ -5,6 +5,7 @@ class WGCompany extends Parse.Object {
     }
 
     // If user wants to onboard with the company
+    // Don't save this settings on the company
     public interested: boolean
 
     get name(): string { return this.get('name') }
@@ -26,13 +27,17 @@ class WGCompany extends Parse.Object {
     set employmentType(employmentType: string) { this.set('employmentType', employmentType) }
 }
 
-Parse.Object.registerSubclass('Company', WGCompany);
-
 class WGCompanies {
 
     public companies: WGCompany[] = []
 
-    constructor(public $rootScope: any) {}
+    constructor(public $rootScope: any) {
+        Parse.Object.registerSubclass('Company', WGCompany);
+    }
+
+    get selected(): WGCompany[] {
+        return _.filter(this.companies, (c) => c.interested)
+    }
 
     get recommended(): WGCompany[] {
         return this.companies.slice(0, 3)
@@ -40,6 +45,10 @@ class WGCompanies {
 
     get nonRecommended(): WGCompany[] {
         return this.companies.slice(3)
+    }
+
+    needsToLift(): boolean {
+        return !!_.find(this.selected, function(o) { return o.name.toLowerCase() === 'clutter' });
     }
 
     fetchAll() {
@@ -53,7 +62,7 @@ class WGCompanies {
                 this.companies = 
 
                 _.chain(results)
-                .filter((c) => c.availableNow)
+                .filter((c) => !!c.order)
                 .sortBy((c) => c.order)
                 .value();
 

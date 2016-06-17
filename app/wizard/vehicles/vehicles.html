@@ -9,9 +9,9 @@
         
         <div>
             <div class="vehicle-group" ng-repeat="group in vehicles.vehicles | chunkBy: 2">
-                <button class="vehicle-button button" ng-class="vehicle.selected ? 'button-positive' : 'button-light'" ng-click="vehicle.selected = !vehicle.selected" ng-repeat="vehicle in group">
+                <button class="vehicle-button button" ng-class="vehicle.selected ? 'button-positive' : 'button-light'" ng-click="vehicles.toggleSelect(vehicle)" ng-repeat="vehicle in group">
                     <span class="wg-icon" ng-class="vehicle.icon"></span>
-                    <p>{{vehicle.name}}</p>
+                    <p>{{vehicle.type}}</p>
                 </button>
             </div>
         </div>
