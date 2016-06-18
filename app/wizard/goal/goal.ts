@@ -1,8 +1,6 @@
 class GoalCtrl {
 
-    constructor(public $state: any, public currentUser: CurrentUser, public WizardStates: any) {
-        this.currentUser.goal = 100
-    }
+    constructor(public $state: any, public currentUser: CurrentUser, public WizardStates: any) {}
 
     next() {
         this.currentUser.save()

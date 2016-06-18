@@ -9,8 +9,40 @@
 	h1, h4, p {
 		color: white;
 	}
+    img {
+        width: 60px;
+    }
+    h1 {
+        text-transform: uppercase;
+        font-size: 48px;
+        font-family: SourceSansPro-Semibold;
+        margin: 0;
+    }
     > div {
         display: table-cell;
         vertical-align: middle;
+    }
+    .button-signup {
+        margin-top: 40px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        font-weight: 600;
+        background: #34AEFF;
+        border: 1px solid #0079CA;
+        border-radius: 2px;
+        // Text
+        font-family: SourceSansPro-Semibold;
+        font-size: 28px;
+        color: #0079CA;
+        letter-spacing: 2px;
+    }
+    .signin {
+        p {
+            margin: 0;
+        }
+        .button-signin {
+            font-weight: 600;
+            text-decoration: underline;
+        }
     }
 }

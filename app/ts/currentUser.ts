@@ -24,7 +24,7 @@ class CurrentUser {
     get email(): string { return this.obj.get('email') }
     set email(email: string) { this.obj.set('email', email); this.obj.set('username', email) }
 
-    get goal(): number { return this.obj.get('goal') }
+    get goal(): number { return this.obj.get('goal') || 100 }
     set goal(goal: number) { this.obj.set('goal', goal) }
 
     get locations(): string[] { return this.obj.get('locations') }

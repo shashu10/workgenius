@@ -1,6 +1,5 @@
 $form-color: #4c4c4c;
 $big-form-backcround: #f7f7f7;
-$big-form-color: #4c4c4c;
 
 .big-form {
 
@@ -8,10 +7,12 @@ $big-form-color: #4c4c4c;
     color: $form-color;
 
     h1 {
-        color: $positive;
+        font-family: SourceSansPro-Light;
+        // color: $positive;
         font-size: 30px;
         font-weight: 600;
         margin: 0 0 0 16px;
+        color: #333;
 
         &:first-child {
             margin-top: 16px;
@@ -20,7 +21,7 @@ $big-form-color: #4c4c4c;
 
     input,
     .input-label {
-        color: $big-form-color;
+        color: $positive;
     }
 
     .success {
@@ -40,6 +41,25 @@ $big-form-color: #4c4c4c;
 
         &::placeholder {
             font-size: 20px;
+        }
+    }
+
+    .next-button {
+        padding: 20px;
+        text-align: center;
+
+        button {
+            font-family: SourceSansPro-Semibold;
+            background-image: linear-gradient(-180deg, #ffffff 0%, #0099ff 4%, #0099ff 96%, #005c99 100%);
+            border: 1px solid #0079CA;
+            border-radius: 2px;
+            // Text
+            text-transform: uppercase;
+            font-size: 24px;
+            color: #FFFFFF;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 0px #006EB7;
+            line-height: 50px;
         }
     }
 

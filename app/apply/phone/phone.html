@@ -10,7 +10,7 @@
             <h3> What's your phone number? </h3>
 
             <label class="item item-input">
-                <input name="phone" type="text" formatted-input format-type="tel" ng-model="phone.currentUser.phone" placeholder="(XXX) XXX-XXXX" pattern="^[0-9]{10}$">
+                <input name="phone" type="text" formatted-input format-type="tel" ng-model="phone.currentUser.phone" placeholder="(XXX) XXX-XXXX" pattern="^[0-9]{10, 12}$">
             </label>
 
             <!--<h3> What is your carrier? </h3>
@@ -19,10 +19,9 @@
                 <input name="carrier" type="text" ng-model="phone.currentUser.carrier" placeholder="Eg: AT&T" required>
             </label>-->
 
-            <div class="main-button">
+            <div class="next-button">
                 <button type="submit" class="button button-positive">
-                    Continue
-                    <i class="icon ion-android-arrow-forward"></i>
+                    Continue ➝
                 </button>
             </div>
         </form>

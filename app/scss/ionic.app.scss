@@ -92,12 +92,17 @@ $ionicons-font-path: '../lib/ionic/fonts' !default;
 @font-face { font-family: Avenir-Roman; src: url('../font/Avenir-Roman.ttf'); }
 @font-face { font-family: Avenir-Heavy; src: url('../font/Avenir-Heavy.ttf'); }
 
+@font-face { font-family: SourceSansPro-Black; src: url('../font/SourceSansPro-Black.ttf'); }
+@font-face { font-family: SourceSansPro-Light; src: url('../font/SourceSansPro-Light.ttf'); }
+@font-face { font-family: SourceSansPro-Regular; src: url('../font/SourceSansPro-Regular.ttf'); }
+@font-face { font-family: SourceSansPro-Semibold; src: url('../font/SourceSansPro-Semibold.ttf'); }
+
 html * {
-    font-family: Avenir-Book;
+    font-family: SourceSansPro-Regular;
 }
 
 .bar .title {
-    font-family: Avenir-Heavy;
+    font-family: SourceSansPro-Black;
 }
 
 // FLEX Calendar

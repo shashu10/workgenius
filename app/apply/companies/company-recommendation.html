@@ -7,49 +7,38 @@
         </h4>
 
         <ion-list>
-            <ion-checkbox ng-model="company.interested" ng-repeat="company in companies.recommended" class="item-checkbox-right">
+            <ion-checkbox ng-model="company.interested" ng-repeat="company in companies.recommended" class="item-checkbox-right item-avatar wg-item-company">
                 <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
-                {{company.name | capitalize: true}}
-                <div>
-                    <strong>{{company.employmentType}}</strong>
-                </div>
-                <div>
-                    Avg {{company.earningsEst | currency:undefined:0}}/hr
+                <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
+                <!--<div><strong>{{company.employmentType}}</strong></div>-->
+                <div class="wg-earnings">
+                    Earnings Est: {{company.earningsEst | currency:undefined:0}}/hr
                 </div>
 
             </ion-checkbox>
         </ion-list>
 
         <div class="main-button">
-
-            <button ng-click="companies.showMore = true" class="button button-stable" ng-if="!companies.showMore">
-                Show more companies
+            <button ng-click="companies.showMore = !companies.showMore; companies.resize()" class="button button-stable">
+                {{companies.showMore ? "Don't show more companies" : "Show more companies"}}
             </button>
-
-            <button ng-click="companies.showMore = false" class="button button-stable" ng-if="companies.showMore">
-                Don't show more companies
-            </button>
-
         </div>
 
         <ion-list ng-if="companies.showMore">
-            <ion-checkbox ng-model="company.interested" ng-repeat="company in companies.nonRecommended" class="item-checkbox-right">
+            <ion-checkbox ng-model="company.interested" ng-repeat="company in companies.nonRecommended" class="item-checkbox-right item-avatar wg-item-company">
                 <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
-                {{company.name | capitalize: true}}
-                <div>
-                    <strong>{{company.employmentType}}</strong>
-                </div>
-                <div>
-                    Avg {{company.earningsEst | currency:undefined:0}}/hr
+                <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
+                <!--<div><strong>{{company.employmentType}}</strong></div>-->
+                <div class="wg-earnings">
+                    Earnings Est: {{company.earningsEst | currency:undefined:0}}/hr
                 </div>
 
             </ion-checkbox>
         </ion-list>
 
-        <div class="main-button">
+        <div class="next-button">
             <button ng-click="companies.next()" ng-class="{disabled: !companies.canContinue()}" class="button button-positive">
-                Continue
-                <i class="icon ion-android-arrow-forward"></i>
+                Continue ➝
             </button>
         </div>
     </ion-content>

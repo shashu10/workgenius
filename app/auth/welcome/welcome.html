@@ -1,26 +1,23 @@
 <ion-view hide-nav-bar="true" ng-controller="WelcomeCtrl as welcome">
     <ion-content class="welcome" scroll="false">
         <div>
-            <img src="img/LogoLightbulbOnly.png" width="40px">
+            <img src="img/LogoLightbulbOnly.png">
             <h1>WorkGenius</h1>
-            <h4>The easiest way to find part-time work</h4>
+            <p>The easiest way to find part-time work</p>
 
-            <button class="button button-light" ng-click="welcome.signup()">
+            <button class="button button-positive button-signup" ng-click="welcome.signup()">
                 Sign Up
             </button>
 
+            <div class="signin" ng-click="welcome.login()">
+                <p>Do you already have an account?</p>
+                <p class="button-signin">Sign in here!</p>
+            </div>
             <br>
             <br>
-
-            <p>Do you already have an account?</p>
-            <button class="button button-light button-clear" ng-click="welcome.login()">
-                Login Here
-            </button>
-            <br>
-            <br>
-            <button ng-if="!appVersion" class="button button-light button-clear" ng-click="welcome.skip()">
+            <!--<button ng-if="!appVersion" class="button button-light button-clear" ng-click="welcome.skip()">
                 Skip
-            </button>
+            </button>-->
 
         </div>
     </ion-content>
