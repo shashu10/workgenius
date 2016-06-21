@@ -18,6 +18,7 @@ class CurrentUser {
     get password(): string { return this.obj.get('password') }
     set password(password: string) { this.obj.set('password', password) }
 
+    get firstName(): string { return (this.obj.get('name') || "").split(" ")[0] }
     get name(): string { return this.obj.get('name') }
     set name(name: string) { this.obj.set('name', name) }
 

@@ -4,7 +4,7 @@
             <i class="icon ion-ios-arrow-back"></i> Back
         </button>
         <form name="form" shake-that novalidate submitted="submitted" submit="signup.next()">
-            <h1>Hello {{signup.name}}</h1>
+            <h1>Hello {{signup.currentUser.firstName | capitalize}}</h1>
             <h1>What's your email?</h1>
             <label class="item item-input item-floating-label">
                 <span class="input-label">Email</span>

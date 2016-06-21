@@ -89,9 +89,15 @@ angular.module('workgenius.directives', [])
                     var validity = true;
                     _.forEach(inputs, function(input) {
                         var el = angular.element(input);
-                        if (el.attr('pattern') && !el.val()) {
-                            validity = false;
-                            el.removeClass('ng-valid');
+
+                        // Check for ssn and phone
+                        if ((el[0].name === "ssn" || el[0].name === "phone") && el.attr('wg-length')) {
+                            // conpare wg-length to length of the number
+                            if (+el.attr('wg-length') !== el.val().replace( /[^\d]*/g, '').length) {
+                                validity = false;
+                                el.removeClass('ng-valid');
+                                console.log("Equal")
+                            }
                         }
                     });
 
