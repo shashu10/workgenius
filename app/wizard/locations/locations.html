@@ -9,27 +9,11 @@
 
         <ion-list>
 
-            <ion-checkbox ng-click="" ng-repeat="city in location.options" class="item-checkbox-right item-accordion">
+            <ion-checkbox ng-click="" ng-repeat="city in location.options" class="item-checkbox-right">
                 <strong>{{city | capitalize}}</strong>
             </ion-checkbox>
 
         </ion-list>
-
-        <!-- Accordion Effect -->
-        <!-- <ion-list>
-
-            <div ng-repeat="group in location.PostmatesLocations">
-                <ion-item
-                ng-click="location.toggleState(group)"
-                ng-class="{active: location.isStateShown(group)}">
-                    <i class="icon" ng-class="location.isStateShown(group) ? 'ion-minus' : 'ion-plus'"></i> &nbsp;
-                    {{group.state}}
-                </ion-item>
-                <ion-checkbox ng-click="location.toggleCity(city)" ng-repeat="city in group.cities" class="item-checkbox-right item-accordion" ng-show="location.isStateShown(group)">
-                    {{city | capitalize}}
-                </ion-checkbox>
-            </div>
-        </ion-list> -->
 
         <!--ng-class="{disabled: !location.selectedCities.length}"-->
 

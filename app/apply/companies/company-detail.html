@@ -1,0 +1,44 @@
+<ion-checkbox ng-model="company.interested" class="item-checkbox-right wg-item-company">
+    <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
+    <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
+</ion-checkbox>
+
+<ion-item class="item-accordion" ng-show="company.interested">
+
+    <p>&nbsp;</p>
+
+    <p>
+        <strong>Location:</strong> San Francisco
+    </p>
+    <p ng-if="company.payRangeLow && company.payRangeHigh">
+        <strong>Average Earnings:</strong> <strong>{{company.payRangeLow | currency:undefined:0}}</strong>  - <strong>{{company.payRangeHigh | currency:undefined:0}}</strong>
+    </p>
+    <p ng-if="company.employmentType">
+        <strong>Type:</strong> {{company.employmentType}}
+    </p>
+    <p ng-if="company.peakDays">
+        <strong>Peak Days:</strong> {{company.peakDays}}
+    </p>
+    <p ng-if="company.peakTimes">
+        <strong>Peak Times:</strong> {{company.peakTimes}}
+    </p>
+    <p ng-if="company.requirements">
+        <strong>Requirements:</strong> {{company.requirements}}
+    </p>
+    <p ng-if="company.bonusValue">
+        <strong>Sign on bonus:</strong> <strong class="light-green">{{company.bonusValue | currency:undefined:0}}</strong> {{company.bonusCondition}}
+    </p>
+
+    <p>&nbsp;</p>
+
+    <p>
+        Do you already work with {{company.name | capitalize: true}}?
+    </p>
+
+    <p class="positive">
+        <strong>Connect your account!</strong>
+    </p>
+
+    <p>&nbsp;</p>
+
+</ion-item>

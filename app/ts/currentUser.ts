@@ -34,13 +34,6 @@ class CurrentUser {
     get phone(): string { return this.obj.get('phone') }
     set phone(phone: string) { this.obj.set('phone', phone) }
 
-    get carrier(): string { return (this.obj.get('deviceInfo') || {}).carrier }
-    set carrier(carrier: string) {
-        var deviceInfo = this.obj.get('deviceInfo') || {}
-        deviceInfo.carrier = carrier
-        this.obj.set('deviceInfo', deviceInfo)
-    }
-
     hasCar() {
         return true
     }

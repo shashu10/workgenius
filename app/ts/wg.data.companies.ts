@@ -8,28 +8,28 @@ class WGCompany extends Parse.Object {
     // Don't save this settings on the company
     public interested: boolean
 
-    get name(): string { return this.get('name') }
-    set name(name: string) { this.set('name', name) }
-
-    get earningsEst(): number { return this.get('earningsEst') }
-    set earningsEst(earningsEst: number) { this.set('earningsEst', earningsEst) }
-
     // order in which it will appear in onboarding
     get order(): number { return this.get('recommendationOrder') }
-    set order(order: number) { this.set('recommendationOrder', order) }
 
     // If not available now don't show anywhere
     get availableNow(): boolean { return this.get('availableNow') }
-    set availableNow(availableNow: boolean) { this.set('availableNow', availableNow) }
 
-    // W2/1099
-    get employmentType(): string { return this.get('employmentType') }
-    set employmentType(employmentType: string) { this.set('employmentType', employmentType) }
+    get name()           : string { return this.get('name')}
+    get employmentType() : string { return this.get('employmentType')}
+    get requirements()   : string { return this.get('requirements')}
+    get bonusCondition() : string { return this.get('bonusCondition')}
+    get bonusValue()     : number { return this.get('bonusValue')}
+    get payRangeLow()    : number { return this.get('payRangeLow')}
+    get payRangeHigh()   : number { return this.get('payRangeHigh')}
+    get peakDays()       : number { return this.get('peakDays')}
+    get peakTimes()      : number { return this.get('peakTimes')}
+    get earningsEst()    : number { return this.get('earningsEst')}
 }
 
 class WGCompanies {
 
     public companies: WGCompany[] = []
+    private reloadCallback: Function
 
     constructor(public $rootScope: any) {
         Parse.Object.registerSubclass('Company', WGCompany);
@@ -51,6 +51,10 @@ class WGCompanies {
         return !!_.find(this.selected, function(o) { return o.name.toLowerCase() === 'clutter' });
     }
 
+    setOnReloadCallback(callback: Function) {
+        this.reloadCallback = callback
+    }
+
     fetchAll() {
 
         var query = new Parse.Query(WGCompany);
@@ -67,6 +71,8 @@ class WGCompanies {
                 .value();
 
                 this.$rootScope.$apply()
+
+                if (this.reloadCallback) this.reloadCallback()
 
                 console.log("Successfully got companies")
             },

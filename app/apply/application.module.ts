@@ -31,3 +31,5 @@ angular.module('wg.apply', ['wg.user', 'parseData'])
     .controller('BackgroundCheckInfoCtrl', BackgroundCheckInfoCtrl)
 
     .controller('BackgroundCheckSSNCtrl', BackgroundCheckSSNCtrl)
+
+    .directive('companyDetail', CompanyDetail.instance)

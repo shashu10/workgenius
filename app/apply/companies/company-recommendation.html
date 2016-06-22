@@ -1,4 +1,4 @@
-<ion-view title="Onboarding" ng-controller="CompaniesRecCtrl as companies">
+<ion-view title="Setup Wizard" ng-controller="CompaniesRecCtrl as companies">
     <ion-content class="big-form wg-application apply-companies">
         <h4>
             Here are some recommended jobs
@@ -7,15 +7,7 @@
         </h4>
 
         <ion-list>
-            <ion-checkbox ng-model="company.interested" ng-repeat="company in companies.recommended" class="item-checkbox-right item-avatar wg-item-company">
-                <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
-                <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
-                <!--<div><strong>{{company.employmentType}}</strong></div>-->
-                <div class="wg-earnings">
-                    Earnings Est: {{company.earningsEst | currency:undefined:0}}/hr
-                </div>
-
-            </ion-checkbox>
+            <company-detail ng-repeat="company in companies.recommended" company="company" ng-click="companies.delayedResize()"></company-detail>
         </ion-list>
 
         <div class="main-button">
@@ -25,15 +17,7 @@
         </div>
 
         <ion-list ng-if="companies.showMore">
-            <ion-checkbox ng-model="company.interested" ng-repeat="company in companies.nonRecommended" class="item-checkbox-right item-avatar wg-item-company">
-                <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
-                <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
-                <!--<div><strong>{{company.employmentType}}</strong></div>-->
-                <div class="wg-earnings">
-                    Earnings Est: {{company.earningsEst | currency:undefined:0}}/hr
-                </div>
-
-            </ion-checkbox>
+            <company-detail ng-repeat="company in companies.nonRecommended" company="company" ng-click="companies.delayedResize()"></company-detail>
         </ion-list>
 
         <div class="next-button">
