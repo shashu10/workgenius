@@ -8,12 +8,12 @@
         </h3>
 
         <div>
-            <p class="goal-text">{{goal.currentUser.goal | currency : undefined : 0}}</p>
+            <p class="earnings-goal-text">{{goal.currentUser.earningsGoal | currency : undefined : 0}}</p>
+
+            <p class="hours-goal-text">in {{goal.currentUser.hoursGoal}} {{goal.currentUser.hoursGoal === 1 ? 'hr' : 'hrs'}}</p>
 
             <div class="item range range-positive">
-                0
-                <!-- ng-change="update(currentUser.target)" -->
-                <input type="range" ng-model="goal.currentUser.goal" name="hours" min="0" max="200"> 200
+                0 <input type="range" ng-model="goal.currentUser.earningsGoal" name="hours" min="0" max="280"> 280
             </div>
         </div>
 

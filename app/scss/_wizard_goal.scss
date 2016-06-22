@@ -8,15 +8,21 @@
         flex: 1;
     }
 
-    .goal-text {
+    .earnings-goal-text {
         color: $positive;
         font-size: 60px;
         font-weight: 600;
         margin-bottom: 28px;
     }
 
+    .hours-goal-text {
+        color: $positive;
+        font-weight: 600;
+        margin-bottom: 28px;
+    }
+
     .item.range {
         background-color: transparent;
-        border: none;
+        border: 0;
     }
 }
