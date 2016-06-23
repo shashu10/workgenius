@@ -7,7 +7,7 @@
         </h4>
 
         <ion-list>
-            <company-detail ng-repeat="company in companies.recommended" company="company" ng-click="companies.delayedResize()"></company-detail>
+            <company-detail ng-repeat="company in companies.recommended" company="company" companies-ctrl="companies"></company-detail>
         </ion-list>
 
         <div class="main-button">
@@ -17,7 +17,7 @@
         </div>
 
         <ion-list ng-if="companies.showMore">
-            <company-detail ng-repeat="company in companies.nonRecommended" company="company" ng-click="companies.delayedResize()"></company-detail>
+            <company-detail ng-repeat="company in companies.nonRecommended" company="company"  companies-ctrl="companies"></company-detail>
         </ion-list>
 
         <div class="next-button">

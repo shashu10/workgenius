@@ -7,6 +7,8 @@ class WGCompany extends Parse.Object {
     // If user wants to onboard with the company
     // Don't save this settings on the company
     public interested: boolean
+    // Shows the detail view
+    public showDetail: boolean
 
     // order in which it will appear in onboarding
     get order(): number { return this.get('recommendationOrder') }

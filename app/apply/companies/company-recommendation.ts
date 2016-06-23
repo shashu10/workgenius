@@ -9,6 +9,7 @@ class CompaniesRecCtrl {
         this.recommended = wgCompanies.recommended
         this.nonRecommended = wgCompanies.nonRecommended
 
+        // Reload view after wgCompanies model updates
         wgCompanies.setOnReloadCallback(() => {
             this.recommended = wgCompanies.recommended
             this.nonRecommended = wgCompanies.nonRecommended
@@ -19,12 +20,22 @@ class CompaniesRecCtrl {
         this.ApplicationStates.next()
     }
 
+    toggleDetail(company: WGCompany) {
+        // Toggle whether to show this company's detail view
+        company.showDetail = !company.showDetail
+
+        // hide other companies detail view
+        _.forEach(this.wgCompanies.companies, (c) => {
+            if (!_.isEqual(company, c))
+                c.showDetail = false;
+        })
+
+        // Resize after accordion animation
+        this.$interval(() => this.resize(), 100, 1);
+    }
+
     resize() {
         this.$ionicScrollDelegate.resize()
-    }
-    delayedResize() {
-        // Wait for accordion animation to complete
-        this.$interval(() => this.resize(), 100, 1);
     }
 
     canContinue() {
@@ -44,6 +55,7 @@ class CompanyDetail implements ng.IDirective {
     templateUrl = 'apply/companies/company-detail.html';
     restrict = 'E'
     scope = {
+        companiesCtrl: '=',
         company: '='
     }
 }
