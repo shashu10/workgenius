@@ -14,7 +14,7 @@ class ApplicationStatesService {
         'app.schedule'
     ]
 
-    constructor(public $state: ng.ui.IStateService, public wgCompanies: WGCompanies, public currentUser: CurrentUser) { }
+    constructor(public $state: ng.ui.IStateService, public wgCompanies: WGCompaniesService, public currentUser: CurrentUserService) { }
 
     next() {
         console.log("next called")

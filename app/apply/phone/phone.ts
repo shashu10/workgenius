@@ -1,6 +1,6 @@
 class PhoneCtrl {
 
-    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUser, public ApplicationStates: ApplicationStatesService) {}
+    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService, public ApplicationStates: ApplicationStatesService) {}
 
     next() {
         console.log("nect typed")

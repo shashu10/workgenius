@@ -5,7 +5,7 @@ class VehiclesCtrl {
 
     private vehicles: WGVehicle[]
 
-    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUser, public wgVehicles: WGVehicles, public WizardStates: WizardStatesService) {
+    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService, public wgVehicles: WGVehiclesService, public WizardStates: WizardStatesService) {
 
         this.vehicles = wgVehicles.list
     }

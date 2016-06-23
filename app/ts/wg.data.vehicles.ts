@@ -39,11 +39,11 @@ class WGVehicle extends Parse.Object {
     set year(year: number) { this.set('year', year) }
 }
 
-class WGVehicles {
+class WGVehiclesService {
 
     public list: WGVehicle[] = []
 
-    constructor(public $rootScope: ng.IRootScopeService, public currentUser: CurrentUser) { }
+    constructor(public $rootScope: ng.IRootScopeService, public currentUser: CurrentUserService) { }
 
     init() {
         this.list = [
@@ -107,4 +107,4 @@ class WGVehicles {
     }
 }
 
-WGVehicles.$inject = ["$rootScope", "currentUser"]
+WGVehiclesService.$inject = ["$rootScope", "currentUser"]

@@ -28,7 +28,7 @@ class WGCompany extends Parse.Object {
     get earningsEst()    : number { return this.get('earningsEst')}
 }
 
-class WGCompanies {
+class WGCompaniesService {
 
     public companies: WGCompany[] = []
     private reloadCallback: Function
@@ -85,4 +85,4 @@ class WGCompanies {
     }
 }
 
-WGCompanies.$inject = ["$rootScope"]
+WGCompaniesService.$inject = ["$rootScope"]

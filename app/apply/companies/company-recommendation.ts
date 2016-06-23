@@ -5,7 +5,7 @@ class CompaniesRecCtrl {
     recommended: WGCompany[]
     nonRecommended: WGCompany[]
 
-    constructor(public $state: ng.ui.IStateService, public $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate, public wgCompanies: WGCompanies, public ApplicationStates: ApplicationStatesService, public $interval: ng.IIntervalService, public connectPopup: ConnectPopup) {
+    constructor(public $state: ng.ui.IStateService, public $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate, public wgCompanies: WGCompaniesService, public ApplicationStates: ApplicationStatesService, public $interval: ng.IIntervalService, public connectPopup: ConnectPopupService) {
 
         this.recommended = wgCompanies.recommended
         this.nonRecommended = wgCompanies.nonRecommended

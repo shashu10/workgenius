@@ -2,7 +2,7 @@ class SignupCtrl {
 
     public error: string
 
-    constructor(public $scope: ng.IScope, public $state: ng.ui.IStateService, public $ionicHistory: ionic.navigation.IonicHistoryService, public currentUser: CurrentUser, public getUserData: any) { }
+    constructor(public $scope: ng.IScope, public $state: ng.ui.IStateService, public $ionicHistory: ionic.navigation.IonicHistoryService, public currentUser: CurrentUserService, public getUserData: any) { }
 
     doSignup() {
         this.currentUser.signUp()

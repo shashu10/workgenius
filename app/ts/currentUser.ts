@@ -1,4 +1,4 @@
-class CurrentUser {
+class CurrentUserService {
 
     public obj: Parse.User
 
@@ -65,4 +65,4 @@ class CurrentUser {
 
 angular.module('wg.user', [])
 
-.service('currentUser', CurrentUser)
+.service('currentUser', CurrentUserService)

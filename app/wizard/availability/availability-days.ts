@@ -10,7 +10,7 @@ class AvailabilityDaysCtrl {
         { selected: false, title: "sunday" },
     ]
 
-    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUser, public WizardStates: WizardStatesService) { }
+    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService, public WizardStates: WizardStatesService) { }
 
     next() {
         this.currentUser.availabilityDays = this.options;

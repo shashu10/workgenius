@@ -3,6 +3,6 @@
 
 angular.module('wg.data', [])
 
-    .service('wgCompanies', WGCompanies)
+    .service('wgCompanies', WGCompaniesService)
 
-    .service('wgVehicles', WGVehicles)
+    .service('wgVehicles', WGVehiclesService)
