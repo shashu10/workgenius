@@ -1,11 +1,12 @@
 $wg-yes: $positive;
 $wg-maybe: #bdc3c7;
+
 .wg-grid-days {
-    text-align: center;
+    background-color: $light;
     color: $wg-gray-text;
     font-size: smaller;
     font-weight: 500;
-    background-color: $light;
+    text-align: center;
     .row {
         border-bottom: 1px solid $wg-gray-border;
         padding: 0;
@@ -32,10 +33,10 @@ $wg-maybe: #bdc3c7;
             .col {
                 padding: 3px;
                 span {
-                    display: block;
                     border-radius: 4px;
+                    color: $light;
+                    display: block;
                     transition: background-color 0.5s, color 2s;
-                    color: white;
                 }
                 &.selected {
                     span {

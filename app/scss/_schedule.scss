@@ -1,36 +1,37 @@
+$shift-note: #d0d0d0;
+$gray-schedule-item-color: #a7a7a7;
 
 .item-company-icon.item-avatar {
     .item-content {
         // For placing right arrow closer to the right border
         padding: 40px 16px 40px 90px;
-
         // Company Icon
         > img:first-child {
-            max-width: 50px;
-            max-height: 50px;
-            top: 36px;
-            left: 20px;
             border-radius: 0;
+            left: 20px;
+            max-height: 50px;
+            max-width: 50px;
+            top: 36px;
         }
         .item-note {
             // vertical align for right arrow
             margin-top: 9px;
         }
         .schedule-text {
-            max-width: 100%;
             float: left;
+            max-width: 100%;
         }
         .shift-location {
-            position: absolute;
             bottom: 20px;
-            left: 0;
             font-size: 10px;
+            left: 0;
+            max-width: 100%;
+            overflow: hidden;
             padding-left: 90px;
             padding-right: 40px;
-            max-width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
+            position: absolute;
             text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
     // Option buttons
@@ -45,30 +46,28 @@
 .schedule {
     .item-divider {
         border-top: 0;
-        padding: 5px 10px 3px 16px;
-        min-height: 23px;
-        color: #A7A7A7;
-        font-size: 10px;
+        color: $gray-schedule-item-color;
         font-family: Avenir-Medium;
-
+        font-size: 10px;
+        min-height: 23px;
+        padding: 5px 10px 3px 16px;
         // Earnings estimate
         .earnings-estimate {
-            position: absolute;
-            top: 0;
-            right: 0;
             display: flex;
             line-height: 29px;
-
+            position: absolute;
+            right: 0;
+            top: 0;
             p {
-                color: #A7A7A7;
-                vertical-align: middle;
-                font-size: 8px;
+                color: $gray-schedule-item-color;
                 font-family: Avenir-Medium;
+                font-size: 8px;
                 margin: 0;
+                vertical-align: middle;
                 .light-green {
-                    padding: 0 8px;
                     font-family: Avenir-Heavy;
                     font-size: 16px;
+                    padding: 0 8px;
                 }
             }
         }
@@ -76,8 +75,7 @@
 }
 
 // Bounce Left Animation
-
-/* The animation code */
+// The animation code
 @keyframes bounce-left {
     40%,
     80% {
@@ -91,25 +89,26 @@
     }
 }
 
-/* The element to apply the animation to */
+// The element to apply the animation to
 .bounce-left {
-	.item-content {
-	    animation-name: bounce-left;
-	    animation-duration: 1s;
-	}
+    .item-content {
+        animation-duration: 1s;
+        animation-name: bounce-left;
+    }
     // To show the buttons below the list item
-	.invisible {
-	    visibility: visible;
-	}
+    .invisible {
+        visibility: visible;
+    }
 }
 
 .schedule-placeholder {
     max-width: 100%;
-    padding: 20% 20% 20px 20%;
+    padding: 20% 20% 20px;
 }
+
 .wg-shift {
     .item-note {
+        color: $shift-note;
         font-size: 12px;
-        color: #D0D0D0;
     }
 }

@@ -1,40 +1,45 @@
+$primary-button-alt: #0079CA;
+$primary-button-alt-border: #0079ca;
+$primary-button-alt-bg: #34aeff;
+
 .welcome {
-	background-color: #09f;
-    width: 100%;
+    background-color: $positive;
+    color: $light;
+    display: table;
     height: 100%;
     text-align: center;
-    display: table;
-	color: white;
-	
-	h1, h4, p {
-		color: white;
-	}
+    width: 100%;
+
+    h1,
+    h4,
+    p {
+        color: $light;
+    }
     img {
         width: 60px;
     }
     h1 {
-        text-transform: uppercase;
-        font-size: 48px;
         font-family: SourceSansPro-Semibold;
+        font-size: 48px;
         margin: 0;
+        text-transform: uppercase;
     }
     > div {
         display: table-cell;
         vertical-align: middle;
     }
     .button-signup {
-        margin-top: 40px;
-        margin-bottom: 20px;
-        text-transform: uppercase;
-        font-weight: 600;
-        background: #34AEFF;
-        border: 1px solid #0079CA;
+        background: $primary-button-alt-bg;
+        border: 1px solid $primary-button-alt-border;
         border-radius: 2px;
-        // Text
+        color: $primary-button-alt;
         font-family: SourceSansPro-Semibold;
         font-size: 28px;
-        color: #0079CA;
+        font-weight: 600;
         letter-spacing: 2px;
+        margin-bottom: 20px;
+        margin-top: 40px;
+        text-transform: uppercase;
     }
     .signin {
         p {

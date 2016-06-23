@@ -1,3 +1,7 @@
+$page-bg-color: #f5f6f8;
+$disabled-bg-color: #f8f8f8;
+$gray-nav-border: #ddd;
+
 .personal-info-page,
 .claim-days,
 .claim-shifts,
@@ -9,29 +13,27 @@
 .wg-preferences,
 .device-type-page,
 .has-ion-cal-subheader {
-    background-color: #f5f6f8;
-	// personal info
+    background-color: $page-bg-color;
+    // personal info
     .item-stacked-label {
-		background-color: $light;
-	    &.disabled {
-	        background-color: #f8f8f8;
-	    }
+        background-color: $light;
+        &.disabled {
+            background-color: $disabled-bg-color;
+        }
     }
 }
+
 .personal-info-page {
     .item {
-    	background-color: $light;
+        background-color: $light;
     }
 }
 
 // Tab styling
 .tabs-color-active-positive {
-
     .tab-nav.tabs {
-
         background-color: $light;
-
-        span.tab-title {
+        .tab-title {
             font-size: 11px;
         }
     }
@@ -46,7 +48,7 @@
 .platform-android {
     .tabs-bottom {
         .tab-nav.tabs {
-            border-top: 1px solid #ddd !important;
+            border-top: 1px solid $gray-nav-border !important;
         }
     }
 }

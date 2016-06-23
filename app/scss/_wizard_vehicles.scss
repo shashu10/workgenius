@@ -1,3 +1,5 @@
+$gray-vehicle-button: #dbdbdb;
+
 .wizard-vehicles {
 
     display: flex;
@@ -34,7 +36,7 @@
     }
 
     .vehicle-button {
-        border: 1px solid #dbdbdb;
+        border: 1px solid $gray-vehicle-button;
         box-shadow: 0 5px 15px 0 rgba(0, 0, 0, .05);
         line-height: 34px;
         margin: auto;
