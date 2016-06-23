@@ -9,7 +9,7 @@ class WizardStatesService {
         'apply-company-recommendation',
     ]
 
-    constructor(public $state: any) { }
+    constructor(public $state: ng.ui.IStateService) { }
 
     next() {
         console.log("next called")

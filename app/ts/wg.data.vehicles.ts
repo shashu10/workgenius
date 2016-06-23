@@ -43,7 +43,7 @@ class WGVehicles {
 
     public list: WGVehicle[] = []
 
-    constructor(public $rootScope: any, public currentUser: CurrentUser) {}
+    constructor(public $rootScope: ng.IRootScopeService, public currentUser: CurrentUser) { }
 
     init() {
         this.list = [

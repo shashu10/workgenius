@@ -1,6 +1,6 @@
 class HeadshotCtrl {
 
-    constructor(public $state: any, public currentUser: CurrentUser, public ApplicationStates: any) { }
+    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUser, public ApplicationStates: ApplicationStatesService) { }
 
     next() {
         this.currentUser.save()

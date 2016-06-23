@@ -1,6 +1,6 @@
 class GoalCtrl {
 
-    constructor(public $state: any, public currentUser: CurrentUser, public WizardStates: any) {}
+    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUser, public WizardStates: WizardStatesService) {}
 
     next() {
         this.currentUser.save()

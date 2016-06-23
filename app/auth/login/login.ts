@@ -3,7 +3,7 @@ class LoginCtrl {
     public error: string
     public success: string
 
-    constructor(public $scope: any, public $state: any, public $ionicHistory: any, public currentUser: CurrentUser, public getUserData: any) {}
+    constructor(public $scope: ng.IScope, public $state: ng.ui.IStateService, public $ionicHistory: ionic.navigation.IonicHistoryService, public currentUser: CurrentUser, public getUserData: any) {}
 
     doLogin() {
         this.currentUser.logIn()

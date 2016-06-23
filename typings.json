@@ -22,6 +22,7 @@
     "Vibration": "github:DefinitelyTyped/DefinitelyTyped/cordova/plugins/Vibration.d.ts#e0e746833c4cd61e07f24d00e32baa9481e7ba59",
     "WebSQL": "github:DefinitelyTyped/DefinitelyTyped/cordova/plugins/WebSQL.d.ts#e0e746833c4cd61e07f24d00e32baa9481e7ba59",
     "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#e0e746833c4cd61e07f24d00e32baa9481e7ba59",
+    "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160521151413",
     "cordova": "github:DefinitelyTyped/DefinitelyTyped/cordova/cordova.d.ts#e0e746833c4cd61e07f24d00e32baa9481e7ba59",
     "ionic": "github:DefinitelyTyped/DefinitelyTyped/ionic/ionic.d.ts#e0e746833c4cd61e07f24d00e32baa9481e7ba59",
     "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729",

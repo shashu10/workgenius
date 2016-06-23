@@ -8,7 +8,7 @@ class LocationsCtrl {
         'Other',
     ]
 
-    constructor(public $state: any, public currentUser: CurrentUser, private PostmatesLocations: Object[], public WizardStates: any) {}
+    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUser, private PostmatesLocations: Object[], public WizardStates: WizardStatesService) {}
 
 
     // Accordion //

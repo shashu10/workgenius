@@ -33,7 +33,7 @@ class WGCompanies {
     public companies: WGCompany[] = []
     private reloadCallback: Function
 
-    constructor(public $rootScope: any) {
+    constructor(public $rootScope: ng.IRootScopeService) {
         Parse.Object.registerSubclass('Company', WGCompany);
     }
 
