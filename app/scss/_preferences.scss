@@ -2,7 +2,7 @@
 .vehicles-page {
     
     .item-stacked-label {
-        background-color: #fff;
+        background-color: $light;
     }
 }
 .wg-preferences {
@@ -27,7 +27,7 @@
             height: 52px;
 
             &[readonly] {
-                background-color: #fff;
+                background-color: $light;
             }
         }
     }

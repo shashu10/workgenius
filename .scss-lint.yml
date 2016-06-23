@@ -1,4 +1,14 @@
 linters:
+
   Indentation:
     enabled: true
     width: 4
+
+  EmptyLineBetweenBlocks:
+    enabled: false
+
+  LeadingZero:
+    enabled: false
+
+  ZeroUnit:
+    enabled: false

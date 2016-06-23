@@ -3,7 +3,7 @@
 .claim-shifts,
 .availability-tabs-page,
 .claim-detail,
-.connect_accounts,
+.connect-accounts,
 .onboarding,
 .vehicles-page,
 .wg-preferences,
@@ -12,7 +12,7 @@
     background-color: #f5f6f8;
 	// personal info
     .item-stacked-label {
-		background-color: #fff;
+		background-color: $light;
 	    &.disabled {
 	        background-color: #f8f8f8;
 	    }
@@ -20,7 +20,7 @@
 }
 .personal-info-page {
     .item {
-    	background-color: white;
+    	background-color: $light;
     }
 }
 

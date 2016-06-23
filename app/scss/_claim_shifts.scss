@@ -8,7 +8,7 @@
 
 .connect-popup {
     .popup {
-        background-color: white;
+        background-color: $light;
         form {
             margin-bottom: 10px;
         }
@@ -16,24 +16,18 @@
 }
 
 .claim-shifts {
+    .claim-success .row {
+        border-right: 5px solid $balanced;
+        padding-right: 0;
+    }
+    .claim-failure .row {
+        border-right: 5px solid $assertive;
+        padding-right: 0;
+    }
     .item {
-
         font-size: 14px;
         padding: 0; // row and col inside have plenty of padding
-
         // For success or failure replace padding right with a colored border
-        &.claim-success {
-            .row {
-                border-right: 5px solid $balanced;
-                padding-right: 0;
-            }
-        }
-        &.claim-failure {
-            .row {
-                border-right: 5px solid $assertive;
-                padding-right: 0;
-            }
-        }
         .row {
             padding: 10px 5px; // Looks cramped
         }
@@ -47,9 +41,9 @@
             vertical-align: middle;
         }
         .time-slot {
-            border-left: 1px solid #D9D9D9; // matches item activated
-            padding: 5px 10px;
+            border-left: 1px solid #d9d9d9; // matches item activated
             min-width: 156px;
+            padding: 5px 10px;
             // line-height: 40px;
         }
         .company-name {
@@ -61,9 +55,9 @@
             font-family: Avenir-Medium;
             font-size: 12px;
             max-width: 106px;
-            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .highlighted-note {
             color: $positive;
@@ -84,75 +78,69 @@
     .claim-warning {
         color: $assertive;
         display: block;
-        padding: 10px 0 0 0;
         font-size: 14px;
+        padding: 10px 0 0;
     }
     .claim-info {
-        text-align: center;
         padding: 22px 5px;
+        text-align: center;
     }
     .claim-info-big {
         padding: 35px 5px;
     }
-
-    .card {  
+    .card {
         margin: 0;
     }
     .bordered-list {
-        background-color: white;
-        border-top: 1px solid $wg-gray-border;
+        background-color: $light;
         border-bottom: 1px solid $wg-gray-border;
+        border-top: 1px solid $wg-gray-border;
         margin-bottom: 10px;
-    }
-    .flex-times {
-        .item {
-            border-bottom: 0; // clashes with list bottom border
-        }
-        .flex-info {
-
-            text-align: center;
-            margin-bottom: 0;
-
-    		i {
-    			padding-right: 5px;
-    			color: $positive;
-    		}
-        }
     }
     .mini-claim-button {
         min-width: 94px;
-        span, .short-spinner {
+        span,
+        .short-spinner {
             margin: auto;
         }
     }
     .claim-button {
-        padding: 0px 16px; // because it's also a card, we need custom padding
-
         // Make it big
-        height: 70px;
         font-family: Avenir-Medium;
-        font-weight: bold;
-        text-transform: uppercase;
         font-size: 20px;
-
+        font-weight: bold;
+        height: 70px;
+        padding: 0 16px; // because it's also a card, we need custom padding
+        text-transform: uppercase;
         // transition slowly to green/red on success/failure
         &.button-balanced,
         &.button-assertive {
             transition: all 0.7s;
         }
-
         // Disable interaction but keep the same color
         &.disabled {
             opacity: 1;
         }
-
         // Center spinner in button
         .spinner {
+            left: 50%;
+            margin-left: -14px;
+            margin-top: -18px;
             position: absolute;
             top: 50%;
-            left: 50%;
-            margin-top: -18px;
-            margin-left: -14px;
+        }
+    }
+}
+.flex-times {
+    .item {
+        border-bottom: 0; // clashes with list bottom border
+    }
+    .flex-info {
+        margin-bottom: 0;
+        text-align: center;
+        i {
+            color: $positive;
+            padding-right: 5px;
         }
     }
 }

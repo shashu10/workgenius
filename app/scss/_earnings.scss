@@ -1,21 +1,23 @@
+$gray-earnings-hours-text: #898989;
+
 .wg-earnings-block {
     padding: 10px;
     h4 {
-        color: #898989;
+        color: $gray-earnings-hours-text;
     }
     h1 {
-        color: #898989;
+        color: $gray-earnings-hours-text;
         margin-top: 0;
     }
     h3 {
-        color: #DEDEDE;
-        font-size: small
+        color: #dedede;
+        font-size: small;
     }
 }
 .wg-hours-block {
     padding: 10px;
     h4 {
-        color: #898989;
+        color: $gray-earnings-hours-text;
     }
     h1 {
         color: $positive;
@@ -24,5 +26,5 @@
 }
 
 .wg-earnings {
-    color: #00AB00;
+    color: #00ab00;
 }

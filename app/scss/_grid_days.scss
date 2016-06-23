@@ -1,63 +1,57 @@
 $wg-yes: $positive;
 $wg-maybe: #bdc3c7;
-
 .wg-grid-days {
-	text-align: center;
+    text-align: center;
     color: $wg-gray-text;
-	font-size: smaller;
-	font-weight: 500;
-    background-color: white;
+    font-size: smaller;
+    font-weight: 500;
+    background-color: $light;
+    .row {
+        border-bottom: 1px solid $wg-gray-border;
+        padding: 0;
 
-	.row + .row {
-		margin: 0;
-	}
-
-	// @include flexbox();
-	.row {
-		// @include flex-grow(1);
-		padding: 0;
-		border-bottom: 1px solid $wg-gray-border;
-		
-		.col {
-			border-left: 1px solid $wg-gray-border;
-		}
-		&:first-child {
-			line-height: 16px;
-			font-size: 11px;
-			border-top: 1px solid $wg-gray-border;
-		    background-color: $wg-light-gray;
-		}
-		&:not(:first-child) {
-			line-height: 40px;
-			.first {
-				background-color: $wg-cream;
-				font-size: 11px;
-				line-height: 19px;
-			}
-			.col {
-				padding: 3px;
-				span {
-					display: block;
-					border-radius: 4px;
-					transition: background-color 0.5s, color 2s;
-					color: white;
-				}
-				&.selected {
-					span {
-						background-color: $wg-yes;
-						color: $wg-yes;
-					}
-				}
-				&.maybe {
-					span {
-						background-color: $wg-maybe;
-					}
-				}
-			}
-		}
-	}
-	.first {
-		width: 26px;
-	}
+        + .row {
+            margin: 0;
+        }
+        .col {
+            border-left: 1px solid $wg-gray-border;
+        }
+        &:first-child {
+            background-color: $wg-light-gray;
+            border-top: 1px solid $wg-gray-border;
+            font-size: 11px;
+            line-height: 16px;
+        }
+        &:not(:first-child) {
+            line-height: 40px;
+            .first {
+                background-color: $wg-cream;
+                font-size: 11px;
+                line-height: 19px;
+            }
+            .col {
+                padding: 3px;
+                span {
+                    display: block;
+                    border-radius: 4px;
+                    transition: background-color 0.5s, color 2s;
+                    color: white;
+                }
+                &.selected {
+                    span {
+                        background-color: $wg-yes;
+                        color: $wg-yes;
+                    }
+                }
+                &.maybe {
+                    span {
+                        background-color: $wg-maybe;
+                    }
+                }
+            }
+        }
+    }
+    .first {
+        width: 26px;
+    }
 }
-

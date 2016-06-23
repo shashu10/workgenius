@@ -20,7 +20,7 @@
 	}
 	.total-time-off {
 		padding: 10px;
-		background: white;
+		background: $light;
 		border-bottom: 1px solid $wg-gray-border;
 		h1, p {
 			color: $wg-gray-text;
@@ -28,13 +28,13 @@
 	}
 
 	.ion-cal {
-		background-color: white;
+		background-color: $light;
 	    i.left-icon,
 	    i.right-icon {
 	      color: $positive;
 	    }
 	    .days .day {
-	        border: 2px solid white;
+	        border: 2px solid $light;
             border-radius: 50%;
             transition: all 0.1s;
             &.blocked.event:before {
@@ -45,7 +45,7 @@
 	        &.blocked:not(.selected):not(.disabled) {
 	            border-radius: 4px; // inner radius is -2px of current value
 	            background-color: #F86969;
-	            color: white;
+	            color: $light;
 	        }
 	    }
 	}

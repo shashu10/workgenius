@@ -1,7 +1,7 @@
 .wg-item-company {
     img {
-        width: 30px;
         float: left;
+        width: 30px;
     }
     .wg-company-name {
         font-size: 20px;
@@ -11,13 +11,13 @@
 
 // http://docs.angularjs.org/api/ng/directive/ngShow#usage_animations
 .item.item-accordion {
-    text-align: center;
     line-height: 24px;
     padding-bottom: 0px; // px is needed
     padding-top: 0px; // px is needed
+    text-align: center;
     transition: 0.2s all ease;
     // border-bottom: 0;
-    
+
     p {
         margin-bottom: 0;
         &.positive {
