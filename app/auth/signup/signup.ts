@@ -38,16 +38,15 @@ class SignupCtrl {
     }
 
     next() {
-
         switch (this.$state.current.name) {
             case "signup-name":
-                if (!this.currentUser.name) return this.error = 'Please enter your full name';
-                else return this.$state.go('signup-email');
-
+                if (!this.currentUser.name) this.error = 'Please enter your full name';
+                else this.$state.go('signup-email');
+                break
             case "signup-email":
-                if (!this.currentUser.email) return this.error = 'Please enter a valid email';
-                else return this.$state.go('signup-password');
-
+                if (!this.currentUser.email) this.error = 'Please enter a valid email';
+                else this.$state.go('signup-password');
+                break
         }
     }
 }

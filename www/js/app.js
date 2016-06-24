@@ -12,6 +12,7 @@ angular.module('workgenius', [
     'wg.user',
     'wg.constants',
     'wg.data',
+    'wg.popups',
 
     'ionic',
     'ngCordova',

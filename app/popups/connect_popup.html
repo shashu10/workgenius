@@ -1,0 +1,13 @@
+<form name="deviceForm" ng-submit="connect()" novalidate>
+    <div class="list borderless-input">
+        <label class="item item-input"><i class="icon ion-person placeholder-icon"></i>
+            <input placeholder="Username" type="text" ng-model="user.username">
+        </label>
+        <label class="item item-input"><i class="icon ion-lock-combination placeholder-icon"></i>
+            <input placeholder="Password" type="password" ng-model="user.password">
+        </label>
+        <!-- Hidden input button necessary to make keyboard next button work -->
+        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
+    </div>
+</form>
+<p>Your information will be secure! We store all information with industry-standard AES 256 bit encryption algorithm.</p>

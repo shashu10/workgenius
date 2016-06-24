@@ -17,6 +17,10 @@ class CompaniesRecCtrl {
         });
     }
 
+    connect(company) {
+        this.connectPopup.show(company)
+    }
+
     next() {
         this.ApplicationStates.next()
     }
@@ -44,7 +48,7 @@ class CompaniesRecCtrl {
     }
 }
 
-CompaniesRecCtrl.$inject = ["$state", "$ionicScrollDelegate", "wgCompanies", "ApplicationStates", "$interval"]
+CompaniesRecCtrl.$inject = ["$state", "$ionicScrollDelegate", "wgCompanies", "ApplicationStates", "$interval", "connectPopup"]
 
 
 class CompanyDetail implements ng.IDirective {
