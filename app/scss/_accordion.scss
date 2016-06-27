@@ -1,4 +1,4 @@
-.wg-item-company {
+.wg-company-item {
     img {
         float: left;
         width: 30px;
@@ -9,8 +9,9 @@
     }
 }
 
+// Accordion
 // http://docs.angularjs.org/api/ng/directive/ngShow#usage_animations
-.item.item-accordion {
+.wg-company-detail {
     line-height: 24px;
     padding-bottom: 0px; // px is needed
     padding-top: 0px; // px is needed
@@ -36,4 +37,43 @@
     &.ng-hide-remove {
         display: block !important;
     }
+}
+
+
+.item.item-input.item-floating-label.wg-other-location {
+    background-color: $light !important;
+    border-width: 1px;
+    display: block !important;
+    transition: 0.2s all ease;
+
+    input,
+    .input-label {
+        margin: 0;
+        padding: 0;
+        transition: 0.2s all ease;
+    }
+
+    input {
+        max-height: 40px;
+    }
+    .input-label {
+        line-height: 19px;
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+
+    &.ng-hide {
+        opacity: 0;
+        padding-bottom: 0px; // px is needed
+        padding-top: 0px; // px is needed
+
+        input {
+            max-height: 0px;
+        }
+        .input-label {
+            line-height: 0px;
+        }
+    }
+
+
 }

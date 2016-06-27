@@ -1,9 +1,9 @@
-<ion-checkbox ng-model="company.interested" class="item-checkbox-right wg-item-company" ng-change="companiesCtrl.toggleDetail(company)">
+<ion-checkbox ng-model="company.interested" class="item-checkbox-right wg-company-item" ng-change="companiesCtrl.toggleDetail(company)">
     <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
     <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
 </ion-checkbox>
 
-<ion-item class="item-accordion" ng-show="company.showDetail">
+<ion-item class="wg-company-detail" ng-show="company.showDetail">
 
     <p>&nbsp;</p>
 

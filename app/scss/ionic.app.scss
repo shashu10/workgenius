@@ -41,6 +41,10 @@ $ionicons-font-path: '../lib/ionic/fonts' !default;
 
 @import '../../www/lib/ion-cal/src/ion-cal';
 
+@import 'theme'; // For light background on all pages
+
+@import 'big_form';
+
 @import 'accordion';
 
 @import 'welcome';
@@ -75,13 +79,9 @@ $ionicons-font-path: '../lib/ionic/fonts' !default;
 
 @import 'wizard_locations';
 
-@import 'big_form';
-
 @import 'wg_application';
 
 @import 'wg_icons';
-
-@import 'theme'; // For light background on all pages
 
 @font-face { font-family: Avenir-Book; src: url('../font/Avenir-Book.ttf'); }
 @font-face { font-family: Avenir-Medium; src: url('../font/Avenir-Medium.ttf'); }

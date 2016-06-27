@@ -9,16 +9,22 @@
 
         <ion-list>
 
-            <ion-checkbox ng-click="" ng-repeat="city in location.options" class="item-checkbox-right">
-                <strong>{{city | capitalize}}</strong>
+            <ion-checkbox ng-click="location.tapped(city)" ng-repeat="city in location.options" class="item-checkbox-right" ng-model="city.selected">
+                <strong>{{city.name | capitalize: true}}</strong>
             </ion-checkbox>
 
+            <label class="item item-input item-floating-label wg-other-location" ng-show="location.showOther">
+                <p class="input-label">Location</p>
+                <input type="text" ng-model="location.otherCity" placeholder="Enter Location" required>
+            </label>
+            
         </ion-list>
 
         <!--ng-class="{disabled: !location.selectedCities.length}"-->
 
         <div class="next-button">
             <button
+            ng-class="{disabled: !location.canContinue()}",
             ng-click="location.next()"
             class="button button-positive"
             >
