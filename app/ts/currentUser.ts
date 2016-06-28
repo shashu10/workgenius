@@ -29,6 +29,8 @@ class CurrentUserService {
     get earningsGoal(): number { return this.obj && this.obj.get('earningsGoal') || 140 }
     set earningsGoal(earningsGoal: number) { this.obj && this.obj.set('earningsGoal', earningsGoal) }
 
+    get locations(): WGLocation[] { return this.obj && this.obj.get('locations') }
+
     get phone(): string { return this.obj && this.obj.get('phone') }
     set phone(phone: string) { this.obj && this.obj.set('phone', phone) }
 
@@ -40,11 +42,12 @@ class CurrentUserService {
         // Testing env may not have current user
         if (Parse.User.current()) {
 
-            console.log(this.obj.get('locations'))
             return Parse.User.current()
                 .save(params)
+
                 .then(() => {
                     console.log("saved")
+
                 }, (err) => {
                     console.log("error")
                     console.log(err)

@@ -9,7 +9,9 @@ class LocationsCtrl {
         this.otherOption,
     ]
 
-    constructor(public WizardStates: WizardStatesService) {}
+    constructor(public WizardStates: WizardStatesService, public currentUser: CurrentUserService) {
+        this.loadUserlocations(currentUser.locations)
+    }
 
     canContinue(): boolean {
         // If other is selected, the other name must be at least 2 characters long
@@ -18,12 +20,22 @@ class LocationsCtrl {
         // At least one options must be selected
         return _.reduce(this.options, (result: boolean, value: WGLocation, key) => (result || value.selected), false);
     }
-
+    loadUserlocations(locations: WGLocation[]) {
+        _.forEach(locations, (l) => {
+            _.forEach(this.options, (o) => {
+                if (o.name.toLowerCase() === l.name.toLowerCase())
+                    o.selected = true
+            })
+        })
+    }
     next() {
-        console.log(_.filter(this.options, (o) => o.selected))
-        console.log(angular.copy(_.filter(this.options, (o) => o.selected)))
+        var toSave = _.chain(angular.copy(this.options))
+        .filter((o) => o.selected)
+        .forEach((o) => {delete o.selected})
+        .value()
+
         this.WizardStates.next({
-            locations: angular.copy(_.filter(this.options, (o) => o.selected))
+            locations: toSave
         })
     }
 
@@ -35,4 +47,4 @@ interface WGLocation {
     otherName?: string
 }
 
-LocationsCtrl.$inject = ["WizardStates"]
+LocationsCtrl.$inject = ["WizardStates", "currentUser"]
