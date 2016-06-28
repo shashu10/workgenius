@@ -5,16 +5,20 @@ class CompaniesRecCtrl {
     recommended: WGCompany[]
     nonRecommended: WGCompany[]
 
-    constructor(public $state: ng.ui.IStateService, public $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate, public wgCompanies: WGCompaniesService, public ApplicationStates: ApplicationStatesService, public $interval: ng.IIntervalService, public connectPopup: ConnectPopupService) {
+    constructor(public $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
+                public wgCompanies: WGCompaniesService,
+                public ApplicationStates: ApplicationStatesService,
+                public $interval: ng.IIntervalService,
+                public connectPopup: ConnectPopupService) {
 
         this.recommended = wgCompanies.recommended
         this.nonRecommended = wgCompanies.nonRecommended
 
         // Reload view after wgCompanies model updates
-        wgCompanies.setOnReloadCallback(() => {
+        wgCompanies.onDataReload = () => {
             this.recommended = wgCompanies.recommended
             this.nonRecommended = wgCompanies.nonRecommended
-        });
+        };
     }
 
     connect(company) {
@@ -22,6 +26,7 @@ class CompaniesRecCtrl {
     }
 
     next() {
+        this.wgCompanies.saveAll()
         this.ApplicationStates.next()
     }
 
@@ -30,7 +35,7 @@ class CompaniesRecCtrl {
         company.showDetail = !company.showDetail
 
         // hide other companies detail view
-        _.forEach(this.wgCompanies.companies, (c) => {
+        _.forEach(this.wgCompanies.list, (c) => {
             if (!_.isEqual(company, c))
                 c.showDetail = false;
         })
@@ -44,11 +49,11 @@ class CompaniesRecCtrl {
     }
 
     canContinue() {
-        return _.filter(this.wgCompanies.companies, (c) => c.interested).length
+        return _.filter(this.wgCompanies.list, (c) => c.interested).length
     }
 }
 
-CompaniesRecCtrl.$inject = ["$state", "$ionicScrollDelegate", "wgCompanies", "ApplicationStates", "$interval", "connectPopup"]
+CompaniesRecCtrl.$inject = ["$ionicScrollDelegate", "wgCompanies", "ApplicationStates", "$interval", "connectPopup"]
 
 
 class CompanyDetail implements ng.IDirective {

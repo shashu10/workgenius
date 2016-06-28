@@ -15,33 +15,41 @@ class CurrentUserService {
         this.obj = new Parse.User();
     }
 
-    get password(): string { return this.obj.get('password') }
-    set password(password: string) { this.obj.set('password', password) }
+    get password(): string { return this.obj && this.obj.get('password') }
+    set password(password: string) { this.obj && this.obj.set('password', password) }
 
-    get firstName(): string { return (this.obj.get('name') || "").split(" ")[0] }
-    get name(): string { return this.obj.get('name') }
-    set name(name: string) { this.obj.set('name', name) }
+    get firstName(): string { return (this.obj && this.obj.get('name') || "").split(" ")[0] }
+    get name(): string { return this.obj && this.obj.get('name') }
+    set name(name: string) { this.obj && this.obj.set('name', name) }
 
-    get email(): string { return this.obj.get('email') }
-    set email(email: string) { this.obj.set('email', email); this.obj.set('username', email) }
+    get email(): string { return this.obj && this.obj.get('email') }
+    set email(email: string) { this.obj && this.obj.set('email', email); this.obj && this.obj.set('username', email) }
 
     get hoursGoal(): number { return Math.round(this.earningsGoal / 18) }
-    get earningsGoal(): number { return this.obj.get('earningsGoal') || 140 }
-    set earningsGoal(earningsGoal: number) { this.obj.set('earningsGoal', earningsGoal) }
+    get earningsGoal(): number { return this.obj && this.obj.get('earningsGoal') || 140 }
+    set earningsGoal(earningsGoal: number) { this.obj && this.obj.set('earningsGoal', earningsGoal) }
 
-    get locations(): string[] { return this.obj.get('locations') }
-    set locations(locations: string[]) { this.obj.set('locations', locations) }
-
-    get phone(): string { return this.obj.get('phone') }
-    set phone(phone: string) { this.obj.set('phone', phone) }
+    get phone(): string { return this.obj && this.obj.get('phone') }
+    set phone(phone: string) { this.obj && this.obj.set('phone', phone) }
 
     hasCar() {
         return true
     }
 
-    save() {
-        if (Parse.User.current()) // Testing env may not have current user
-            return this.obj.save()
+    save(params?: Object) {
+        // Testing env may not have current user
+        if (Parse.User.current()) {
+
+            console.log(this.obj.get('locations'))
+            return Parse.User.current()
+                .save(params)
+                .then(() => {
+                    console.log("saved")
+                }, (err) => {
+                    console.log("error")
+                    console.log(err)
+                })
+        }
         else
             return Parse.Promise.as(this.obj)
     }

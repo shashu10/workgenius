@@ -2,7 +2,12 @@ class SignupCtrl {
 
     public error: string
 
-    constructor(public $scope: ng.IScope, public $state: ng.ui.IStateService, public $ionicHistory: ionic.navigation.IonicHistoryService, public currentUser: CurrentUserService, public getUserData: any) { }
+    constructor(public $scope: ng.IScope,
+                public $state: ng.ui.IStateService,
+                public $ionicHistory: ionic.navigation.IonicHistoryService,
+                public currentUser: CurrentUserService,
+                public getUserData: Function,
+                public wgDataManager: WGDataManagerService) { }
 
     doSignup() {
         this.currentUser.signUp()
@@ -17,6 +22,9 @@ class SignupCtrl {
                     historyRoot: true,
                     // disableAnimate: true
                 });
+
+                this.wgDataManager.init();
+
                 this.$state.go("wizard-goal", { clear: true });
             },
 
@@ -51,4 +59,4 @@ class SignupCtrl {
     }
 }
 
-SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData"];
+SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager"];

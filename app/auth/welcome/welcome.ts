@@ -2,7 +2,7 @@ class WelcomeCtrl {
 
     private $inject = ["$state", "currentUser", "getUserData"];
 
-    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService, public getUserData: any) {
+    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService, public getUserData: Function) {
         this.currentUser.create()
     }
 

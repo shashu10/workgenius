@@ -2,7 +2,7 @@
 /// <reference path="./companies/company-recommendation.ts" />
 /// <reference path="./phone/phone.ts" />
 /// <reference path="./address/address.ts" />
-/// <reference path="./lift/lift.ts" />
+/// <reference path="./weight/weight-limit.ts" />
 /// <reference path="./car/car-info.ts" />
 /// <reference path="./car/car-documents.ts" />
 /// <reference path="./car/car-documents.ts" />
@@ -20,7 +20,7 @@ angular.module('wg.apply', ['wg.user', 'parseData'])
 
     .controller('AddressCtrl', AddressCtrl)
 
-    .controller('LiftCtrl', LiftCtrl)
+    .controller('WeightLimitCtrl', WeightLimitCtrl)
 
     .controller('CarInfoCtrl', CarInfoCtrl)
 

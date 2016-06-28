@@ -63,7 +63,7 @@ class WGVehiclesService {
     fetchAll() {
 
         var query = new Parse.Query(WGVehicle);
-        query.equalTo('worker', this.currentUser.obj)
+        query.equalTo('worker', Parse.User.current())
         query.find({
 
             success: (results: WGVehicle[]) => {
@@ -75,7 +75,6 @@ class WGVehiclesService {
         });
     }
     saveAll() {
-        console.log(this.currentUser.obj)
         let toSave = _.filter(this.list, (v) => {
             // Save new selected vehicles OR existing vehiles that have changed
             return (!v.existed() && v.selected) || (v.existed() && v.dirtyKeys().length)

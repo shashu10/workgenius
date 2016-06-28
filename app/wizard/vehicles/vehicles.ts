@@ -5,7 +5,7 @@ class VehiclesCtrl {
 
     private vehicles: WGVehicle[]
 
-    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService, public wgVehicles: WGVehiclesService, public WizardStates: WizardStatesService) {
+    constructor(public wgVehicles: WGVehiclesService, public WizardStates: WizardStatesService) {
 
         this.vehicles = wgVehicles.list
     }
@@ -37,4 +37,4 @@ class VehiclesCtrl {
     }
 }
 
-VehiclesCtrl.$inject = ["$state", "currentUser", "wgVehicles", "WizardStates"];
+VehiclesCtrl.$inject = ["wgVehicles", "WizardStates"];

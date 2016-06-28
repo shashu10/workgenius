@@ -3,7 +3,12 @@ class LoginCtrl {
     public error: string
     public success: string
 
-    constructor(public $scope: ng.IScope, public $state: ng.ui.IStateService, public $ionicHistory: ionic.navigation.IonicHistoryService, public currentUser: CurrentUserService, public getUserData: any) {}
+    constructor(public $scope: ng.IScope,
+                public $state: ng.ui.IStateService,
+                public $ionicHistory: ionic.navigation.IonicHistoryService,
+                public currentUser: CurrentUserService,
+                public getUserData: Function,
+                public wgDataManager: WGDataManagerService) {}
 
     doLogin() {
         this.currentUser.logIn()
@@ -19,6 +24,8 @@ class LoginCtrl {
                         'Name': this.currentUser.email,
                         'Target': this.currentUser.email,
                     });
+
+                    this.wgDataManager.init();
 
                     this.$state.go('app.schedule', {
                         clear: true
@@ -95,4 +102,4 @@ class LoginCtrl {
     }
 }
 
-LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData"];
+LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager"];

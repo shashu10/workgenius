@@ -1,0 +1,18 @@
+<ion-view title="Application" ng-controller="WeightLimitCtrl as weight">
+    <ion-content class="big-form wg-application apply-weight-limit" scroll="false">
+        <h4>
+            Can you consistently
+            <br>
+            lift up to <strong>50lbs?</strong>
+        </h4>
+
+        <ion-checkbox ng-model="weight.canLift">Yes</ion-checkbox>
+
+        <div class="next-button">
+            <button ng-click="weight.next()" ng-class="{disabled: !weight.canLift}" type="submit" class="button">
+                Continue ➝
+            </button>
+        </div>
+
+    </ion-content>
+</ion-view>

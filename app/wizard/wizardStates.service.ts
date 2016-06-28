@@ -9,9 +9,11 @@ class WizardStatesService {
         'apply-company-recommendation',
     ]
 
-    constructor(public $state: ng.ui.IStateService) { }
+    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService) { }
 
-    next() {
+    next(params?: Object) {
+        this.currentUser.save(params)
+
         console.log("next called")
         var i = this._states.indexOf(this.$state.current.name)
         this.$state.go(this._states[i+1])
@@ -23,4 +25,4 @@ class WizardStatesService {
     }
 }
 
-WizardStatesService.$inject = ["$state"]
+WizardStatesService.$inject = ["$state", "currentUser"]

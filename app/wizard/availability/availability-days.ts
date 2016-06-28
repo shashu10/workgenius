@@ -10,7 +10,7 @@ class AvailabilityDaysCtrl {
         { selected: false, title: "sunday" },
     ]
 
-    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService, public WizardStates: WizardStatesService) { }
+    constructor(public currentUser: CurrentUserService, public WizardStates: WizardStatesService) { }
 
     next() {
         this.currentUser.availabilityDays = this.options;
@@ -19,4 +19,4 @@ class AvailabilityDaysCtrl {
 
 }
 
-AvailabilityDaysCtrl.$inject = ["$state", "currentUser", "WizardStates"];
+AvailabilityDaysCtrl.$inject = ["currentUser", "WizardStates"];

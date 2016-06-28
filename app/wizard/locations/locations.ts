@@ -1,51 +1,30 @@
 class LocationsCtrl {
 
-    private otherCity: string
-    private showOther = false;
+    private otherOption = {selected: false, name: 'other', otherName: ''}
     private options: WGLocation[] = [
         {selected: false, name: 'san francisco'},
         {selected: false, name: 'east bay'},
         {selected: false, name: 'south bay'},
         {selected: false, name: 'peninsula'},
-        {selected: false, name: 'other'},
+        this.otherOption,
     ]
 
-    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService, private PostmatesLocations: Object[], public WizardStates: WizardStatesService) {}
-
-    // Accordion //
-
-    // private groups: any[]
-    // private shownState: any
-    // private selectedCities: string[] = []
-
-    // // Toggle for accordion effect
-    // toggleState(state) {
-    //     if (this.isStateShown(state)) this.shownState = null
-    //     else this.shownState = state
-    // }
-    // isStateShown(state) {
-    //     return this.shownState === state
-    // }
-
-    // Toggle to save/remove selected cities
-    tapped(option: WGLocation) {
-        if (option.name === 'other') {
-            this.showOther = option.selected
-            console.log("clicked other");
-        }
-    }
+    constructor(public WizardStates: WizardStatesService) {}
 
     canContinue(): boolean {
         // If other is selected, the other name must be at least 2 characters long
-        const other = _.find(this.options, (o: WGLocation) => o.name === 'other')
-        if (other.selected) return (this.otherCity || "").length >= 2
+        if (this.otherOption.selected) return (this.otherOption.otherName || "").length >= 2
 
         // At least one options must be selected
         return _.reduce(this.options, (result: boolean, value: WGLocation, key) => (result || value.selected), false);
     }
 
     next() {
-        this.WizardStates.next()
+        console.log(_.filter(this.options, (o) => o.selected))
+        console.log(angular.copy(_.filter(this.options, (o) => o.selected)))
+        this.WizardStates.next({
+            locations: angular.copy(_.filter(this.options, (o) => o.selected))
+        })
     }
 
 }
@@ -53,5 +32,7 @@ class LocationsCtrl {
 interface WGLocation {
     selected: boolean
     name: string
+    otherName?: string
 }
-LocationsCtrl.$inject = ["$state", "currentUser", "PostmatesLocations", "WizardStates"]
+
+LocationsCtrl.$inject = ["WizardStates"]
