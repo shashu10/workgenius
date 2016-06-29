@@ -60,6 +60,8 @@ class WGVehiclesService {
         this.fetchAll()
     }
 
+    get carIsSelected(): boolean { return _.find(this.list, (v) => v.type === 'Car').selected }
+
     fetchAll() {
 
         var query = new Parse.Query(WGVehicle);

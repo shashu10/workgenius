@@ -14,23 +14,30 @@ class ApplicationStatesService {
         'app.schedule'
     ]
 
-    constructor(public $state: ng.ui.IStateService, public wgCompanies: WGCompaniesService, public currentUser: CurrentUserService) { }
+    constructor(public $state: ng.ui.IStateService,
+                public wgCompanies: WGCompaniesService,
+                public wgVehicles: WGVehiclesService,
+                public currentUser: CurrentUserService) {}
+
+    private _index = 0
+
+    get nextPage(): string {
+        return this._states[this._index + 1]
+    }
 
     next() {
         this.currentUser.save()
 
-        console.log("next called")
-        var i = this._states.indexOf(this.$state.current.name)
-        var next = this._states[i+1];
+        this._index = this._states.indexOf(this.$state.current.name)
 
         // If the worker does not need to lift, continue to the next page
-        if (next === 'apply-weight-limit' && !this.wgCompanies.needsToLift()) next = 'apply-car-info'
+        if (this.nextPage === 'apply-weight-limit' && !this.wgCompanies.needsToLift) this._index++
 
         // If the worker does not have a car, don't ask car stuff
-        if (next === 'apply-car-info' && !this.currentUser.hasCar()) next = 'apply-headshot'
+        if (this.nextPage === 'apply-car-info' && !this.wgVehicles.carIsSelected) this._index++
 
-        this.$state.go(next)
+        this.$state.go(this.nextPage)
     }
 }
 
-ApplicationStatesService.$inject = ["$state", "wgCompanies", "currentUser"]
+ApplicationStatesService.$inject = ["$state", "wgCompanies", "wgVehicles", "currentUser"]

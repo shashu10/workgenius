@@ -34,11 +34,15 @@ class CurrentUserService {
     get phone(): string { return this.obj && this.obj.get('phone') }
     set phone(phone: string) { this.obj && this.obj.set('phone', phone) }
 
+    get availability(): WGAvailability { return this.obj && this.obj.get('availability') }
+    set availability(availability: WGAvailability) { this.obj && this.obj.set('availability', availability) }
+
     hasCar() {
         return true
     }
 
     save(params?: Object) {
+
         // Testing env may not have current user
         if (Parse.User.current()) {
 

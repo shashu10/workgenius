@@ -1,10 +1,10 @@
 class GoalCtrl {
 
-    constructor(public WizardStates: WizardStatesService) {}
+    constructor(public WizardStates: WizardStatesService, public currentUser: CurrentUserService) {}
 
     next() {
         this.WizardStates.next()
     }
 }
 
-GoalCtrl.$inject = ["WizardStates"]
+GoalCtrl.$inject = ["WizardStates", "currentUser"]

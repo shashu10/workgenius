@@ -46,7 +46,6 @@ angular.module('workgenius', [
 .run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService', 'wgDataManager', 'currentUser',
     function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map, connectedShifts, PtrService, wgDataManager, currentUser) {
 
-
         // ionic platform should be ready now
         if (window.location.hostname !== 'localhost') $state.go('splash');
 
@@ -55,7 +54,6 @@ angular.module('workgenius', [
 
         // TS initialization
         wgDataManager.init();
-        currentUser.init();
 
         // Setup variables used through out the app
         $rootScope.device = {
