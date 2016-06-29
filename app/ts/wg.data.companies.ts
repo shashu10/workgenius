@@ -17,17 +17,17 @@ class WGCompany extends Parse.Object {
     // If not available now don't show anywhere
     get availableNow(): boolean { return this.get('availableNow') }
 
-    get name()           : string { return this.get('name')}
-    get requirements()   : string { return this.get('requirements')}
-    get employmentType() : string { return this.get('employmentType')}
-    get bonusCondition() : string { return this.get('bonusCondition')}
-    get bonusValue()     : number { return this.get('bonusValue')}
-    get payRangeLow()    : number { return this.get('payRangeLow')}
-    get payRangeHigh()   : number { return this.get('payRangeHigh')}
-    get peakDays()       : number { return this.get('peakDays')}
-    get peakTimes()      : number { return this.get('peakTimes')}
-    get earningsEst()    : number { return this.get('earningsEst')}
-    get interested()     : boolean { return this.eligibility.get('interested')}
+    get name()           : string  { return this.get('name')}
+    get requirements()   : string  { return this.get('requirements')}
+    get employmentType() : string  { return this.get('employmentType')}
+    get bonusCondition() : string  { return this.get('bonusCondition')}
+    get bonusValue()     : number  { return this.get('bonusValue')}
+    get payRangeLow()    : number  { return this.get('payRangeLow')}
+    get payRangeHigh()   : number  { return this.get('payRangeHigh')}
+    get peakDays()       : number  { return this.get('peakDays')}
+    get peakTimes()      : number  { return this.get('peakTimes')}
+    get earningsEst()    : number  { return this.get('earningsEst')}
+    get interested()     : boolean { return this.eligibility.interested}
     set interested(value : boolean) { this.eligibility.set('interested', value)}
 }
 
@@ -46,7 +46,7 @@ class WGCompaniesService {
 
     get nonRecommended(): WGCompany[] { return this.list.slice(3) }
 
-    needsToLift(): boolean {
+    get needsToLift(): boolean {
         return !!_.find(this.selected, function(o) { return o.name.toLowerCase() === 'clutter' });
     }
 

@@ -47,7 +47,7 @@ angular.module('workgenius', [
     function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map, connectedShifts, PtrService, wgDataManager, currentUser) {
 
         // ionic platform should be ready now
-        if (window.location.hostname !== 'localhost') $state.go('splash');
+        if (window.location.hostname !== 'localhost') $state.go('welcome');
 
         // Initialize Parse here with AppID and JavascriptID
         Parse.initialize(PARSE_APP_ID, PARSE_JS_KEY);
@@ -140,7 +140,7 @@ angular.module('workgenius', [
             if (window.location.hostname === 'localhost' && window.location.hash !== "") {}
 
             // If on a device disable transition and go straight to the right view.
-            else if (window.location.hash === "" || window.location.hash === "#/splash") {
+            else if (window.location.hash === "" || window.location.hash === "#/welcome") {
                 $ionicHistory.nextViewOptions({
                     historyRoot: true,
                     disableAnimate: true
@@ -153,7 +153,7 @@ angular.module('workgenius', [
 
             // Default case
             } else {
-                transition = $state.go('registration.signup', {clear: true});
+                transition = $state.go('welcome', {clear: true});
             }
 
             // After transitioning to the right state, reload connected shifts to trigger refresh spinner
@@ -172,7 +172,7 @@ angular.module('workgenius', [
             }
 
         }, function (error) {
-            $state.go('registration.signup', {clear: true});
+            $state.go('welcome', {clear: true});
         });
 
         //////////
@@ -506,6 +506,6 @@ angular.module('workgenius', [
         // if none of the above states are matched, use this as the fallback
         // $urlRouterProvider.otherwise('/registration/signup');
 
-        // $urlRouterProvider.otherwise('/splash');
+        $urlRouterProvider.otherwise('/welcome');
     }
 ]);
