@@ -12,7 +12,7 @@ class SignupCtrl {
     doSignup() {
         this.currentUser.signUp()
 
-            .then((argument) => {
+            .then((user) => {
 
                 this.error = undefined
 

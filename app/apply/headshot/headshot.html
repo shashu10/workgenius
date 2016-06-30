@@ -3,14 +3,15 @@
         
         <div class="header-container">
             <h4>
-                Select your <strong>headshot</strong>
+                Add your <strong>headshot</strong>
             </h4>
         </div>
-        
-        <div class="padding">
-            <button class="button button-outline button-positive button-block">
-              Upload Headshot
-            </button>
+
+        <div class="wg-profile-wrapper">
+            <div class="wg-profile-picture" ng-style="{'background-image':'url(' + headshot.imageData + ')'}" ng-click="headshot.showPictureOptions()"></div>
+            <div class="wg-profile-edit">
+                <i class="icon ion-edit light"></i>
+            </div>
         </div>
 
         <div class="next-button">

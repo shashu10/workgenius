@@ -38,6 +38,7 @@ angular.module('workgenius', [
     'angulartics.mixpanel',
     'ngRaven',
 
+    'ngCordova',
     // 'workgenius.tracker',
     // 'ionic.service.core',
     // 'ionic.service.analytics'

@@ -2,24 +2,12 @@ $gray-vehicle-button: #dbdbdb;
 
 .wizard-vehicles {
 
-    display: flex;
-    flex-direction: column;
     padding: 10px;
     text-align: center;
 
-    > * {
-        flex: 1;
-    }
-
-    .header-container {
-        align-items: center; // align vertical
-        display: flex;
-        justify-content: center; // align horizontal
-    }
-
     h3 {
-        // margin: 10px;
-        // text-align: center;
+        margin: 10px;
+        text-align: center;
     }
 
     .vehicle-group {

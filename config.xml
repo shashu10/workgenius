@@ -73,4 +73,5 @@
     <plugin name="cordova-plugin-device" spec="~1.1.2" />
     <plugin name="cordova-plugin-console" spec="~1.0.3" />
     <plugin name="cordova-plugin-app-version" spec="~0.1.8" />
+    <plugin name="cordova-plugin-camera" spec="~2.2.0" />
 </widget>

@@ -13,7 +13,7 @@ class LoginCtrl {
     doLogin() {
         this.currentUser.logIn()
 
-            .then((argument) => {
+            .then((user) => {
 
                 this.success = undefined
                 this.error = undefined

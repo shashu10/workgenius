@@ -21,15 +21,17 @@
         var PARSE_JS_KEY = 'JCq8yzqkFSogmE9emwBlbmTUTEzafbhpX0ro2Y1l';
 
     </script>
-    <!-- 1. Load Cordova first -->
-    <!-- cordova script (this will be a 404 during development) -->
-    <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
-    <script src="cordova.js"></script>
 
-    <!-- 2. Load ionic + angularjs js -->
+    <!-- 1. Load ionic + angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <!-- <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script> -->
     <!-- <script src="lib/jquery/dist/jquery.min.js"></script> -->
+
+    <!-- 2. Load Cordova first -->
+    <!-- cordova script (this will be a 404 during development) -->
+    <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
+    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+    <script src="cordova.js"></script>
 
     <!-- Raven Sentry error tracking -->
     <script src="lib/raven-js/dist/raven.min.js"></script>

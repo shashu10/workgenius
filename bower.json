@@ -8,7 +8,7 @@
   "dependencies": {
     "ionic-timepicker": "https://github.com/rajeshwarpatlolla/ionic-timepicker.git#^0.5.0",
     "parse": "~1.6.7",
-    "ngCordova": "~0.1.20-alpha",
+    "ngCordova": "^0.1.26-alpha",
     "jquery": "~2.1.4",
     "angular-filter": "~0.5.8",
     "angular-base64": "~2.0.5",
