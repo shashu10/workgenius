@@ -78,8 +78,8 @@ function setupPush($interval) {
 }
 function checkUpdates($ionicPopup) {
     return function (currentVersion, platform, appInfo, scope) {
-        console.log('Current version: ' + currentVersion);
-        console.log('new app version: ' + appInfo.version);
+        // console.log('Current version: ' + currentVersion);
+        // console.log('new app version: ' + appInfo.version);
         scope.appInfo = appInfo;
 
         if (currentVersion < appInfo.version) {

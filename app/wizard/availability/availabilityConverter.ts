@@ -12,26 +12,36 @@ interface WGAvailability {
 
 class AvailabilityConverterService {
 
-    public days: AvailabilityOption[] = [
-        {key: 'MON', title: 'monday',    selected: false},
-        {key: 'TUE', title: 'tuesday',   selected: false},
-        {key: 'WED', title: 'wednesday', selected: false},
-        {key: 'THU', title: 'thursday',  selected: false},
-        {key: 'FRI', title: 'friday',    selected: false},
-        {key: 'SAT', title: 'saturday',  selected: false},
-        {key: 'SUN', title: 'sunday',    selected: false},
-    ]
+    public days: AvailabilityOption[] = []
 
-    public timeSlots: AvailabilityOption[] = [
-        {title: 'mornings',   start: '6am',  end: '10am', selected: false},
-        {title: 'lunch',      start: '10am', end: '2pm',  selected: false},
-        {title: 'afternoons', start: '2pm',  end: '5pm',  selected: false},
-        {title: 'evenings',   start: '5pm',  end: '9pm',  selected: false},
-        {title: 'nights',     start: '9pm',  end: '2am',  selected: false},
-    ]
+    public timeSlots: AvailabilityOption[] = []
 
-    constructor(public currentUser: CurrentUserService) {}
+    constructor(public currentUser: CurrentUserService) {
+        this.reset()
+    }
 
+    reset() {
+        _.remove(this.days)
+        Array.prototype.push.apply(this.days, [
+            {key: 'MON', title: 'monday',    selected: false},
+            {key: 'TUE', title: 'tuesday',   selected: false},
+            {key: 'WED', title: 'wednesday', selected: false},
+            {key: 'THU', title: 'thursday',  selected: false},
+            {key: 'FRI', title: 'friday',    selected: false},
+            {key: 'SAT', title: 'saturday',  selected: false},
+            {key: 'SUN', title: 'sunday',    selected: false},
+        ])
+
+        _.remove(this.timeSlots)
+        Array.prototype.push.apply(this.timeSlots, [
+            {title: 'mornings',   start: '6am',  end: '10am', selected: false},
+            {title: 'lunch',      start: '10am', end: '2pm',  selected: false},
+            {title: 'afternoons', start: '2pm',  end: '5pm',  selected: false},
+            {title: 'evenings',   start: '5pm',  end: '9pm',  selected: false},
+            {title: 'nights',     start: '9pm',  end: '2am',  selected: false},
+        ])
+
+    }
     saveHourBlocks() {
         var availability: WGAvailability = {};
         // For each day

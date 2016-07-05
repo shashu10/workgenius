@@ -44,7 +44,12 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-inappbrowser",
-    "cordova-plugin-camera"
+    "cordova-plugin-camera",
+    {
+      "locator": "https://github.com/azicchetti/cordova-parseuploader.git",
+      "id": "org.apache.cordova.plugins.parseuploader"
+    },
+    "cordova-plugin-file-transfer"
   ],
   "cordovaPlatforms": [
     "ios",

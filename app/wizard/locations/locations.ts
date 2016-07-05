@@ -1,18 +1,23 @@
 class LocationsCtrl {
 
     private otherOption = {selected: false, name: 'other', otherName: ''}
-    private options: WGLocation[] = [
-        {selected: false, name: 'san francisco'},
-        {selected: false, name: 'east bay'},
-        {selected: false, name: 'south bay'},
-        {selected: false, name: 'peninsula'},
-        this.otherOption,
-    ]
+    private options: WGLocation[] = []
 
     constructor(public WizardStates: WizardStatesService, public currentUser: CurrentUserService) {
+        this.reset()
         this.loadUserlocations(currentUser.locations)
     }
 
+    reset() {
+        _.remove(this.options)
+        Array.prototype.push.apply(this.options, [
+            {selected: false, name: 'san francisco'},
+            {selected: false, name: 'east bay'},
+            {selected: false, name: 'south bay'},
+            {selected: false, name: 'peninsula'},
+            this.otherOption,
+        ]);
+    }
     canContinue(): boolean {
         // If other is selected, the other name must be at least 2 characters long
         if (this.otherOption.selected) return (this.otherOption.otherName || "").length >= 2

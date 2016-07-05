@@ -11,7 +11,7 @@ class ApplicationStatesService {
         'apply-background-check-info',
         'apply-background-check-ssn',
         // 'apply-phone-call',
-        'app.schedule'
+        'app.connect-accounts'
     ]
 
     constructor(public $state: ng.ui.IStateService,
@@ -25,8 +25,8 @@ class ApplicationStatesService {
         return this._states[this._index + 1]
     }
 
-    next() {
-        this.currentUser.save()
+    next(params?: Object) {
+        this.currentUser.save(params)
 
         this._index = this._states.indexOf(this.$state.current.name)
 

@@ -38,12 +38,14 @@ $big-form-backcround: #f7f7f7;
 
     input {
         font-size: 28px;
+        line-height: 30px;
         padding-bottom: 0;
         padding-top: 0;
 
-        // &::placeholder {
-        //     font-size: 20px;
-        // }
+        &::placeholder {
+            font-size: 28px;
+            line-height: 36px;
+        }
     }
 
     .next-button {
@@ -92,5 +94,14 @@ $big-form-backcround: #f7f7f7;
 
     .shake {
         animation: shake 300ms ease-in-out;
+    }
+
+    // All caps for state like CA
+    .state-input {
+        text-transform: uppercase;
+
+        &::placeholder {
+            text-transform: none;
+        }
     }
 }
