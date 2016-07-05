@@ -37,8 +37,8 @@ angular.module('workgenius', [
     'angulartics',
     'angulartics.mixpanel',
     'ngRaven',
+    'ngProgress',
 
-    'ngCordova',
     // 'workgenius.tracker',
     // 'ionic.service.core',
     // 'ionic.service.analytics'
@@ -289,55 +289,6 @@ angular.module('workgenius', [
         })
 
         // ============ //
-        //  APPLICATION //
-        // ============ //
-
-        .state('apply-company-recommendation', {
-            url: '/apply-company-recommendation',
-            templateUrl: 'apply/companies/company-recommendation.html',
-        })
-
-        .state('apply-phone', {
-            url: '/apply-phone',
-            templateUrl: 'apply/phone/phone.html',
-        })
-
-        .state('apply-address', {
-            url: '/apply-address',
-            templateUrl: 'apply/address/address.html',
-        })
-
-        .state('apply-weight-limit', {
-            url: '/apply-weight-limit',
-            templateUrl: 'apply/weight/weight-limit.html',
-        })
-
-        .state('apply-car-info', {
-            url: '/apply-car-info',
-            templateUrl: 'apply/car/car-info.html',
-        })
-
-        .state('apply-car-documents', {
-            url: '/apply-car-documents',
-            templateUrl: 'apply/car/car-documents.html',
-        })
-
-        .state('apply-headshot', {
-            url: '/apply-headshot',
-            templateUrl: 'apply/headshot/headshot.html',
-        })
-
-        .state('apply-background-check-info', {
-            url: '/apply-background-check-info',
-            templateUrl: 'apply/background/background-check-info.html',
-        })
-
-        .state('apply-background-check-ssn', {
-            url: '/apply-background-check-ssn',
-            templateUrl: 'apply/background/background-check-ssn.html',
-        })
-
-        // ============ //
         //     APP      //
         // ============ //
 
@@ -425,6 +376,91 @@ angular.module('workgenius', [
                 'tab-connect-accounts': {
                     templateUrl: 'main/connect-accounts.html',
                     controller: 'ConnectAccountsCtrl'
+                }
+            }
+        })
+
+        // ============ //
+        //   COMPANIES  //
+        // ============ //
+
+        .state('app.companies', {
+            url: '/companies',
+            views: {
+                'tab-companies': {
+                    templateUrl: 'apply/companies/company-recommendation.html'
+                }
+            }
+        })
+
+        .state('app.phone', {
+            url: '/phone',
+            views: {
+                'tab-companies': {
+                    templateUrl: 'apply/phone/phone.html',
+                }
+            }
+        })
+
+        .state('app.address', {
+            url: '/address',
+            views: {
+                'tab-companies': {
+                    templateUrl: 'apply/address/address.html',
+                }
+            }
+        })
+
+        .state('app.weight-limit', {
+            url: '/weight-limit',
+            views: {
+                'tab-companies': {
+                    templateUrl: 'apply/weight/weight-limit.html',
+                }
+            }
+        })
+
+        .state('app.car-info', {
+            url: '/car-info',
+            views: {
+                'tab-companies': {
+                    templateUrl: 'apply/car/car-info.html',
+                }
+            }
+        })
+
+        .state('app.car-documents', {
+            url: '/car-documents',
+            views: {
+                'tab-companies': {
+                    templateUrl: 'apply/car/car-documents.html',
+                }
+            }
+        })
+
+        .state('app.headshot', {
+            url: '/headshot',
+            views: {
+                'tab-companies': {
+                    templateUrl: 'apply/headshot/headshot.html',
+                }
+            }
+        })
+
+        .state('app.background-check-info', {
+            url: '/background-check-info',
+            views: {
+                'tab-companies': {
+                    templateUrl: 'apply/background/background-check-info.html',
+                }
+            }
+        })
+
+        .state('app.background-check-ssn', {
+            url: '/background-check-ssn',
+            views: {
+                'tab-companies': {
+                    templateUrl: 'apply/background/background-check-ssn.html',
                 }
             }
         })

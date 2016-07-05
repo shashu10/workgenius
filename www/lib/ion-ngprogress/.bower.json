@@ -1,0 +1,29 @@
+{
+  "name": "ion-ngprogress",
+  "main": [
+    "build/ngprogress.min.js",
+    "ngProgress.css"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src",
+    "Gruntfile.js",
+    "package.json",
+    "karma.conf.js",
+    "index.html"
+  ],
+  "homepage": "https://github.com/shashu10/ngProgress",
+  "_release": "a83e4e0",
+  "_resolution": {
+    "type": "commit",
+    "commit": "a83e4e0"
+  },
+  "_source": "git://github.com/shashu10/ngProgress.git",
+  "_target": "a83e4e0",
+  "_originalSource": "shashu10/ngProgress",
+  "_direct": true
+}
