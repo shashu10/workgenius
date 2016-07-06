@@ -9,6 +9,7 @@
 /// <reference path="./headshot/headshot.ts" />
 /// <reference path="./background/background-check-info.ts" />
 /// <reference path="./background/background-check-ssn.ts" />
+/// <reference path="./phone-call/phone-call.ts" />
 
 angular.module('wg.apply', ['wg.user', 'parseData'])
 
@@ -31,5 +32,7 @@ angular.module('wg.apply', ['wg.user', 'parseData'])
     .controller('BackgroundCheckInfoCtrl', BackgroundCheckInfoCtrl)
 
     .controller('BackgroundCheckSSNCtrl', BackgroundCheckSSNCtrl)
+
+    .controller('PhoneCallCtrl', PhoneCallCtrl)
 
     .directive('companyDetail', CompanyDetail.instance)

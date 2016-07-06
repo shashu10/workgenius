@@ -18,7 +18,7 @@ class WGCompany extends Parse.Object {
     get availableNow(): boolean { return this.get('availableNow') }
 
     get name()           : string  { return this.get('name')}
-    get requirements()   : string  { return this.get('requirements')}
+    get requirements()   : string[]{ return this.get('requirements')}
     get employmentType() : string  { return this.get('employmentType')}
     get bonusCondition() : string  { return this.get('bonusCondition')}
     get bonusValue()     : number  { return this.get('bonusValue')}
@@ -45,6 +45,13 @@ class WGCompaniesService {
     get recommended(): WGCompany[] { return this.list.slice(0, 3) }
 
     get nonRecommended(): WGCompany[] { return this.list.slice(3) }
+
+    // Union of all company requirements
+    get requirements(): string[] {
+        return _.reduce(this.selected, (req, c) => {
+          return _.union(req, c.requirements);
+        }, []);
+    }
 
     get needsToLift(): boolean {
         return !!_.find(this.selected, function(o) { return o.name.toLowerCase() === 'clutter' });

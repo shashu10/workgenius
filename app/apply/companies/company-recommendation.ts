@@ -27,7 +27,8 @@ class CompaniesRecCtrl {
 
     next() {
         this.wgCompanies.saveAll()
-        this.ApplicationStates.next()
+        // start the application flow
+        this.ApplicationStates.start()
     }
 
     toggleDetail(company: WGCompany) {
@@ -36,7 +37,7 @@ class CompaniesRecCtrl {
 
         // hide other companies detail view
         _.forEach(this.wgCompanies.list, (c) => {
-            if (!_.isEqual(company, c))
+            if (!_.isEqual(company, c) || !company.interested)
                 c.showDetail = false;
         })
 

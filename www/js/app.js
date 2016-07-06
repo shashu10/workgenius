@@ -209,7 +209,7 @@ angular.module('workgenius', [
     function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $analyticsProvider) {
 
         $ionicConfigProvider.tabs.position('bottom');
-        $ionicConfigProvider.backButton.text('Back');
+        // $ionicConfigProvider.backButton.text('Back');
         // $ionicConfigProvider.views.forwardCache(true);
 
         $analyticsProvider.firstPageview(true); /* Records pages that don't use $state or $route */
@@ -461,6 +461,15 @@ angular.module('workgenius', [
             views: {
                 'tab-companies': {
                     templateUrl: 'apply/background/background-check-ssn.html',
+                }
+            }
+        })
+
+        .state('app.phone-call', {
+            url: '/phone-call',
+            views: {
+                'tab-companies': {
+                    templateUrl: 'apply/phone-call/phone-call.html',
                 }
             }
         })

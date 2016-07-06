@@ -7,13 +7,12 @@ class WizardStatesService {
         'wizard-availability-days',
         'wizard-availability-times',
         'wizard-vehicles',
-        'app.company-recommendation',
+        'app.companies',
     ]
 
     constructor(public $state: ng.ui.IStateService,
                 public $rootScope: ng.IRootScopeService,
                 public currentUser: CurrentUserService,
-                public AvailabilityConverter: AvailabilityConverterService,
                 public ngProgressFactory) {
 
         this.initProgressBar()
@@ -30,6 +29,8 @@ class WizardStatesService {
         this.progressbar = this.ngProgressFactory.createInstance();
         this.progressbar.setColor('#09f');
 
+        this.setProgress(this.index)
+
         var unregister = this.$rootScope.$on('$stateChangeSuccess', () => { 
 
             this.setProgress(this.index)
@@ -43,21 +44,15 @@ class WizardStatesService {
         return this.$state.current.name === this._states[this._states.length - 1]
     }
     setProgress(index: number) {
-        this.progressbar.set(index / this._states.length * 100)
+        this.progressbar.set((index + 1) / this._states.length * 100)
     }
     next(params?: Object) {
         this.currentUser.save(params)
 
         this.setProgress(this.index + 1)
 
-        // // If the worker does not need to lift, continue to the next page
-        // if (this.nextPage === 'apply-weight-limit' && !this.wgCompanies.needsToLift) this._index++
-
-        // // If the worker does not have a car, don't ask car stuff
-        // if (this.nextPage === 'apply-car-info' && !this.wgVehicles.carIsSelected) this._index++
-
         this.$state.go(this.nextPage)
     }
 }
 
-WizardStatesService.$inject = ["$state", "$rootScope", "currentUser", "AvailabilityConverter", "ngProgressFactory"]
+WizardStatesService.$inject = ["$state", "$rootScope", "currentUser", "ngProgressFactory"]
