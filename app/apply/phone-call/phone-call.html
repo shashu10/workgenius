@@ -5,20 +5,12 @@
             Pick a time to talk to us
         </h4>
         <ion-list>
-            <ion-item>Monday 1pm</ion-item>
-            <ion-item>Monday 3pm</ion-item>
-            <ion-item>Tuesday 1pm</ion-item>
-            <ion-item>Tuesday 3pm</ion-item>
-            <ion-item>Wednesday 1pm</ion-item>
-            <ion-item>Wednesday 3pm</ion-item>
-            <ion-item>Thursday 1pm</ion-item>
-            <ion-item>Thursday 3pm</ion-item>
+            <ion-radio ng-repeat="slot in phone.timeslots" ng-model="phone.choice" ng-value="slot">{{slot.start}}</ion-radio>
         </ion-list>
 
         <div class="next-button">
-            <!-- !(avail.options | filter: {selected:true}).length -->
             <button
-            ng-class="{disabled: false}"
+            ng-class="{disabled: !phone.choice}"
             ng-click="phone.next()"
             class="button button-positive"
             >

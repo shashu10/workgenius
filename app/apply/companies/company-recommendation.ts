@@ -18,7 +18,7 @@ class CompaniesRecCtrl {
         wgCompanies.onDataReload = () => {
             this.recommended = wgCompanies.recommended
             this.nonRecommended = wgCompanies.nonRecommended
-        };
+        }
     }
 
     connect(company) {
@@ -38,11 +38,11 @@ class CompaniesRecCtrl {
         // hide other companies detail view
         _.forEach(this.wgCompanies.list, (c) => {
             if (!_.isEqual(company, c) || !company.interested)
-                c.showDetail = false;
+                c.showDetail = false
         })
 
         // Resize after accordion animation
-        this.$interval(() => this.resize(), 100, 1);
+        this.$interval(() => this.resize(), 100, 1)
     }
 
     resize() {
@@ -60,10 +60,10 @@ CompaniesRecCtrl.$inject = ["$ionicScrollDelegate", "wgCompanies", "ApplicationS
 class CompanyDetail implements ng.IDirective {
 
     static instance(): ng.IDirective {
-        return new CompanyDetail;
+        return new CompanyDetail()
     }
 
-    templateUrl = 'apply/companies/company-detail.html';
+    templateUrl = 'apply/companies/company-detail.html'
     restrict = 'E'
     scope = {
         companiesCtrl: '=',

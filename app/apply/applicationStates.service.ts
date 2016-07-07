@@ -21,8 +21,8 @@ class ApplicationStatesService {
                 public wgVehicles: WGVehiclesService,
                 public currentUser: CurrentUserService,
                 public ngProgressFactory: any) {
-        this.progressbar = this.ngProgressFactory.createInstance();
-        this.progressbar.setColor('#09f');
+        this.progressbar = this.ngProgressFactory.createInstance()
+        this.progressbar.setColor('#09f')
     }
 
     get nextPage(): string {
@@ -47,7 +47,7 @@ class ApplicationStatesService {
             } else {
                 this.setProgress(this.index + 1)
             }
-        });
+        })
     }
     hasFinished(toState: angular.ui.IState, fromState: angular.ui.IState) {
         console.log(toState)
@@ -72,7 +72,7 @@ class ApplicationStatesService {
         if (this.nextPage === 'app.companies') {
             this.$ionicHistory.nextViewOptions({
                 historyRoot: true,
-            });
+            })
             options = {clear: true}
         }
 

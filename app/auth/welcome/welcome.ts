@@ -1,6 +1,6 @@
 class WelcomeCtrl {
 
-    private $inject = ["$state", "currentUser", "getUserData"];
+    private $inject = ["$state", "currentUser", "getUserData"]
 
     constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService, public getUserData: Function) {}
 
@@ -16,7 +16,7 @@ class WelcomeCtrl {
     }
     skip() {
         this.currentUser.create()
-        this.getUserData();
+        this.getUserData()
         this.$state.go('app.schedule')
     }
 }

@@ -1,8 +1,14 @@
+declare var parsePluginInitialized: boolean
+
 class HeadshotCtrl {
+
+    private s3Signature
 
     constructor(public ApplicationStates: ApplicationStatesService,
                 public $cordovaCamera: ngCordova.ICameraService,
-                public $ionicActionSheet: ionic.actionSheet.IonicActionSheetService) {
+                public $ionicActionSheet: ionic.actionSheet.IonicActionSheetService,
+                public $cordovaFileTransfer: ngCordova.IFileTransferService,
+                public wgImage: WGImage) {
 
         if (ionic.Platform.isAndroid()) {
             this.actionButtons = [{ text: '<i class="icon ion-camera"></i> Camera' },
@@ -13,39 +19,41 @@ class HeadshotCtrl {
         }
     }
 
+    public canContinue = false
     public imageData: string = "img/profile-placeholder.png"
     private actionButtons
 
     takePicture(source: number) {
 
-        if (!Camera) return console.error("Camera plugin is not installed")
+        // localhost testing
+        if (!Camera) {
+            this.next()
+            return console.error("Camera plugin is not installed")
+        }
 
         this.$cordovaCamera.getPicture({
-            quality: 100,
+            quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
             sourceType: source,
-            allowEdit: true,
-            encodingType: Camera.EncodingType.PNG,
-            targetWidth: 100,
-            targetHeight: 100,
+            // allowEdit: true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 700,
+            targetHeight: 800,
             cameraDirection : Camera.Direction.FRONT,
             // popoverOptions: CameraPopoverOptions,
             saveToPhotoAlbum: false,
-            correctOrientation:true
+            correctOrientation: true
 
-        }).then((imageData) => {
-
-            console.log(imageData)
-            // var image = document.getElementById('myImage');
-            this.imageData = imageData;
-
-            var base64 = "V29ya2luZyBhdCBQYXJzZSBpcyBncmVhdCE=";
-            var file = new Parse.File("myfile.txt", { base64: base64 });
+        }).then((fileURI) => {
+            this.canContinue = true
+            this.imageData = fileURI
+            console.log(fileURI)
+            this.wgImage.uploadHeadshot(fileURI)
 
         }, (err) => {
+            console.log(err)
             console.error("Could not take picture")
-        });
-
+        })
     }
 
     showPictureOptions() {
@@ -53,8 +61,8 @@ class HeadshotCtrl {
             titleText: 'Add a recent picture of yourself with your head and shoulders in view',
             buttons: this.actionButtons,
             cancelText: 'Cancel',
-            cancel: function() {
-                console.log('CANCELLED');
+            cancel: () => {
+                console.log('CANCELLED')
             },
             buttonClicked: (index) => {
                 if (index === 0)
@@ -62,14 +70,14 @@ class HeadshotCtrl {
                 else
                     this.takePicture(Camera.PictureSourceType.PHOTOLIBRARY)
 
-                console.log('BUTTON CLICKED', index);
-                return true;
+                console.log('BUTTON CLICKED', index)
+                return true
             }
-        });
+        })
     }
     next() {
         this.ApplicationStates.next()
     }
 }
 
-HeadshotCtrl.$inject = ["ApplicationStates", "$cordovaCamera", "$ionicActionSheet"]
+HeadshotCtrl.$inject = ["ApplicationStates", "$cordovaCamera", "$ionicActionSheet", "$cordovaFileTransfer", "wgImage"]

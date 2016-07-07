@@ -7,7 +7,7 @@ class SignupCtrl {
                 public $ionicHistory: ionic.navigation.IonicHistoryService,
                 public currentUser: CurrentUserService,
                 public getUserData: Function,
-                public wgDataManager: WGDataManagerService) { }
+                public wgDataManager: WGDataManagerService) {}
 
     doSignup() {
         this.currentUser.signUp()
@@ -16,16 +16,16 @@ class SignupCtrl {
 
                 this.error = undefined
 
-                this.getUserData(true);
+                this.getUserData(true)
 
                 this.$ionicHistory.nextViewOptions({
                     historyRoot: true,
                     // disableAnimate: true
-                });
+                })
 
-                this.wgDataManager.init();
+                this.wgDataManager.init()
 
-                this.$state.go("wizard-goal", { clear: true });
+                this.$state.go("wizard-goal", { clear: true })
             },
 
             (err) => {
@@ -42,21 +42,21 @@ class SignupCtrl {
 
     goBack() {
         this.error = undefined
-        this.$ionicHistory.goBack();
+        this.$ionicHistory.goBack()
     }
 
     next() {
         switch (this.$state.current.name) {
             case "signup-name":
-                if (!this.currentUser.name) this.error = 'Please enter your full name';
-                else this.$state.go('signup-email');
+                if (!this.currentUser.name) this.error = 'Please enter your full name'
+                else this.$state.go('signup-email')
                 break
             case "signup-email":
-                if (!this.currentUser.email) this.error = 'Please enter a valid email';
-                else this.$state.go('signup-password');
+                if (!this.currentUser.email) this.error = 'Please enter a valid email'
+                else this.$state.go('signup-password')
                 break
         }
     }
 }
 
-SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager"];
+SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager"]

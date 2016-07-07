@@ -23,14 +23,14 @@ class LoginCtrl {
                         'Email': this.currentUser.email,
                         'Name': this.currentUser.email,
                         'Target': this.currentUser.email,
-                    });
+                    })
 
-                    this.wgDataManager.init();
+                    this.wgDataManager.init()
 
                     this.$state.go('app.schedule', {
                         clear: true
-                    });
-                });
+                    })
+                })
             },
 
             (err) => {
@@ -48,24 +48,30 @@ class LoginCtrl {
     goBack() {
         this.success = undefined
         this.error = undefined
-        this.$ionicHistory.goBack();
+        this.$ionicHistory.goBack()
     }
 
     next(type: string, stateName:string) {
 
         switch (type) {
             case "name":
-                if (!this.currentUser.name)
-                    return this.error = 'Please enter your full name';
-                break;
+                if (!this.currentUser.name) {
+                    this.error = 'Please enter your full name'
+                    return
+                }
+                break
             case "email":
-                if (!this.currentUser.email)
-                    return this.error = 'Please enter a valid email';
-                break;
+                if (!this.currentUser.email) {
+                    this.error = 'Please enter a valid email'
+                    return
+                }
+                break
             case "password":
-                if (!this.currentUser.password)
-                    return this.error = 'Please enter a password';
-                break;
+                if (!this.currentUser.password) {
+                    this.error = 'Please enter a password'
+                    return
+                }
+                break
         }
         this.$state.go(stateName)
     }
@@ -81,7 +87,7 @@ class LoginCtrl {
             .then((argument) => {
 
                 this.error = undefined
-                this.success = 'Password  sent';
+                this.success = 'Password  sent'
                 this.$scope.$apply()
             },
 
@@ -90,16 +96,16 @@ class LoginCtrl {
                 this.success = undefined
 
                 if (err.code === 125)
-                    this.error = 'This is not a valid email address';
+                    this.error = 'This is not a valid email address'
                 else if (err.code === 205)
-                    this.error = 'This email is not registered';
+                    this.error = 'This email is not registered'
                 else
                     this.error = "Something went wrong :( Try again later"
 
                 console.log(err)
                 this.$scope.$apply()
-            });
+            })
     }
 }
 
-LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager"];
+LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager"]

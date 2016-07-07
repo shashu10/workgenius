@@ -1,29 +1,29 @@
 class ConnectPopupService {
 
-    private connectPopup: any;
+    private connectPopup: any
 
     constructor(public $ionicPopup: ionic.popup.IonicPopupService, public $rootScope: ng.IRootScopeService) {}
 
     show(company: WGCompany) {
 
-        this.connectPopup = this.$ionicPopup.show(this.newConnectPopup());
+        this.connectPopup = this.$ionicPopup.show(this.newConnectPopup())
 
         this.connectPopup.then((connect) => {
-            this.connectPopup = null;
-            // this.isEditing = false;
+            this.connectPopup = null
+            // this.isEditing = false
 
             // Pressed connect or hit enter/go on keyboard
             if (connect || connect === undefined) {
-                // this.connect(company);
+                // this.connect(company)
                 // Pressed never mind
             } else {
-                // company.connected = false;
+                // company.connected = false
             }
-        });
+        })
     }
 
     newConnectPopup() {
-        var scope = this.$rootScope.$new(true) as ConnectPopupScope;
+        var scope = this.$rootScope.$new(true) as ConnectPopupScope
         scope.user = {
             username: "",
             password: ""
@@ -39,17 +39,17 @@ class ConnectPopupService {
                 type: 'button-dark',
                 onTap: function(e) {
                     // Returning a value will cause the promise to resolve with the given value.
-                    return false;
+                    return false
                 }
             }, {
                     text: 'Connect',
                     type: 'button-positive',
                     onTap: function(e) {
                         // Returning a value will cause the promise to resolve with the given value.
-                        return scope.user;
+                        return scope.user
                     }
                 }]
-        };
+        }
     }
 }
 
