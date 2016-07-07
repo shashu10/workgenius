@@ -37,8 +37,11 @@ class CurrentUserService {
     get availability(): WGAvailability { return this.obj && this.obj.get('availability') }
     set availability(availability: WGAvailability) { this.obj && this.obj.set('availability', availability) }
 
-    get address() { return this.obj && this.obj.get('address') }
+    get address(): Object { return this.obj && this.obj.get('address') }
     set address(address) { this.obj && this.obj.set('address', address) }
+
+    get vehicles(): WGVehicle[] { return this.obj && this.obj.get('vehicles') }
+    set vehicles(vehicles: WGVehicle[]) { this.obj && this.obj.set('vehicles', vehicles) }
 
     hasCar() {
         return true

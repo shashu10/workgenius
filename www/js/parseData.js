@@ -112,28 +112,28 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
         return query.find();
     };
 
-    var getVehicles = function(user) {
-        var car = _.find(user && user.get('vehicles'), function(v) { return v.indexOf('car') > -1; });
+    // var getVehicles = function(user) {
+    //     var car = _.find(user && user.get('vehicles'), function(v) { return v.indexOf('car') > -1; });
 
-        return [{
-            name: "walking",
-            icon: "ion-ios-body",
-            selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('none') > -1
-        }, {
-            name: "bicycle",
-            icon: "ion-android-bicycle",
-            selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('bicycle') > -1
-        }, {
-            name: "motorbike",
-            icon: "ion-android-bicycle",
-            selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('motorbike') > -1
-        }, {
-            name: "car",
-            info: (car && car.substring(5)) || "",
-            icon: "ion-android-car",
-            selected: !!car
-        }, ];
-    };
+    //     return [{
+    //         name: "walking",
+    //         icon: "ion-ios-body",
+    //         selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('none') > -1
+    //     }, {
+    //         name: "bicycle",
+    //         icon: "ion-android-bicycle",
+    //         selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('bicycle') > -1
+    //     }, {
+    //         name: "motorbike",
+    //         icon: "ion-android-bicycle",
+    //         selected: !!user && !!user.get('vehicles') && user.get('vehicles').indexOf('motorbike') > -1
+    //     }, {
+    //         name: "car",
+    //         info: (car && car.substring(5)) || "",
+    //         icon: "ion-android-car",
+    //         selected: !!car
+    //     }, ];
+    // };
 
     var getBlockedDays = function(user) {
         return user.get('blockedDays') || [];
@@ -164,7 +164,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             target: 0,
             strikes: 0,
             totalHours: 0,
-            vehicles: getVehicles(),
+            // vehicles: getVehicles(),
             eligibility: [],
             blockedDays: [],
             availability: {},
@@ -313,7 +313,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                 month: 0,
                 lifetime: 0
             },
-            vehicles: getVehicles(user),
+            // vehicles: getVehicles(user),
             blockedDays: getBlockedDays(user),
             availability: getAvailability(user),
             totalHours: calculateTotalHours(user)

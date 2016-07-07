@@ -1,10 +1,44 @@
 class WGImage {
 
-    constructor(public currentUser: CurrentUserService, public $cordovaFileTransfer: ngCordova.IFileTransferService) {}
+    constructor(public currentUser: CurrentUserService, public $cordovaFileTransfer: ngCordova.IFileTransferService, public $cordovaCamera: ngCordova.ICameraService) {}
 
     public uploadHeadshot(fileURI: string) {this.uploadImage(fileURI, "workgenius-images")}
     public uploadDocument(fileURI: string) {this.uploadImage(fileURI, "workgenius-documents")}
 
+    public takeHeadshotPicture(source: number, callback: Function) {this.takePicture(source, Camera.Direction.FRONT, callback, this.uploadHeadshot)}
+    public takeDocumentPicture(source: number, callback: Function) {this.takePicture(source, Camera.Direction.BACK , callback, this.uploadDocument)}
+
+    private takePicture(source: number, direction: number, callback: Function, uploader: Function) {
+        // localhost testing
+        if (!Camera) {
+            callback("img/profile-placeholder.png")
+            return console.error("Camera plugin is not installed")
+        }
+
+        this.$cordovaCamera.getPicture({
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: source,
+            // allowEdit: true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 700,
+            targetHeight: 800,
+            cameraDirection : direction,
+            // popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: false,
+            correctOrientation: true
+
+        }).then((fileURI) => {
+            callback(fileURI)
+            console.log(fileURI)
+            uploader(fileURI)
+
+        }, (err) => {
+            callback()
+            console.log(err)
+            console.error("Could not take picture")
+        })
+    }
     private uploadImage(fileURI: string, bucket: string) {
 
         return this.getSignature(bucket)
@@ -44,4 +78,4 @@ class WGImage {
     }
 }
 
-WGImage.$inject = ["currentUser", "$cordovaFileTransfer"]
+WGImage.$inject = ["currentUser", "$cordovaFileTransfer", "$cordovaCamera"]

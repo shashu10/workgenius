@@ -4,16 +4,25 @@ var VehicleObj = Parse.Object.extend("Vehicle");
 class VehiclesCtrl {
 
     private vehicles: WGVehicle[]
+    private none: WGVehicle
 
-    constructor(public wgVehicles: WGVehiclesService, public WizardStates: WizardStatesService) {
+    constructor(public WizardStates: WizardStatesService) {
 
-        this.vehicles = wgVehicles.list
+        this.vehicles = [
+            {selected: false, type: 'Car',        icon: 'wg-icon-car'},
+            {selected: false, type: 'Truck/Van',  icon: 'wg-icon-truck'},
+            {selected: false, type: 'Motorcycle', icon: 'wg-icon-motorcycle'},
+            {selected: false, type: 'Scooter',    icon: 'wg-icon-scooter'},
+            {selected: false, type: 'Bicycle',    icon: 'wg-icon-bicycle'},
+            {selected: false, type: 'None',       icon: 'wg-icon-none'}
+        ]
+        this.none = this.vehicles[this.vehicles.length - 1]
     }
 
     toggleSelect(vehicle: WGVehicle) {
 
         // If selecting none
-        if (vehicle.type === 'None' && !vehicle.selected) {
+        if (vehicle === this.none && !vehicle.selected) {
 
             // Unselect all others
             _.forEach(this.vehicles, v => { v.selected = false })
@@ -26,15 +35,18 @@ class VehiclesCtrl {
             vehicle.selected = !vehicle.selected
 
             // Unselect none
-            var none = _.find(this.vehicles, v => v.type === 'None');
-            none.selected = false
+            this.none.selected = false
         }
     }
 
     next() {
-        this.wgVehicles.saveAll()
-        this.WizardStates.next()
+        var toSave = _.chain(angular.copy(this.vehicles))
+        .filter((v) => v.selected)    // Get only selected vehicles
+        .map((v) => ({type: v.type})) // Save only type
+        .value()
+
+        this.WizardStates.next({vehicles: toSave})
     }
 }
 
-VehiclesCtrl.$inject = ["wgVehicles", "WizardStates"];
+VehiclesCtrl.$inject = ["WizardStates"]

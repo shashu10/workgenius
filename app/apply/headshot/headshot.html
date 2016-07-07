@@ -16,6 +16,7 @@
 
         <div class="next-button">
             <button
+            ng-class="{disabled: !headshot.canContinue}",
             class="button button-positive"
             ng-click="headshot.next()"
             >

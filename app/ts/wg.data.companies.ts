@@ -11,24 +11,23 @@ class WGCompany extends Parse.Object {
         super('Company')
     }
 
-    // order in which it will appear in onboarding
-    get order(): number { return this.get('recommendationOrder') }
+    get name()               : string   { return this.get('name')}
+    get employmentType()     : string   { return this.get('employmentType')}
+    get bonusCondition()     : string   { return this.get('bonusCondition')}
+    get requiredPages()      : string[] { return this.get('requiredPages')}
+    get allowedVehicled()    : string[] { return this.get('allowedVehicled')}
+    get availableLocations() : string[] { return this.get('availableLocations')}
+    get order()              : number   { return this.get('recommendationOrder')}
+    get bonusValue()         : number   { return this.get('bonusValue')}
+    get payRangeLow()        : number   { return this.get('payRangeLow')}
+    get payRangeHigh()       : number   { return this.get('payRangeHigh')}
+    get peakDays()           : number   { return this.get('peakDays')}
+    get peakTimes()          : number   { return this.get('peakTimes')}
+    get earningsEst()        : number   { return this.get('earningsEst')}
+    get availableNow()       : boolean  { return this.get('availableNow')}
+    get interested()         : boolean  { return this.eligibility.interested}
 
-    // If not available now don't show anywhere
-    get availableNow(): boolean { return this.get('availableNow') }
-
-    get name()           : string  { return this.get('name')}
-    get requirements()   : string[]{ return this.get('requirements')}
-    get employmentType() : string  { return this.get('employmentType')}
-    get bonusCondition() : string  { return this.get('bonusCondition')}
-    get bonusValue()     : number  { return this.get('bonusValue')}
-    get payRangeLow()    : number  { return this.get('payRangeLow')}
-    get payRangeHigh()   : number  { return this.get('payRangeHigh')}
-    get peakDays()       : number  { return this.get('peakDays')}
-    get peakTimes()      : number  { return this.get('peakTimes')}
-    get earningsEst()    : number  { return this.get('earningsEst')}
-    get interested()     : boolean { return this.eligibility.interested}
-    set interested(value : boolean) { this.eligibility.set('interested', value)}
+    set interested(value: boolean) { this.eligibility.set('interested', value)}
 }
 
 class WGCompaniesService {
@@ -36,20 +35,22 @@ class WGCompaniesService {
     public list: WGCompany[] = []
     public onDataReload = function() {}
 
-    constructor(public $rootScope: ng.IRootScopeService, public currentUser: CurrentUserService, public wgEligibilities: WGEligibilitiesService) {
-        Parse.Object.registerSubclass('Company', WGCompany);
+    constructor(public $rootScope: ng.IRootScopeService,
+                public currentUser: CurrentUserService,
+                public wgEligibilities: WGEligibilitiesService) {
+        Parse.Object.registerSubclass('Company', WGCompany)
     }
 
     get selected(): WGCompany[] { return _.filter(this.list, (c) => c.eligibility.interested) }
 
-    get recommended(): WGCompany[] { return this.list.slice(0, 3) }
+    get recommended(): WGCompany[] { return this.list.slice(0, 0) }
 
     get nonRecommended(): WGCompany[] { return this.list.slice(3) }
 
-    // Union of all company requirements
-    get requirements(): string[] {
+    // Union of all company requiredPages
+    get requiredPages(): string[] {
         return _.reduce(this.selected, (req, c) => {
-          return _.union(req, c.requirements);
+          return _.union(req, c.requiredPages);
         }, []);
     }
 

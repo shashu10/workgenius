@@ -1,22 +1,46 @@
 <ion-view title="Companies" ng-controller="CompaniesRecCtrl as companies">
     <ion-content class="big-form wg-application apply-companies">
-        <h4>
-            Here are some recommended jobs
-            <br>
-            based on your profile!
+
+        <h4 ng-switch="companies.recommended.length">
+            <span ng-switch-when="0"></span>
+            <span ng-switch-when="1">
+                Here is a recommended job
+                <br>
+                based on your profile!
+            </span>
+            <span ng-switch-default>
+                Here are some recommended jobs
+                <br>
+                based on your profile!
+            </span>
         </h4>
 
         <ion-list>
             <company-detail ng-repeat="company in companies.recommended" company="company" companies-ctrl="companies"></company-detail>
         </ion-list>
 
-        <div class="main-button">
-            <button ng-click="companies.showMore = !companies.showMore; companies.resize()" class="button button-stable">
-                {{companies.showMore ? "Hide additional companies" : "Show additional companies"}}
-            </button>
-        </div>
+        <h4 ng-switch="companies.nonRecommended.length">
+            <span ng-switch-when="0"></span>
+            <span ng-switch-when="1">
+                Here is another one of
+                <br>
+                our partner companies
+            </span>
+            <span ng-switch-default>
+                <span ng-if="companies.recommended.length === 0">
+                    We couldn't find any jobs based on your profile
+                    <br>
+                    :(
+                </span>
+                <span ng-if="companies.recommended.length !== 0">
+                    Here are some of our
+                    <br>
+                    other partner companies
+                </span>
+            </span>
+        </h4>
 
-        <ion-list ng-if="companies.showMore">
+        <ion-list>
             <company-detail ng-repeat="company in companies.nonRecommended" company="company"  companies-ctrl="companies"></company-detail>
         </ion-list>
 

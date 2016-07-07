@@ -18,7 +18,6 @@ class ApplicationStatesService {
                 public $rootScope: ng.IRootScopeService,
                 public $ionicHistory: ionic.navigation.IonicHistoryService,
                 public wgCompanies: WGCompaniesService,
-                public wgVehicles: WGVehiclesService,
                 public currentUser: CurrentUserService,
                 public ngProgressFactory: any) {
         this.progressbar = this.ngProgressFactory.createInstance()
@@ -93,12 +92,11 @@ class ApplicationStatesService {
         ]
 
         // show only pages that are requirements
-        this._states = _.intersection(this._states, this.wgCompanies.requirements)
+        this._states = _.intersection(this._states, this.wgCompanies.requiredPages)
         // in the end, go back to the companies view
         this._states.push('companies')
 
         // If the worker does not have a car, don't ask car stuff
-        if (!this.wgVehicles.carIsSelected) _.pull(this._states, 'car-info', 'car-documents')
 
         // Check if user already has already input this information
         if (this.currentUser.phone) _.pull(this._states, 'phone')
@@ -115,4 +113,4 @@ class ApplicationStatesService {
     }
 }
 
-ApplicationStatesService.$inject = ["$state", "$rootScope", "$ionicHistory", "wgCompanies", "wgVehicles", "currentUser", "ngProgressFactory"]
+ApplicationStatesService.$inject = ["$state", "$rootScope", "$ionicHistory", "wgCompanies", "currentUser", "ngProgressFactory"]
