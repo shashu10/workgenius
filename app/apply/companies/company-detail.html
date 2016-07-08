@@ -7,8 +7,8 @@
 
     <p>&nbsp;</p>
 
-    <p>
-        <strong>Location:</strong> San Francisco
+    <p ng-if="company.availableLocations.length">
+        <strong>Location:</strong> <span ng-repeat="loc in company.availableLocations">{{loc | capitalize: true}}{{$last ? '' : ', '}}</span>
     </p>
     <p ng-if="company.payRangeLow && company.payRangeHigh">
         <strong>Average Earnings:</strong> <strong>{{company.payRangeLow | currency:undefined:0}}</strong>  - <strong>{{company.payRangeHigh | currency:undefined:0}}</strong>

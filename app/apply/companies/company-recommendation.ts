@@ -2,25 +2,46 @@
 
 class CompaniesRecCtrl {
 
-    recommended: WGCompany[]
-    nonRecommended: WGCompany[]
+    public companies: WGCompany[]
+    public recommended: WGCompany[]
+    public nonRecommended: WGCompany[]
 
     constructor(public $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
+                public currentUser: CurrentUserService,
                 public wgCompanies: WGCompaniesService,
                 public ApplicationStates: ApplicationStatesService,
                 public $interval: ng.IIntervalService,
                 public connectPopup: ConnectPopupService) {
 
-        this.recommended = wgCompanies.recommended
-        this.nonRecommended = wgCompanies.nonRecommended
-
-        // Reload view after wgCompanies model updates
+        this.loadCompanies()
         wgCompanies.onDataReload = () => {
-            this.recommended = wgCompanies.recommended
-            this.nonRecommended = wgCompanies.nonRecommended
+            this.loadCompanies()
         }
     }
 
+    loadCompanies() {
+        this.recommended = []
+        this.nonRecommended = []
+
+        _.forEach(this.wgCompanies.list, (c) => {
+            if (this.matchesLocation(c) && this.matchesVehicles(c))
+                this.recommended.push(c)
+            else
+                this.nonRecommended.push(c)
+        })
+    }
+    matchesLocation(company: WGCompany) {
+        var userLocs = _.map(this.currentUser.locations, (l) => l.name.toLowerCase())
+        // If user has selected any vehicle required by company
+        if (_.intersection(company.availableLocations, userLocs).length > 0) return true
+    }
+    matchesVehicles(company: WGCompany) {
+        var userVehicles = _.map(this.currentUser.selectedVehicles, (v) => v.toLowerCase())
+        // If company doesn't require a vehicle, user is eligible to work for it
+        if (_.find(company.requiredVehicles, (v) => v.toLowerCase() === "none")) return true
+        // If user has selected any vehicle required by company
+        if (_.intersection(company.requiredVehicles, userVehicles).length > 0) return true
+    }
     connect(company) {
         this.connectPopup.show(company)
     }
@@ -54,7 +75,7 @@ class CompaniesRecCtrl {
     }
 }
 
-CompaniesRecCtrl.$inject = ["$ionicScrollDelegate", "wgCompanies", "ApplicationStates", "$interval", "connectPopup"]
+CompaniesRecCtrl.$inject = ["$ionicScrollDelegate", "currentUser", "wgCompanies", "ApplicationStates", "$interval", "connectPopup"]
 
 
 class CompanyDetail implements ng.IDirective {

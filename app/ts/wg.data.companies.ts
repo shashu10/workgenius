@@ -12,11 +12,11 @@ class WGCompany extends Parse.Object {
     }
 
     get name()               : string   { return this.get('name')}
-    get employmentType()     : string   { return this.get('employmentType')}
-    get bonusCondition()     : string   { return this.get('bonusCondition')}
-    get requiredPages()      : string[] { return this.get('requiredPages')}
-    get allowedVehicled()    : string[] { return this.get('allowedVehicled')}
-    get availableLocations() : string[] { return this.get('availableLocations')}
+    get employmentType()     : string   { return this.get('employmentType')     || ''}
+    get bonusCondition()     : string   { return this.get('bonusCondition')     || ''}
+    get requiredPages()      : string[] { return this.get('requiredPages')      || []}
+    get requiredVehicles()   : string[] { return _.map(this.get('requiredVehicles')   || [], (v: string) => v.toLowerCase())}
+    get availableLocations() : string[] { return _.map(this.get('availableLocations') || [], (v: string) => v.toLowerCase())}
     get order()              : number   { return this.get('recommendationOrder')}
     get bonusValue()         : number   { return this.get('bonusValue')}
     get payRangeLow()        : number   { return this.get('payRangeLow')}
@@ -43,19 +43,11 @@ class WGCompaniesService {
 
     get selected(): WGCompany[] { return _.filter(this.list, (c) => c.eligibility.interested) }
 
-    get recommended(): WGCompany[] { return this.list.slice(0, 0) }
-
-    get nonRecommended(): WGCompany[] { return this.list.slice(3) }
-
     // Union of all company requiredPages
     get requiredPages(): string[] {
         return _.reduce(this.selected, (req, c) => {
           return _.union(req, c.requiredPages);
         }, []);
-    }
-
-    get needsToLift(): boolean {
-        return !!_.find(this.selected, function(o) { return o.name.toLowerCase() === 'clutter' });
     }
 
     public init() {

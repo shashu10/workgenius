@@ -43,6 +43,8 @@ class CurrentUserService {
     get vehicles(): WGVehicle[] { return this.obj && this.obj.get('vehicles') }
     set vehicles(vehicles: WGVehicle[]) { this.obj && this.obj.set('vehicles', vehicles) }
 
+    get selectedVehicles(): string[] { return _.map(this.obj.get('vehicles'), (v: WGVehicle) => v.type) }
+
     hasCar() {
         return true
     }

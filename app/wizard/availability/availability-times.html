@@ -8,7 +8,7 @@
         </h3>
 
         <ion-checkbox ng-repeat="option in avail.options" ng-model="option.selected" class="item-checkbox-right">
-            <strong>{{option.title | uppercase}}</strong>
+            <strong>{{option.title | uppercase}} &nbsp;&nbsp; {{option.start}} - {{option.end}}</strong>
         </ion-checkbox>
 
         <div class="next-button">

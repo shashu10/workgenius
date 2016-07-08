@@ -386,6 +386,7 @@ angular.module('workgenius', [
         // ============ //
 
         .state('app.companies', {
+            cache: false,
             url: '/companies',
             views: {
                 'tab-companies': {

@@ -33,9 +33,7 @@
                     :(
                 </span>
                 <span ng-if="companies.recommended.length !== 0">
-                    Here are some of our
-                    <br>
-                    other partner companies
+                    Partner companies that don't fit your profile
                 </span>
             </span>
         </h4>
@@ -46,7 +44,7 @@
 
         <div class="next-button">
             <button ng-click="companies.next()" ng-class="{disabled: !companies.canContinue()}" class="button button-positive">
-                Continue ➝
+                Apply ➝
             </button>
         </div>
     </ion-content>

@@ -33,14 +33,10 @@ class ApplicationStatesService {
     linkProgressBar() {
         var unregister = this.$rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => { 
 
-            if (this.hasFinished(toState, fromState)) {
-                console.log("finished")
-                this.progressbar.complete()
-                unregister()
-
-            } else if (this.gonebackToStart(toState, fromState)) {
-                console.log("gonebackToStart")
-                this.progressbar.reset()
+            if (this.gonebackToStart(toState)) {
+                console.log("completed application")
+                if (this.hasFinished(toState, fromState)) this.progressbar.complete()
+                else this.progressbar.reset()
                 unregister()
 
             } else {
@@ -49,33 +45,22 @@ class ApplicationStatesService {
         })
     }
     hasFinished(toState: angular.ui.IState, fromState: angular.ui.IState) {
-        console.log(toState)
         console.log(fromState)
+        console.log(toState)
         return (toState.name === "app.companies" && fromState.name === this._states[this._states.length - 2])
     }
-    gonebackToStart(toState: angular.ui.IState, fromState: angular.ui.IState) {
-        console.log(toState)
-        console.log(fromState)
-        return (toState.name === "app.companies" && fromState.name === this._states[0])
+    gonebackToStart(toState: angular.ui.IState) {
+        return (toState.name === "app.companies")
     }
     setProgress(index: number) {
         this.progressbar.set(index / this._states.length * 100)
     }
     next(params?: Object) {
-        console.log("next")
-        console.log(this.index)
         this.currentUser.save(params)
 
-        var options
         // If the last page is companies, clear history
-        if (this.nextPage === 'app.companies') {
-            this.$ionicHistory.nextViewOptions({
-                historyRoot: true,
-            })
-            options = {clear: true}
-        }
+        if (this.nextPage === 'app.companies') this.$ionicHistory.nextViewOptions({historyRoot: true})
 
-        console.log(options)
         this.$state.go(this.nextPage)
     }
     start() {
