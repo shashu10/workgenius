@@ -12,6 +12,7 @@ class WGCompany extends Parse.Object {
     }
 
     get name()               : string   { return this.get('name')}
+    get description()        : string   { return this.get('description')}
     get employmentType()     : string   { return this.get('employmentType')     || ''}
     get bonusCondition()     : string   { return this.get('bonusCondition')     || ''}
     get requiredPages()      : string[] { return this.get('requiredPages')      || []}

@@ -9,22 +9,42 @@
                 <i class="icon ion-person"></i>Personal Information
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
+
             <ion-item href="#/app/device-type-page" class="item-icon-left item-icon-right">
-                <i class="icon ion-iphone"></i>Device
+                <i class="icon ion-document-text"></i>Documents
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
+
+            <!-- <ion-item href="#/app/device-type-page" class="item-icon-left item-icon-right">
+                <i class="icon ion-iphone"></i>Device
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item> -->
+            <!-- <br> -->
             <ion-item href="#/app/vehicles" class="item-icon-left item-icon-right">
                 <i class="icon ion-android-car"></i>Vehicles
                 <span class="item-note vehicle-item-list">
-					<!-- <span>{{(currentUser.vehicles | filter:{ selected: true }).length}}</span> -->
-					<span ng-repeat="vehicle in currentUser.vehicles | filter:{ selected: true }">{{vehicle.name}}{{$last ? '' : ', '}}</span>
+                    <!-- <span>{{(currentUser.vehicles | filter:{ selected: true }).length}}</span> -->
+                    <span ng-repeat="vehicle in currentUser.vehicles | filter:{ selected: true }">{{vehicle.name}}{{$last ? '' : ', '}}</span>
                 </span>
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
-        </ion-list>
-        <br>
-        <ion-list>
-            <ion-item href="#/app/availability" class="item-icon-left item-icon-right">
+
+            <ion-item href="#/app/device-type-page" class="item-icon-left item-icon-right">
+                <i class="icon ion-location"></i>Locations
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+
+            <ion-item href="#/app/device-type-page" class="item-icon-left item-icon-right">
+                <i class="icon ion-cash"></i>Earnings Goal
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+
+            <ion-item href="#/app/device-type-page" class="item-icon-left item-icon-right">
+                <i class="icon ion-android-notifications"></i>Notifications
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+
+            <!-- <ion-item href="#/app/availability" class="item-icon-left item-icon-right">
                 <i class="icon ion-grid"></i>Availability
 
                 <span class="item-note positive">
@@ -35,22 +55,23 @@
             <ion-item href="#/app/block-days" class="item-icon-left item-icon-right">
                 <i class="icon ion-android-calendar"></i>Time Off
                 <i class="icon ion-ios-arrow-right"></i>
-            </ion-item>
-            <ion-item href="#/app/earnings" class="item-icon-left item-icon-right">
+            </ion-item> -->
+            <!-- <ion-item href="#/app/earnings" class="item-icon-left item-icon-right">
                 <i class="icon ion-cash"></i>Earnings
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
             <ion-item href="#/app/hours" class="item-icon-left item-icon-right">
                 <i class="icon ion-ios-clock"></i>Hours
                 <i class="icon ion-ios-arrow-right"></i>
-            </ion-item>
+            </ion-item> -->
         </ion-list>
+
         <br>
-        <ion-item class="item-icon-left item-positive" ng-click="contactModal.show(); modalData.subject='general'">
+        <!-- <ion-item class="item-icon-left item-positive" ng-click="contactModal.show(); modalData.subject='general'">
           <i class="icon ion-email"></i>
           Contact Us
-        </ion-item>
-        <br>
+        </ion-item> -->
+        <!-- <br> -->
         <ion-list>
             <ion-item class="item-icon-right assertive" ng-click="logout()">
                 Logout

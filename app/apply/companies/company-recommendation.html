@@ -1,4 +1,4 @@
-<ion-view title="Companies" ng-controller="CompaniesRecCtrl as companies">
+<ion-view title="Jobs" ng-controller="CompaniesRecCtrl as companies">
     <ion-content class="big-form wg-application apply-companies">
 
         <h4 ng-switch="companies.recommended.length">
@@ -22,18 +22,15 @@
         <h4 ng-switch="companies.nonRecommended.length">
             <span ng-switch-when="0"></span>
             <span ng-switch-when="1">
-                Here is another one of
-                <br>
-                our partner companies
+                Here is another job
             </span>
             <span ng-switch-default>
                 <span ng-if="companies.recommended.length === 0">
-                    We couldn't find any jobs based on your profile
-                    <br>
-                    :(
+                    Based on your preferences, we couldn't find a perfect jobs match but here are some others to check out
+
                 </span>
                 <span ng-if="companies.recommended.length !== 0">
-                    Partner companies that don't fit your profile
+                    Here are some other jobs
                 </span>
             </span>
         </h4>

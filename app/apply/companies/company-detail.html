@@ -6,6 +6,8 @@
 <ion-item class="wg-company-detail" ng-show="company.showDetail">
 
     <p>&nbsp;</p>
+    <p>{{company.description}}</p>
+    <p>&nbsp;</p>
 
     <p ng-if="company.availableLocations.length">
         <strong>Location:</strong> <span ng-repeat="loc in company.availableLocations">{{loc | capitalize: true}}{{$last ? '' : ', '}}</span>
