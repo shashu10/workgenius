@@ -19,8 +19,6 @@ class SignupCtrl {
                 this.loading = false
                 this.error = undefined
 
-                this.getUserData(true)
-
                 this.$ionicHistory.nextViewOptions({
                     historyRoot: true,
                     // disableAnimate: true

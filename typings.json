@@ -33,6 +33,7 @@
     "ng-cordova/camera": "registry:dt/ng-cordova/camera#0.0.0+20160316171810",
     "ng-cordova/filetransfer": "registry:dt/ng-cordova/filetransfer#0.0.0+20160316171810",
     "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729",
-    "parse": "github:DefinitelyTyped/DefinitelyTyped/parse/parse.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729"
+    "parse": "github:DefinitelyTyped/DefinitelyTyped/parse/parse.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729",
+    "ravenjs": "registry:dt/ravenjs#0.0.0+20160316155526"
   }
 }

@@ -71,18 +71,56 @@ class CurrentUserService {
             return Parse.Promise.as(this.obj)
     }
 
-    logIn(): Parse.Promise<any> {
-    	return Parse.User.logIn(this.email, this.password)
+    fetch() {    
+        return Parse.User.current()
+        .fetch()
+        .then((user: Parse.User) => {
+            Raven.setUserContext({
+                email: this.email,
+                id: this.obj.id,
+                // appVersion: $rootScope.appVersion,
+            });
+            mixpanel.register({
+                Email: this.email,
+                Name: this.name,
+            })
+        }, (err) => {
+            console.log(err);
+            Parse.User.logOut();
+            Raven.setUserContext();
+            mixpanel.identify();
+        });
+    }
+    logIn(): Parse.IPromise<any> {
+    	return Parse.User.logIn(this.email, this.password).then((user) => {
+
+            this.obj = Parse.User.current()
+            // Get all additional data on login
+            this.fetch()
+
+            return Parse.Promise.as(user)
+
+        }, (error) => Parse.Promise.error(error))
     }
 
-    signUp(): Parse.Promise<any> {
+    signUp(): Parse.IPromise<any> {
 
         // Make them lowercase so we don't have people signing up twice
         this.obj.set('email', this.email.toLowerCase());
         this.obj.set('username', this.email.toLowerCase());
 
-    	return this.obj.signUp()
+        return this.obj.signUp().then((user) => {
+
+            mixpanel.register({
+                'Email': this.email,
+                'Name': this.name,
+            })
+
+            return Parse.Promise.as(user)
+
+        }, (error) => Parse.Promise.error(error))
     }
+
     resetPassword(): Parse.Promise<any> {
         return Parse.User.requestPasswordReset(this.email.toLowerCase())
     }

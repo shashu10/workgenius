@@ -21,18 +21,8 @@ class LoginCtrl {
                 this.success = undefined
                 this.error = undefined
 
-                this.getUserData().then((onboarding) => {
-                    mixpanel.register({
-                        'Email': this.currentUser.email,
-                        'Name': this.currentUser.email,
-                        'Target': this.currentUser.email,
-                    })
-
-                    this.wgDataManager.init()
-
-                    this.$state.go('app.schedule', {
-                        clear: true
-                    })
+                this.$state.go('app.schedule', {
+                    clear: true
                 })
             },
 

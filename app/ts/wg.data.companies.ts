@@ -37,7 +37,6 @@ class WGCompaniesService {
     public onDataReload = function() {}
 
     constructor(public $rootScope: ng.IRootScopeService,
-                public currentUser: CurrentUserService,
                 public wgEligibilities: WGEligibilitiesService) {
         Parse.Object.registerSubclass('Company', WGCompany)
     }
@@ -53,7 +52,7 @@ class WGCompaniesService {
 
     public init() {}
 
-    public load() {
+    public load(user: Parse.User) {
 
         this.fetchAllCompanies()
 
@@ -61,7 +60,7 @@ class WGCompaniesService {
             // Create eligibilities for each company
             this.list = _.chain(companies)
             .sortBy((c) => c.order)
-            .forEach((c) => this.setEmptyEligibility(c))
+            .forEach((c) => this.setEmptyEligibility(c, user))
             .value()
 
             return this.wgEligibilities.fetchAll()
@@ -74,8 +73,8 @@ class WGCompaniesService {
             this.onDataReload()
         })
     }
-    private setEmptyEligibility(company) {
-        company.eligibility = new WGEligibility(this.currentUser.obj, company)
+    private setEmptyEligibility(company, user: Parse.User) {
+        company.eligibility = new WGEligibility(user, company)
     }
     private attachEligibilities(eligibilities: WGEligibility[]) {
         _.forEach(eligibilities, (e) => {
@@ -117,4 +116,4 @@ class WGCompaniesService {
     }
 }
 
-WGCompaniesService.$inject = ["$rootScope", "currentUser", "wgEligibilities"]
+WGCompaniesService.$inject = ["$rootScope", "wgEligibilities"]
