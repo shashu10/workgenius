@@ -42,7 +42,7 @@ class AvailabilityConverterService {
         ])
 
     }
-    saveHourBlocks() {
+    setHourBlocks() {
         var availability: WGAvailability = {};
         // For each day
         _.forEach(this.days, (day) => {

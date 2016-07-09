@@ -31,7 +31,7 @@ class CurrentUserService {
     get earningsGoal(): number { return this.obj && this.obj.get('earningsGoal') || 140 }
     set earningsGoal(earningsGoal: number) { this.obj && this.obj.set('earningsGoal', earningsGoal) }
 
-    get locations(): WGLocation[] { return this.obj && this.obj.get('locations') }
+    get locations(): WGLocation[] { return (this.obj && this.obj.get('locations')) || [] }
 
     get phone(): string { return this.obj && this.obj.get('phone') }
     set phone(phone: string) { this.obj && this.obj.set('phone', phone) }

@@ -7,7 +7,7 @@ class AvailabilityTimesCtrl {
     }
 
     next() {
-        this.AvailabilityConverter.saveHourBlocks()
+        this.AvailabilityConverter.setHourBlocks()
         this.WizardStates.next()
     }
 }
