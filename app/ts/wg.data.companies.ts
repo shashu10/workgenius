@@ -51,7 +51,9 @@ class WGCompaniesService {
         }, []);
     }
 
-    public init() {
+    public init() {}
+
+    public load() {
 
         this.fetchAllCompanies()
 

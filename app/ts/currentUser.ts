@@ -15,6 +15,8 @@ class CurrentUserService {
         this.obj = new Parse.User();
     }
 
+    get isLoggedIn() { return !!Parse.User.current()}
+
     get password(): string { return this.obj && this.obj.get('password') }
     set password(password: string) { this.obj && this.obj.set('password', password) }
 

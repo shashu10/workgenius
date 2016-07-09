@@ -2,6 +2,7 @@ class LoginCtrl {
 
     public error: string
     public success: string
+    public loading = false
 
     constructor(public $scope: ng.IScope,
                 public $state: ng.ui.IStateService,
@@ -11,10 +12,12 @@ class LoginCtrl {
                 public wgDataManager: WGDataManagerService) {}
 
     doLogin() {
+        this.loading = true
+
         this.currentUser.logIn()
 
             .then((user) => {
-
+                this.loading = false
                 this.success = undefined
                 this.error = undefined
 
@@ -34,6 +37,7 @@ class LoginCtrl {
             },
 
             (err) => {
+                this.loading = false
                 this.success = undefined
 
                 if (err.code === 101) // invalid email

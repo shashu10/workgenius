@@ -6,7 +6,6 @@ class WGDataManagerService {
 
     init() {
         this.currentUser.init();
-        this.wgCompanies.init();
     }
 }
 

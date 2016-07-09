@@ -1,6 +1,7 @@
 class SignupCtrl {
 
     public error: string
+    public loading = false
 
     constructor(public $scope: ng.IScope,
                 public $state: ng.ui.IStateService,
@@ -10,10 +11,12 @@ class SignupCtrl {
                 public wgDataManager: WGDataManagerService) {}
 
     doSignup() {
+        this.loading = true
+
         this.currentUser.signUp()
 
             .then((user) => {
-
+                this.loading = false
                 this.error = undefined
 
                 this.getUserData(true)
@@ -29,6 +32,9 @@ class SignupCtrl {
             },
 
             (err) => {
+
+                this.loading = false
+
                 if (err.code === 125) // invalid email
                     this.error = "Please enter a valid email address"
                 else if (err.code === 202) // invalid email
