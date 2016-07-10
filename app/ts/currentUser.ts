@@ -10,10 +10,7 @@ class CurrentUserService {
 
     init() {
         this.obj = Parse.User.current()
-        if (this.obj) {
-            this.fetch()
-            this.wgCompanies.load(this.obj)
-        }
+        this.fetch()
     }
     create() {
         this.obj = new Parse.User();
@@ -75,8 +72,11 @@ class CurrentUserService {
             return Parse.Promise.as(this.obj)
     }
 
-    fetch() {    
-        return Parse.User.current()
+    fetch() {
+
+        this.wgCompanies.load(Parse.User.current())
+
+        return Parse.User.current() && Parse.User.current()
         .fetch()
         .then((user: Parse.User) => {
             Raven.setUserContext({
@@ -99,8 +99,6 @@ class CurrentUserService {
     logIn(): Parse.IPromise<any> {
     	return Parse.User.logIn(this.email, this.password).then((user: Parse.User) => {
 
-            // Load data after authentication for eligibility
-            this.wgCompanies.load(user)
             this.obj = Parse.User.current()
             // Get all additional data on login
             this.fetch()
@@ -118,12 +116,13 @@ class CurrentUserService {
 
         return this.obj.signUp().then((user: Parse.User) => {
 
-            // Load data after authentication for eligibility
-            this.wgCompanies.load(user)
             mixpanel.register({
                 'Email': this.email,
                 'Name': this.name,
             })
+
+            // Not necessary but easier to deal with
+            this.fetch()
 
             return Parse.Promise.as(user)
 

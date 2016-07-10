@@ -30,6 +30,7 @@
     "mixpanel": "registry:dt/mixpanel#0.0.0+20160317120654",
     "moment": "registry:dt/moment#2.8.0+20160316155526",
     "moment-node": "registry:dt/moment-node#2.11.1+20160511043338",
+    "ng-cordova/app-version": "registry:dt/ng-cordova/app-version#0.0.0+20160316171810",
     "ng-cordova/camera": "registry:dt/ng-cordova/camera#0.0.0+20160316171810",
     "ng-cordova/device": "registry:dt/ng-cordova/device#0.0.0+20160316171810",
     "ng-cordova/filetransfer": "registry:dt/ng-cordova/filetransfer#0.0.0+20160316171810",

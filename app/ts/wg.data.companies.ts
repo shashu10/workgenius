@@ -79,7 +79,7 @@ class WGCompaniesService {
     private attachEligibilities(eligibilities: WGEligibility[]) {
         _.forEach(eligibilities, (e) => {
             var found = _.find(this.list, function(company) { return company.name === e.company.name });
-            found.eligibility = e
+            if (found) found.eligibility = e
         })
     }
 
