@@ -6,15 +6,19 @@ class CurrentUserService {
     public availabilityDays: Object[];
     public availabilityTimes: Object[];
 
-    constructor() {}
+    constructor(public wgCompanies: WGCompaniesService) {}
 
     init() {
         this.obj = Parse.User.current()
+        if (this.obj) {
+            this.fetch()
+            this.wgCompanies.load(this.obj)
+        }
     }
     create() {
         this.obj = new Parse.User();
     }
-
+    get newUserCreated() { return this.obj && !this.obj.existed()}
     get isLoggedIn() { return !!Parse.User.current()}
 
     get password(): string { return this.obj && this.obj.get('password') }
@@ -84,6 +88,7 @@ class CurrentUserService {
                 Email: this.email,
                 Name: this.name,
             })
+
         }, (err) => {
             console.log(err);
             Parse.User.logOut();
@@ -92,8 +97,10 @@ class CurrentUserService {
         });
     }
     logIn(): Parse.IPromise<any> {
-    	return Parse.User.logIn(this.email, this.password).then((user) => {
+    	return Parse.User.logIn(this.email, this.password).then((user: Parse.User) => {
 
+            // Load data after authentication for eligibility
+            this.wgCompanies.load(user)
             this.obj = Parse.User.current()
             // Get all additional data on login
             this.fetch()
@@ -109,8 +116,10 @@ class CurrentUserService {
         this.obj.set('email', this.email.toLowerCase());
         this.obj.set('username', this.email.toLowerCase());
 
-        return this.obj.signUp().then((user) => {
+        return this.obj.signUp().then((user: Parse.User) => {
 
+            // Load data after authentication for eligibility
+            this.wgCompanies.load(user)
             mixpanel.register({
                 'Email': this.email,
                 'Name': this.name,
@@ -125,6 +134,8 @@ class CurrentUserService {
         return Parse.User.requestPasswordReset(this.email.toLowerCase())
     }
 }
+
+CurrentUserService.$inject = ["wgCompanies"]
 
 angular.module('wg.user', [])
 

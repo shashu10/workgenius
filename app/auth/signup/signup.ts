@@ -18,12 +18,16 @@ class SignupCtrl {
 
     // Checks if the user can be on this state
     checkState() {
+        if (this.$state.current.name === 'signup-name') return
+
         // If user doesn't have name, they shouldn't go to the next stage
         if (this.$state.current.name !== 'signup-name' && !this.currentUser.name) {
+            console.log("signup-name")
             this.wgState.goWithoutAnimate('signup-name')
 
         // If user doesn't have email, they shouldn't go to the next stage
         } else if (this.$state.current.name !== 'signup-email' && !this.currentUser.email) {
+            console.log("signup-email")
             this.wgState.goWithoutAnimate('signup-email')
 
         } // else password page
