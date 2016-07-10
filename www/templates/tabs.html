@@ -4,7 +4,7 @@ Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
 
-<ion-tabs class="tabs-icon-top tabs-color-active-positive">
+<ion-tabs ng-controller="TabCtrl as tabs" class="tabs-icon-top tabs-color-active-positive">
 
   <!-- Schedule Tab -->
   <ion-tab title="Schedule" icon-off="ion-ios-calendar-outline" icon-on="ion-ios-calendar" href="#/app/schedule">

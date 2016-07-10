@@ -5,7 +5,7 @@ angular.module('workgenius.controllers', ['integrations'])
 //     MENU     //
 // ============ //
 
-.controller('MenuCtrl', ['$scope', '$rootScope', '$state', '$ionicHistory', '$ionicModal', '$interval', 'zenMessage', 'getUserData',
+.controller('TabCtrl', ['$scope', '$rootScope', '$state', '$ionicHistory', '$ionicModal', '$interval', 'zenMessage', 'getUserData',
     function($scope, $rootScope, $state, $ionicHistory, $ionicModal, $interval, zenMessage, getUserData) {
 
         // With the new view caching in Ionic, Controllers are only called
