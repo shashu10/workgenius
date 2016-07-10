@@ -4,13 +4,29 @@ class LoginCtrl {
     public success: string
     public loading = false
 
-    constructor(public $scope: ng.IScope,
-                public $state: ng.ui.IStateService,
+    constructor(public $scope: angular.IScope,
+                public $state: angular.ui.IStateService,
                 public $ionicHistory: ionic.navigation.IonicHistoryService,
                 public currentUser: CurrentUserService,
                 public getUserData: Function,
-                public wgDataManager: WGDataManagerService) {}
+                public wgDataManager: WGDataManagerService,
+                public wgState: WGState) {
 
+        if (!currentUser.newUserCreated) currentUser.create()
+
+        this.checkState()
+    }
+
+    // Checks if the user can be on this state
+    checkState() {
+        if (this.$state.current.name === 'login-forgot-password') return
+
+        // If user doesn't have email, they shouldn't go to the next stage
+        else if (this.$state.current.name !== 'login-email' && !this.currentUser.email) {
+            this.wgState.goWithoutAnimate('login-email')
+
+        } // else password page
+    }
     doLogin() {
         this.loading = true
 
@@ -102,4 +118,4 @@ class LoginCtrl {
     }
 }
 
-LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager"]
+LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager", "wgState"]

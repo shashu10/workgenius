@@ -8,8 +8,26 @@ class SignupCtrl {
                 public $ionicHistory: ionic.navigation.IonicHistoryService,
                 public currentUser: CurrentUserService,
                 public getUserData: Function,
-                public wgDataManager: WGDataManagerService) {}
+                public wgDataManager: WGDataManagerService,
+                public wgState: WGState) {
 
+        if (!currentUser.newUserCreated) currentUser.create()
+
+        this.checkState()
+    }
+
+    // Checks if the user can be on this state
+    checkState() {
+        // If user doesn't have name, they shouldn't go to the next stage
+        if (this.$state.current.name !== 'signup-name' && !this.currentUser.name) {
+            this.wgState.goWithoutAnimate('signup-name')
+
+        // If user doesn't have email, they shouldn't go to the next stage
+        } else if (this.$state.current.name !== 'signup-email' && !this.currentUser.email) {
+            this.wgState.goWithoutAnimate('signup-email')
+
+        } // else password page
+    }
     doSignup() {
         this.loading = true
 
@@ -63,4 +81,4 @@ class SignupCtrl {
     }
 }
 
-SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager"]
+SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager", "wgState"]

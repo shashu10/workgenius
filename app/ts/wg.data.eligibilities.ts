@@ -23,7 +23,7 @@ class WGEligibilitiesService {
 
     public list: WGEligibility[] = []
 
-    constructor(public $rootScope: ng.IRootScopeService, public currentUser: CurrentUserService) {
+    constructor(public $rootScope: ng.IRootScopeService) {
         Parse.Object.registerSubclass('Eligibility', WGEligibility);
     }
 
@@ -45,4 +45,4 @@ class WGEligibilitiesService {
     }
 }
 
-WGEligibilitiesService.$inject = ["$rootScope", "currentUser"]
+WGEligibilitiesService.$inject = ["$rootScope"]

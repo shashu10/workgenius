@@ -14,10 +14,9 @@ class WizardStatesService {
                 public $rootScope: ng.IRootScopeService,
                 public currentUser: CurrentUserService,
                 public ngProgressFactory) {
-
+        localStorage.setItem('wg.startedWizard', 'true');
         this.initProgressBar()
     }
-
 
     get nextPage(): string {
         return this._states[this.index + 1]
@@ -35,6 +34,8 @@ class WizardStatesService {
 
             this.setProgress(this.index)
             if (this.hasFinished()) {
+                localStorage.removeItem('wg.startedWizard');
+                localStorage.setItem('wg.finishedWizard', 'true');
                 this.progressbar.complete()
                 unregister()
             }

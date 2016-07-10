@@ -2,9 +2,7 @@ class WelcomeCtrl {
 
     private $inject = ["$state", "currentUser", "getUserData"]
 
-    constructor(public $state: ng.ui.IStateService, public currentUser: CurrentUserService, public getUserData: Function) {
-        this.currentUser.create()
-    }
+    constructor(public $state: ng.ui.IStateService) {}
 
     login() {
         // Easier to do this and store login credentials in currentuser
@@ -15,7 +13,6 @@ class WelcomeCtrl {
         this.$state.go('signup-name')
     }
     skip() {
-        this.getUserData()
         this.$state.go('app.schedule')
     }
 }
