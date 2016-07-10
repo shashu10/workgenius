@@ -6,3 +6,6 @@ angular.module('wg.utils', [])
     .service('wgImage', WGImage)
 
     .service('wgState', WGState)
+
+    .service('wgDevice', WGDevice)
+    

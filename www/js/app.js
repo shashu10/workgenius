@@ -45,27 +45,23 @@ angular.module('workgenius', [
     // 'ionic.service.analytics'
 ])
 
-.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', 'updateAppSettings', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService', 'wgDataManager', 'currentUser',
-    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, updateAppSettings, $ionicHistory, ios_modes_map, connectedShifts, PtrService, wgDataManager, currentUser) {
-
-        // ionic platform should be ready now
-        if (window.location.hostname !== 'localhost') $state.go('welcome');
-
+.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService', 'wgDataManager', 'currentUser', 'wgState',
+    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, $ionicHistory, ios_modes_map, connectedShifts, PtrService, wgDataManager, currentUser, wgState) {
         // Initialize Parse here with AppID and JavascriptID
         Parse.initialize(PARSE_APP_ID, PARSE_JS_KEY);
 
-        // TS initialization
-        wgDataManager.init();
+        // Initialize local data
+        currentUser.init();
 
-        // Setup variables used through out the app
-        $rootScope.device = {
-            platform: '',
-            model: '',
-            carrier: ''
-        };
-        $rootScope.appVersion = "9.9.9";
-        // $rootScope.hourlyRate = 15; // For when we don't have the actual earnings
-        // $rootScope.imageURL = "img/profile_default.jpg";
+        // Figure out which state to load
+        initState();
+
+        //////////////////
+        //              //
+        //    LEGACY    //
+        //              //
+        //////////////////
+
         $rootScope.days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
         $rootScope.availabilityLock = {
             // Using ISO day numbers Monday - 1, Sunday - 7
@@ -75,14 +71,7 @@ angular.module('workgenius', [
             end: "Sunday",
             disableLock: true,
         };
-                
-        // // Testing on the browser. Unregister tracking and error logging.
-        // if (!ionic.Platform.isWebView()) {
-        //     mixpanel.register({ "$ignore": true });
-        //     Raven.uninstall();
-        // }
 
-        // $ionicAnalytics.register();
         // Reload shifts if sent to background and reopened
         document.addEventListener("resume", function () {
             mixpanel.track('Resumed app');
@@ -95,89 +84,12 @@ angular.module('workgenius', [
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
             cordova.plugins.Keyboard.disableScroll(true);
         }
-
-        if (window.cordova && window.cordova.getAppVersion) {
-            cordova.getAppVersion.getVersionNumber().then(function(version) {
-
-                trackNewAppVersion(version);
-
-                var platform = "localhost";
-                if (window.device && window.device.platform){
-                    console.log('got device info');
-                    platform = device.platform.toLowerCase();
-                    $rootScope.device = angular.copy(device);
-                    if (platform === 'ios') // Converts iPhone "iPhone7,2" to "iPhone 6"
-                        $rootScope.device.model = ios_modes_map[device.model] || device.model;
-                    $rootScope.prefilledDevice = true;
-                    console.log(device);
-                }
-
-                updateAppSettings(version, platform);
-            });
-
-            // For localhost testing
-        } else {
-            $rootScope.appVersion = undefined;
-            updateAppSettings("1.1.1", "");
-        }
-
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
             // not working
             StatusBar.overlaysWebView(true);
             StatusBar.styleDefault();
         }
-
-        // Update the company data
-        getCompanyData();
-
-
-        // Get user data and store it in the rootscope.
-        // Goto correct state after deviceready
-        getUserData().then(function(user) {
-
-            var transition;
-
-            // Don't transition anywhere if testing on localhost.
-            if (window.location.hostname === 'localhost' && window.location.hash !== "") {}
-
-            // If on a device disable transition and go straight to the right view.
-            else if (window.location.hash === "" || window.location.hash === "#/welcome") {
-                $ionicHistory.nextViewOptions({
-                    historyRoot: true,
-                    disableAnimate: true
-                });
-                if (user)
-                    transition = $state.go('app.schedule', {clear: true});
-                else
-                    transition = $state.go('welcome', {clear: true});
-                    // transition = $state.go('registration.signup', {clear: true});
-
-            // Default case
-            } else {
-                transition = $state.go('welcome', {clear: true});
-            }
-
-            // After transitioning to the right state, reload connected shifts to trigger refresh spinner
-            if (transition) {
-                transition.then(function () {
-
-                    // Wait for dom to render
-                    $interval(function () {
-                        // hide splash screen
-                        if (navigator && navigator.splashscreen) navigator.splashscreen.hide();
-                        reloadConnectedShifts();
-
-                    // What's the magic number?
-                    }, 400, 1);
-                });
-            }
-
-        }, function (error) {
-            $state.go('welcome', {clear: true});
-        });
-
-        //////////
 
         function reloadConnectedShifts() {
 
@@ -194,14 +106,51 @@ angular.module('workgenius', [
 
         }
 
-        function trackNewAppVersion(version) {
-            $rootScope.appVersion = version;
-            // update app version in sentry and mixpanel
-            var rvContext = Raven.getContext();
-            rvContext = (rvContext && rvContext.user) || {};
-            rvContext.appVersion = version;
-            Raven.setUserContext(rvContext);
-            mixpanel.people.set({"appVersion": version});
+        /////////////////
+
+
+        function initState() {
+
+            if (IS_TESTING) return;
+
+            var transition;
+
+            if (currentUser.isLoggedIn) {
+                console.log("logged in");
+                // If not finished wizard, go to wizard
+                if (localStorage.getItem('wg.startedWizard')) {
+                    transition = wgState.goWithoutAnimate('wizard-goal');
+
+                } else { // Go to main app
+                    transition = wgState.goWithoutAnimate('app.schedule');
+                }
+
+            } else {
+
+                console.log("not logged in");
+                var curr = $state.current.name;
+                // If not authenticated, user can go to auth pages
+                if (_.includes(curr, 'welcome') || _.includes(curr, 'login') || _.includes(curr, 'signup')) {
+                // Else user should be redirected to welcome
+                } else {
+                    transition = wgState.goWithoutAnimate('welcome');
+                }
+            }
+
+            // After transitioning to the right state, reload connected shifts to trigger refresh spinner
+            if (transition) {
+                transition.then(function () {
+
+                    // Wait for dom to render
+                    $interval(function () {
+                        // hide splash screen
+                        if (navigator && navigator.splashscreen) navigator.splashscreen.hide();
+                        reloadConnectedShifts();
+
+                    // What's the magic number?
+                    }, 400, 1);
+                });
+            }
         }
     }
 ])
@@ -554,6 +503,6 @@ angular.module('workgenius', [
         // if none of the above states are matched, use this as the fallback
         // $urlRouterProvider.otherwise('/registration/signup');
 
-        $urlRouterProvider.otherwise('/welcome');
+        // $urlRouterProvider.otherwise('/welcome');
     }
 ]);

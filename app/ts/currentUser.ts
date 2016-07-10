@@ -6,11 +6,11 @@ class CurrentUserService {
     public availabilityDays: Object[];
     public availabilityTimes: Object[];
 
-    constructor(public wgCompanies: WGCompaniesService) {}
+    constructor(public wgCompanies: WGCompaniesService, public wgDevice: WGDevice, public getUserData: any) {}
 
     init() {
         this.obj = Parse.User.current()
-        this.fetch()
+        this.load()
     }
     create() {
         this.obj = new Parse.User();
@@ -72,9 +72,12 @@ class CurrentUserService {
             return Parse.Promise.as(this.obj)
     }
 
-    fetch() {
+    load() {
 
         this.wgCompanies.load(Parse.User.current())
+        this.wgDevice.trackDevice()
+
+        this.getUserData()
 
         return Parse.User.current() && Parse.User.current()
         .fetch()
@@ -101,7 +104,7 @@ class CurrentUserService {
 
             this.obj = Parse.User.current()
             // Get all additional data on login
-            this.fetch()
+            this.load()
 
             return Parse.Promise.as(user)
 
@@ -122,7 +125,7 @@ class CurrentUserService {
             })
 
             // Not necessary but easier to deal with
-            this.fetch()
+            this.load()
 
             return Parse.Promise.as(user)
 
@@ -134,7 +137,7 @@ class CurrentUserService {
     }
 }
 
-CurrentUserService.$inject = ["wgCompanies"]
+CurrentUserService.$inject = ["wgCompanies", "wgDevice", "getUserData"]
 
 angular.module('wg.user', [])
 
