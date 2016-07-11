@@ -26,6 +26,7 @@ class WGCompany extends Parse.Object {
     get peakTimes()          : number   { return this.get('peakTimes')}
     get earningsEst()        : number   { return this.get('earningsEst')}
     get availableNow()       : boolean  { return this.get('availableNow')}
+    get isPartner()          : boolean  { return this.get('isPartner')}
     get interested()         : boolean  { return this.eligibility.interested}
 
     set interested(value: boolean) { this.eligibility.set('interested', value)}

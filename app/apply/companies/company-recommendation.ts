@@ -24,9 +24,10 @@ class CompaniesRecCtrl {
         this.nonRecommended = []
 
         _.forEach(this.wgCompanies.list, (c) => {
+            // Don't show companies that don't have a recommendation order
             if (!c.order) return
 
-            if (this.matchesLocation(c) && this.matchesVehicles(c))
+            if (this.matchesLocation(c) && this.matchesVehicles(c) && c.isPartner)
                 this.recommended.push(c)
             else
                 this.nonRecommended.push(c)
