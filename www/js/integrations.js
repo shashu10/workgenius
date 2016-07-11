@@ -1,9 +1,9 @@
 angular.module('integrations', ['parseUtils'])
     .factory('eligibilities', ['$rootScope', 'connectedShifts', '$interval', eligibilities])
 
-    .factory('connectedShifts', ['$rootScope', 'getCompanyEligibility', 'wgShifts', connectedShifts]);
+    .factory('connectedShifts', ['$rootScope', 'wgEligibilities', 'wgShifts', connectedShifts]);
 
-function connectedShifts($rootScope, getCompanyEligibility, wgShifts) {
+function connectedShifts($rootScope, wgEligibilities, wgShifts) {
     function hasConflict(shift) {
         var start = new Date(shift.startsAt);
         var end = new Date(shift.endsAt);
@@ -239,7 +239,7 @@ function connectedShifts($rootScope, getCompanyEligibility, wgShifts) {
                 return failure && failure({message: 'conflict'});
             }
 
-	        var el = getCompanyEligibility(shift.company.name);
+	        var el = wgEligibilities.getCompanyEligibility(shift.company.name);
 
             // For claiming your own dropped shift in WIW. Logic should be moved server side
             var ownShift = false;
