@@ -29,7 +29,7 @@ var paths = {
 };
 
 gulp.task('serve', shell.task(['ionic serve']));
-gulp.task('compile', shell.task(['tsc']));
+gulp.task('compile', shell.task(['tsc -sourcemap']));
 
 gulp.task('cache', function () {
     gulp.src(paths.templates)

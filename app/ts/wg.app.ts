@@ -1,52 +1,21 @@
-// Ionic Workgenius App
+declare var PARSE_APP_ID
+declare var PARSE_JS_KEY
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'workgenius' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'workgenius.controllers' is found in controllers.js
-angular.module('workgenius', [
-    // Typescript
-    'wg.auth',
-    'wg.wizard',
-    'wg.apply',
-    'wg.user',
-    'wg.constants',
-    'wg.data',
-    'wg.utils',
-    'wg.popups',
-
-    'ionic',
-    'ngCordova',
-    'workgenius.controllers',
-    'workgenius.directives',
-    'workgenius.services',
-    'workgenius.constants',
-    'workgenius.filters',
-    'workgenius.schedule',
-    'workgenius.availability',
-    'workgenius.claimShifts',
-    'parseData',
-    'parseUtils',
-    'parseShifts',
-    'integrations',
-    'inputFormatter',
-    'angular.filter',
-    'ioncal',
-    'pascalprecht.translate',
-    'ngIOS9UIWebViewPatch',
-    'templatescache',
-    'angulartics',
-    'angulartics.mixpanel',
-    'ngRaven',
-    'ngProgress',
-
-    // 'workgenius.tracker',
-    // 'ionic.service.core',
-    // 'ionic.service.analytics'
-])
-
-.run(['$rootScope', '$state', 'getUserData', 'getCompanyData', 'getShifts', '$interval', '$ionicHistory', 'ios_modes_map', 'connectedShifts', 'PtrService', 'wgDataManager', 'currentUser', 'wgState',
-    function($rootScope, $state, getUserData, getCompanyData, getShifts, $interval, $ionicHistory, ios_modes_map, connectedShifts, PtrService, wgDataManager, currentUser, wgState) {
+class WGAppRun {
+    
+    constructor(public $rootScope,
+                public $state,
+                public getUserData,
+                public getCompanyData,
+                public getShifts,
+                public $interval,
+                public $ionicHistory,
+                public ios_modes_map,
+                public connectedShifts,
+                public PtrService,
+                public wgDataManager,
+                public currentUser,
+                public wgState) {
         // Initialize Parse here with AppID and JavascriptID
         Parse.initialize(PARSE_APP_ID, PARSE_JS_KEY);
 
@@ -63,17 +32,17 @@ angular.module('workgenius', [
         //////////////////
 
         $rootScope.days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-        $rootScope.availabilityLock = {
-            // Using ISO day numbers Monday - 1, Sunday - 7
-            // Users cannot edit their availability in App on or after start day
-            start: "Sunday",
-            // and on or before end day
-            end: "Sunday",
-            disableLock: true,
-        };
+        // $rootScope.availabilityLock = {
+        //     // Using ISO day numbers Monday - 1, Sunday - 7
+        //     // Users cannot edit their availability in App on or after start day
+        //     start: "Sunday",
+        //     // and on or before end day
+        //     end: "Sunday",
+        //     disableLock: true,
+        // };
 
         // Reload shifts if sent to background and reopened
-        document.addEventListener("resume", function () {
+        document.addEventListener("resume", () => {
             mixpanel.track('Resumed app');
             reloadConnectedShifts();
         }, false);
@@ -91,6 +60,10 @@ angular.module('workgenius', [
             StatusBar.styleDefault();
         }
 
+
+        /////////////////
+
+        // Config does not have 'this' keyword so we need function definitions
         function reloadConnectedShifts() {
 
             // Refresh connected and available shifts. Show refresh spinner if on the right page
@@ -106,12 +79,12 @@ angular.module('workgenius', [
 
         }
 
-        /////////////////
-
-
         function initState() {
 
-            if (IS_TESTING) return;
+            if (IS_TESTING) {
+                if (window.location.hash === "") wgState.goWithoutAnimate('welcome')
+                return;
+            }
 
             var transition;
 
@@ -139,10 +112,10 @@ angular.module('workgenius', [
 
             // After transitioning to the right state, reload connected shifts to trigger refresh spinner
             if (transition) {
-                transition.then(function () {
+                transition.then(() => {
 
                     // Wait for dom to render
-                    $interval(function () {
+                    $interval(() => {
                         // hide splash screen
                         if (navigator && navigator.splashscreen) navigator.splashscreen.hide();
                         reloadConnectedShifts();
@@ -153,10 +126,14 @@ angular.module('workgenius', [
             }
         }
     }
-])
+}
 
-.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$analyticsProvider',
-    function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $analyticsProvider) {
+class WGAppConfig {
+    
+    constructor($stateProvider,
+                $urlRouterProvider,
+                $ionicConfigProvider,
+                $analyticsProvider) {
 
         $ionicConfigProvider.tabs.position('bottom');
         // $ionicConfigProvider.backButton.text('Back');
@@ -246,7 +223,6 @@ angular.module('workgenius', [
             url: '/app',
             abstract: true,
             templateUrl: 'tabs.html',
-            controller: 'MenuCtrl'
         })
 
         .state('app.preferences', {
@@ -505,4 +481,76 @@ angular.module('workgenius', [
 
         // $urlRouterProvider.otherwise('/welcome');
     }
+}
+
+// Ionic Workgenius App
+
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'workgenius' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'workgenius.controllers' is found in controllers.js
+angular.module('workgenius', [
+    // Typescript
+    'wg.auth',
+    'wg.wizard',
+    'wg.apply',
+    'wg.user',
+    'wg.constants',
+    'wg.data',
+    'wg.utils',
+    'wg.popups',
+
+    'ionic',
+    'ngCordova',
+    'workgenius.controllers',
+    'workgenius.directives',
+    'workgenius.services',
+    'workgenius.constants',
+    'workgenius.filters',
+    'workgenius.schedule',
+    'workgenius.availability',
+    'workgenius.claimShifts',
+    'parseData',
+    'parseUtils',
+    'parseShifts',
+    'integrations',
+    'inputFormatter',
+    'angular.filter',
+    'ioncal',
+    'pascalprecht.translate',
+    'ngIOS9UIWebViewPatch',
+    'templatescache',
+    'angulartics',
+    'angulartics.mixpanel',
+    'ngRaven',
+    'ngProgress',
+
+    // 'workgenius.tracker',
+    // 'ionic.service.core',
+    // 'ionic.service.analytics'
+])
+
+.run([
+    '$rootScope',
+    '$state',
+    'getUserData',
+    'getCompanyData',
+    'getShifts',
+    '$interval',
+    '$ionicHistory',
+    'ios_modes_map',
+    'connectedShifts',
+    'PtrService',
+    'wgDataManager',
+    'currentUser',
+    'wgState',
+    WGAppRun
+])
+
+.config([
+    '$stateProvider',
+    '$urlRouterProvider',
+    '$ionicConfigProvider',
+    '$analyticsProvider',
+    WGAppConfig
 ]);
