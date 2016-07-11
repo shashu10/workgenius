@@ -4,8 +4,8 @@ class WizardStatesService {
     private _states = [
         'wizard-goal',
         'wizard-locations',
-        'wizard-availability-days',
-        'wizard-availability-times',
+        'wizard-avail-days',
+        'wizard-avail-times',
         'wizard-vehicles',
         'app.companies',
     ]
