@@ -1,10 +1,12 @@
+var _WGEligibilityTokenRefresher
+
 // Makes it easy to keep track of eligibilities
 class WGEligibility extends Parse.Object {
 
-    constructor(worker: Parse.User, company: WGCompany, interested = false) {
+    constructor(company: WGCompany, interested = false) {
         super('Eligibility')
 
-        this.worker = worker
+        this.worker = Parse.User.current()
         this.company = company
         this.interested = interested
     }
@@ -58,40 +60,43 @@ class WGEligibilitiesService {
         return _.find(this.list, (el) => el.company.name === name)
     }
 
-    startRefreshTimers() {
-        _.forEach(this.list, (el) => {
-            var duration: number
-
-            if (el.company.name === 'doordash')       duration = 3 * 60 * 60 * 1000
-            else if (el.company.name === 'postmates') duration = 12 * 60 * 60 * 1000
-
-            if (duration) {
-                if (el.refresher) this.$interval.cancel(el.refresher)
-
-                el.refresher = this.$interval(() => {
-                    el.refreshToken()
-                }, duration)
-            }
+    load() {
+        this.fetchAll()
+        .then((results) => {
+            this.list = results
+            this.startRefreshTimers()
+        }, (err) => {
+            console.log("Could not get eligibilities")
         })
     }
-    fetchAll(): Parse.Promise<any[]> {
+
+    // Check if tokens need to be refreshed every hour
+    private startRefreshTimers() {
+        if (_WGEligibilityTokenRefresher) this.$interval.cancel(_WGEligibilityTokenRefresher)
+        _WGEligibilityTokenRefresher = this.$interval(() => this.refreshAllTokens(), 1 * 60 * 60 * 1000)
+    }
+    private refreshAllTokens() {
+        _.forEach(this.list, (el) => {
+            var duration: number
+            if (el.company.name === 'doordash')       duration = 3 * 60 * 60 * 1000
+            else if (el.company.name === 'postmates') duration = 12 * 60 * 60 * 1000
+            else return
+
+            // If not expired, wait until next refresh
+            var expiration = moment(el.tokenRefreshedAt).add(duration, 'milliseconds');
+            if (expiration.isAfter(moment())) return
+
+            // Otherwise refresh token
+            el.refreshToken()
+        })
+    }
+    private fetchAll(): Parse.Promise<any[]> {
 
         var query = new Parse.Query(WGEligibility)
         query.equalTo('worker', Parse.User.current())
         query.include('company')
 
-        return query.find({
-
-            success: (results) => {
-                this.startRefreshTimers()
-                return results
-
-            }, error: (error) => {
-                console.error("Could not get eligibilities: " + error.code + " " + error.message)
-                // handle Error
-                return []
-            }
-        })
+        return query.find()
     }
 }
 

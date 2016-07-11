@@ -6,7 +6,10 @@ class CurrentUserService {
     public availabilityDays: Object[];
     public availabilityTimes: Object[];
 
-    constructor(public wgCompanies: WGCompaniesService, public wgDevice: WGDevice, public getUserData: any) {}
+    constructor(public wgCompanies: WGCompaniesService,
+                public wgEligibilities: WGEligibilitiesService,
+                public wgDevice: WGDevice,
+                public getUserData: any) {}
 
     init() {
         this.obj = Parse.User.current()
@@ -74,7 +77,8 @@ class CurrentUserService {
 
     load() {
 
-        this.wgCompanies.load(Parse.User.current())
+        this.wgCompanies.load()
+        this.wgEligibilities.load()
         this.wgDevice.trackDevice()
 
         this.getUserData()
@@ -137,7 +141,7 @@ class CurrentUserService {
     }
 }
 
-CurrentUserService.$inject = ["wgCompanies", "wgDevice", "getUserData"]
+CurrentUserService.$inject = ["wgCompanies", "wgEligibilities", "wgDevice", "getUserData"]
 
 angular.module('wg.user', [])
 

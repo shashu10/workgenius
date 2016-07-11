@@ -53,7 +53,7 @@ class WGCompaniesService {
 
     public init() {}
 
-    public load(user: Parse.User) {
+    public load() {
 
         this.fetchAllCompanies()
 
@@ -61,7 +61,7 @@ class WGCompaniesService {
             // Create eligibilities for each company
             this.list = _.chain(companies)
             .sortBy((c) => c.order)
-            .forEach((c) => this.setEmptyEligibility(c, user))
+            .forEach((c) => this.setEmptyEligibility(c))
             .value()
 
             return this.wgEligibilities.fetchAll()
@@ -74,8 +74,8 @@ class WGCompaniesService {
             this.onDataReload()
         })
     }
-    private setEmptyEligibility(company, user: Parse.User) {
-        company.eligibility = new WGEligibility(user, company)
+    private setEmptyEligibility(company) {
+        company.eligibility = new WGEligibility(company)
     }
     private attachEligibilities(eligibilities: WGEligibility[]) {
         _.forEach(eligibilities, (e) => {
