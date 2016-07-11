@@ -1,4 +1,4 @@
-angular.module('workgenius.availability', ['workgenius.earnings', 'parseShifts'])
+angular.module('workgenius.availability', ['parseShifts'])
 
 // ============ //
 // AVAILABILITY //
@@ -135,10 +135,10 @@ angular.module('workgenius.availability', ['workgenius.earnings', 'parseShifts']
             }
         }
     ])
-    .controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicPopup', 'setShifts', 'earningsEstimate',
-        function($rootScope, $scope, $ionicPopup, setShifts, earningsEstimate) {
+    .controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicPopup', 'setShifts', 'wgEarnigns',
+        function($rootScope, $scope, $ionicPopup, setShifts, wgEarnigns) {
 
-            $scope.earningsEstimate = earningsEstimate;
+            $scope.earningsEstimate = wgEarnigns;
             
             $scope.strikes = function(shifts) {
                 var strikes = 0;

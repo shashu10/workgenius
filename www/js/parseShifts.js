@@ -1,8 +1,8 @@
-angular.module('parseShifts', ['workgenius.earnings', 'parseUtils', 'workgenius.directives'])
+angular.module('parseShifts', ['parseUtils', 'workgenius.directives'])
 
     .factory('setShifts', ['$rootScope', '$q', 'getCompanyEligibility', setShifts])
     .factory('getShifts', ['$q', '$rootScope', 'acknowledgeShifts', getShifts])
-    .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', 'earningsEstimate', acknowledgeShifts]);
+    .factory('acknowledgeShifts', ['$q', '$rootScope', '$ionicPopup', 'wgEarnigns', acknowledgeShifts]);
 
 var Shift = Parse.Object.extend("Shift");
 
@@ -129,7 +129,7 @@ function getShifts($q, $rootScope, acknowledgeShifts) {
 }
 
 // If called multiple times, will only show one popup at a time.
-function acknowledgeShifts($q, $rootScope, $ionicPopup, earningsEstimate) {
+function acknowledgeShifts($q, $rootScope, $ionicPopup, wgEarnigns) {
 
     var _popupIsVisible = false;
 
@@ -169,7 +169,7 @@ function acknowledgeShifts($q, $rootScope, $ionicPopup, earningsEstimate) {
 
         var scope = $rootScope.$new();
 
-        scope.earningsEstimate = earningsEstimate;
+        scope.earningsEstimate = wgEarnigns;
         scope.newShifts = shifts;
 
         scope.shiftDateFormatter = shiftDateFormatter;

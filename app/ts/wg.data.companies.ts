@@ -86,7 +86,7 @@ class WGCompaniesService {
     private fetchAllCompanies(): Parse.Promise<any[]> {
 
         var query = new Parse.Query(WGCompany);
-        query.greaterThan('recommendationOrder', 0);
+        // query.greaterThan('recommendationOrder', 0);
 
         return query.find({
 

@@ -1,4 +1,4 @@
-angular.module('workgenius.schedule', ['workgenius.earnings', 'parseShifts', 'integrations'])
+angular.module('workgenius.schedule', ['parseShifts', 'integrations'])
 
 // ============ //
 //   SCHEDULE   //
@@ -58,10 +58,10 @@ angular.module('workgenius.schedule', ['workgenius.earnings', 'parseShifts', 'in
     }
   };
 })
-.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', '$timeout', 'setShifts', 'getShifts', 'earningsEstimate', 'connectedShifts',
-    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, $timeout, setShifts, getShifts, earningsEstimate, connectedShifts) {
+.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', '$timeout', 'setShifts', 'getShifts', 'wgEarnigns', 'connectedShifts',
+    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, $timeout, setShifts, getShifts, wgEarnigns, connectedShifts) {
 
-        $scope.earningsEstimate = earningsEstimate;
+        $scope.earningsEstimate = wgEarnigns;
 
         $scope.doRefresh = function() {
             connectedShifts.getAllScheduled(function() {

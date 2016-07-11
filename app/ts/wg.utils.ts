@@ -8,4 +8,5 @@ angular.module('wg.utils', [])
     .service('wgState', WGState)
 
     .service('wgDevice', WGDevice)
-    
+
+    .service('wgEarnigns', WGEarnigns)
