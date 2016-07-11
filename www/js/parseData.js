@@ -1,9 +1,9 @@
-angular.module('parseData', ['workgenius.constants', 'workgenius.earnings', 'parseUtils', 'parseShifts', 'integrations'])
+angular.module('parseData', ['workgenius.constants', 'parseUtils', 'integrations'])
     // Remove redundant data and format it to minimize storage
     .factory('formatUploadData', ['$rootScope', formatUploadData])
     .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
 
-    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'getShifts', 'setupPush', 'connectedShifts', 'eligibilities', getUserData])
+    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'wgShifts', 'setupPush', 'connectedShifts', 'eligibilities', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 function setUserData($rootScope, formatUploadData) {
@@ -101,7 +101,7 @@ function getCompanyData($rootScope, companies) {
     };
 }
 
-function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAvailableShifts, getShifts, setupPush, connectedShifts, eligibilities) {
+function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAvailableShifts, wgShifts, setupPush, connectedShifts, eligibilities) {
 
     var Eligibility = Parse.Object.extend("Eligibility");
 
@@ -241,7 +241,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
 
         $rootScope.currentUser.eligibility = eligibility;
         eligibilities.refreshAllTokens();
-        return getShifts();
+        return wgShifts.load();
 
         // Get Shift List
     }
