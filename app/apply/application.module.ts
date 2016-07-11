@@ -7,8 +7,8 @@
 /// <reference path="./car/car-documents.ts" />
 /// <reference path="./car/car-documents.ts" />
 /// <reference path="./headshot/headshot.ts" />
-/// <reference path="./background/background-check-info.ts" />
-/// <reference path="./background/background-check-ssn.ts" />
+/// <reference path="./background/bg-info.ts" />
+/// <reference path="./background/bg-ssn.ts" />
 /// <reference path="./phone-call/phone-call.ts" />
 
 angular.module('wg.apply', ['wg.user', 'parseData'])

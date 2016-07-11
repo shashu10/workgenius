@@ -1,4 +1,4 @@
-<ion-view view-title='{{title}}'>
+<ion-view view-title='{{title}}' ng-controller="ClaimShiftsCtrl">
     <ion-content class="claim-shifts">
         <ion-list>
             <ion-item class="item-remove-animate" ng-class="{'claim-success' : shift.claimStatus === 2, 'claim-failure' : shift.claimStatus === 3}" ng-repeat="shift in shifts" ng-click="select(shift)">

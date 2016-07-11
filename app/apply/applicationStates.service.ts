@@ -1,18 +1,7 @@
 class ApplicationStatesService {
 
     public progressbar
-    private _states = [
-        "app.phone",
-        "app.address",
-        "app.weight-limit",
-        "app.car-info",
-        "app.car-documents",
-        "app.headshot",
-        "app.background-check-info",
-        "app.background-check-ssn",
-        "app.phone-call",
-        "app.companies"
-    ]
+    private _states: string[]
 
     constructor(public $state: ng.ui.IStateService,
                 public $rootScope: ng.IRootScopeService,
@@ -20,10 +9,24 @@ class ApplicationStatesService {
                 public wgCompanies: WGCompaniesService,
                 public currentUser: CurrentUserService,
                 public ngProgressFactory: any) {
+        this.resetStates()
         this.progressbar = this.ngProgressFactory.createInstance()
         this.progressbar.setColor('#09f')
     }
 
+    resetStates() {
+        this._states = [
+            "phone",
+            "address",
+            "weight-limit",
+            "car-info",
+            "car-documents",
+            "headshot",
+            "bg-info",
+            "bg-ssn",
+            "phone-call",
+        ]
+    }
     get nextPage(): string {
         return this._states[this.index + 1]
     }
@@ -64,17 +67,7 @@ class ApplicationStatesService {
         this.$state.go(this.nextPage)
     }
     start() {
-        this._states = [
-            "phone",
-            "address",
-            "weight-limit",
-            "car-info",
-            "car-documents",
-            "headshot",
-            "background-check-info",
-            "background-check-ssn",
-            "phone-call",
-        ]
+        this.resetStates()
 
         // show only pages that are requirements
         this._states = _.intersection(this._states, this.wgCompanies.requiredPages)
