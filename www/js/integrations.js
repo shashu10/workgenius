@@ -388,52 +388,6 @@ function eligibilities($rootScope, connectedShifts, $interval) {
             });
     };
 
-    var createRefresherTimer = function (el, minutesInterval, expiration) {
-
-        if (el.refresher) {
-            $interval.cancel(el.refresher);
-        }
-
-        el.refresher = $interval(function() {
-            refreshToken(el, minutesInterval);
-            el.refresher = null;
-        }, moment(expiration).diff(moment()) + 10, 1);
-    };
-    var refreshToken = function(el, minutesInterval) {
-
-        if (!Parse.User.current()) return;
-
-        var expiration = moment(el.tokenRefreshedAt).add(minutesInterval, 'minutes');
-
-        // Not expired
-        if (el.tokenRefreshedAt && expiration.isAfter(moment())) {
-            createRefresherTimer(el, minutesInterval, expiration);
-            return;
-        }
-
-        // Expired
-        return Parse.Cloud.run('refreshToken',
-            {
-                eligibilityId : el.id
-            },
-            {
-                success: function(result) {
-                    console.log(result);
-                    el.object.set('token', result.token);
-                    el.token = result.token;
-                    el.object.set('tokenRefreshedAt', result.tokenRefreshedAt);
-                    el.tokenRefreshedAt = result.tokenRefreshedAt;
-
-                    expiration = moment(el.tokenRefreshedAt).add(minutesInterval, 'minutes');
-                    createRefresherTimer(el, minutesInterval, expiration);
-                },
-                error: function(error) {
-                    console.log('Could not refresh token');
-                    console.log(error);
-                }
-            });
-    };
-
     // Updates eligibility parse obj with params. Returns the param that changed
     var updateAndGetDiff = function (el) {
         var diff = false;
@@ -520,22 +474,6 @@ function eligibilities($rootScope, connectedShifts, $interval) {
 
             else
                 el.interested = toggle;
-        },
-
-        // Refresh tokens that expire. Currently it's only doordash.
-        // Needs to be called only once.
-        // Will refresh and/or set a timer to automatically refresh when tokens will expire
-        refreshAllTokens: function () {
-            for (var i = 0; i < $rootScope.currentUser.eligibility.length; i++) {
-
-                var el = $rootScope.currentUser.eligibility[i];
-
-                if (el.company === 'doordash') {
-                    refreshToken(el, 180);
-                } else if (el.company === 'postmates') {
-                    refreshToken(el, 1200);
-                }
-            }
         },
         get: get
     };
