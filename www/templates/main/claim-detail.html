@@ -17,7 +17,7 @@
                 Earn
                 <span ng-if="shift.flex">up to </span>
                 <strong class="light-green">
-                    {{earningsEstimate.shift(shift) | currency:undefined:0}}
+                    {{wgEarnings.shift(shift) | currency:undefined:0}}
                 </strong>
                 <span ng-if="shift.flex">in {{time = (shift.startsAt | hoursBetween : shift.endsAt)}} {{time === 1 ? 'hour' : 'hours'}}</span>
             </div>

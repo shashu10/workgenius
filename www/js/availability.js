@@ -126,7 +126,7 @@ angular.module('workgenius.availability', [])
     .controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicPopup', 'wgShifts', 'wgEarnigns',
         function($rootScope, $scope, $ionicPopup, wgShifts, wgEarnigns) {
 
-            $scope.earningsEstimate = wgEarnigns;
+            $scope.wgEarnings = wgEarnigns;
             
             $scope.strikes = function(shifts) {
                 var strikes = 0;
@@ -153,7 +153,7 @@ angular.module('workgenius.availability', [])
 
             //     $scope.cannotCancelPopup = $ionicPopup.show({
             //         cssClass: 'shift-popup',
-            //         template: '<p>You will go above your maximum cancellation limit if you block this day. Please contact us immediately if you can\'t make ' + thisThese + '.</p> <ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()  | spaceless}}.png" alt=""><p><strong>{{shiftToCancel.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{earningsEstimate.shift(shiftToCancel)}}</p><p>{{shiftDateFormatter(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><div ng-if="strikes(selectedEvents)"><p> Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
+            //         template: '<p>You will go above your maximum cancellation limit if you block this day. Please contact us immediately if you can\'t make ' + thisThese + '.</p> <ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()  | spaceless}}.png" alt=""><p><strong>{{shiftToCancel.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{wgEarnings.shift(shiftToCancel)}}</p><p>{{shiftDateFormatter(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><div ng-if="strikes(selectedEvents)"><p> Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong></p></div>',
             //         title: 'Cannot block this day!',
             //         scope: $scope,
             //         buttons: [{
@@ -186,7 +186,7 @@ angular.module('workgenius.availability', [])
                 // You\'ll get {{strikes(selectedEvents)}} strike{{strikes(selectedEvents) > 1 ? "s" : ""}}</p> <p> Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong>
                 return $ionicPopup.show({
                     cssClass: 'shift-popup',
-                    template: '<ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p><strong>{{shiftToCancel.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{earningsEstimate.shift(shiftToCancel)}}</p><p>{{shiftDateFormatter(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><div ng-if="strikes(selectedEvents)"><p>WARNING: This shift is coming up soon. Please check the company cancellation policy. Late cancellations may result in a penalty.</p></div></ion-list>',
+                    template: '<ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p><strong>{{shiftToCancel.company.toLowerCase() | capitalize}}</strong> | Earnings Est: ${{wgEarnings.shift(shiftToCancel)}}</p><p>{{shiftDateFormatter(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><div ng-if="strikes(selectedEvents)"><p>WARNING: This shift is coming up soon. Please check the company cancellation policy. Late cancellations may result in a penalty.</p></div></ion-list>',
                     title: 'Blocking this day will<br>cancel ' + thisThese,
                     scope: $scope,
                     buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.

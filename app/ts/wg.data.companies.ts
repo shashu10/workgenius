@@ -64,7 +64,7 @@ class WGCompaniesService {
             .forEach((c) => this.setEmptyEligibility(c))
             .value()
 
-            return this.wgEligibilities.fetchAll()
+            return this.wgEligibilities.load()
         })
 
         .then((eligibilities: WGEligibility[]) => {

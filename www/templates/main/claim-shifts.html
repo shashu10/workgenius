@@ -15,8 +15,8 @@
                         <div>
                             <span ng-if="shift.flex">up to </span>
                             <strong class="light-green">
-                                <span ng-if="shift.shifts.length">{{earningsEstimate.group(shift.shifts) | currency:undefined:0}}</span>
-                                <span ng-if="!shift.shifts.length">{{earningsEstimate.shift(shift) | currency:undefined:0}}</span>
+                                <span ng-if="shift.shifts.length">{{wgEarnings.group(shift.shifts) | currency:undefined:0}}</span>
+                                <span ng-if="!shift.shifts.length">{{wgEarnings.shift(shift) | currency:undefined:0}}</span>
                             </strong>
                         </div>
                     </div>

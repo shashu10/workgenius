@@ -5,7 +5,7 @@
                 {{dividerFunction(group[0].startsAt) | uppercase}}
                 <div class="earnings-estimate">
                     <p>ESTIMATED EARNINGS:</p>
-                    <p><i class="light-green">{{earningsEstimate.group(group) | currency:undefined:0}}</i></p>
+                    <p><i class="light-green">{{wgEarnings.group(group) | currency:undefined:0}}</i></p>
                 </div>
             </ion-item>
             <ion-item class="item-avatar item-company-icon wg-shift item-remove-animate" bounce-left ng-repeat="shift in group" can-swipe="true">

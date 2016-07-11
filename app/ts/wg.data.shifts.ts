@@ -135,7 +135,7 @@ class WGShiftsService {
 
         scope['newShifts'] = newShifts
         scope['formatAMPM'] = (date) => (moment(date).format('h:mma'))
-        scope['earningsEstimate'] = this.wgEarnigns
+        scope['wgEarnings'] = this.wgEarnigns
         scope['shiftDateFormatter'] = (date) => (moment(date).format('ddd, MMM Do'))
 
 

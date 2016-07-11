@@ -60,13 +60,14 @@ class WGEligibilitiesService {
         return _.find(this.list, (el) => el.company.name === name)
     }
 
-    load() {
-        this.fetchAll()
+    load(): Parse.IPromise<any[]> {
+        return this.fetchAll()
         .then((results) => {
-            this.list = results
             this.startRefreshTimers()
+            return this.list = results
         }, (err) => {
             console.log("Could not get eligibilities")
+            return undefined
         })
     }
 

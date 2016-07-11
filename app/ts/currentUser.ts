@@ -7,7 +7,6 @@ class CurrentUserService {
     public availabilityTimes: Object[];
 
     constructor(public wgCompanies: WGCompaniesService,
-                public wgEligibilities: WGEligibilitiesService,
                 public wgDevice: WGDevice,
                 public getUserData: any) {}
 
@@ -78,7 +77,6 @@ class CurrentUserService {
     load() {
 
         this.wgCompanies.load()
-        this.wgEligibilities.load()
         this.wgDevice.trackDevice()
 
         this.getUserData()
@@ -141,7 +139,7 @@ class CurrentUserService {
     }
 }
 
-CurrentUserService.$inject = ["wgCompanies", "wgEligibilities", "wgDevice", "getUserData"]
+CurrentUserService.$inject = ["wgCompanies", "wgDevice", "getUserData"]
 
 angular.module('wg.user', [])
 
