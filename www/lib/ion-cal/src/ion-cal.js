@@ -240,7 +240,7 @@
         var thisThese = $scope.selectedEvents.length > 1 ? 'these shifts' : 'this shift';
         return $ionicPopup.show({
           cssClass: 'block-popup',
-          template: '<ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{shiftToCancel.company}} | Earnings Est: ${{shiftEarnings(shiftToCancel)}}</p><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><p ng-if="strikes(selectedEvents)">WARNING: You\'ll get {{strikes(selectedEvents)}} strike{{strikes(selectedEvents) > 1 ? "s" : ""}}</p></ion-list>',
+          template: '<ion-list><ion-item ng-repeat="shiftToCancel in selectedEvents"><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase()}}.png" alt=""><p>{{shiftToCancel.company.name}} | Earnings Est: ${{shiftEarnings(shiftToCancel)}}</p><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p></ion-item><p ng-if="strikes(selectedEvents)">WARNING: You\'ll get {{strikes(selectedEvents)}} strike{{strikes(selectedEvents) > 1 ? "s" : ""}}</p></ion-list>',
           title: 'Blocking this day will<br>cancel ' + thisThese,
           scope: $scope,
           buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.

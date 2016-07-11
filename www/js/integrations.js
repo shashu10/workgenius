@@ -1,9 +1,9 @@
-angular.module('integrations', ['parseUtils', 'parseShifts'])
+angular.module('integrations', ['parseUtils'])
     .factory('eligibilities', ['$rootScope', 'connectedShifts', '$interval', eligibilities])
 
-    .factory('connectedShifts', ['$rootScope', 'getCompanyEligibility', 'getShifts', connectedShifts]);
+    .factory('connectedShifts', ['$rootScope', 'getCompanyEligibility', 'wgShifts', connectedShifts]);
 
-function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
+function connectedShifts($rootScope, getCompanyEligibility, wgShifts) {
     function hasConflict(shift) {
         var start = new Date(shift.startsAt);
         var end = new Date(shift.endsAt);
@@ -28,7 +28,8 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
 
         // add company name
         shifts = shifts.map(function (shift) {
-            shift.company = company;
+            shift.company = {};
+            shift.company.name = company;
             return shift;
         });
 
@@ -102,7 +103,7 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
             var shifts = day.shifts;
             // get postmates only shifts
             var PMShifts = _.remove(shifts, function (shift) {
-                return shift.company === 'postmates';
+                return shift.company.name === 'postmates';
             });
             if (!PMShifts.length) return;
 
@@ -122,7 +123,7 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
                         location: curr.location,
                         flex: true,
                         groupedShift: true,
-                        company: 'postmates',
+                        company: {name: 'postmates'},
                         startsAt: curr.startsAt,
                         endsAt: curr.endsAt,
                         shifts: [curr]
@@ -211,7 +212,7 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
                 success: function(shifts) {
                     console.log('Successfully got all scheduled shifts');
 
-                    getShifts().then(function(shifts) {
+                    wgShifts.load().then(function(shifts) {
                         $rootScope.currentUser.shifts = shifts;
                         if (success) success();
                         $rootScope.$apply();
@@ -238,7 +239,7 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
                 return failure && failure({message: 'conflict'});
             }
 
-	        var el = getCompanyEligibility(shift.company);
+	        var el = getCompanyEligibility(shift.company.name);
 
             // For claiming your own dropped shift in WIW. Logic should be moved server side
             var ownShift = false;
@@ -273,7 +274,7 @@ function connectedShifts($rootScope, getCompanyEligibility, getShifts) {
 	                // update shifts after claiming one
                     // removeShift(shift);
 
-                    getShifts().then(function(shifts) {
+                    wgShifts.load().then(function(shifts) {
                         $rootScope.currentUser.shifts = shifts;
                         $rootScope.$apply();
                     }); // Don't worry about failure

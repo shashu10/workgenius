@@ -2,7 +2,7 @@
 class WGEligibility extends Parse.Object {
 
     constructor(worker: Parse.User, company: WGCompany, interested = false) {
-        super('Eligibility');
+        super('Eligibility')
 
         this.worker = worker
         this.company = company
@@ -17,6 +17,9 @@ class WGEligibility extends Parse.Object {
 
     get company(): WGCompany { return this.get('company') }
     set company(company: WGCompany) { this.set('company', company) }
+
+    get token()    : string { return this.get('company') }
+    get workerId() : string { return this.get('workerId') }
 }
 
 class WGEligibilitiesService {
@@ -24,12 +27,16 @@ class WGEligibilitiesService {
     public list: WGEligibility[] = []
 
     constructor(public $rootScope: ng.IRootScopeService) {
-        Parse.Object.registerSubclass('Eligibility', WGEligibility);
+        Parse.Object.registerSubclass('Eligibility', WGEligibility)
+    }
+
+    getCompanyEligibility(name: string): WGEligibility {
+        return _.find(this.list, (el) => el.company.name === name)
     }
 
     fetchAll(): Parse.Promise<any[]> {
 
-        var query = new Parse.Query(WGEligibility);
+        var query = new Parse.Query(WGEligibility)
         query.equalTo('worker', Parse.User.current())
         query.include('company')
 
@@ -37,11 +44,11 @@ class WGEligibilitiesService {
 
             success: (results) => results,
             error: (error) => {
-                console.error("Could not get eligibilities: " + error.code + " " + error.message);
+                console.error("Could not get eligibilities: " + error.code + " " + error.message)
                 // handle Error
                 return []
             }
-        });
+        })
     }
 }
 

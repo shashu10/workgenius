@@ -1,21 +1,9 @@
-angular.module('workgenius.availability', ['parseShifts'])
+angular.module('workgenius.availability', [])
 
 // ============ //
 // AVAILABILITY //
 // ============ //
 
-.controller('AvailabilityTabsCtrl', ['$scope',
-        function($scope) {
-
-            $scope.$on('$stateChangeSuccess', function(event, current) {
-                if (current.name.indexOf('block-days') > -1) {
-                    $scope.availActive = false;
-                } else {
-                    $scope.availActive = true;
-                }
-            });
-        }
-    ])
     .controller('AvailabilityCtrl', ['$rootScope', '$scope', '$ionicPopup',
         function($rootScope, $scope, $ionicPopup) {
 
@@ -135,8 +123,8 @@ angular.module('workgenius.availability', ['parseShifts'])
             }
         }
     ])
-    .controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicPopup', 'setShifts', 'wgEarnigns',
-        function($rootScope, $scope, $ionicPopup, setShifts, wgEarnigns) {
+    .controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicPopup', 'wgShifts', 'wgEarnigns',
+        function($rootScope, $scope, $ionicPopup, wgShifts, wgEarnigns) {
 
             $scope.earningsEstimate = wgEarnigns;
             
@@ -299,10 +287,7 @@ angular.module('workgenius.availability', ['parseShifts'])
             // }
 
             function cancelShifts(shifts) {
-                for (var i = 0; i < shifts.length; i++) {
-                    // Strike warnings should have been given earlier
-                    setShifts.cancel(shifts[i]);
-                }
+                wgShifts.cancelAll(shifts);
             }
 
             function toggleBlock(event, val, getBlockedDays) {

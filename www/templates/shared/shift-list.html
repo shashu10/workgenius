@@ -9,10 +9,10 @@
                 </div>
             </ion-item>
             <ion-item class="item-avatar item-company-icon wg-shift item-remove-animate" bounce-left ng-repeat="shift in group" can-swipe="true">
-                <img ng-src="img/companies/{{shift.company.toLowerCase() | spaceless}}.png">
+                <img ng-src="img/companies/{{shift.company.name.toLowerCase() | spaceless}}.png">
                 <div class="schedule-text">
                     <p>
-                        <strong>{{shift.company | uppercase}}</strong>
+                        <strong>{{shift.company.name | uppercase}}</strong>
                     </p>
                     <p class="schedule-time">
                         <strong>{{formatAMPM(shift.startsAt) | uppercase}}</strong> - <strong>{{formatAMPM(shift.endsAt) | uppercase}}</strong>

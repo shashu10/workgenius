@@ -1,4 +1,4 @@
-angular.module('workgenius.schedule', ['parseShifts', 'integrations'])
+angular.module('workgenius.schedule', ['integrations'])
 
 // ============ //
 //   SCHEDULE   //
@@ -58,8 +58,8 @@ angular.module('workgenius.schedule', ['parseShifts', 'integrations'])
     }
   };
 })
-.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', '$timeout', 'setShifts', 'getShifts', 'wgEarnigns', 'connectedShifts',
-    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, $timeout, setShifts, getShifts, wgEarnigns, connectedShifts) {
+.controller('ScheduleCtrl', ['$scope', '$rootScope', '$ionicScrollDelegate', '$location', '$ionicPopup', '$http', '$timeout', 'wgShifts', 'wgEarnigns', 'connectedShifts',
+    function($scope, $rootScope, $ionicScrollDelegate, $location, $ionicPopup, $http, $timeout, wgShifts, wgEarnigns, connectedShifts) {
 
         $scope.earningsEstimate = wgEarnigns;
 
@@ -141,7 +141,7 @@ angular.module('workgenius.schedule', ['parseShifts', 'integrations'])
             $ionicScrollDelegate.scrollBottom();
         };
         $scope.cancelShift = function (shift) {
-            mixpanel.track("Pressed Cancel - " + shift.company);
+            mixpanel.track("Pressed Cancel - " + shift.company.name);
             $scope.shiftToCancel = shift;
             // Disabled strikes
             // if ($scope.isWithin72Hr(shift.startsAt) && $rootScope.currentUser.strikes >= 3) {
@@ -159,7 +159,7 @@ angular.module('workgenius.schedule', ['parseShifts', 'integrations'])
             // This cancellation is within 72 hours and will result in a <strong>strike</strong></p><p>Late cancellations this quarter: <strong>{{currentUser.strikes}}/3</strong>
 
             $scope.cancelPopup = $ionicPopup.show({
-                template: '<img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate:  <strong class="light-green">{{earningsEstimate.shift(shiftToCancel) | currency:undefined:0}}</strong> </p> <div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This shift is coming up soon. Please check <span ng-if="shiftToCancel.company">{{shiftToCancel.company + "\'s" | capitalize}}</span><span ng-if="!shiftToCancel.company">the company</span> cancellation policy. Late cancellations may result in a penalty</p></div>',
+                template: '<img ng-src="img/companies/{{shiftToCancel.company.name.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate:  <strong class="light-green">{{earningsEstimate.shift(shiftToCancel) | currency:undefined:0}}</strong> </p> <div ng-show="isWithin72Hr(shiftToCancel.startsAt)"><p><strong>Warning:</strong></p><p>This shift is coming up soon. Please check <span ng-if="shiftToCancel.company.name">{{shiftToCancel.company.name + "\'s" | capitalize}}</span><span ng-if="!shiftToCancel.company.name">the company</span> cancellation policy. Late cancellations may result in a penalty</p></div>',
                 title: 'Are you sure you want<br>to cancel this shift?',
                 scope: $scope,
                 buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
@@ -178,12 +178,12 @@ angular.module('workgenius.schedule', ['parseShifts', 'integrations'])
             })
 
             .then(function(cancel) {
-                if (cancel) setShifts.cancel(shift);
+                if (cancel) wgShifts.cancel(shift);
             });
         }
         // function cannotCancelWarning(shift) {
         //     $scope.cannotCancelPopup = $ionicPopup.show({
-        //         template: '<p>Please contact us immediately to cancel this shift if you can\'t make it.</p><img ng-src="img/companies/{{shiftToCancel.company.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate: <strong class="light-green">{{earningsEstimate.shift(shiftToCancel) | currency:undefined:0}}</strong> </p>',
+        //         template: '<p>Please contact us immediately to cancel this shift if you can\'t make it.</p><img ng-src="img/companies/{{shiftToCancel.company.name.toLowerCase() | spaceless}}.png" alt=""><p>{{dividerFunction(shiftToCancel.startsAt)}}, {{formatAMPM(shiftToCancel.startsAt) | uppercase}} - {{formatAMPM(shiftToCancel.endsAt) | uppercase}}</p>  <p>earnings estimate: <strong class="light-green">{{earningsEstimate.shift(shiftToCancel) | currency:undefined:0}}</strong> </p>',
         //         title: 'Maximum number of cancellations reached!',
         //         scope: $scope,
         //         buttons: [{

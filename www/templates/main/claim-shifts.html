@@ -4,10 +4,10 @@
             <ion-item class="item-remove-animate" ng-class="{'claim-success' : shift.claimStatus === 2, 'claim-failure' : shift.claimStatus === 3}" ng-repeat="shift in shifts" ng-click="select(shift)">
                 <div class="row">
                     <div class="img-container">
-                        <img ng-src="img/companies/{{shift.company.toLowerCase()  | spaceless}}.png" alt="">
+                        <img ng-src="img/companies/{{shift.company.name.toLowerCase()  | spaceless}}.png" alt="">
                     </div>
                     <div class="col">
-                        <div class="company-name">{{shift.company | capitalize}}</div>
+                        <div class="company-name">{{shift.company.name | capitalize}}</div>
                         <div class="company-location">{{shift.location | capitalize: true}}</div>
                     </div>
                     <div class="col time-slot">

@@ -229,7 +229,6 @@ angular.module('workgenius', [
     'workgenius.claimShifts',
     'parseData',
     'parseUtils',
-    'parseShifts',
     'integrations',
     'inputFormatter',
     'angular.filter',

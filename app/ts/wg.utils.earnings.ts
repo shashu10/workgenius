@@ -13,7 +13,7 @@ class WGEarnigns {
     }
 
     getCompanyEstimate(shift) {
-        var found = _.find(this.wgCompanies.list, (c) => (c.name === shift.company))
+        var found = _.find(this.wgCompanies.list, (c) => (c.name === shift.company.name))
         if (found) return found.earningsEst
 
         return 15;
