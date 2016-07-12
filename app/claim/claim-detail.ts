@@ -43,8 +43,8 @@ class ClaimDetailCtrl {
                 this.shift.conflict = undefined
                 this.shift.claimMessage = ""
             }
-            var min = new Date(this.shift.startsAt)
-            var max = new Date(this.shift.endsAt)
+            var min = new Date(this.shift.startsAt) // create a a copy
+            var max = new Date(this.shift.endsAt)   // create a a copy
             // Reset start and end times when going back to the claim shifts view
             this.$scope.$on('$ionicView.beforeLeave', () => {
                 // If it was a conflict with a flex shift, reset it so user can try again
