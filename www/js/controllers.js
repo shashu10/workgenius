@@ -15,16 +15,6 @@ angular.module('workgenius.controllers', [])
         //$scope.$on('$ionicView.enter', function(e) {
         //});
 
-        $scope.logout = function() {
-            mixpanel.track('Logout');
-            Parse.User.logOut();
-
-            getUserData();
-
-            wgState.goWithoutAnimate(state);
-            $ionicHistory.clearCache();
-        };
-
         // End
 
         // Contact Us Modal

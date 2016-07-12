@@ -146,7 +146,7 @@ class WGAppConfig {
         .state('app', {url: '/app', abstract: true, templateUrl: 'tabs.html'})
 
         // Tabs
-        .state('app.preferences',       {url: '/preferences',        views: {'tab-preferences': {templateUrl: 'main/preferences.html'           }}})
+        .state('app.preferences',       {url: '/preferences',        views: {'tab-preferences': {templateUrl: 'preferences/preferences.html'    }}})
         .state('app.schedule',          {url: '/schedule',           views: {'tab-schedule':    {templateUrl: 'schedule/schedule.html'          }}})
 
         // Earnings
@@ -216,6 +216,7 @@ angular.module('workgenius', [
     'wg.popups',
     'wg.schedule',
     'wg.claim',
+    'wg.preferences',
 
     'ionic',
     'ngCordova',

@@ -12,11 +12,11 @@ class CurrentUserService {
                 public getUserData: any) {}
 
     init() {
-        this.obj = Parse.User.current()
-
-        if (Parse.User.current()) this.load()
+        this.load()
         this.wgDevice.trackDevice()
         this.wgShifts.load()
+        this.wgShifts.getAllScheduled()
+        this.wgShifts.getAllAvailable()
         this.wgCompanies.load()
 
     }
@@ -81,7 +81,8 @@ class CurrentUserService {
     }
 
     load() {
-
+        this.obj = Parse.User.current()
+        if (!this.obj) return
         this.getUserData() // Legacy
 
         return Parse.User.current()
@@ -119,10 +120,16 @@ class CurrentUserService {
     signUp(): Parse.IPromise<any> {
 
         // Make them lowercase so we don't have people signing up twice
-        this.obj.set('email', this.email.toLowerCase());
-        this.obj.set('username', this.email.toLowerCase());
 
-        return this.obj.signUp().then((user: Parse.User) => {
+        console.log(this.obj.get('username'))
+        console.log(this.email)
+
+        return this.obj.signUp({
+            username: this.obj.get('username'),
+            password: this.password,
+            email   : this.email
+
+        }).then((user: Parse.User) => {
 
             mixpanel.register({
                 'Email': this.email,
@@ -134,11 +141,33 @@ class CurrentUserService {
 
             return Parse.Promise.as(user)
 
-        }, (error) => Parse.Promise.error(error))
+        }, (error) => {
+            this.resetUser()
+            return Parse.Promise.error(error)
+        })
+    }
+
+    // Bug workaround. Parse caches requests
+    // If username is taken, User will get same error after changing username
+    private resetUser() {
+        var name = this.name
+        var email = this.email
+        var password = this.password
+        Parse.User.logOut()
+        this.obj = new Parse.User
+        this.name = name
+        this.email = email
+        this.password = password
     }
 
     resetPassword(): Parse.Promise<any> {
         return Parse.User.requestPasswordReset(this.email.toLowerCase())
+    }
+
+    logOut() {
+        Parse.User.logOut()
+        this.obj = undefined
+        this.getUserData();
     }
 }
 

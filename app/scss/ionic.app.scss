@@ -269,3 +269,8 @@ $wg-light-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         box-shadow: $wg-light-shadow;
     }
 }
+
+// UI bug: 1 px space at the bottom
+.welcome.scroll-content {
+    margin-top: 0px;
+}

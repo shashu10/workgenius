@@ -71,13 +71,13 @@ class WGShiftsService {
     init() {}
 
     load(): Parse.IPromise<any> {
-        this.getAllAvailable()
-        console.log("load")
+
         if (!Parse.User.current()) {
             this.list = []
+            this.available = []
             return Parse.Promise.as([])
         }
-        console.log("did not load")
+
         return this.fetchAllShifts()
 
         .then((shifts: WGShift[]) => {
@@ -101,7 +101,7 @@ class WGShiftsService {
 
             this.$rootScope.$apply()
 
-            return Parse.Promise.as(this.list)
+            return this.list
 
         }, (err) => {
             console.log("error loading shifts")
@@ -110,12 +110,16 @@ class WGShiftsService {
         })
     }
     getAllScheduled(): Parse.IPromise<any> {
+
+        if (!Parse.User.current()) return Parse.Promise.as([])
+
         return Parse.Cloud.run('getAllScheduledShifts')
-        .then((shifts) => {
-            console.log('Successfully got all scheduled shifts')
+        .then((success) => {
+            console.log('Got scheduled shifts')
             return this.load()
+
         }, (error) => {
-            console.log('Could not get all scheduled shifts')
+            console.error('Could not get all scheduled shifts')
             console.log(error)
             return Parse.Promise.as([])
         })
@@ -129,11 +133,11 @@ class WGShiftsService {
         .then((shifts: WGAvailableShift[]) => {
 
             this.availableArr = shifts
-            console.log('Successfully got all connected shifts')
+            console.log('Got available shifts')
             this.available = this.groupPostmatesShifts(this.groupByDay(this.sortAndFormatShifts(shifts)))
 
         }, (error) => {
-            console.log('Could not get connected shifts')
+            console.error('Could not get available shifts')
             console.log(error)
         })
     }
