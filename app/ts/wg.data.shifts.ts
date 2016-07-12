@@ -43,7 +43,7 @@ class WGShiftsService {
 
     constructor(public $rootScope: ng.IRootScopeService,
                 public $ionicPopup: ionic.popup.IonicPopupService,
-                public wgEarnings: wgEarnings,
+                public wgEarnings: WGEarnings,
                 public wgEligibilities: WGEligibilitiesService) {
         Parse.Object.registerSubclass('Shift', WGShift)
     }
@@ -98,17 +98,15 @@ class WGShiftsService {
             return Parse.Promise.as([])
         });
     }
-    cancel(shift: WGShift) {
+    cancel(shift: WGShift): void {
         var el = this.wgEligibilities.getCompanyEligibility(shift.company.name)
         if (!shift) return
         shift.cancel(el)
         .then((result) => this.removeFromList(shift), (error) => {})
     }
-    cancelAll(shifts: WGShift[]) {
-        _.forEach(shifts, (s) => this.cancel(s))
-    }
+    cancelAll(shifts: WGShift[]): void {_.forEach(shifts, (s) => this.cancel(s))}
 
-    private removeFromList(shift) {
+    private removeFromList(shift): void {
         _.remove(this.list, (s) => s.id === shift.id)
         if (Parse.User.current()) this.$rootScope.$apply()
     }
@@ -133,7 +131,7 @@ class WGShiftsService {
     }
 
     // If called multiple times, will only show one popup at a time.
-    private acknowledgeShifts() {
+    private acknowledgeShifts(): void {
         var newShifts = _.filter(this.list, (s) => !s.acknowledged)
 
         var batchSave = function(shifts) {
