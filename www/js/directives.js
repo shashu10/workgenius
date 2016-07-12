@@ -6,46 +6,6 @@ angular.module('workgenius.directives', [])
     restrict: 'E',
   };
 })
-.directive('companies', function() {
-  return {
-    templateUrl: 'templates/shared/companies.html',
-    restrict: 'E',
-  };
-})
-.directive('shiftList', function() {
-  return {
-    templateUrl: 'templates/shared/shift-list.html',
-    restrict: 'E',
-  };
-})
-.directive('hiddenSubmit', function() {
-  return {
-    templateUrl: 'templates/shared/hidden-submit.html',
-    restrict: 'E',
-  };
-})
-.directive('wgPager', function() {
-  return {
-    templateUrl: 'templates/shared/wg-pager.html',
-    restrict: 'E',
-  };
-})
-.directive('wgCompanyFooter', function() {
-  return  {
-    templateUrl: 'templates/shared/wg-company-footer.html',
-    restrict: 'E',
-  };
-})
-.directive('deviceType', function() {
-  return {
-    templateUrl: 'templates/shared/device-type.html',
-    scope: {
-        prefilledDevice: '=',
-        device: '=',
-        onChange: '=',
-    }
-  };
-})
 .directive('personalInfo', function() {
   return {
     templateUrl: 'templates/shared/personal-info.html',

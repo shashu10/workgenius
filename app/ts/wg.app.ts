@@ -155,7 +155,6 @@ class WGAppConfig {
 
         // Sub Views Tabs
         .state('app.vehicles',          {url: '/vehicles',           views: {'tab-preferences': {templateUrl: 'main/vehicles.html'              }}})
-        .state('app.device-type-page',  {url: '/device-type-page',   views: {'tab-preferences': {templateUrl: 'main/device-type-page.html'      }}})
         .state('app.personal-info',     {url: '/personal-info',      views: {'tab-preferences': {templateUrl: 'main/personal-info.html'         }}})
 
         // Availability Tabs

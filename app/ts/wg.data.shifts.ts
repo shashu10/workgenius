@@ -151,14 +151,10 @@ class WGShiftsService {
         return _.find(this.list, (s) => (s.startsAt < shift.endsAt && s.endsAt > shift.startsAt))
     }
 
-    claim(shift: WGAvailableShift, success, failure) {
-            console.log("claiming");
-            if (!Parse.User.current()) return success && success();
+    claim(shift: WGAvailableShift): ng.IPromise<any> {
 
-            if (this.hasConflict(shift)) {
-                console.log('conflict');
-                return failure && failure({message: 'conflict'});
-            }
+            if (!Parse.User.current()) return this.$q.when('no user logged in')
+            if (this.hasConflict(shift)) return this.$q.reject({message: 'conflict'});
 
             var el = this.wgEligibilities.getCompanyEligibility(shift.company);
 
@@ -185,20 +181,16 @@ class WGShiftsService {
                 company : el.company.name,
                 token : el.token,
                 location : shift.location,
-            },
-            {
-                success: function(s) {
-                    console.log('success');
-                    // update shifts after claiming one
-                    this.wgShifts.load()
-                },
-                error: function(error) {
-                    console.log('Could not claim shift');
-                    console.log(error);
-                }
-            });
+            })
+            .then((s) => {
+                console.log('success');
+                // update shifts after claiming one
+                this.load()
+                return s
+
+            }) as ng.IPromise<any> // cast parse promise ng promise to stop the compiler from throwing errors
     }
-    private groupByDay(shifts) {
+    private groupByDay(shifts: WGAvailableShift[]) {
 
         if (!shifts || !shifts.length) return []
 
@@ -220,7 +212,7 @@ class WGShiftsService {
     }
     // Sorting by primary param: startsAt and secondary param: endsAt
     // http://stackoverflow.com/questions/16426774/underscore-sortby-based-on-multiple-attributes
-    private sortAndFormatShifts(shifts: WGAvailableShift[] = []) {
+    private sortAndFormatShifts(shifts: WGAvailableShift[]) {
         if (shifts.length <= 1) return shifts
 
         return _(shifts)

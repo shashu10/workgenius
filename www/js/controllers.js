@@ -5,8 +5,8 @@ angular.module('workgenius.controllers', [])
 //     MENU     //
 // ============ //
 
-.controller('TabCtrl', ['$scope', '$rootScope', '$state', '$ionicHistory', '$ionicModal', '$interval', 'zenMessage', 'getUserData',
-    function($scope, $rootScope, $state, $ionicHistory, $ionicModal, $interval, zenMessage, getUserData) {
+.controller('TabCtrl', ['$scope', 'wgState', '$ionicHistory', '$ionicModal', '$interval', 'zenMessage', 'getUserData',
+    function($scope, wgState, $ionicHistory, $ionicModal, $interval, zenMessage, getUserData) {
 
         // With the new view caching in Ionic, Controllers are only called
         // when they are recreated or on app start, instead of every page change.
@@ -21,19 +21,10 @@ angular.module('workgenius.controllers', [])
 
             getUserData();
 
-            $scope.toggleWithoutAnimation('welcome');
+            wgState.goWithoutAnimate(state);
             $ionicHistory.clearCache();
         };
 
-        $scope.toggleWithoutAnimation = function(state) {
-            $ionicHistory.nextViewOptions({
-                historyRoot: true,
-                disableAnimate: true
-            });
-            $state.go(state, {
-                clear: true
-            });
-        };
         // End
 
         // Contact Us Modal
