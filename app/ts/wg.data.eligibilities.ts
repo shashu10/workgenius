@@ -23,6 +23,7 @@ class WGEligibility extends Parse.Object {
     set company(company: WGCompany) { this.set('company', company) }
 
     get username()  : string { return this.get('username') }
+    get password()  : {}     { return this.get('password') }
     get token()     : string { return this.get('token') }
     get workerId()  : string { return this.get('workerId') }
     get vehicle_id(): number { return this.get('vehicle_id')}
@@ -66,7 +67,8 @@ class WGEligibilitiesService {
         return this.fetchAll()
         .then((results) => {
             this.startRefreshTimers()
-            return this.list = results
+            this.list = results
+            return this.list
         }, (err) => {
             console.log("Could not get eligibilities")
             return undefined
@@ -80,6 +82,9 @@ class WGEligibilitiesService {
     }
     private refreshAllTokens() {
         _.forEach(this.list, (el) => {
+
+            if (!el.username || !el.password) return
+
             var duration: number
             if (el.company.name === 'doordash')       duration = 3 * 60 * 60 * 1000
             else if (el.company.name === 'postmates') duration = 12 * 60 * 60 * 1000

@@ -9,7 +9,6 @@ class LoginCtrl {
                 public $ionicHistory: ionic.navigation.IonicHistoryService,
                 public currentUser: CurrentUserService,
                 public getUserData: Function,
-                public wgDataManager: WGDataManagerService,
                 public wgState: WGState) {
 
         if (!currentUser.newUserCreated) currentUser.create()
@@ -118,4 +117,4 @@ class LoginCtrl {
     }
 }
 
-LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager", "wgState"]
+LoginCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgState"]

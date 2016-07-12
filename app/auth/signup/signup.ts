@@ -8,7 +8,6 @@ class SignupCtrl {
                 public $ionicHistory: ionic.navigation.IonicHistoryService,
                 public currentUser: CurrentUserService,
                 public getUserData: Function,
-                public wgDataManager: WGDataManagerService,
                 public wgState: WGState) {
 
         if (!currentUser.newUserCreated) currentUser.create()
@@ -45,8 +44,6 @@ class SignupCtrl {
                     historyRoot: true,
                     // disableAnimate: true
                 })
-
-                this.wgDataManager.init()
 
                 this.$state.go("wizard-goal", { clear: true })
             },
@@ -85,4 +82,4 @@ class SignupCtrl {
     }
 }
 
-SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgDataManager", "wgState"]
+SignupCtrl.$inject = ["$scope", "$state", "$ionicHistory", "currentUser", "getUserData", "wgState"]

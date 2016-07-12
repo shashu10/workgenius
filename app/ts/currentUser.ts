@@ -13,7 +13,12 @@ class CurrentUserService {
 
     init() {
         this.obj = Parse.User.current()
-        this.load()
+
+        if (Parse.User.current()) this.load()
+        this.wgDevice.trackDevice()
+        this.wgShifts.load()
+        this.wgCompanies.load()
+
     }
     create() {
         this.obj = new Parse.User();
@@ -76,13 +81,10 @@ class CurrentUserService {
     }
 
     load() {
-        this.wgCompanies.load()
-        this.wgShifts.load()
-        this.wgDevice.trackDevice()
 
-        this.getUserData()
+        this.getUserData() // Legacy
 
-        return Parse.User.current() && Parse.User.current()
+        return Parse.User.current()
         .fetch()
         .then((user: Parse.User) => {
             Raven.setUserContext({
@@ -107,7 +109,7 @@ class CurrentUserService {
 
             this.obj = Parse.User.current()
             // Get all additional data on login
-            this.load()
+            this.init()
 
             return Parse.Promise.as(user)
 
@@ -128,7 +130,7 @@ class CurrentUserService {
             })
 
             // Not necessary but easier to deal with
-            this.load()
+            this.init()
 
             return Parse.Promise.as(user)
 
