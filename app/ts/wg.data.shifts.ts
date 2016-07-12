@@ -14,7 +14,7 @@ class WGShift extends Parse.Object {
     get endsAt()       : Date      { return this.get('endsAt')}
     get date()         : Date      { return this.get('startsAt')}
 
-    cancel(el: WGEligibility): Parse.IPromise<any> {
+    cancel(el = new WGEligibility(this.company)): Parse.IPromise<any> {
 
         return Parse.Cloud.run('cancelShift', {
             startsAt:       this.startsAt.toString(),
@@ -26,7 +26,7 @@ class WGShift extends Parse.Object {
             workerId :      el.workerId,
         })
         .then((result) => {
-            console.log('removed shift')
+            console.log('cancelled shift')
             Parse.Promise.as('')
         }, (error) => {
             console.log('could not cancel Shift')

@@ -4,7 +4,7 @@ class FlexTimePicker implements ng.IDirective {
         return new FlexTimePicker()
     }
 
-    templateUrl = 'templates/shared/flex-time-picker.html'
+    templateUrl = 'claim/flex-time-picker.html'
     restrict = 'E'
     scope = {
         shift: '=',

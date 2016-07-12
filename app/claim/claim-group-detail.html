@@ -1,38 +1,38 @@
-<ion-view view-title="Shifts Info" ng-controller="ClaimGroupDetailCtrl">
+<ion-view view-title="Shifts Info" ng-controller="ClaimGroupDetailCtrl as claim">
     <ion-content class="claim-detail padding-top">
         <div class="list bordered-list claim-info claim-info-big">
-            <img ng-src="img/companies/{{group.company.toLowerCase()  | spaceless}}.png" alt="">
-            <h1>{{group.company | capitalize}}</h1>
+            <img ng-src="img/companies/{{claim.group.company.toLowerCase()  | spaceless}}.png" alt="">
+            <h1>{{claim.group.company | capitalize}}</h1>
             
-            <!-- <p><strong>Location:</strong> {{group.location | capitalize:true}}</p> -->
-            <p><i class="icon ion-location"></i> {{group.location | capitalize:true}}</p>
-            <p><i class="icon ion-calendar"></i>&nbsp;{{group.startsAt | date: 'EEE, MMMM d, y'}}</p>
+            <!-- <p><strong>Location:</strong> {{claim.group.location | capitalize:true}}</p> -->
+            <p><i class="icon ion-location"></i> {{claim.group.location | capitalize:true}}</p>
+            <p><i class="icon ion-calendar"></i>&nbsp;{{claim.group.startsAt | date: 'EEE, MMMM d, y'}}</p>
             
-            <p ng-if="group.showBlitzInfo">Shifts with <i class="icon ion-flash positive"></i> next to them have higher pay</p>
+            <p ng-if="claim.group.showBlitzInfo">Shifts with <i class="icon ion-flash positive"></i> next to them have higher pay</p>
             
             <div>
                 Earn up to
                 <strong class="light-green">
-                    {{wgEarnings.group(group.shifts) | currency:undefined:0}}
+                    {{claim.wgEarnings.group(claim.group.shifts) | currency:undefined:0}}
                 </strong>
-                in {{time = (group.startsAt | hoursBetween : group.endsAt)}} {{time === 1 ? 'hour' : 'hours'}}
+                in {{time = (claim.group.startsAt | hoursBetween : claim.group.endsAt)}} {{time === 1 ? 'hour' : 'hours'}}
             </div>
         </div>
 
         <div class="list">
 
-            <ion-item class="item-button-right" ng-repeat="shift in group.shifts">
+            <ion-item class="item-button-right" ng-repeat="shift in claim.group.shifts">
 
-                {{shift.timeSlotStr}}
-                <i class="icon ion-flash positive" ng-if="shift.blitz"></i>
+                {{claim.shift.timeSlotStr}}
+                <i class="icon ion-flash positive" ng-if="claim.shift.blitz"></i>
 
-                <button class="button mini-claim-button" ng-class="{'button-positive button-outline' : shift.claimStatus === 0, 'button-positive disabled' : shift.claimStatus === 1, 'button-balanced disabled' : shift.claimStatus === 2, 'button-assertive disabled' : shift.claimStatus === 3}" ng-click="claim(shift)">
-                    <span ng-if="shift.claimStatus !== 1">{{shift.claimText}}</span>
-                    <ion-spinner ng-if="shift.claimStatus === 1" icon="dots" class="spinner-light short-spinner"></ion-spinner>
+                <button class="button mini-claim-button" ng-class="{'button-positive button-outline' : claim.shift.claimStatus === 0, 'button-positive disabled' : claim.shift.claimStatus === 1, 'button-balanced disabled' : claim.shift.claimStatus === 2, 'button-assertive disabled' : claim.shift.claimStatus === 3}" ng-click="claim.claim(claim.shift)">
+                    <span ng-if="claim.shift.claimStatus !== 1">{{claim.shift.claimText}}</span>
+                    <ion-spinner ng-if="claim.shift.claimStatus === 1" icon="dots" class="spinner-light short-spinner"></ion-spinner>
                 </button>
 
                 <!-- failure -->
-                <span ng-if="shift.claimStatus === 3" class="claim-warning">{{shift.claimMessage}}</span>
+                <span ng-if="claim.shift.claimStatus === 3" class="claim-warning">{{claim.shift.claimMessage}}</span>
                 <!-- <i class="icon ion-android-add"></i> -->
             </ion-item>
             

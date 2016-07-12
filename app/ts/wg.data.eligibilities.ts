@@ -59,8 +59,8 @@ class WGEligibilitiesService {
         Parse.Object.registerSubclass('Eligibility', WGEligibility)
     }
 
-    getCompanyEligibility(name: string): WGEligibility {
-        return _.find(this.list, (el) => el.company.name === name)
+    getCompanyEligibility(companyName: string): WGEligibility {
+        return _.find(this.list, (el) => el.company.name === companyName)
     }
 
     load(): Parse.IPromise<any[]> {
