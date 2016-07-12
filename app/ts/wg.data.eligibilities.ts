@@ -22,6 +22,7 @@ class WGEligibility extends Parse.Object {
     get company(): WGCompany { return this.get('company') }
     set company(company: WGCompany) { this.set('company', company) }
 
+    get username() : string { return this.get('username') }
     get token()    : string { return this.get('token') }
     get workerId() : string { return this.get('workerId') }
 
