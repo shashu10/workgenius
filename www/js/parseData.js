@@ -1,9 +1,9 @@
-angular.module('parseData', ['workgenius.constants', 'parseUtils', 'integrations'])
+angular.module('parseData', ['workgenius.constants', 'parseUtils'])
     // Remove redundant data and format it to minimize storage
     .factory('formatUploadData', ['$rootScope', formatUploadData])
     .factory('setUserData', ['$rootScope', 'formatUploadData', setUserData])
 
-    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'wgShifts', 'setupPush', 'connectedShifts', 'eligibilities', getUserData])
+    .factory('getUserData', ['$rootScope', '$q', '$interval', '$ionicPopup', 'fakeShifts', 'fakeAvailableShifts', 'wgShifts', 'setupPush', getUserData])
     .factory('getCompanyData', ['$rootScope', 'companies', getCompanyData]);
 
 function setUserData($rootScope, formatUploadData) {
@@ -101,7 +101,7 @@ function getCompanyData($rootScope, companies) {
     };
 }
 
-function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAvailableShifts, wgShifts, setupPush, connectedShifts, eligibilities) {
+function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAvailableShifts, wgShifts, setupPush) {
 
     var Eligibility = Parse.Object.extend("Eligibility");
 
@@ -183,7 +183,7 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
                 lifetime: 846
             },
         });
-        if (isDemoUser) connectedShifts.updateWith(fakeAvailableShifts);
+        // if (isDemoUser) connectedShifts.updateWith(fakeAvailableShifts);
     };
 
     function askAndSetupPush() {
@@ -236,11 +236,10 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             });
 
             // Append shifts
-            connectedShifts.appendNewShifts(el.get('shifts'), company);
+            // connectedShifts.appendNewShifts(el.get('shifts'), company);
         }
 
         $rootScope.currentUser.eligibility = eligibility;
-        eligibilities.refreshAllTokens();
         return wgShifts.load();
 
         // Get Shift List
@@ -342,29 +341,29 @@ function getUserData($rootScope, $q, $interval, $ionicPopup, fakeShifts, fakeAva
             // Existing user must have their preferences fetched
         } else {
 
-            // setup default values while actual values load 
-            setDefaultPrefs();
+            // // setup default values while actual values load 
+            // setDefaultPrefs();
 
-            deferred.resolve(true);
+            // deferred.resolve(true);
 
-            var p1 = Parse.User.current().fetch().then(processUserInfo, function error(err) {
-                console.log(err);
-                Parse.User.logOut();
-                console.log('Something went wrong. Probably user doesn\'t exist');
-                console.log(error);
-                setDefaultPrefs('AJ Shewki', 'aj@workgeni.us', false);
-                Raven.setUserContext();
-                mixpanel.identify();
-            });
+            // var p1 = Parse.User.current().fetch().then(processUserInfo, function error(err) {
+            //     console.log(err);
+            //     Parse.User.logOut();
+            //     console.log('Something went wrong. Probably user doesn\'t exist');
+            //     console.log(error);
+            //     setDefaultPrefs('AJ Shewki', 'aj@workgeni.us', false);
+            //     Raven.setUserContext();
+            //     mixpanel.identify();
+            // });
 
-            var p2 = getEligibility().then(processEligibility);
+            // var p2 = getEligibility().then(processEligibility);
 
-            var p3 = getShifts().then(function (shifts) {
-                $rootScope.currentUser.shifts = shifts;
-            });
+            // var p3 = wgShifts.load().then(function (shifts) {
+            //     $rootScope.currentUser.shifts = shifts;
+            // });
 
-            // When everything is done, refresh scope;
-            Parse.Promise.when([p1, p2, p3])
+            // // When everything is done, refresh scope;
+            Parse.Promise.when([])
             .then(function() {
                 $rootScope.$apply();
                 setupPush();

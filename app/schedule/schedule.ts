@@ -15,8 +15,7 @@ class ScheduleCtrl {
                 public $timeout:             angular.ITimeoutService,
                 public wgShifts:             WGShiftsService,
                 public wgEarnings:           WGEarnings,
-                public currentUser:          CurrentUserService,
-                public connectedShifts) {
+                public currentUser:          CurrentUserService) {
 
         this.options = {
 
@@ -175,6 +174,5 @@ angular.module('wg.schedule', [])
         'wgShifts',
         'wgEarnings',
         'currentUser',
-        'connectedShifts',
         ScheduleCtrl
     ])

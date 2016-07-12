@@ -1,0 +1,49 @@
+<ion-view view-title="Claim" ng-controller="ClaimDaysCtrl as claim">
+    <ion-content class="claim-days" delegate-handle="claimDaysScroll">
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="claim.doRefresh()">
+        </ion-refresher>
+
+        <ion-list>
+            <div ng-repeat="day in claim.wgShifts.available">
+
+                <ion-item class="item-icon-right" ng-click="claim.toggleShifts(day)">
+                    {{day.date | date: "EEEE, MMMM d"}}
+                    <span class="item-note">{{day.shifts.length || "--"}} {{day.shifts.length === 0 ? "" : day.shifts.length === 1 ? "shift" : "shifts"}}</span>
+                    <i class="icon ion-android-add"></i>
+                </ion-item>
+
+                <!-- shift -->
+                <ion-list ng-if="day.showShifts" class="claim-shifts">
+                    <ion-item class="item-remove-animate" ng-class="{'claim-success' : shift.claimStatus === 2, 'claim-failure' : shift.claimStatus === 3}" ng-repeat="shift in day.shifts" ng-click="claim.select(shift)">
+                        <div class="row">
+                            <div class="img-container">
+                                <img ng-src="img/companies/{{shift.company.toLowerCase()  | spaceless}}.png" alt="">
+                            </div>
+                            <div class="col">
+                                <div class="company-name">{{shift.company | capitalize}}</div>
+                                <div class="company-location">{{shift.location | capitalize: true}}</div>
+                            </div>
+                            <div class="col time-slot">
+                                <div>{{shift.startsAt | date: "h:mm a" | lowercase}} <i ng-if="shift.flex"class='icon ion-ios-more'></i>{{shift.flex ? "" : "-"}} {{shift.endsAt | date: "h:mm a" | lowercase}}</div>
+                                <div>
+                                    <span ng-if="shift.flex">up to </span>
+                                    <strong class="light-green">
+                                        <span ng-if="shift.shifts.length">{{wgEarnings.group(shift.shifts) | currency:undefined:0}}</span>
+                                        <span ng-if="!shift.shifts.length">{{wgEarnings.shift(shift) | currency:undefined:0}}</span>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <i class="icon ion-android-add"></i> -->
+                    </ion-item>
+                    <p class="wg-title-instruction padding-top" ng-if="day.shifts.length === 0">
+                        Nothing to see here. Try one of the other days.
+                    </p>
+                </ion-list>
+            </div>
+            <p class="wg-title-instruction padding-top" ng-if="!claim.wgShifts.available.length">
+                No available shifts. Connect more companies to see shifts here.
+            </p>
+        </ion-list>
+    </ion-content>
+</ion-view>

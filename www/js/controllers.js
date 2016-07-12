@@ -1,4 +1,4 @@
-angular.module('workgenius.controllers', ['integrations'])
+angular.module('workgenius.controllers', [])
 
 
 // ============ //

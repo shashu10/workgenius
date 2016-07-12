@@ -36,12 +36,33 @@ class WGShift extends Parse.Object {
     }
 }
 
+interface WGAvailableShift {
+
+    startsAt       : any
+    endsAt         : any
+
+    company        : string
+    location       : string
+    flex?          : boolean // Doordash
+    starting_point?: number  // Doordash
+    swapId?        : number  // WIW
+    shiftId?       : number  // WIW
+    workerId?      : string  // WIW
+}
+interface WGAvailableShiftDay {
+    date: Date
+    shifts: WGAvailableShift[]
+    showShifts: boolean
+}
 class WGShiftsService {
 
     list: WGShift[] = []
+    availableArr: WGAvailableShift[]
+    available: WGAvailableShiftDay[]
     onDataReload = function() {}
 
-    constructor(public $rootScope: ng.IRootScopeService,
+    constructor(public $q: angular.IQService,
+                public $rootScope: ng.IRootScopeService,
                 public $ionicPopup: ionic.popup.IonicPopupService,
                 public wgEarnings: WGEarnings,
                 public wgEligibilities: WGEligibilitiesService) {
@@ -50,6 +71,7 @@ class WGShiftsService {
     init() {}
 
     load(): Parse.IPromise<any> {
+        this.getAllAvailable()
         console.log("load")
         if (!Parse.User.current()) {
             this.list = []
@@ -90,13 +112,30 @@ class WGShiftsService {
     getAllScheduled(): Parse.IPromise<any> {
         return Parse.Cloud.run('getAllScheduledShifts')
         .then((shifts) => {
-            console.log('Successfully got all scheduled shifts');
-            return this.load();
+            console.log('Successfully got all scheduled shifts')
+            return this.load()
         }, (error) => {
-            console.log('Could not get all scheduled shifts');
-            console.log(error);
+            console.log('Could not get all scheduled shifts')
+            console.log(error)
             return Parse.Promise.as([])
-        });
+        })
+    }
+    getAllAvailable() {
+
+        if (!Parse.User.current()) return Parse.Promise.as([])
+
+        return Parse.Cloud.run('getAllConnectedShifts')
+
+        .then((shifts: WGAvailableShift[]) => {
+
+            this.availableArr = shifts
+            console.log('Successfully got all connected shifts')
+            this.available = this.groupPostmatesShifts(this.groupByDay(this.sortAndFormatShifts(shifts)))
+
+        }, (error) => {
+            console.log('Could not get connected shifts')
+            console.log(error)
+        })
     }
     cancel(shift: WGShift): void {
         var el = this.wgEligibilities.getCompanyEligibility(shift.company.name)
@@ -106,6 +145,143 @@ class WGShiftsService {
     }
     cancelAll(shifts: WGShift[]): void {_.forEach(shifts, (s) => this.cancel(s))}
 
+    hasConflict(shift: WGAvailableShift) {
+        // proof: https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap/325964#325964
+        // (StartA < EndB) and (EndA > StartB)
+        return _.find(this.list, (s) => (s.startsAt < shift.endsAt && s.endsAt > shift.startsAt))
+    }
+
+    claim(shift: WGAvailableShift, success, failure) {
+            console.log("claiming");
+            if (!Parse.User.current()) return success && success();
+
+            if (this.hasConflict(shift)) {
+                console.log('conflict');
+                return failure && failure({message: 'conflict'});
+            }
+
+            var el = this.wgEligibilities.getCompanyEligibility(shift.company);
+
+            return Parse.Cloud.run('claimShift',
+            {
+                // DD
+                starting_point: shift.starting_point,
+                vehicle_id: el.vehicle_id,
+                workerId: el.workerId,
+
+                // DD && PM
+                startsAt: moment(shift.startsAt).format('YYYY-MM-DDTHH:mm:00Z'),
+                endsAt: moment(shift.endsAt).format('YYYY-MM-DDTHH:mm:00Z'),
+
+                // WIW
+                // only for wiw swaps
+                swapId : shift.swapId,
+                // For claiming your own dropped shift in WIW. Logic should be moved server side
+                ownShift: parseInt(shift.workerId) === parseInt(el.workerId),
+
+                // Common
+                shiftId : shift.shiftId,
+                companyId : el.company.id,
+                company : el.company.name,
+                token : el.token,
+                location : shift.location,
+            },
+            {
+                success: function(s) {
+                    console.log('success');
+                    // update shifts after claiming one
+                    this.wgShifts.load()
+                },
+                error: function(error) {
+                    console.log('Could not claim shift');
+                    console.log(error);
+                }
+            });
+    }
+    private groupByDay(shifts) {
+
+        if (!shifts || !shifts.length) return []
+
+        var days = []
+        var day
+
+         _.forEach(shifts, (s) => {
+
+            if (!day || !moment(day.date).isSame(s.startsAt, 'day')) {
+                day = {
+                    date: s.startsAt,
+                    shifts: []
+                }
+                days.push(day)
+            }
+            day.shifts.push(s)
+        })
+        return days
+    }
+    // Sorting by primary param: startsAt and secondary param: endsAt
+    // http://stackoverflow.com/questions/16426774/underscore-sortby-based-on-multiple-attributes
+    private sortAndFormatShifts(shifts: WGAvailableShift[] = []) {
+        if (shifts.length <= 1) return shifts
+
+        return _(shifts)
+        .chain()
+        // Get only ones that have a start and end time
+        .filter((s) => s.startsAt && s.endsAt)
+        // First convert to dates
+        .map((s) => {
+            s.location = s.location || "san francisco";
+            s.startsAt = new Date(s.startsAt);
+            s.endsAt = new Date(s.endsAt);
+            return s;
+        })
+        // Get only ones that are in the future
+        .filter((s) => moment(s.startsAt).isAfter())
+        // Sort by endsAt
+        .sortBy((shift) => shift.endsAt)
+        // Then sort by starts
+        .sortBy((shift) => shift.startsAt)
+        // Shifts with same startsAt will be sorted by endsAt
+        .value()
+    }
+    private groupPostmatesShifts(days) {
+
+        _.forEach(days, (day) => {
+            var shifts = day.shifts
+            // get postmates only shifts
+            var PMShifts = _.remove(shifts, (shift: any) => {
+                return shift.company.name === 'postmates'
+            })
+            if (!PMShifts.length) return
+
+            // Group contiguous shifts into one master shift
+
+            var curr, prev, groups = []
+
+            while (curr = PMShifts.shift()) {
+                console.log("msg")
+                if (prev && moment(prev.endsAt).isSame(curr.startsAt)) { // Get the first element in the array
+
+                    prev.endsAt = curr.endsAt
+                    prev.shifts.push(curr)
+
+                } else {
+                    prev = {
+                        location: curr.location,
+                        flex: true,
+                        groupedShift: true,
+                        company: {name: 'postmates'},
+                        startsAt: curr.startsAt,
+                        endsAt: curr.endsAt,
+                        shifts: [curr]
+                    }
+                    groups.push(prev)
+                }
+            }
+            Array.prototype.push.apply(shifts, groups)
+            day.shifts = this.sortAndFormatShifts(shifts) // sort again after adding postmates at the end
+        })
+        return days
+    }
     private removeFromList(shift): void {
         _.remove(this.list, (s) => s.id === shift.id)
         if (Parse.User.current()) this.$rootScope.$apply()
@@ -177,4 +353,4 @@ class WGShiftsService {
     }
 }
 
-WGShiftsService.$inject = ["$rootScope", "$ionicPopup", "wgEarnings", "wgEligibilities"]
+WGShiftsService.$inject = ["$q", "$rootScope", "$ionicPopup", "wgEarnings", "wgEligibilities"]
