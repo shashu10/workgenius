@@ -1,0 +1,15 @@
+<img ng-src="img/companies/{{shift.company.name.toLowerCase() | spaceless}}.png" alt="">
+<p>
+    {{dividerFunction(shift.startsAt)}}, {{formatAMPM(shift.startsAt) | uppercase}} - {{formatAMPM(shift.endsAt) | uppercase}}
+</p>
+<p>
+    earnings estimate: <strong class="light-green">{{wgEarnings.shift(shift) | currency:undefined:0}}</strong>
+</p>
+<div ng-show="isWithin72Hr(shift.startsAt)">
+    <p>
+        <strong>Warning:</strong>
+    </p>
+    <p>
+        This shift is coming up soon. Please check <span ng-if="shift.company.name">{{shift.company.name + "\'s" | capitalize}}</span><span ng-if="!shift.company.name">the company</span> cancellation policy. Late cancellations may result in a penalty
+    </p>
+</div>

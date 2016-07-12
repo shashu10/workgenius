@@ -12,7 +12,8 @@ class WGAppRun {
                 public connectedShifts,
                 public PtrService,
                 public currentUser: CurrentUserService,
-                public wgState: WGState) {
+                public wgState: WGState,
+                public wgShifts: WGShiftsService) {
 
         // Initialize Parse here with AppID and JavascriptID
         Parse.initialize(PARSE_APP_ID, PARSE_JS_KEY);
@@ -69,7 +70,7 @@ class WGAppRun {
             if ($state.current.name.indexOf('app.schedule') > -1)
                 PtrService.triggerPtr('scheduleScroll');
             else
-                connectedShifts.getAllScheduled();
+                wgShifts.getAllScheduled();
 
             if ($state.current.name.indexOf('app.claim-days') > -1)
                 PtrService.triggerPtr('claimDaysScroll');
@@ -147,7 +148,7 @@ class WGAppConfig {
 
         // Tabs
         .state('app.preferences',       {url: '/preferences',        views: {'tab-preferences': {templateUrl: 'main/preferences.html'}}})
-        .state('app.schedule',          {url: '/schedule',           views: {'tab-schedule':    {templateUrl: 'main/schedule.html'}}})
+        .state('app.schedule',          {url: '/schedule',           views: {'tab-schedule':    {templateUrl: 'schedule/schedule.html'}}})
 
         // Earnings
         .state('app.earnings',          {url: '/earnings',           views: {'tab-preferences': {templateUrl: 'main/earnings.html'}}})
@@ -216,6 +217,7 @@ angular.module('workgenius', [
     'wg.data',
     'wg.utils',
     'wg.popups',
+    'wg.schedule',
 
     'ionic',
     'ngCordova',
@@ -224,7 +226,6 @@ angular.module('workgenius', [
     'workgenius.services',
     'workgenius.constants',
     'workgenius.filters',
-    'workgenius.schedule',
     'workgenius.availability',
     'workgenius.claimShifts',
     'parseData',
@@ -254,6 +255,7 @@ angular.module('workgenius', [
     'PtrService',
     'currentUser',
     'wgState',
+    'wgShifts',
     WGAppRun
 ])
 

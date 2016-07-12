@@ -1,4 +1,4 @@
-class WGEarnigns {
+class WGEarnings {
 
     constructor(public wgCompanies: WGCompaniesService) {}
 
@@ -20,4 +20,4 @@ class WGEarnigns {
     }
 }
 
-WGEarnigns.$inject = ["wgCompanies"]
+WGEarnings.$inject = ["wgCompanies"]

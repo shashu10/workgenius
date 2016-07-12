@@ -123,10 +123,10 @@ angular.module('workgenius.availability', [])
             }
         }
     ])
-    .controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicPopup', 'wgShifts', 'wgEarnigns',
-        function($rootScope, $scope, $ionicPopup, wgShifts, wgEarnigns) {
+    .controller('BlockDaysCtrl', ['$rootScope', '$scope', '$ionicPopup', 'wgShifts', 'wgEarnings',
+        function($rootScope, $scope, $ionicPopup, wgShifts, wgEarnings) {
 
-            $scope.wgEarnings = wgEarnigns;
+            $scope.wgEarnings = wgEarnings;
             
             $scope.strikes = function(shifts) {
                 var strikes = 0;

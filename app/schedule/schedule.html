@@ -1,0 +1,56 @@
+<ion-view ng-controller="ScheduleCtrl as schedule" view-title="{{schedule.selectedMonth | translate}} {{schedule.selectedYear}}">
+
+    <ion-header-bar ion-cal-subheader class="bar-subheader custom-subheader">
+        <ion-cal calendar-type="week" options="schedule.options" events="schedule.wgShifts.list"></ion-cal>
+    </ion-header-bar>
+
+    <ion-content delegate-handle="schedule.scheduleScroll" class="has-ion-cal-subheader schedule" >
+            <ion-refresher pulling-text="Pull to refresh..." on-refresh="schedule.doRefresh()">
+            </ion-refresher>
+            <div ng-repeat="group in schedule.groupedShifts = (schedule.wgShifts.list | groupBy: 'date')">
+                <div class="group-list">
+                    <ion-list>
+                        <ion-item id="{{schedule.anchorID(group)}}" class="item-divider item-remove-animate" ion-affix data-affix-within-parent-with-class="group-list">
+                            {{schedule.dividerFunction(group[0].startsAt) | uppercase}}
+                            <div class="earnings-estimate">
+                                <p>ESTIMATED EARNINGS:</p>
+                                <p><i class="light-green">{{schedule.wgEarnings.group(group) | currency:undefined:0}}</i></p>
+                            </div>
+                        </ion-item>
+                        <ion-item class="item-avatar item-company-icon wg-shift item-remove-animate" bounce-left ng-repeat="shift in group" can-swipe="true">
+                            <img ng-src="img/companies/{{shift.company.name.toLowerCase() | spaceless}}.png">
+                            <div class="schedule-text">
+                                <p>
+                                    <strong>{{shift.company.name | uppercase}}</strong>
+                                </p>
+                                <p class="schedule-time">
+                                    <strong>{{schedule.formatAMPM(shift.startsAt) | uppercase}}</strong> - <strong>{{schedule.formatAMPM(shift.endsAt) | uppercase}}</strong>
+                                </p>
+                            </div>
+                            <span class="shift-location">{{shift.location}}</span>
+                            <span class="item-note">
+                                <strong>&lt</strong>
+                            </span>
+                            <!-- <ion-option-button class="button-positive" ng-click="goToApp(shift)">
+                                Go to<br>app
+                            </ion-option-button> -->
+                            <ion-option-button class="button-assertive" ng-click="schedule.cancelShift(shift)">
+                                Cancel<br>shift
+                            </ion-option-button>
+                        </ion-item>
+                    </ion-list>
+                </div>
+            </div>
+
+            <div ng-if="schedule.currentUser.shifts.length === 0">
+                
+                <img class="schedule-placeholder" src="img/empty_schedule_no_diamond.png" alt="">
+                <p class="wg-title-instruction">
+                    Your upcoming shifts will appear here
+                </p>
+            </div>
+            <!-- <ion-item id="empty-shift-list" class="item-avatar" ng-repeat="empty in [1,2]">
+                {{$first && !groupedShifts.length ? 'No shifts to show' : ''}}
+            </ion-item> -->
+    </ion-content>
+</ion-view>

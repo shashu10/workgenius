@@ -9,4 +9,4 @@ angular.module('wg.utils', [])
 
     .service('wgDevice', WGDevice)
 
-    .service('wgEarnigns', WGEarnigns)
+    .service('wgEarnings', WGEarnings)

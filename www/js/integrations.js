@@ -171,12 +171,6 @@ function connectedShifts($rootScope, wgEligibilities, wgShifts) {
         $rootScope.currentUser.availableShifts = groupPostmatesShifts(grouped);
     }
 
-    function removeShift(shift) {
-        var removed = _.remove($rootScope.currentUser.availableShiftsArr, function (s) {
-            return s === shift;
-        });
-        updateWith($rootScope.currentUser.availableShiftsArr);
-    }
     return {
 
         appendNewShifts: appendNewShifts,
@@ -204,32 +198,6 @@ function connectedShifts($rootScope, wgEligibilities, wgShifts) {
 	            }
 	        });
 		},
-        getAllScheduled: function(success, failure) {
-            if (!Parse.User.current()) return success && success();
-
-            Parse.Cloud.run('getAllScheduledShifts', {},
-            {
-                success: function(shifts) {
-                    console.log('Successfully got all scheduled shifts');
-
-                    wgShifts.load().then(function(shifts) {
-                        $rootScope.currentUser.shifts = shifts;
-                        if (success) success();
-                        $rootScope.$apply();
-                    }, function(error) {
-                        console.log('Could not get all scheduled shifts');
-                        console.log(error);
-                        if (success) success();
-                        $rootScope.$apply();
-                    });
-                },
-                error: function(error) {
-                    console.log('Could not get all scheduled shifts');
-                    console.log(error);
-                    if (failure) failure();
-                }
-            });
-        },
 		claim: function (shift, success, failure) {
 	        console.log("claiming");
 	        if (!Parse.User.current()) return success && success();
@@ -272,7 +240,6 @@ function connectedShifts($rootScope, wgEligibilities, wgShifts) {
 	            success: function(s) {
 	                console.log('success');
 	                // update shifts after claiming one
-                    // removeShift(shift);
 
                     wgShifts.load().then(function(shifts) {
                         $rootScope.currentUser.shifts = shifts;
@@ -286,7 +253,6 @@ function connectedShifts($rootScope, wgEligibilities, wgShifts) {
 	                console.log('Could not claim shift');
 	                console.log(error);
 	                // update shifts. Error might have been caused because of out of date shifts
-                    // removeShift(shift);
 
                     if (failure) failure(error);
                     $rootScope.$apply();

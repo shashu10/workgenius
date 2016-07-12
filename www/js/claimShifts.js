@@ -31,8 +31,8 @@ angular.module('workgenius.claimShifts', ['integrations'])
 
         }
     ])
-    .controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$rootScope', '$state', 'shiftToClaim', 'wgEarnigns', '$ionicHistory',
-        function($stateParams, $scope, $rootScope, $state, shiftToClaim, wgEarnigns, $ionicHistory) {
+    .controller('ClaimShiftsCtrl', ['$stateParams', '$scope', '$rootScope', '$state', 'shiftToClaim', 'wgEarnings', '$ionicHistory',
+        function($stateParams, $scope, $rootScope, $state, shiftToClaim, wgEarnings, $ionicHistory) {
 
             // When testing and refreshing page on localhost
             // If available shifts don't exist, go back to claim days
@@ -45,7 +45,7 @@ angular.module('workgenius.claimShifts', ['integrations'])
                 return;
             }
 
-            $scope.wgEarnings = wgEarnigns;
+            $scope.wgEarnings = wgEarnings;
 
             $scope.day = $rootScope.currentUser.availableShifts[$stateParams.index];
             $scope.title = moment($scope.day.date).format("ddd Do");
@@ -60,10 +60,10 @@ angular.module('workgenius.claimShifts', ['integrations'])
             };
         }
     ])
-    .controller('ClaimGroupDetailCtrl', ['$stateParams', '$scope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate', 'wgEarnigns', '$state',
-        function($stateParams, $scope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate, wgEarnigns, $state) {
+    .controller('ClaimGroupDetailCtrl', ['$stateParams', '$scope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate', 'wgEarnings', '$state',
+        function($stateParams, $scope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate, wgEarnings, $state) {
 
-            $scope.wgEarnings = wgEarnigns;
+            $scope.wgEarnings = wgEarnings;
 
             // Shift Info
             $scope.group = shiftToClaim.get();
@@ -125,10 +125,10 @@ angular.module('workgenius.claimShifts', ['integrations'])
             };
         }
     ])
-    .controller('ClaimDetailCtrl', ['$stateParams', '$scope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate', 'wgEarnigns', '$state',
-        function($stateParams, $scope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate, wgEarnigns, $state) {
+    .controller('ClaimDetailCtrl', ['$stateParams', '$scope', 'connectedShifts', 'shiftToClaim', '$interval', '$ionicHistory', '$ionicScrollDelegate', 'wgEarnings', '$state',
+        function($stateParams, $scope, connectedShifts, shiftToClaim, $interval, $ionicHistory, $ionicScrollDelegate, wgEarnings, $state) {
 
-            $scope.wgEarnings = wgEarnigns;
+            $scope.wgEarnings = wgEarnings;
 
             // Shift Info
             $scope.shift = shiftToClaim.get();

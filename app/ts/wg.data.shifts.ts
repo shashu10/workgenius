@@ -38,19 +38,24 @@ class WGShift extends Parse.Object {
 
 class WGShiftsService {
 
-    public list: WGShift[] = []
-    public onDataReload = function() {}
+    list: WGShift[] = []
+    onDataReload = function() {}
 
     constructor(public $rootScope: ng.IRootScopeService,
                 public $ionicPopup: ionic.popup.IonicPopupService,
-                public wgEarnigns: WGEarnigns,
+                public wgEarnings: wgEarnings,
                 public wgEligibilities: WGEligibilitiesService) {
         Parse.Object.registerSubclass('Shift', WGShift)
     }
-    public init() {}
+    init() {}
 
-    public load() {
-
+    load(): Parse.IPromise<any> {
+        console.log("load")
+        if (!Parse.User.current()) {
+            this.list = []
+            return Parse.Promise.as([])
+        }
+        console.log("did not load")
         return this.fetchAllShifts()
 
         .then((shifts: WGShift[]) => {
@@ -72,16 +77,34 @@ class WGShiftsService {
 
             this.acknowledgeShifts()
 
+            this.$rootScope.$apply()
+
             return Parse.Promise.as(this.list)
+
+        }, (err) => {
+            console.log("error loading shifts")
+            console.log(err)
+            return Parse.Promise.as([])
         })
     }
-    public cancel(shift: WGShift) {
+    getAllScheduled(): Parse.IPromise<any> {
+        return Parse.Cloud.run('getAllScheduledShifts')
+        .then((shifts) => {
+            console.log('Successfully got all scheduled shifts');
+            return this.load();
+        }, (error) => {
+            console.log('Could not get all scheduled shifts');
+            console.log(error);
+            return Parse.Promise.as([])
+        });
+    }
+    cancel(shift: WGShift) {
         var el = this.wgEligibilities.getCompanyEligibility(shift.company.name)
         if (!shift) return
         shift.cancel(el)
         .then((result) => this.removeFromList(shift), (error) => {})
     }
-    public cancelAll(shifts: WGShift[]) {
+    cancelAll(shifts: WGShift[]) {
         _.forEach(shifts, (s) => this.cancel(s))
     }
 
@@ -135,7 +158,7 @@ class WGShiftsService {
 
         scope['newShifts'] = newShifts
         scope['formatAMPM'] = (date) => (moment(date).format('h:mma'))
-        scope['wgEarnings'] = this.wgEarnigns
+        scope['wgEarnings'] = this.wgEarnings
         scope['shiftDateFormatter'] = (date) => (moment(date).format('ddd, MMM Do'))
 
 
@@ -150,12 +173,10 @@ class WGShiftsService {
                 onTap: function(e) {
                     _acknowledgeShiftsPopupIsVisible = false
                     batchSave(newShifts)
-
                 }
             }]
         })
-
     }
 }
 
-WGShiftsService.$inject = ["$rootScope", "$ionicPopup", "wgEarnigns", "wgEligibilities"]
+WGShiftsService.$inject = ["$rootScope", "$ionicPopup", "wgEarnings", "wgEligibilities"]
