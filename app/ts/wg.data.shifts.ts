@@ -114,7 +114,8 @@ class WGShiftsService {
         if (!Parse.User.current()) return Parse.Promise.as([])
 
         return Parse.Cloud.run('getAllScheduledShifts')
-        .then((success) => {
+        .then((shifts) => {
+            console.log(shifts)
             console.log('Got scheduled shifts')
             return this.load()
 

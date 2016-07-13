@@ -9,11 +9,12 @@
                 <ion-item class="item-icon-right" ng-click="claim.toggleShifts(day)">
                     {{day.date | date: "EEEE, MMMM d"}}
                     <span class="item-note">{{day.shifts.length || "--"}} {{day.shifts.length === 0 ? "" : day.shifts.length === 1 ? "shift" : "shifts"}}</span>
-                    <i class="icon ion-android-add"></i>
+
+                    <div class="expand-icon" ng-class="{toggled: day.showShifts}"></div>
                 </ion-item>
 
                 <!-- shift -->
-                <ion-list ng-if="day.showShifts" class="claim-shifts">
+                <ion-list ng-show="day.showShifts" class="claim-shifts">
                     <ion-item class="item-remove-animate" ng-class="{'claim-success' : shift.claimStatus === 2, 'claim-failure' : shift.claimStatus === 3}" ng-repeat="shift in day.shifts" ng-click="claim.select(shift)">
                         <div class="row">
                             <div class="img-container">

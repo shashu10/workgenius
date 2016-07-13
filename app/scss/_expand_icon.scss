@@ -1,0 +1,45 @@
+.ion-expand-icon {
+    height: 30px;
+    position: relative;
+    width: 30px;
+
+    &::before,
+    &::after {
+        background-color: $dark;
+        content: '';
+        position: absolute;
+        transition: transform 0.25s ease-out;
+    }
+
+    // Vertical line
+    &::before {
+        height: 21px;
+        left: 50%;
+        margin-left: -2px;
+        top: 4px;
+        width: 3px;
+    }
+
+    // Horizontal line
+    &::after {
+        height: 3px;
+        left: 4px;
+        margin-top: -2px;
+        top: 50%;
+        width: 21px;
+    }
+    // Minus sign
+    &.toggled {
+        cursor: pointer;
+
+        &::before { transform: rotate(90deg); }
+        &::after { transform: rotate(180deg); }
+    }
+}
+.item-icon-right {
+    .ion-expand-icon {
+        position: absolute;
+        right: 12px;
+        top: 10px;
+    }
+}
