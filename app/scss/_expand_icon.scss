@@ -32,8 +32,8 @@
     &.toggled {
         cursor: pointer;
 
-        &::before { transform: rotate(90deg); }
-        &::after { transform: rotate(180deg); }
+        &::before { transform: rotate3d(0, 0, 1, 90deg); }
+        &::after { transform: rotate3d(0, 0, 1, 180deg); }
     }
 }
 .item-icon-right {

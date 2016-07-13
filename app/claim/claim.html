@@ -10,7 +10,7 @@
                     {{day.date | date: "EEEE, MMMM d"}}
                     <span class="item-note">{{day.shifts.length || "--"}} {{day.shifts.length === 0 ? "" : day.shifts.length === 1 ? "shift" : "shifts"}}</span>
 
-                    <div class="expand-icon" ng-class="{toggled: day.showShifts}"></div>
+                    <div class="ion-expand-icon" ng-class="{toggled: day.showShifts}"></div>
                 </ion-item>
 
                 <!-- shift -->
