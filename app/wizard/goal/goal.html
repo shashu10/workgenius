@@ -8,13 +8,7 @@
         </h3>
 
         <div>
-            <p class="earnings-goal-text">{{goal.currentUser.earningsGoal | currency : undefined : 0}}</p>
-
-            <p class="hours-goal-text">in {{goal.currentUser.hoursGoal}} {{goal.currentUser.hoursGoal === 1 ? 'hr' : 'hrs'}}</p>
-
-            <div class="item range range-positive">
-                0 <input type="range" ng-model="goal.currentUser.earningsGoal" name="hours" min="0" max="280"> 280
-            </div>
+            <goal-controls current-user= "goal.currentUser"><goal-controls>
         </div>
 
         <div class="next-button">

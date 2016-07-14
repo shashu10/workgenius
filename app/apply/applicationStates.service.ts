@@ -66,19 +66,52 @@ class ApplicationStatesService {
 
         this.$state.go(this.nextPage)
     }
+    private removeExistingValues() {
+        // Check if user already has already input this information
+        // "phone"
+        if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
+
+        // "address"
+        if (this.currentUser.address           &&
+            this.currentUser.address['street'] &&
+            this.currentUser.address['city']   &&
+            this.currentUser.address['state']  &&
+            this.currentUser.address['zip'])
+            _.remove(this._states, (s) => s === 'address')
+
+        // "weight-limit"
+        if (this.currentUser.canLift50lbs) _.remove(this._states, (s) => s === 'weight-limit')
+
+        // "car-info"
+        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
+
+        // "car-documents"
+        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
+
+        // "headshot"
+        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
+
+        // "bg-info"
+        // "bg-ssn"
+        if (this.currentUser.ssn) {
+            _.remove(this._states, (s) => s === 'bg-info')
+            _.remove(this._states, (s) => s === 'bg-ssn')
+        }
+
+        // "phone-call"
+        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
+    }
     start() {
         this.resetStates()
 
         // show only pages that are requirements
         this._states = _.intersection(this._states, this.wgCompanies.requiredPages)
-        // in the end, go back to the companies view
-        this._states.push('companies')
 
         // If the worker does not have a car, don't ask car stuff
 
-        // Check if user already has already input this information
-        if (this.currentUser.phone) _.pull(this._states, 'phone')
-        if (_.isEmpty(this.currentUser.address)) _.pull(this._states, 'address')
+        this.removeExistingValues()
+        // in the end, go back to the companies view
+        this._states.push('companies')
 
         // prepend 'app.' to the state name
         this._states = _.map(this._states, (s) => ('app.' + s))

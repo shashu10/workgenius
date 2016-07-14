@@ -146,20 +146,20 @@ class WGAppConfig {
         .state('app', {url: '/app', abstract: true, templateUrl: 'tabs.html'})
 
         // Tabs
-        .state('app.preferences',       {url: '/preferences',        views: {'tab-preferences': {templateUrl: 'preferences/preferences.html'    }}})
+        .state('app.profile',           {url: '/profile',            views: {'tab-profile':     {templateUrl: 'profile/profile.html'            }}})
         .state('app.schedule',          {url: '/schedule',           views: {'tab-schedule':    {templateUrl: 'schedule/schedule.html'          }}})
 
         // Earnings
-        .state('app.earnings',          {url: '/earnings',           views: {'tab-preferences': {templateUrl: 'main/earnings.html'              }}})
-        .state('app.hours',             {url: '/hours',              views: {'tab-preferences': {templateUrl: 'main/hours.html'                 }}})
+        .state('app.earnings',          {url: '/earnings',           views: {'tab-profile':     {templateUrl: 'main/earnings.html'              }}})
+        .state('app.hours',             {url: '/hours',              views: {'tab-profile':     {templateUrl: 'main/hours.html'                 }}})
 
         // Sub Views Tabs
-        .state('app.vehicles',          {url: '/vehicles',           views: {'tab-preferences': {templateUrl: 'main/vehicles.html'              }}})
-        .state('app.personal-info',     {url: '/personal-info',      views: {'tab-preferences': {templateUrl: 'main/personal-info.html'         }}})
+        .state('app.vehicles',          {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'main/vehicles.html'              }}})
+        .state('app.personal-info',     {url: '/personal-info',      views: {'tab-profile':     {templateUrl: 'main/personal-info.html'         }}})
 
         // Availability Tabs
-        .state('app.availability',      {url: '/availability',       views: {'tab-preferences': {templateUrl: 'availability/availability.html'  }}})
-        .state('app.block-days',        {url: '/block-days',         views: {'tab-preferences': {templateUrl: 'availability/block-days.html'    }}})
+        .state('app.availability',      {url: '/availability',       views: {'tab-profile':     {templateUrl: 'availability/availability.html'  }}})
+        .state('app.block-days',        {url: '/block-days',         views: {'tab-profile':     {templateUrl: 'availability/block-days.html'    }}})
 
         // Claim Shifts
         .state('app.claim-days',        {url: '/claim-days',         views: {'tab-claim-days':  {templateUrl: 'claim/claim.html'                }}})
@@ -217,6 +217,8 @@ angular.module('workgenius', [
     'wg.schedule',
     'wg.claim',
     'wg.preferences',
+    'wg.profile',
+    'wg.directives',
 
     'ionic',
     'ngCordova',
