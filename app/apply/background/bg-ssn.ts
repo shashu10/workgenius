@@ -1,10 +1,11 @@
 class BackgroundCheckSSNCtrl {
 
-    constructor(public ApplicationStates: ApplicationStatesService) {}
+    constructor(public ApplicationStates: ApplicationStatesService,
+                public currentuser: CurrentUserService) {}
 
     next() {
         this.ApplicationStates.next()
     }
 }
 
-BackgroundCheckSSNCtrl.$inject = ["ApplicationStates"]
+BackgroundCheckSSNCtrl.$inject = ["ApplicationStates", "currentuser"]

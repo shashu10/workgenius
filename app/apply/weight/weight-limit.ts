@@ -1,10 +1,11 @@
 class WeightLimitCtrl {
 
-    constructor(public ApplicationStates: ApplicationStatesService) { }
+    constructor(public ApplicationStates: ApplicationStatesService,
+                public currentUser: CurrentUserService) { }
 
     next() {
         this.ApplicationStates.next()
     }
 }
 
-WeightLimitCtrl.$inject = ["ApplicationStates"]
+WeightLimitCtrl.$inject = ["ApplicationStates", "currentUser"]

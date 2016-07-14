@@ -6,7 +6,7 @@ function setupPush($interval) {
 
         if (!window.parsePlugin) return; // Probably running in an emulator
         // first, lets initialize parse. fill in your parse appId and clientKey
-        window.parsePlugin.initialize("cvvuPa7IqutoaMzFhVkULVPwYL6tI4dlCXa6UmGT", "bxecCnbiUnddzVbYkCeTVXuhPOzeOroXNHXTfvxG", function() {
+        window.parsePlugin.initialize(PARSE_APP_ID, PARSE_CLIENT_KEY, function() {
             console.log('Parse initialized successfully.');
 
             window.parsePlugin.subscribe('worker', function() {

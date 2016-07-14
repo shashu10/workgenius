@@ -2,7 +2,8 @@ class ConnectPopupService {
 
     private connectPopup: any
 
-    constructor(public $ionicPopup: ionic.popup.IonicPopupService, public $rootScope: ng.IRootScopeService) {}
+    constructor(public $ionicPopup: ionic.popup.IonicPopupService,
+                public $rootScope: ng.IRootScopeService) {}
 
     show(company: WGCompany) {
 

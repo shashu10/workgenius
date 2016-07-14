@@ -60,7 +60,7 @@ class WGEligibilitiesService {
     }
 
     getCompanyEligibility(companyName: string): WGEligibility {
-        return _.find(this.list, (el) => el.company.name === companyName)
+        return _.find(this.list, (el) => el.company.name.toLowerCase() === companyName.toLowerCase())
     }
 
     load(): Parse.IPromise<any[]> {
