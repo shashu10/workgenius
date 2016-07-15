@@ -114,7 +114,7 @@ class ApplicationStatesService {
         this._states.push('companies')
 
         // prepend 'app.' to the state name
-        this._states = _.map(this._states, (s) => ('app.' + s))
+        this._states = _.map(this._states, (s) => (`app.${s}`))
 
         this.linkProgressBar()
 

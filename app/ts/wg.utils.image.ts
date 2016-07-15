@@ -68,7 +68,7 @@ class WGImage {
             }
         }
 
-        return this.$cordovaFileTransfer.upload("https://" + s3Signature.bucket + ".s3.amazonaws.com/", fileURI, options)
+        return this.$cordovaFileTransfer.upload(`https://${s3Signature.bucket}.s3.amazonaws.com/`, fileURI, options)
     }
     private getSignature(bucket: string): Parse.Promise<any> {
         return Parse.Cloud.run('getS3Signature', {

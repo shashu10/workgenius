@@ -67,7 +67,7 @@ class ClaimDetailCtrl {
         this.wgShifts.claim(this.shift as WGAvailableShift)
         .then(() => {
 
-            mixpanel.track("Claimed Shift - " + this.shift.company)
+            mixpanel.track(`Claimed Shift - ${this.shift.company}`)
             this.shift.claimStatus = 2
             this.shift.claimText = "Claimed Shift!"
             // If no user, then it's just a demo. Don't need to apply scope.
@@ -148,7 +148,7 @@ class ClaimGroupDetailCtrl {
 
         .then(() => {
 
-            mixpanel.track("Claimed Shift - " + s.company)
+            mixpanel.track(`Claimed Shift - ${s.company}`)
             s.claimStatus = 2
             s.claimText = "Claimed"
             // If no user, then it's just a demo. Don't need to apply scope.

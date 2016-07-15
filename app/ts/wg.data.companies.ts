@@ -27,7 +27,10 @@ class WGCompany extends Parse.Object {
     get earningsEst()        : number   { return this.get('earningsEst')}
     get availableNow()       : boolean  { return this.get('availableNow')}
     get isPartner()          : boolean  { return this.get('isPartner')}
+    get canConnect()         : boolean  { return this.get('canConnect')}
     get interested()         : boolean  { return this.eligibility.interested}
+
+    get connectInfo()        : any      { return this.get('connectInfo')}
 
     set interested(value: boolean) { this.eligibility.set('interested', value)}
 }
@@ -93,7 +96,7 @@ class WGCompaniesService {
 
             success: (results) => results,
             error: (error) => {
-                console.error("Could not get companies: " + error.code + " " + error.message);
+                console.error(`Could not get companies: ${error.code} ${error.message}`);
                 // TODO: Handle error here
                 return [];
             }

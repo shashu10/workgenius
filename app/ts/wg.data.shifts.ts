@@ -296,7 +296,7 @@ class WGShiftsService {
 
             success: (results) => results,
             error: (error) => {
-                console.error("Could not get shifts: " + error.code + " " + error.message)
+                console.error(`Could not get companies: ${error.code} ${error.message}`)
                 // TODO: Handle error here
                 return []
             }
@@ -316,7 +316,7 @@ class WGShiftsService {
             Parse.Object.saveAll(newShifts)
 
             .then((list: WGShift[]) => {
-                console.log('success batchSave ' + list.length + ' shifts')
+                console.log(`success batchSave ${list.length} shifts`)
 
             }, (error) => console.log(error))
         }

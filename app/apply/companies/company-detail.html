@@ -28,15 +28,17 @@
         <strong>Sign on bonus:</strong> <strong class="light-green">{{company.bonusValue | currency:undefined:0}}</strong> {{company.bonusCondition}}
     </p>
 
-    <p>&nbsp;</p>
+    
+    <div ng-if="company.canConnect">
 
-    <p>
-        Do you already work with {{company.name | capitalize: true}}?
-    </p>
+        <p>&nbsp;</p>
 
-    <p class="positive" ng-click="companiesCtrl.connect(company)">
-        <strong>Connect your account!</strong>
-    </p>
+        <p>Do you already work with {{company.name | capitalize: true}}?</p>
+
+        <p class="positive" ng-click="companiesCtrl.connect(company)">
+            <strong>Connect your account!</strong>
+        </p>
+    </div>
 
     <p>&nbsp;</p>
 

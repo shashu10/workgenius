@@ -39,10 +39,10 @@ class ScheduleCtrl {
                 this.selectedMonth = month.name
                 this.selectedYear = year
 
-                if (moment(month + '+').format('M') === month.index)
+                if (moment(month).format('M') === month.index)
                     this.scrollTo({date: new Date()})
                 else
-                    this.scrollTo({date: new Date(year + "/" + month.index + "/" + 1)})
+                    this.scrollTo({date: new Date(`${year}/${month.index}/1`)})
             },
         }
     }
@@ -88,18 +88,18 @@ class ScheduleCtrl {
         var eventDate = moment(event.date)
 
         var found = _.find(this.wgShifts.list, (s) => (eventDate.isSameOrBefore(s.date)))
-        if (found) this.gotoAnchor("id" + moment(found.date).format('YYYY-MM-DD'));
+        if (found) this.gotoAnchor(`id${moment(found.date).format('YYYY-MM-DD')}`);
         // this.gotoAnchor('empty-shift-list')
         this.$ionicScrollDelegate.scrollBottom()
     }
     cancelShift(shift: WGShift): void {
-        mixpanel.track("Pressed Cancel - " + shift.company.name)
+        mixpanel.track(`Pressed Cancel - ${shift.company.name}`)
         this.shiftToCancel = shift
 
         this.cancelWarning(shift)
     }
 
-    anchorID        (group: WGShift[]): string  {return "id" + moment(group[0].startsAt).format('YYYY-MM-DD')}
+    anchorID        (group: WGShift[]): string  {return `id${moment(group[0].startsAt).format('YYYY-MM-DD')}`}
     formatAMPM      (date: Date)      : string  {return moment(date).format('h:mm a')}
     dividerFunction (date: Date)      : string  {return moment(date).format('dddd, MMM Do')}
     isWithin72Hr    (date: Date)      : boolean {return moment(date).isBefore(moment().add(72, 'hour'))}
@@ -160,7 +160,7 @@ angular.module('wg.schedule', [])
                     // Get the ion-content element containing has-subheader
                     var content = angular.element(document.querySelector('.has-ion-cal-subheader'))
 
-                    content.css("top", height + "px")
+                    content.css("top", `${height}px`)
                 })
             }
         }
