@@ -38,7 +38,7 @@ class CurrentUserService {
 
     get hoursGoal(): number { return Math.round(this.earningsGoal / 18) }
     get earningsGoal(): number { return this.obj && this.obj.get('earningsGoal') || 140 }
-    set earningsGoal(earningsGoal: number) { this.obj && this.obj.set('earningsGoal', earningsGoal) }
+    set earningsGoal(earningsGoal: number) { this.obj && this.obj.set('earningsGoal', Number(earningsGoal)) }
 
     get locations(): WGLocation[] { return (this.obj && this.obj.get('locations')) || [] }
 
@@ -57,6 +57,11 @@ class CurrentUserService {
     get ssn(): string { return this.obj && this.obj.get('ssn') }
     set ssn(ssn: string) { this.obj && this.obj.set('ssn', ssn) }
 
+    get car(): WGVehicle { return this.obj && this.obj.get('vehicles') && _.find(this.vehicles, (v) => v.type === 'car') }
+    set car(car: WGVehicle) { this.obj && this.obj.set('car', car) }
+
+    get carInfo(): any { return this.obj && this.obj.get('carInfo') }
+    set carInfo(carInfo: any) { this.obj && this.obj.set('carInfo', carInfo) }
 
     get canLift50lbs(): boolean { return this.obj && this.obj.get('canLift50lbs') }
     set canLift50lbs(canLift50lbs: boolean) { this.obj && this.obj.set('canLift50lbs', canLift50lbs) }

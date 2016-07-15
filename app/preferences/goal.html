@@ -1,0 +1,15 @@
+<ion-view title="Setup Wizard" ng-controller="GoalPreferencesCtrl as goal">
+    <ion-content class="big-form wizard-goal" scroll="false">
+
+        <h3>
+            What is your
+            <br>
+            <strong>daily earnings goal?</strong>
+        </h3>
+
+        <div>
+            <goal-controls current-user="goal.currentUser" on-change="goal.onChange"><goal-controls>
+        </div>
+
+    </ion-content>
+</ion-view>

@@ -129,6 +129,8 @@ angular.module('workgenius.directives', [])
 })
 .factory('debounce', ['$timeout', '$q', function($timeout, $q) {
   return function(func, wait, immediate) {
+    wait = wait || 500;
+    immediate = immediate || false;
     var timeout;
     var deferred = $q.defer();
     return function() {

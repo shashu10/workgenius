@@ -146,16 +146,17 @@ class WGAppConfig {
         .state('app', {url: '/app', abstract: true, templateUrl: 'tabs.html'})
 
         // Tabs
-        .state('app.profile',           {url: '/profile',            views: {'tab-profile':     {templateUrl: 'profile/profile.html'            }}})
         .state('app.schedule',          {url: '/schedule',           views: {'tab-schedule':    {templateUrl: 'schedule/schedule.html'          }}})
+        .state('app.profile',           {url: '/profile',            views: {'tab-profile':     {templateUrl: 'profile/profile.html'            }}})
+
+        // Sub Views Tabs
+        .state('app.vehicles',          {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'main/vehicles.html'              }}})
+        .state('app.goal',              {url: '/goal',               views: {'tab-profile':     {templateUrl: 'preferences/goal.html'           }}})
+        .state('app.personal-info',     {url: '/personal-info',      views: {'tab-profile':     {templateUrl: 'main/personal-info.html'         }}})
 
         // Earnings
         .state('app.earnings',          {url: '/earnings',           views: {'tab-profile':     {templateUrl: 'main/earnings.html'              }}})
         .state('app.hours',             {url: '/hours',              views: {'tab-profile':     {templateUrl: 'main/hours.html'                 }}})
-
-        // Sub Views Tabs
-        .state('app.vehicles',          {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'main/vehicles.html'              }}})
-        .state('app.personal-info',     {url: '/personal-info',      views: {'tab-profile':     {templateUrl: 'main/personal-info.html'         }}})
 
         // Availability Tabs
         .state('app.availability',      {url: '/availability',       views: {'tab-profile':     {templateUrl: 'availability/availability.html'  }}})
@@ -219,6 +220,7 @@ angular.module('workgenius', [
     'wg.preferences',
     'wg.profile',
     'wg.directives',
+    'wg.services',
 
     'ionic',
     'ngCordova',
