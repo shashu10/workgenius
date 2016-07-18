@@ -13,7 +13,7 @@ class WGDevice {
 
         // Setup variables used through out the app
 
-        if (IS_TESTING) return
+        if (IS_TESTING || !cordova || !cordova.getAppVersion) return
 
         this.$cordovaAppVersion.getVersionNumber()
         .then((version) => {

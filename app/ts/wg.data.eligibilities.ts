@@ -64,6 +64,11 @@ class WGEligibilitiesService {
     }
 
     load(): Parse.IPromise<any[]> {
+        if (!Parse.User.current()) {
+            this.list = []
+            return Parse.Promise.as([])
+        }
+
         return this.fetchAll()
         .then((results) => {
             this.startRefreshTimers()
