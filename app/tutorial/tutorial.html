@@ -1,0 +1,46 @@
+
+
+      <ion-view hide-nav-bar="true" ng-controller= "TutorialCtrl as tutorial" left-buttons="leftButtons" right-buttons="rightButtons">
+        <ion-slide-box on-slide-changed="slideChanged(index)">
+
+
+
+
+          <ion-slide>
+            <h3>Create your WorkGenius ID</h3>
+            <div class="wg-tutorial-logo">
+              <img src="http://code.ionicframework.com/assets/img/app_icon.png">
+            </div>
+           
+          </ion-slide>
+
+
+
+          <ion-slide>
+		  <h3>{{'Browse Flexible Jobs Near You' | capitalize: true}}</h3>
+             <div class="wg-tutorial-image">
+              <img src="http://code.ionicframework.com/assets/img/app_icon.png">
+            </div>
+          
+	  </ion-slide>
+
+
+          <ion-slide>
+		<h3>{{'Apply Instantly with your WorkGenius ID' | capitalize: true}}</h3>	            <div class="wg-tutorial-image">
+              <img src="http://code.ionicframework.com/assets/img/app_icon.png">
+            </div>
+          </ion-slide>
+
+	<ion-slide>
+	      <h3>{{'All of your work in one place' | capitalize: true}}</h3>	            <div class="wg-tutorial-image">
+	    <img src="http://code.ionicframework.com/assets/img/app_icon.png">
+	  <div class = "wg-button-container">
+	  <button class="button button-block button-positive wg-tutorial-button" ng-click="tutorial.startApp()">
+  		Get Started ➝
+	</button>
+	</div>
+	</ion-slide>
+	
+	</ion-slide-box>
+      </ion-view>
+   
