@@ -5,3 +5,6 @@ angular.module('wg.services', [])
 .service('alertDialog', AlertDialogService)
 
 .service('keyboardManager', KeyboardManagerService)
+
+.service('wgDebounce', WGDebounce)
+

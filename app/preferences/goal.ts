@@ -3,8 +3,8 @@ class GoalPreferencesCtrl {
     public debouncedSave: any
     public onChange: Function
 
-    constructor(public currentUser: CurrentUserService, public debounce: any, public alertDialog: AlertDialogService) {
-        this.onChange = this.debounce.create(() => this.save());
+    constructor(public currentUser: CurrentUserService, public wgDebounce: WGDebounce, public alertDialog: AlertDialogService) {
+        this.onChange = this.wgDebounce.create(() => this.save());
     }
 
     save() {
@@ -19,4 +19,4 @@ class GoalPreferencesCtrl {
     }
 }
 
-GoalPreferencesCtrl.$inject = ["currentUser", "debounce", "alertDialog"]
+GoalPreferencesCtrl.$inject = ["currentUser", "wgDebounce", "alertDialog"]

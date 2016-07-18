@@ -15,3 +15,5 @@ PreferencesCtrl.$inject = ['currentUser', 'wgState']
 angular.module('wg.preferences', [])
 
 .controller('PreferencesCtrl', PreferencesCtrl)
+
+.controller('GoalPreferencesCtrl', GoalPreferencesCtrl)
