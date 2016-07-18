@@ -23,6 +23,14 @@ class CurrentUserService {
     create() {
         this.obj = new Parse.User();
     }
+
+
+    get shouldFinishWizard() {
+        return localStorage.getItem('wg.shouldFinishWizard')
+    }
+    startWizard()  { localStorage.setItem('wg.shouldFinishWizard', 'true') }
+    finishWizard() { localStorage.removeItem('wg.shouldFinishWizard') }
+
     get newUserCreated() { return this.obj && !this.obj.existed()}
     get isLoggedIn() { return !!Parse.User.current()}
 

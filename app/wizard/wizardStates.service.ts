@@ -14,7 +14,7 @@ class WizardStatesService {
                 public $rootScope: ng.IRootScopeService,
                 public currentUser: CurrentUserService,
                 public ngProgressFactory) {
-        localStorage.setItem('wg.startedWizard', 'true');
+        currentUser.startWizard()
         this.initProgressBar()
     }
 
@@ -25,8 +25,8 @@ class WizardStatesService {
         return this._states.indexOf(this.$state.current.name)
     }
     initProgressBar() {
-        this.progressbar = this.ngProgressFactory.createInstance();
-        this.progressbar.setColor('#09f');
+        this.progressbar = this.ngProgressFactory.createInstance()
+        this.progressbar.setColor('#09f')
 
         this.setProgress(this.index)
 
@@ -34,12 +34,11 @@ class WizardStatesService {
 
             this.setProgress(this.index)
             if (this.hasFinished()) {
-                localStorage.removeItem('wg.startedWizard');
-                localStorage.setItem('wg.finishedWizard', 'true');
+                this.currentUser.finishWizard()
                 this.progressbar.complete()
                 unregister()
             }
-        });
+        })
     }
     hasFinished() {
         return this.$state.current.name === this._states[this._states.length - 1]

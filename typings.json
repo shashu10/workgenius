@@ -25,6 +25,7 @@
     "cordova": "github:DefinitelyTyped/DefinitelyTyped/cordova/cordova.d.ts#e0e746833c4cd61e07f24d00e32baa9481e7ba59",
     "cordova-ionic": "registry:dt/cordova-ionic#0.0.0+20160316155526",
     "cordova-ionic/plugins/keyboard": "registry:dt/cordova-ionic/plugins/keyboard#0.0.0+20160317120654",
+    "cordova-plugin-app-version": "registry:dt/cordova-plugin-app-version#0.0.0+20160316155526",
     "ionic": "github:DefinitelyTyped/DefinitelyTyped/ionic/ionic.d.ts#e0e746833c4cd61e07f24d00e32baa9481e7ba59",
     "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#f481e77dfca5a146db1b4f5f20f15929b30c8729",
     "lodash": "registry:dt/lodash#3.10.0+20160330154726",

@@ -80,17 +80,14 @@ class WGAppRun {
 
         function initState() {
 
-            if (IS_TESTING) {
-                if (window.location.hash === "") wgState.goWithoutAnimate('tutorial')
-                return;
-            }
+            if (IS_TESTING && window.location.hash !== "") return;
 
             var transition;
 
             if (currentUser.isLoggedIn) {
                 console.log("logged in");
                 // If not finished wizard, go to wizard
-                if (localStorage.getItem('wg.startedWizard')) {
+                if (currentUser.shouldFinishWizard) {
                     transition = wgState.goWithoutAnimate('wizard-goal');
 
                 } else { // Go to main app
