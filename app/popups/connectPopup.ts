@@ -1,13 +1,22 @@
+interface ConnectUser {
+    username: string
+    password: string
+}
+
 class ConnectPopupService {
 
     private connectPopup: ionic.popup.IonicPopupPromise
     private isEditing: boolean 
+    private company: WGCompany
+    private user: ConnectUser
 
     constructor(public $ionicPopup: ionic.popup.IonicPopupService,
-                public $rootScope: ng.IRootScopeService) {}
+                public $rootScope: ng.IRootScopeService,
+                public wgEligibilities: WGEligibilitiesService) {}
 
     show(company: WGCompany) {
-
+        this.company = company
+        this.user = {username: "",password: ""}
         this.connectPopup = this.$ionicPopup.show(this.newConnectPopup())
 
         this.connectPopup.then((connect) => {
@@ -16,84 +25,82 @@ class ConnectPopupService {
 
             // Pressed connect or hit enter/go on keyboard
             if (connect || connect === undefined) {
-                this.connect(company)
+                this.connect()
                 // Pressed never mind
             } else {
-                // company.connected = false
+                // do not connect
             }
         })
     }
 
-    newConnectPopup() {
+    private newConnectPopup() {
         var scope = this.$rootScope.$new(true) as ConnectPopupScope
-        scope.user = {
-            username: "",
-            password: ""
-        }
+        scope.user = this.user
+        scope.company = this.company
+
+        var connectTitle = `Enter your ${_.capitalize(this.company.name)} login`
+        if (!_.isEmpty(this.company.connectInfo)) connectTitle = this.company.connectInfo.title
 
         return {
             templateUrl: 'popups/connect_popup.html',
-            title: 'Enter your company login',
+            title: connectTitle,
             scope: scope,
             cssClass: 'connect-popup',
             buttons: [{
                 text: 'Never Mind',
                 type: 'button-dark',
-                onTap: function(e) {
-                    // Returning a value will cause the promise to resolve with the given value.
-                    return false
-                }
+                // Returning a value will cause the promise to resolve with the given value.
+                onTap: (e) => false
             }, {
-                    text: 'Connect',
-                    type: 'button-positive',
-                    onTap: function(e) {
-                        // Returning a value will cause the promise to resolve with the given value.
-                        return scope.user
-                    }
-                }]
+                text: 'Connect',
+                type: 'button-positive',
+                // Returning a value will cause the promise to resolve with the given value.
+                onTap: (e) => true
+            }]
         }
     }
-    connect(user: any) {
+    private newFailurePopup() {
+        return {
+            template: '<p>The username or password might be wrong</p>',
+            title: 'Could not connect your account',
+            buttons: [{
+                text: 'Ok',
+                type: 'button-positive',
+                // Returning a value will cause the promise to resolve with the given value.
+                onTap: (e) => true
+            }]
+        };
+    }
+    private connect() {
         if (this.connectPopup) {
             this.connectPopup.close()
             this.connectPopup = undefined
         }
-        // if (user.username && user.password) {
-        //     eligibilities.toggleConnectedCompany(
-        //         this.selectedCompany.name,
-        //         true, // toggle value
-        //         user.username,
-        //         user.password,
-        //         function success() {
+        if (this.user.username && this.user.password) {
 
-        //             mixpanel.track("Connected company - " + this.selectedCompany.name)
-        //             // Pulls up wg-save-bar
-        //             if (this.wgSuccess) this.wgSuccess()
-        //         },
-        //         function failure(something) {
+            this.wgEligibilities.connect(this.company, this.user)
+            .then(() => {
+                console.log("success")
+            }, () => {
+                console.log("failure")
+            })
 
-        //             mixpanel.track("Failed company connect - " + this.selectedCompany.name)
-        //             this.selectedCompany.connected = false
-        //             if (Parse.User.current()) this.$apply()
-        //             $ionicPopup.show(newFailurePopup())
-        //             console.log('failure')
-        //         })
-
-        //     // Empty username/password
-        // } else {
-        //     this.selectedCompany.connected = false
-        // }
+        // Empty username/password
+        } else {
+            // this.selectedCompany.connected = false
+        }
     }
 }
 
 interface ConnectPopupScope extends ng.IScope {
+    company: WGCompany
     user: {
         username: string
         password: string
     }
 }
 
-ConnectPopupService.$inject = ["$ionicPopup", "$rootScope"]
+ConnectPopupService.$inject = ["$ionicPopup", "$rootScope", "wgEligibilities"]
 
 angular.module('wg.popups', [])
 

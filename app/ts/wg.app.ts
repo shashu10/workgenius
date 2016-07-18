@@ -12,7 +12,8 @@ class WGAppRun {
                 public PtrService,
                 public currentUser: CurrentUserService,
                 public wgState: WGState,
-                public wgShifts: WGShiftsService) {
+                public wgShifts: WGShiftsService,
+                public keyboardManager: KeyboardManagerService) {
 
         // Initialize Parse here with AppID and JavascriptID
         Parse.initialize(PARSE_APP_ID, PARSE_JS_KEY);
@@ -254,6 +255,7 @@ angular.module('workgenius', [
     'currentUser',
     'wgState',
     'wgShifts',
+    'keyboardManager',
     WGAppRun
 ])
 

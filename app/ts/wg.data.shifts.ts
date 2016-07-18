@@ -81,7 +81,6 @@ class WGShiftsService {
         return this.fetchAllShifts()
 
         .then((shifts: WGShift[]) => {
-
             this.list = _.chain(shifts)
             .filter((s) => {
                 // If shift was finished, don't show. Leave them for 5 hours from the current time.
@@ -115,7 +114,6 @@ class WGShiftsService {
 
         return Parse.Cloud.run('getAllScheduledShifts')
         .then((shifts) => {
-            console.log(shifts)
             console.log('Got scheduled shifts')
             return this.load()
 
@@ -290,6 +288,7 @@ class WGShiftsService {
         var query = new Parse.Query(WGShift)
         query.include("company")
         query.equalTo("worker", Parse.User.current())
+        query.greaterThan('startsAt', moment().subtract(5, 'hours').toDate())
         query.descending('startsAt')
 
         return query.find({

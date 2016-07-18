@@ -79,7 +79,44 @@ class WGEligibilitiesService {
             return undefined
         })
     }
-
+    connect(company: WGCompany, user: ConnectUser): Parse.IPromise<any> {
+        return this.getOrCreateEligibility(company)
+        .then((el) => {
+            console.log(JSON.stringify({
+                eligibilityId : el.id,
+                companyId : company.id,
+                company : company.name,
+                username : user.username,
+                password : user.password,
+            }))
+            return Parse.Cloud.run('authConnectedAccount',
+            {
+                eligibilityId : el.id,
+                companyId : company.id,
+                company : company.name,
+                username : user.username,
+                password : user.password,
+            })
+        })
+        .then((result) => {
+            console.log(result)
+            this.load()
+        }, (error) => {
+            console.log('Could not connect account')
+            console.log(error)
+            return Parse.Promise.error(error)
+        })
+    }
+    private getOrCreateEligibility(company: WGCompany): Parse.Promise<any> {
+        var el = this.getCompanyEligibility(company.name)
+        if (el) return Parse.Promise.as(el)
+        else return this.createEligibility(company)
+    }
+    private createEligibility(company: WGCompany): Parse.Promise<any> {
+        var el = new WGEligibility(company, true)
+        this.list.push(el)
+        return el.save()
+    }
     // Check if tokens need to be refreshed every hour
     private startRefreshTimers() {
         if (_WGEligibilityTokenRefresher) this.$interval.cancel(_WGEligibilityTokenRefresher)
@@ -96,7 +133,7 @@ class WGEligibilitiesService {
             else return
 
             // If not expired, wait until next refresh
-            var expiration = moment(el.tokenRefreshedAt).add(duration, 'milliseconds');
+            var expiration = moment(el.tokenRefreshedAt).add(duration, 'milliseconds')
             if (expiration.isAfter(moment())) return
 
             // Otherwise refresh token

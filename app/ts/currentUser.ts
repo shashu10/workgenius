@@ -24,7 +24,6 @@ class CurrentUserService {
         this.obj = new Parse.User();
     }
 
-
     get shouldFinishWizard() {
         return localStorage.getItem('wg.shouldFinishWizard')
     }
