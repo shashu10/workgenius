@@ -8,3 +8,6 @@ resources/
 www/build
 typings
 old
+www/css/ionic.app.css
+www/css/ionic.app.css.map
+www/templates/templatescache.js
