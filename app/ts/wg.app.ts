@@ -81,7 +81,7 @@ class WGAppRun {
         function initState() {
 
             if (IS_TESTING) {
-                if (window.location.hash === "") wgState.goWithoutAnimate('welcome')
+                if (window.location.hash === "") wgState.goWithoutAnimate('tutorial')
                 return;
             }
 
@@ -102,10 +102,10 @@ class WGAppRun {
                 console.log("not logged in");
                 var curr = $state.current.name;
                 // If not authenticated, user can go to auth pages
-                if (_.includes(curr, 'welcome') || _.includes(curr, 'login') || _.includes(curr, 'signup')) {
+                if (_.includes(curr, 'welcome') ||  _.includes(curr,'tutorial')  ||    _.includes(curr, 'login') || _.includes(curr, 'signup')) {
                 // Else user should be redirected to welcome
                 } else {
-                    transition = wgState.goWithoutAnimate('welcome');
+                    transition = wgState.goWithoutAnimate('tutorial');
                 }
             }
 
@@ -195,7 +195,11 @@ class WGAppConfig {
         .state('wizard-vehicles',       {url: '/wizard-vehicles',       templateUrl: 'wizard/vehicles/vehicles.html'              })
         .state('wizard-locations',      {url: '/wizard-locations',      templateUrl: 'wizard/locations/locations.html'            })
 
-        // if none of the above states are matched, use this as the fallback
+	//Tutorial
+	.state('tutorial', {url:'/tutorial',templateUrl: 'tutorial/tutorial.html'})
+
+
+	// if none of the above states are matched, use this as the fallback
         // This is now decided programatically
         // $urlRouterProvider.otherwise('/welcome');
     }
@@ -221,7 +225,7 @@ angular.module('workgenius', [
     'wg.profile',
     'wg.directives',
     'wg.services',
-
+    'wg.tutorial',
     'ionic',
     'ngCordova',
     'workgenius.controllers',
