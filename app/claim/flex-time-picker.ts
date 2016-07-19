@@ -10,22 +10,21 @@ class FlexTimePicker implements ng.IDirective {
         shift: '=',
     }
 
-    link(scope: ng.IScope, element: JQuery, attributes: ng.IAttributes)
-    {
-        var s: WGAvailableShift = scope['shift']
+    link(scope: ng.IScope, element: JQuery, attributes: ng.IAttributes) {
+        const s: WGAvailableShift = scope['shift']
 
         s.startsAt = new Date(s.startsAt)
         s.endsAt = new Date(s.endsAt)
-        var min = new Date(s.startsAt)
-        var max = new Date(s.endsAt)
+        const min = new Date(s.startsAt)
+        const max = new Date(s.endsAt)
 
         scope['updateStart'] = () => {
-            var time = moment(s.startsAt).add(30, 'minutes').toDate()
+            const time = moment(s.startsAt).add(30, 'minutes').toDate()
             s['endTimes'] = this.getTimes(time, max)
             s.endsAt = this.getValue(s['endTimes'], s.endsAt)
         }
         scope['updateEnd'] = () => {
-            var time = moment(s.endsAt).subtract(30, 'minutes').toDate()
+            const time = moment(s.endsAt).subtract(30, 'minutes').toDate()
             s['startTimes'] = this.getTimes(min, time)
             s.startsAt = this.getValue(s['startTimes'], s.startsAt)
         }
@@ -34,8 +33,8 @@ class FlexTimePicker implements ng.IDirective {
         scope['updateStart']()
     }
     private getTimes(min, max) {
-        var intervals = []
-        var d = {
+        const intervals = []
+        const d = {
             label: moment(min).format('h:mm a'),
             value: new Date(min)
         }

@@ -126,8 +126,8 @@ class ClaimGroupDetailCtrl {
             _.forEach(this.group.shifts, (shift) => {
 
                 // Set time string
-                var start = moment(shift.startsAt)
-                var end = moment(shift.endsAt)
+                const start = moment(shift.startsAt)
+                const end = moment(shift.endsAt)
                 if (start.format('h') === '11')
                     shift.timeSlotStr = start.format('h a - ') + end.format('h a')
                 else

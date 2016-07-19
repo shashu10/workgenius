@@ -1,22 +1,22 @@
 class WGDebounce {
-    
+
     constructor(public $timeout: angular.ITimeoutService, public $q: angular.IQService) {}
 
     create(func, wait = 300, immediate = false) {
-        var timeout
-        var deferred = this.$q.defer()
-        var that = this;
-        return function () {
-            var context = that,
-                args = arguments
-            var later = () => {
+        let timeout
+        let deferred = this.$q.defer()
+        const that = this;
+        return function() {
+            const context = that
+            let args = arguments
+            const later = () => {
                 timeout = null
                 if (!immediate) {
                     deferred.resolve(func.apply(context, args))
                     deferred = that.$q.defer()
                 }
             }
-            var callNow = immediate && !timeout
+            const callNow = immediate && !timeout
             if (timeout) {
                 that.$timeout.cancel(timeout)
             }

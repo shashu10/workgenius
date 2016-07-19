@@ -6,7 +6,7 @@ interface ConnectUser {
 class ConnectPopupService {
 
     private connectPopup: ionic.popup.IonicPopupPromise
-    private isEditing: boolean 
+    private isEditing: boolean
     private company: WGCompany
     private user: ConnectUser
 
@@ -16,7 +16,7 @@ class ConnectPopupService {
 
     show(company: WGCompany) {
         this.company = company
-        this.user = {username: "",password: ""}
+        this.user = {username: "", password: ""}
         this.connectPopup = this.$ionicPopup.show(this.newConnectPopup())
 
         this.connectPopup.then((connect) => {
@@ -34,11 +34,11 @@ class ConnectPopupService {
     }
 
     private newConnectPopup() {
-        var scope = this.$rootScope.$new(true) as ConnectPopupScope
+        const scope = this.$rootScope.$new(true) as ConnectPopupScope
         scope.user = this.user
         scope.company = this.company
 
-        var connectTitle = `Enter your ${_.capitalize(this.company.name)} login`
+        let connectTitle = `Enter your ${_.capitalize(this.company.name)} login`
         if (!_.isEmpty(this.company.connectInfo)) connectTitle = this.company.connectInfo.title
 
         return {

@@ -58,7 +58,7 @@ class WGImage {
     }
     private uploadImageToS3(fileURI: string, s3Signature): ngCordova.IFileTransferPromise<any> {
 
-        var options = {
+        const options = {
             params: {
                 "key": "test.jpeg",
                 "AWSAccessKeyId": s3Signature.awsKey,

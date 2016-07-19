@@ -19,7 +19,7 @@ class WGDevice {
         .then((version) => {
             this.trackNewAppVersion(version);
 
-            var platform = this.$cordovaDevice.getPlatform().toLowerCase();
+            const platform = this.$cordovaDevice.getPlatform().toLowerCase();
 
             this.$rootScope['device'] = {
                 os_version: this.$cordovaDevice.getVersion(),
@@ -89,7 +89,7 @@ class WGDevice {
     private trackNewAppVersion(version) {
         this.$rootScope['appVersion'] = version;
         // update app version in sentry and mixpanel
-        var rvContext = Raven.getContext();
+        let rvContext = Raven.getContext();
         rvContext = (rvContext && rvContext.user) || {};
         rvContext.appVersion = version;
         Raven.setUserContext(rvContext);

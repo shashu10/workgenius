@@ -34,7 +34,7 @@ class LocationsCtrl {
         })
     }
     next() {
-        var toSave = _.chain(angular.copy(this.options))
+        const toSave = _.chain(angular.copy(this.options))
         .filter((o) => o.selected)
         .forEach((o) => {delete o.selected})
         .value()

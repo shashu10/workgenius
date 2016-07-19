@@ -1,5 +1,5 @@
 /// <reference path="../../ts/wg.data.vehicles.ts" />
-var VehicleObj = Parse.Object.extend("Vehicle");
+const VehicleObj = Parse.Object.extend("Vehicle");
 
 class VehiclesCtrl {
 
@@ -40,7 +40,7 @@ class VehiclesCtrl {
     }
 
     next() {
-        var toSave = _.chain(angular.copy(this.vehicles))
+        const toSave = _.chain(angular.copy(this.vehicles))
         .filter((v) => v.selected)    // Get only selected vehicles
         .map((v) => ({type: v.type})) // Save only type
         .value()

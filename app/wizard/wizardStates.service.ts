@@ -30,7 +30,7 @@ class WizardStatesService {
 
         this.setProgress(this.index)
 
-        var unregister = this.$rootScope.$on('$stateChangeSuccess', () => { 
+        const unregister = this.$rootScope.$on('$stateChangeSuccess', () => {
 
             this.setProgress(this.index)
             if (this.hasFinished()) {

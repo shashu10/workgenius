@@ -5,7 +5,7 @@ declare var PARSE_APP_ID
 declare var PARSE_JS_KEY
 
 class WGAppRun {
-    
+
     constructor(public $rootScope:    angular.IRootScopeService,
                 public $state:        angular.ui.IStateService,
                 public $interval:     angular.IIntervalService,
@@ -84,7 +84,7 @@ class WGAppRun {
 
             if (IS_TESTING && window.location.hash !== "") return;
 
-            var transition;
+            let transition;
 
             if (currentUser.isLoggedIn) {
                 console.log("logged in");
@@ -99,9 +99,9 @@ class WGAppRun {
             } else {
 
                 console.log("not logged in");
-                var curr = $state.current.name;
+                const curr = $state.current.name;
                 // If not authenticated, user can go to auth pages
-                if (_.includes(curr, 'welcome') ||  _.includes(curr,'tutorial') || _.includes(curr, 'login') || _.includes(curr, 'signup')) {
+                if (_.includes(curr, 'welcome') ||  _.includes(curr, 'tutorial') || _.includes(curr, 'login') || _.includes(curr, 'signup')) {
                 // Else user should be redirected to welcome
                 } else {
                     transition = wgState.goWithoutAnimate('tutorial');
@@ -127,7 +127,7 @@ class WGAppRun {
 }
 
 class WGAppConfig {
-    
+
     constructor($stateProvider,
                 $urlRouterProvider,
                 $ionicConfigProvider,
@@ -142,62 +142,62 @@ class WGAppConfig {
 
         $stateProvider
 
-        .state('app', {url: '/app', abstract: true, templateUrl: 'tabs.html'})
+        .state('app',                    {url: '/app', abstract: true, templateUrl: 'tabs.html'})
 
         // Tabs
-        .state('app.schedule',          {url: '/schedule',           views: {'tab-schedule':    {templateUrl: 'schedule/schedule.html'          }}})
-        .state('app.profile',           {url: '/profile',            views: {'tab-profile':     {templateUrl: 'profile/profile.html'            }}})
+        .state('app.schedule',           {url: '/schedule',           views: {'tab-schedule':    {templateUrl: 'schedule/schedule.html'              }}})
+        .state('app.profile',            {url: '/profile',            views: {'tab-profile':     {templateUrl: 'profile/profile.html'                }}})
 
         // Sub Views Tabs
-        .state('app.vehicles',          {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'main/vehicles.html'              }}})
-        .state('app.goal',              {url: '/goal',               views: {'tab-profile':     {templateUrl: 'preferences/goal/goal.html'           }}})
-        .state('app.personal-info',     {url: '/personal-info',      views: {'tab-profile':     {templateUrl: 'main/personal-info.html'         }}})
-        .state('app.locations',     {url: '/locations',      views: {'tab-profile':     {templateUrl: 'preferences/locations/locations.html'         }}})
+        .state('app.vehicles',           {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'main/vehicles.html'                  }}})
+        .state('app.goal',               {url: '/goal',               views: {'tab-profile':     {templateUrl: 'preferences/goal/goal.html'          }}})
+        .state('app.personal-info',      {url: '/personal-info',      views: {'tab-profile':     {templateUrl: 'main/personal-info.html'             }}})
+        .state('app.locations',          {url: '/locations',          views: {'tab-profile':     {templateUrl: 'preferences/locations/locations.html'}}})
 
 
         // Earnings
-        .state('app.earnings',          {url: '/earnings',           views: {'tab-profile':     {templateUrl: 'main/earnings.html'              }}})
-        .state('app.hours',             {url: '/hours',              views: {'tab-profile':     {templateUrl: 'main/hours.html'                 }}})
+        .state('app.earnings',           {url: '/earnings',           views: {'tab-profile':     {templateUrl: 'main/earnings.html'                  }}})
+        .state('app.hours',              {url: '/hours',              views: {'tab-profile':     {templateUrl: 'main/hours.html'                     }}})
 
         // Availability Tabs
-        .state('app.availability',      {url: '/availability',       views: {'tab-profile':     {templateUrl: 'availability/availability.html'  }}})
-        .state('app.block-days',        {url: '/block-days',         views: {'tab-profile':     {templateUrl: 'availability/block-days.html'    }}})
+        .state('app.availability',       {url: '/availability',       views: {'tab-profile':     {templateUrl: 'availability/availability.html'      }}})
+        .state('app.block-days',         {url: '/block-days',         views: {'tab-profile':     {templateUrl: 'availability/block-days.html'        }}})
 
         // Claim Shifts
-        .state('app.claim-days',        {url: '/claim-days',         views: {'tab-claim-days':  {templateUrl: 'claim/claim.html'                }}})
-        .state('app.claim-group-detail',{url: '/claim-group-detail', views: {'tab-claim-days':  {templateUrl: 'claim/claim-group-detail.html'   }}})
-        .state('app.claim-detail',      {url: '/claim-detail',       views: {'tab-claim-days':  {templateUrl: 'claim/claim-detail.html'         }}})
+        .state('app.claim-days',         {url: '/claim-days',         views: {'tab-claim-days':  {templateUrl: 'claim/claim.html'                    }}})
+        .state('app.claim-group-detail', {url: '/claim-group-detail', views: {'tab-claim-days':  {templateUrl: 'claim/claim-group-detail.html'       }}})
+        .state('app.claim-detail',       {url: '/claim-detail',       views: {'tab-claim-days':  {templateUrl: 'claim/claim-detail.html'             }}})
 
         // Application
-        .state('app.phone',             {url: '/phone',              views: {'tab-companies':   {templateUrl: 'apply/phone/phone.html'          }}})
-        .state('app.address',           {url: '/address',            views: {'tab-companies':   {templateUrl: 'apply/address/address.html'      }}})
-        .state('app.weight-limit',      {url: '/weight-limit',       views: {'tab-companies':   {templateUrl: 'apply/weight/weight-limit.html'  }}})
-        .state('app.car-info',          {url: '/car-info',           views: {'tab-companies':   {templateUrl: 'apply/car/car-info.html'         }}})
-        .state('app.car-documents',     {url: '/car-documents',      views: {'tab-companies':   {templateUrl: 'apply/car/car-documents.html'    }}})
-        .state('app.headshot',          {url: '/headshot',           views: {'tab-companies':   {templateUrl: 'apply/headshot/headshot.html'    }}})
-        .state('app.bg-info',           {url: '/bg-info',            views: {'tab-companies':   {templateUrl: 'apply/background/bg-info.html'   }}})
-        .state('app.bg-ssn',            {url: '/bg-ssn',             views: {'tab-companies':   {templateUrl: 'apply/background/bg-ssn.html'    }}})
-        .state('app.phone-call',        {url: '/phone-call',         views: {'tab-companies':   {templateUrl: 'apply/phone-call/phone-call.html'}}})
-        .state('app.companies',         {url: '/companies',          views: {'tab-companies':   {templateUrl: 'apply/companies/company-recommendation.html'}}, cache: false})
+        .state('app.phone',              {url: '/phone',              views: {'tab-companies':   {templateUrl: 'apply/phone/phone.html'              }}})
+        .state('app.address',            {url: '/address',            views: {'tab-companies':   {templateUrl: 'apply/address/address.html'          }}})
+        .state('app.weight-limit',       {url: '/weight-limit',       views: {'tab-companies':   {templateUrl: 'apply/weight/weight-limit.html'      }}})
+        .state('app.car-info',           {url: '/car-info',           views: {'tab-companies':   {templateUrl: 'apply/car/car-info.html'             }}})
+        .state('app.car-documents',      {url: '/car-documents',      views: {'tab-companies':   {templateUrl: 'apply/car/car-documents.html'        }}})
+        .state('app.headshot',           {url: '/headshot',           views: {'tab-companies':   {templateUrl: 'apply/headshot/headshot.html'        }}})
+        .state('app.bg-info',            {url: '/bg-info',            views: {'tab-companies':   {templateUrl: 'apply/background/bg-info.html'       }}})
+        .state('app.bg-ssn',             {url: '/bg-ssn',             views: {'tab-companies':   {templateUrl: 'apply/background/bg-ssn.html'        }}})
+        .state('app.phone-call',         {url: '/phone-call',         views: {'tab-companies':   {templateUrl: 'apply/phone-call/phone-call.html'    }}})
+        .state('app.companies',          {url: '/companies',          views: {'tab-companies':   {templateUrl: 'apply/companies/company-recommendation.html'}}, cache: false})
 
         // Auth
-        .state('welcome',               {url: '/welcome',               templateUrl: 'auth/welcome/welcome.html'                  })
-        .state('signup-name',           {url: '/signup-name',           templateUrl: 'auth/signup/name.html'                      })
-        .state('signup-email',          {url: '/signup-email',          templateUrl: 'auth/signup/email.html'                     })
-        .state('signup-password',       {url: '/signup-password',       templateUrl: 'auth/signup/password.html'                  })
-        .state('login-email',           {url: '/login-email',           templateUrl: 'auth/login/email.html'                      })
-        .state('login-password',        {url: '/login-password',        templateUrl: 'auth/login/password.html'                   })
-        .state('login-forgot-password', {url: '/login-forgot-password', templateUrl: 'auth/login/forgot-password.html'            })
+        .state('welcome',                {url: '/welcome',               templateUrl: 'auth/welcome/welcome.html'                  })
+        .state('signup-name',            {url: '/signup-name',           templateUrl: 'auth/signup/name.html'                      })
+        .state('signup-email',           {url: '/signup-email',          templateUrl: 'auth/signup/email.html'                     })
+        .state('signup-password',        {url: '/signup-password',       templateUrl: 'auth/signup/password.html'                  })
+        .state('login-email',            {url: '/login-email',           templateUrl: 'auth/login/email.html'                      })
+        .state('login-password',         {url: '/login-password',        templateUrl: 'auth/login/password.html'                   })
+        .state('login-forgot-password',  {url: '/login-forgot-password', templateUrl: 'auth/login/forgot-password.html'            })
 
         // Onboarding
-        .state('wizard-goal',           {url: '/wizard-goal',           templateUrl: 'wizard/goal/goal.html'                      })
-        .state('wizard-avail-days',     {url: '/wizard-avail-days',     templateUrl: 'wizard/availability/availability-days.html' })
-        .state('wizard-avail-times',    {url: '/wizard-avail-times',    templateUrl: 'wizard/availability/availability-times.html'})
-        .state('wizard-vehicles',       {url: '/wizard-vehicles',       templateUrl: 'wizard/vehicles/vehicles.html'              })
-        .state('wizard-locations',      {url: '/wizard-locations',      templateUrl: 'wizard/locations/locations.html'            })
+        .state('wizard-goal',            {url: '/wizard-goal',           templateUrl: 'wizard/goal/goal.html'                      })
+        .state('wizard-avail-days',      {url: '/wizard-avail-days',     templateUrl: 'wizard/availability/availability-days.html' })
+        .state('wizard-avail-times',     {url: '/wizard-avail-times',    templateUrl: 'wizard/availability/availability-times.html'})
+        .state('wizard-vehicles',        {url: '/wizard-vehicles',       templateUrl: 'wizard/vehicles/vehicles.html'              })
+        .state('wizard-locations',       {url: '/wizard-locations',      templateUrl: 'wizard/locations/locations.html'            })
 
-    	//Tutorial
-    	.state('tutorial',              {url:'/tutorial',               templateUrl: 'tutorial/tutorial.html'                     })
+        // Tutorial
+        .state('tutorial',               {url: '/tutorial',               templateUrl: 'tutorial/tutorial.html'                    })
 
 
 	// if none of the above states are matched, use this as the fallback
@@ -227,7 +227,8 @@ angular.module('workgenius', [
     'wg.directives',
     'wg.services',
     'wg.tutorial',
-    //'wg.preferences.location',
+
+    // 'wg.preferences.location',
     'ionic',
     'ngCordova',
     'workgenius.controllers',

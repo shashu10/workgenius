@@ -169,9 +169,9 @@ class CurrentUserService {
     // Bug workaround. Parse caches requests
     // If username is taken, User will get same error after changing username
     private resetUser() {
-        var name = this.name
-        var email = this.email
-        var password = this.password
+        const name = this.name
+        const email = this.email
+        const password = this.password
         Parse.User.logOut()
         this.obj = new Parse.User
         this.name = name

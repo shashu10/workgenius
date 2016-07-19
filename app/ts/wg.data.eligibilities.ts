@@ -1,4 +1,4 @@
-var _WGEligibilityTokenRefresher
+let _WGEligibilityTokenRefresher
 
 enum EligibilityStage {
     interested = <any> "interested",
@@ -118,12 +118,12 @@ class WGEligibilitiesService {
         })
     }
     private getOrCreateEligibility(company: WGCompany): Parse.Promise<any> {
-        var el = this.getCompanyEligibility(company.name)
+        const el = this.getCompanyEligibility(company.name)
         if (el) return Parse.Promise.as(el)
         else return this.createEligibility(company)
     }
     private createEligibility(company: WGCompany): Parse.Promise<any> {
-        var el = new WGEligibility(company, true)
+        const el = new WGEligibility(company, true)
         this.list.push(el)
         return el.save()
     }
@@ -137,13 +137,13 @@ class WGEligibilitiesService {
 
             if (!el.username || !el.password) return
 
-            var duration: number
+            let duration: number
             if (el.company.name === 'doordash')       duration = 3 * 60 * 60 * 1000
             else if (el.company.name === 'postmates') duration = 12 * 60 * 60 * 1000
             else return
 
             // If not expired, wait until next refresh
-            var expiration = moment(el.tokenRefreshedAt).add(duration, 'milliseconds')
+            const expiration = moment(el.tokenRefreshedAt).add(duration, 'milliseconds')
             if (expiration.isAfter(moment())) return
 
             // Otherwise refresh token
@@ -152,7 +152,7 @@ class WGEligibilitiesService {
     }
     private fetchAll(): Parse.Promise<any[]> {
 
-        var query = new Parse.Query(WGEligibility)
+        const query = new Parse.Query(WGEligibility)
         query.equalTo('worker', Parse.User.current())
         query.include('company')
 

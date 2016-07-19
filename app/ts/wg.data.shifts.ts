@@ -1,4 +1,4 @@
-var _acknowledgeShiftsPopupIsVisible = false
+let _acknowledgeShiftsPopupIsVisible = false
 
 class WGShift extends Parse.Object {
 
@@ -141,7 +141,7 @@ class WGShiftsService {
         })
     }
     cancel(shift: WGShift): void {
-        var el = this.wgEligibilities.getCompanyEligibility(shift.company.name)
+        const el = this.wgEligibilities.getCompanyEligibility(shift.company.name)
         if (!shift) return
         shift.cancel(el)
         .then((result) => this.removeFromList(shift), (error) => {})
@@ -159,7 +159,7 @@ class WGShiftsService {
             if (!Parse.User.current()) return this.$q.when('no user logged in')
             if (this.hasConflict(shift)) return this.$q.reject({message: 'conflict'});
 
-            var el = this.wgEligibilities.getCompanyEligibility(shift.company);
+            const el = this.wgEligibilities.getCompanyEligibility(shift.company);
 
             return Parse.Cloud.run('claimShift',
             {
@@ -197,8 +197,8 @@ class WGShiftsService {
 
         if (!shifts || !shifts.length) return []
 
-        var days = []
-        var day
+        const days = []
+        const day
 
          _.forEach(shifts, (s) => {
 
@@ -241,16 +241,17 @@ class WGShiftsService {
     private groupPostmatesShifts(days) {
 
         _.forEach(days, (day) => {
-            var shifts = day.shifts
+            const shifts = day.shifts
             // get postmates only shifts
-            var PMShifts = _.remove(shifts, (shift: any) => {
+            const PMShifts = _.remove(shifts, (shift: any) => {
                 return shift.company.name === 'postmates'
             })
             if (!PMShifts.length) return
 
             // Group contiguous shifts into one master shift
 
-            var curr, prev, groups = []
+            let curr, prev
+            const groups = []
 
             while (curr = PMShifts.shift()) {
                 console.log("msg")
@@ -285,7 +286,7 @@ class WGShiftsService {
 
         if (!Parse.User.current()) return Parse.Promise.as([])
 
-        var query = new Parse.Query(WGShift)
+        const query = new Parse.Query(WGShift)
         query.include("company")
         query.equalTo("worker", Parse.User.current())
         query.greaterThan('startsAt', moment().subtract(5, 'hours').toDate())
@@ -304,9 +305,9 @@ class WGShiftsService {
 
     // If called multiple times, will only show one popup at a time.
     private acknowledgeShifts(): void {
-        var newShifts = _.filter(this.list, (s) => !s.acknowledged)
+        const newShifts = _.filter(this.list, (s) => !s.acknowledged)
 
-        var batchSave = function(shifts) {
+        const batchSave = function(shifts) {
 
             _.forEach(newShifts, (s) => {
                 s.acknowledged = true
@@ -324,7 +325,7 @@ class WGShiftsService {
 
         _acknowledgeShiftsPopupIsVisible = true
 
-        var scope = this.$rootScope.$new()
+        const scope = this.$rootScope.$new()
 
         scope['newShifts'] = newShifts
         scope['formatAMPM'] = (date) => (moment(date).format('h:mma'))

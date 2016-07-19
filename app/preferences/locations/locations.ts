@@ -2,15 +2,13 @@ class LocationsPreferenceCtrl {
 
     private otherOption = {selected: false, name: 'other', otherName: ''}
     private options: WGLocation[] = []
-		
-    public onChange:Function
-    constructor(public currentUser: CurrentUserService, public debounce:WGDebounce, public alertDialog: AlertDialogService) {
+
+    public onChange: Function
+    constructor(public currentUser: CurrentUserService, public debounce: WGDebounce, public alertDialog: AlertDialogService) {
         this.reset()
-	this.onChange = function(city) {
-		if (this.canContinue()) {
-			this.save();
-		}
-	}
+        this.onChange = function(city) {
+            if (this.canContinue()) this.save()
+        }
     }
 
     reset() {
@@ -22,13 +20,13 @@ class LocationsPreferenceCtrl {
             {selected: false, name: 'peninsula'},
             this.otherOption,
         ]);
-	
-	_.forEach(this.currentUser.locations,(location)=> {
-		let found = _.find(this.options,(option) => option.name === location.name)
-		if (found) {
-			found.selected = true;
-		}
-	})
+
+    _.forEach(this.currentUser.locations, (location) => {
+        let found = _.find(this.options, (option) => option.name === location.name)
+        if (found) {
+            found.selected = true;
+        }
+    })
     }
 
     canContinue(): boolean {
@@ -51,7 +49,7 @@ class LocationsPreferenceCtrl {
     }
 
     save() {
-        var toSave = _.chain(angular.copy(this.options))
+        const toSave = _.chain(angular.copy(this.options))
         .filter((o) => o.selected)
         .forEach((o) => {delete o.selected})
         .value()
@@ -62,5 +60,5 @@ class LocationsPreferenceCtrl {
     }
 }
 
-LocationsPreferenceCtrl.$inject = ["currentUser","debounce"];
+LocationsPreferenceCtrl.$inject = ["currentUser", "debounce"]
 

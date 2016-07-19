@@ -43,7 +43,7 @@ class AvailabilityConverterService {
 
     }
     setHourBlocks() {
-        var availability: WGAvailability = {};
+        const availability: WGAvailability = {};
         // For each day
         _.forEach(this.days, (day) => {
             _.forEach(this.timeSlots, (slot) => {
@@ -59,13 +59,13 @@ class AvailabilityConverterService {
     }
 
     addAvailabilityWithSlot (timeslot: AvailabilityOption, dayAvail: number[]) {
-        var start = Number(moment(timeslot.start, "ha").format('H'));
-        var end = Number(moment(timeslot.end, "ha").format('H'));
+        const start = Number(moment(timeslot.start, "ha").format('H'));
+        let end = Number(moment(timeslot.end, "ha").format('H'));
 
         if (end < start)
             end += 24;
 
-        for (var i = start; i < end; i++) {
+        for (let i = start; i < end; i++) {
             if (i >= 24) dayAvail.push(i - 24);
             else dayAvail.push(i);
         }

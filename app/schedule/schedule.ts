@@ -24,13 +24,13 @@ class ScheduleCtrl {
 
             eventClick: (event: CalendarEvent) => {
 
-                var m = moment(event.date)
+                const m = moment(event.date)
                 this.scrollTo(event)
                 this.selectedMonth = m.format('MMMM')
             },
             dateClick: (event: CalendarEvent) => {
 
-                var m = moment(event.date)
+                const m = moment(event.date)
                 this.scrollTo(event)
                 this.selectedMonth = m.format('MMMM')
             },
@@ -51,7 +51,7 @@ class ScheduleCtrl {
         .then(() => this.$rootScope.$broadcast('scroll.refreshComplete'))
     }
     cancelWarning(shift: WGShift): void {
-        var scope = this.$rootScope.$new(true)
+        const scope = this.$rootScope.$new(true)
 
         scope['shift']           = shift
         scope['dividerFunction'] = this.dividerFunction
@@ -85,9 +85,9 @@ class ScheduleCtrl {
         this.$timeout(() => {this.$ionicScrollDelegate.anchorScroll(true)}, 10)
     }
     scrollTo(event: CalendarEvent): void {
-        var eventDate = moment(event.date)
+        const eventDate = moment(event.date)
 
-        var found = _.find(this.wgShifts.list, (s) => (eventDate.isSameOrBefore(s.date)))
+        const found = _.find(this.wgShifts.list, (s) => (eventDate.isSameOrBefore(s.date)))
         if (found) this.gotoAnchor(`id${moment(found.date).format('YYYY-MM-DD')}`);
         // this.gotoAnchor('empty-shift-list')
         this.$ionicScrollDelegate.scrollBottom()
@@ -112,8 +112,8 @@ angular.module('wg.schedule', [])
 // ============ //
 
 .directive('bounceLeft', ['$interval', function($interval) {
-        var isOpen = function(element) {
-            var children = element.children()
+        const isOpen = function(element) {
+            const children = element.children()
             if (children && children[0] && children[0].style.transform) {
                 if (children[0].style.transform.indexOf('translate3d') > -1) {
                     return children[0].style
@@ -121,11 +121,11 @@ angular.module('wg.schedule', [])
             }
             return false
         }
-        var close = function(style) {
+        const close = function(style) {
             style.transform = ''
         }
         return function(scope, element, attr) {
-            var bounce
+            let bounce
             // stops bounce when dragging left
             element.on('drag', function(event) {
                 element.removeClass('bounce-left')
@@ -133,7 +133,7 @@ angular.module('wg.schedule', [])
                 bounce = undefined
             })
             element.on('click', function(event) {
-                var open = isOpen(element)
+                const open = isOpen(element)
                 if (open) {
                     close(open)
                     return
@@ -155,10 +155,10 @@ angular.module('wg.schedule', [])
             link: function(scope, element, attrs) {
                 scope.$watch(function() {
 
-                    var height = element[0].offsetHeight + element[0].offsetTop
+                    const height = element[0].offsetHeight + element[0].offsetTop
 
                     // Get the ion-content element containing has-subheader
-                    var content = angular.element(document.querySelector('.has-ion-cal-subheader'))
+                    const content = angular.element(document.querySelector('.has-ion-cal-subheader'))
 
                     content.css("top", `${height}px`)
                 })

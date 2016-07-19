@@ -88,7 +88,7 @@ class CompaniesRecCtrl {
     }
     toggleConnectedCompany(name, toggle, username, password, success, failure) {
         // // If eligibility exists, get it. Else create new parse object
-        // var el = get(name) || createEligibility(name);
+        // const el = get(name) || createEligibility(name);
 
         // // If unselecting parse object not in DB, just delete it
         // // Makes my life simpler with wg-save-bar
@@ -188,8 +188,8 @@ class CompanyDetail implements ng.IDirective {
 //         };
 
 //         // Toggle connected/not connected for each company
-//         for (var i = 0; i < $rootScope.companyList.length; i++) {
-//             var company = $rootScope.companyList[i];
+//         for (const i = 0; i < $rootScope.companyList.length; i++) {
+//             const company = $rootScope.companyList[i];
 //             company.connected = isConnected(company.name);
 //         }
 
@@ -211,7 +211,7 @@ class CompanyDetail implements ng.IDirective {
 
 
 //         function isConnected(name) {
-//             // var eligibility = eligibilities.get(name);
+//             // const eligibility = eligibilities.get(name);
 //             // return eligibility && eligibility.connected;
 //         }
 //     }

@@ -4,8 +4,8 @@ class WGEarnings {
 
     shift(shift) {
         if (!shift) return 15;
-        var est = this.getCompanyEstimate(shift);
-        var raw = (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * est;
+        const est = this.getCompanyEstimate(shift);
+        const raw = (shift.endsAt.getTime() - shift.startsAt.getTime()) / 3600000 * est;
         return Math.round(raw);
     }
     group(group) {
@@ -13,7 +13,7 @@ class WGEarnings {
     }
 
     getCompanyEstimate(shift) {
-        var found = _.find(this.wgCompanies.list, (c) => (c.name === shift.company.name))
+        const found = _.find(this.wgCompanies.list, (c) => (c.name === shift.company.name))
         if (found) return found.earningsEst
 
         return 15;

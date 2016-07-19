@@ -24,7 +24,7 @@ class AlertDialogService {
             width: '100%',
             zIndex: '9999',
         })
-        var body = angular.element(document).find('body').eq(0);
+        const body = angular.element(document).find('body').eq(0);
 
         body.append(this._alertElement)
     }

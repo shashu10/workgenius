@@ -84,14 +84,14 @@ class WGCompaniesService {
     }
     private attachEligibilities(eligibilities: WGEligibility[]) {
         _.forEach(eligibilities, (e) => {
-            var found = _.find(this.list, function(company) { return company.name === e.company.name });
+            const found = _.find(this.list, function(company) { return company.name === e.company.name });
             if (found) found.eligibility = e
         })
     }
 
     private fetchAllCompanies(): Parse.Promise<any[]> {
 
-        var query = new Parse.Query(WGCompany);
+        const query = new Parse.Query(WGCompany);
         // query.greaterThan('recommendationOrder', 0);
 
         return query.find({
@@ -107,7 +107,7 @@ class WGCompaniesService {
 
     saveAll() {
         let companiesToSave = _.filter(this.list, (c) => {
-            var el = c.eligibility
+            const el = c.eligibility
             // If eligibility exists, save new interested companies OR existing companies that have changed
             return el && (!el.existed() && el.interested) || (el.existed() && el.dirtyKeys().length)
         })
