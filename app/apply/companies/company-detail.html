@@ -1,7 +1,13 @@
-<ion-checkbox ng-model="company.interested" class="item-checkbox-right wg-company-item" ng-change="companiesCtrl.toggleDetail(company)">
+<ion-checkbox ng-if="!company.connected" ng-model="company.interested" class="item-checkbox-right wg-company-item" ng-change="companiesCtrl.toggleDetail(company)">
     <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
     <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
 </ion-checkbox>
+
+<ion-item ng-if="company.connected" ng-click="company.interested = true; companiesCtrl.toggleDetail(company)" class="item-checkbox-right wg-company-item item-button-right">
+    <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
+    <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
+    <button class="button button-balanced connected-button button-outline">Connected</button>
+</ion-item>
 
 <ion-item class="wg-company-detail" ng-show="company.showDetail">
 
@@ -28,8 +34,7 @@
         <strong>Sign on bonus:</strong> <strong class="light-green">{{company.bonusValue | currency:undefined:0}}</strong> {{company.bonusCondition}}
     </p>
 
-    
-    <div ng-if="company.canConnect">
+    <div ng-if="company.canConnect && !company.connected">
 
         <p>&nbsp;</p>
 
