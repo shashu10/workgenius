@@ -1,6 +1,14 @@
 <ion-view title="Jobs" ng-controller="CompaniesRecCtrl as companies">
     <ion-content class="big-form wg-application apply-companies">
 
+        <h4 ng-if="companies.myCompanies.length">
+            Your companies
+        </h4>
+
+        <ion-list>
+            <company-detail ng-repeat="company in companies.myCompanies" company="company" companies-ctrl="companies"></company-detail>
+        </ion-list>
+
         <h4 ng-if="companies.recommended.length" ng-switch="companies.recommended.length">
             <span ng-switch-when="0"></span>
             <span ng-switch-when="1">

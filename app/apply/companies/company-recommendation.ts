@@ -2,6 +2,7 @@
 
 class CompaniesRecCtrl {
 
+    public myCompanies: WGCompany[]
     public companies: WGCompany[]
     public recommended: WGCompany[]
     public nonRecommended: WGCompany[]
@@ -17,9 +18,14 @@ class CompaniesRecCtrl {
         wgCompanies.onDataReload = () => {
             this.loadCompanies()
         }
+
+        ApplicationStates.serApplicationCompleteListener(() => {
+            this.loadCompanies()
+        })
     }
 
     loadCompanies() {
+        this.myCompanies = []
         this.recommended = []
         this.nonRecommended = []
 
@@ -27,19 +33,23 @@ class CompaniesRecCtrl {
             // Don't show companies that don't have a recommendation order
             if (!c.order) return
 
-            if (this.matchesLocation(c) && this.matchesVehicles(c) && c.isPartner)
+            if (c.connected || c.applied)
+                this.myCompanies.push(c)
+            else if (this.matchesLocation(c) && this.matchesVehicles(c) && c.isPartner)
                 this.recommended.push(c)
             else
                 this.nonRecommended.push(c)
         })
+        console.log(this.myCompanies.length)
+
     }
     matchesLocation(company: WGCompany) {
-        var userLocs = _.map(this.currentUser.locations, (l) => l.name.toLowerCase())
+        const userLocs = _.map(this.currentUser.locations, (l) => l.name.toLowerCase())
         // If user has selected any vehicle required by company
         if (_.intersection(company.availableLocations, userLocs).length > 0) return true
     }
     matchesVehicles(company: WGCompany) {
-        var userVehicles = _.map(this.currentUser.selectedVehicles, (v) => v.toLowerCase())
+        const userVehicles = _.map(this.currentUser.selectedVehicles, (v) => v.toLowerCase())
         // If company doesn't require a vehicle, user is eligible to work for it
         if (_.find(company.requiredVehicles, (v) => v.toLowerCase() === "none")) return true
         // If user has selected any vehicle required by company

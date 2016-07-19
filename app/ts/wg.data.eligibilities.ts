@@ -1,5 +1,12 @@
 var _WGEligibilityTokenRefresher
 
+enum EligibilityStage {
+    interested = <any> "interested",
+    applied    = <any> "applied"   ,
+    approved   = <any> "approved"  ,
+    connected  = <any> "connected" ,
+}
+
 // Makes it easy to keep track of eligibilities
 class WGEligibility extends Parse.Object {
 
@@ -22,12 +29,14 @@ class WGEligibility extends Parse.Object {
     get company(): WGCompany { return this.get('company') }
     set company(company: WGCompany) { this.set('company', company) }
 
+    get stage()     : EligibilityStage { return this.get('stage') }
+    get applied()   : boolean { return this.get('applied') }
     get connected() : boolean { return this.get('connected') }
-    get username()  : string { return this.get('username') }
-    get password()  : {}     { return this.get('password') }
-    get token()     : string { return this.get('token') }
-    get workerId()  : string { return this.get('workerId') }
-    get vehicle_id(): number { return this.get('vehicle_id')}
+    get password()  : {}      { return this.get('password') }
+    get username()  : string  { return this.get('username') }
+    get token()     : string  { return this.get('token') }
+    get workerId()  : string  { return this.get('workerId') }
+    get vehicle_id(): number  { return this.get('vehicle_id') }
 
     set tokenRefreshedAt(date: Date) { this.set('tokenRefreshedAt', date) }
     get tokenRefreshedAt() : Date    { return this.get('tokenRefreshedAt') }

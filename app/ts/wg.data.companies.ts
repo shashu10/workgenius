@@ -29,6 +29,7 @@ class WGCompany extends Parse.Object {
     get isPartner()          : boolean  { return this.get('isPartner')}
     get canConnect()         : boolean  { return this.get('canConnect')}
     get connected()          : boolean  { return this.eligibility.connected}
+    get applied()            : boolean  { return this.eligibility.applied}
     get interested()         : boolean  { return this.eligibility.interested}
 
     get connectInfo()        : any      { return this.get('connectInfo')}

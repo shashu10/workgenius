@@ -1,8 +1,8 @@
 class ApplicationStatesService {
 
+    public onFinishListeners: Function[] = []
     public progressbar
     private _states: string[]
-
     constructor(public $state: ng.ui.IStateService,
                 public $rootScope: ng.IRootScopeService,
                 public $ionicHistory: ionic.navigation.IonicHistoryService,
@@ -13,7 +13,9 @@ class ApplicationStatesService {
         this.progressbar = this.ngProgressFactory.createInstance()
         this.progressbar.setColor('#09f')
     }
-
+    serApplicationCompleteListener(listener: Function) {
+        if (_.isFunction(listener)) this.onFinishListeners.push(listener)
+    }
     resetStates() {
         this._states = [
             "phone",
@@ -34,13 +36,19 @@ class ApplicationStatesService {
         return this._states.indexOf(this.$state.current.name)
     }
     linkProgressBar() {
-        var unregister = this.$rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => { 
+        const unregister = this.$rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => { 
 
             if (this.gonebackToStart(toState)) {
+
                 console.log("completed application")
-                if (this.hasFinished(toState, fromState)) this.progressbar.complete()
-                else this.progressbar.reset()
-                unregister()
+
+                if (this.hasFinished(toState, fromState)) {
+                    // Call on finish listeners
+                    _.forEach(this.onFinishListeners, (l) => l())
+                    this.progressbar.complete()
+
+                } else this.progressbar.reset()
+                    unregister()
 
             } else {
                 this.setProgress(this.index + 1)
