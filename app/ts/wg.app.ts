@@ -12,6 +12,7 @@ class WGAppRun {
                 public PtrService,
                 public currentUser: CurrentUserService,
                 public wgState: WGState,
+
                 public wgShifts: WGShiftsService,
                 public keyboardManager: KeyboardManagerService) {
 
@@ -149,8 +150,10 @@ class WGAppConfig {
 
         // Sub Views Tabs
         .state('app.vehicles',          {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'main/vehicles.html'              }}})
-        .state('app.goal',              {url: '/goal',               views: {'tab-profile':     {templateUrl: 'preferences/goal.html'           }}})
+        .state('app.goal',              {url: '/goal',               views: {'tab-profile':     {templateUrl: 'preferences/goal/goal.html'           }}})
         .state('app.personal-info',     {url: '/personal-info',      views: {'tab-profile':     {templateUrl: 'main/personal-info.html'         }}})
+        .state('app.locations',     {url: '/locations',      views: {'tab-profile':     {templateUrl: 'preferences/locations/locations.html'         }}})
+
 
         // Earnings
         .state('app.earnings',          {url: '/earnings',           views: {'tab-profile':     {templateUrl: 'main/earnings.html'              }}})
@@ -224,6 +227,7 @@ angular.module('workgenius', [
     'wg.directives',
     'wg.services',
     'wg.tutorial',
+    //'wg.preferences.location',
     'ionic',
     'ngCordova',
     'workgenius.controllers',
