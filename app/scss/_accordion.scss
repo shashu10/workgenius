@@ -1,4 +1,5 @@
 .wg-company-item {
+    line-height: 28px;
     img {
         float: left;
         width: 30px;
@@ -6,6 +7,9 @@
     .wg-company-name {
         font-size: 20px;
         padding-left: 20px;
+    }
+    .connected-button {
+        line-height: 44px;
     }
 }
 
