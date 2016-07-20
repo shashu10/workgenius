@@ -198,7 +198,7 @@ class WGShiftsService {
         if (!shifts || !shifts.length) return []
 
         const days = []
-        const day
+        let day
 
          _.forEach(shifts, (s) => {
 

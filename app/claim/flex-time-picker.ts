@@ -34,7 +34,7 @@ class FlexTimePicker implements ng.IDirective {
     }
     private getTimes(min, max) {
         const intervals = []
-        const d = {
+        let d = {
             label: moment(min).format('h:mm a'),
             value: new Date(min)
         }
