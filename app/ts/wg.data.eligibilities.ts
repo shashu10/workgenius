@@ -8,7 +8,7 @@ enum EligibilityStage {
 }
 
 // Makes it easy to keep track of eligibilities
-class WGEligibility extends Parse.Object implements IObservable {
+class WGEligibility extends Parse.Object {
 
     constructor(company: WGCompany, interested = false) {
         super('Eligibility')
@@ -89,11 +89,13 @@ class WGEligibilitiesService implements IObservable {
         }
 
         return this.fetchAll()
+
         .then((results) => {
             this.startRefreshTimers()
             this.list = results
             this.NotifyOnLoadListeners()
             return this.list
+
         }, (err) => {
             console.log("Could not get eligibilities")
             return undefined
@@ -102,13 +104,6 @@ class WGEligibilitiesService implements IObservable {
     connect(company: WGCompany, user: ConnectUser): Parse.IPromise<any> {
         return this.getOrCreateEligibility(company)
         .then((el) => {
-            console.log(JSON.stringify({
-                eligibilityId : el.id,
-                companyId : company.id,
-                company : company.name,
-                username : user.username,
-                password : user.password,
-            }))
             return Parse.Cloud.run('authConnectedAccount',
             {
                 eligibilityId : el.id,
@@ -121,6 +116,7 @@ class WGEligibilitiesService implements IObservable {
         .then((result) => {
             console.log(result)
             this.load()
+
         }, (error) => {
             console.log('Could not connect account')
             console.log(error)

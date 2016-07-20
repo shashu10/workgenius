@@ -1,7 +1,7 @@
 enum AlertColor {
-    success = <any>"green",
-    failure = <any>"red",
-    warning = <any>"yellow",
+    success = <any> "#33cd5f",
+    failure = <any> "#ef473a",
+    warning = <any> "#ffc900",
 }
 class AlertDialogService {
 

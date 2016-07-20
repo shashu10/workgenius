@@ -54,7 +54,11 @@ class WGCompaniesService implements IObservable {
                 public wgEligibilities: WGEligibilitiesService) {
 
         this._onLoadListeners = [];
-        this.wgEligibilities.RegisterOnLoadListener(this.eligibilityLoadListener)
+        this.wgEligibilities.RegisterOnLoadListener((eligibilities: WGEligibility[]) => {
+            // Replace eligibilities if they exist for that user
+            this.attachEligibilities(eligibilities)
+            this.NotifyOnLoadListeners()
+        })
         Parse.Object.registerSubclass('Company', WGCompany)
     }
 
@@ -84,10 +88,6 @@ class WGCompaniesService implements IObservable {
         })
     }
 
-    private eligibilityLoadListener(eligibilities: WGEligibility[]) {
-        // Replace eligibilities if they exist for that user
-        this.attachEligibilities(eligibilities)
-    }
     private setEmptyEligibility(company) {
         company.eligibility = new WGEligibility(company)
     }

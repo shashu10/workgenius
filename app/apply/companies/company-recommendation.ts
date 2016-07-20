@@ -15,12 +15,8 @@ class CompaniesRecCtrl {
                 public connectPopup: ConnectPopupService) {
 
         this.loadCompanies()
-        wgCompanies.RegisterOnLoadListener(() => {
-            this.loadCompanies()
-        })
-        ApplicationStates.setApplicationCompleteListener(() => {
-            this.loadCompanies()
-        })
+        wgCompanies.RegisterOnLoadListener(() => this.loadCompanies())
+        ApplicationStates.setApplicationCompleteListener(() => this.loadCompanies())
     }
 
     loadCompanies() {
@@ -39,23 +35,18 @@ class CompaniesRecCtrl {
             else
                 this.nonRecommended.push(c)
         })
-        console.log(this.myCompanies.length)
-
     }
-    matchesLocation(company: WGCompany) {
+    private matchesLocation(company: WGCompany) {
         const userLocs = _.map(this.currentUser.locations, (l) => l.name.toLowerCase())
         // If user has selected any vehicle required by company
         if (_.intersection(company.availableLocations, userLocs).length > 0) return true
     }
-    matchesVehicles(company: WGCompany) {
+    private matchesVehicles(company: WGCompany) {
         const userVehicles = _.map(this.currentUser.selectedVehicles, (v) => v.toLowerCase())
         // If company doesn't require a vehicle, user is eligible to work for it
         if (_.find(company.requiredVehicles, (v) => v.toLowerCase() === "none")) return true
         // If user has selected any vehicle required by company
         if (_.intersection(company.requiredVehicles, userVehicles).length > 0) return true
-    }
-    connect(company) {
-        this.connectPopup.show(company)
     }
 
     next() {
@@ -78,9 +69,11 @@ class CompaniesRecCtrl {
         this.$interval(() => this.resize(), 100, 1)
     }
 
-    resize() {
-        this.$ionicScrollDelegate.resize()
+    public connect(company) {
+        this.connectPopup.show(company)
     }
+
+    resize() { this.$ionicScrollDelegate.resize() }
 
     canContinue() {
         return _.filter(this.wgCompanies.list, (c) => c.interested).length

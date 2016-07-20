@@ -4,12 +4,15 @@ class HeadshotCtrl {
                 public $ionicActionSheet: ionic.actionSheet.IonicActionSheetService,
                 public wgImage: WGImage) {
 
+        if (IS_TESTING) this.canContinue = true
+        else this.canContinue = false
+
         this.actionButtons = [{ text: 'Camera' }, { text: 'Photo Library' }]
         if (ionic.Platform.isAndroid())
             this.actionButtons = [{ text: '<i class="icon ion-camera"></i> Camera' }, { text: '<i class="icon ion-ios-albums"></i> Photo Library' }]
     }
 
-    public canContinue = false
+    public canContinue: boolean
     public imageData: string = "img/profile-placeholder.png"
     private actionButtons
 

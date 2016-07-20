@@ -14,9 +14,10 @@
 // $dark:                            #444 !default;
 
 $positive: #09f;
-$button-positive-active-bg: #4eb0f1;
-$assertive: #f86969;
-$button-assertive-active-bg: #e95252;
+
+// $button-positive-active-bg: #4eb0f1;
+// $assertive: #f86969;
+// $button-assertive-active-bg: #e95252;
 // $button-dark-bg: #d8d8d8;
 $button-dark-bg: #bdc3c7;
 // $button-dark-active-bg: #B3B3B3;
@@ -84,7 +85,11 @@ $ionicons-font-path: '../lib/ionic/fonts' !default;
 @import 'wg_icons';
 
 @import 'expand_icon';
+
+@import 'apply_finish';
+
 @import 'tutorial';
+
 @font-face { font-family: Avenir-Book; src: url('../font/Avenir-Book.ttf'); }
 @font-face { font-family: Avenir-Medium; src: url('../font/Avenir-Medium.ttf'); }
 @font-face { font-family: Avenir-Roman; src: url('../font/Avenir-Roman.ttf'); }

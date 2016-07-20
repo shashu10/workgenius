@@ -12,7 +12,8 @@ class ConnectPopupService {
 
     constructor(public $ionicPopup: ionic.popup.IonicPopupService,
                 public $rootScope: ng.IRootScopeService,
-                public wgEligibilities: WGEligibilitiesService) {}
+                public wgEligibilities: WGEligibilitiesService,
+                public alertDialog: AlertDialogService) {}
 
     show(company: WGCompany) {
         this.company = company
@@ -71,24 +72,31 @@ class ConnectPopupService {
             }]
         };
     }
-    private connect() {
+    private connect(): Parse.IPromise<any> {
+
         if (this.connectPopup) {
             this.connectPopup.close()
             this.connectPopup = undefined
         }
+
         if (this.user.username && this.user.password) {
 
-            this.wgEligibilities.connect(this.company, this.user)
+            return this.wgEligibilities.connect(this.company, this.user)
             .then(() => {
                 console.log("success")
-            }, () => {
-                console.log("failure")
+                this.alertDialog.alert(AlertColor.success, 'Connected!')
+                return Parse.Promise.as("")
+
+            }, (error = {}) => {
+                let message = 'Check username/password'
+                if (error.code === 100) message = 'No internet'
+
+                this.alertDialog.alert(AlertColor.failure, message)
+                return Parse.Promise.error("")
             })
 
         // Empty username/password
-        } else {
-            // this.selectedCompany.connected = false
-        }
+        } else return Parse.Promise.error("")
     }
 }
 
@@ -100,7 +108,7 @@ interface ConnectPopupScope extends ng.IScope {
     }
 }
 
-ConnectPopupService.$inject = ["$ionicPopup", "$rootScope", "wgEligibilities"]
+ConnectPopupService.$inject = ["$ionicPopup", "$rootScope", "wgEligibilities", "alertDialog"]
 
 angular.module('wg.popups', [])
 

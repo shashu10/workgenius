@@ -178,6 +178,7 @@ class WGAppConfig {
         .state('app.bg-info',            {url: '/bg-info',            views: {'tab-companies':   {templateUrl: 'apply/background/bg-info.html'       }}})
         .state('app.bg-ssn',             {url: '/bg-ssn',             views: {'tab-companies':   {templateUrl: 'apply/background/bg-ssn.html'        }}})
         .state('app.phone-call',         {url: '/phone-call',         views: {'tab-companies':   {templateUrl: 'apply/phone-call/phone-call.html'    }}})
+        .state('app.finish',             {url: '/finish',             views: {'tab-companies':   {templateUrl: 'apply/finish/finish.html'            }}})
         .state('app.companies',          {url: '/companies',          views: {'tab-companies':   {templateUrl: 'apply/companies/company-recommendation.html'}}, cache: false})
 
         // Auth

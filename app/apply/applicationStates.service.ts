@@ -9,9 +9,9 @@ class ApplicationStatesService {
                 public wgCompanies: WGCompaniesService,
                 public currentUser: CurrentUserService,
                 public ngProgressFactory: any) {
-        this.resetStates()
         this.progressbar = this.ngProgressFactory.createInstance()
         this.progressbar.setColor('#09f')
+        this.init()
     }
     setApplicationCompleteListener(listener: Function) {
         if (_.isFunction(listener)) this.onFinishListeners.push(listener)
@@ -36,7 +36,7 @@ class ApplicationStatesService {
         return this._states.indexOf(this.$state.current.name)
     }
     linkProgressBar() {
-        const unregister = this.$rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => { 
+        const unregister = this.$rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
 
             if (this.gonebackToStart(toState)) {
 
@@ -109,7 +109,7 @@ class ApplicationStatesService {
         // "phone-call"
         // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
     }
-    start() {
+    init() {
         this.resetStates()
 
         // show only pages that are requirements
@@ -119,13 +119,17 @@ class ApplicationStatesService {
 
         this.removeExistingValues()
         // in the end, go back to the companies view
+        this._states.push('finish')
         this._states.push('companies')
 
         // prepend 'app.' to the state name
         this._states = _.map(this._states, (s) => (`app.${s}`))
 
         this.linkProgressBar()
+    }
+    start() {
 
+        this.init()
         // need to set progress and go to state manually
         this.setProgress(1)
         this.$state.go(this._states[0])
