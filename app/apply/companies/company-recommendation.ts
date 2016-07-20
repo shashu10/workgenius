@@ -15,11 +15,10 @@ class CompaniesRecCtrl {
                 public connectPopup: ConnectPopupService) {
 
         this.loadCompanies()
-        wgCompanies.onDataReload = () => {
+        wgCompanies.RegisterOnLoadListener(() => {
             this.loadCompanies()
-        }
-
-        ApplicationStates.serApplicationCompleteListener(() => {
+        })
+        ApplicationStates.setApplicationCompleteListener(() => {
             this.loadCompanies()
         })
     }

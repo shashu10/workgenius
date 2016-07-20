@@ -37,13 +37,24 @@ class WGCompany extends Parse.Object {
     set interested(value: boolean) { this.eligibility.set('interested', value)}
 }
 
-class WGCompaniesService {
+class WGCompaniesService implements IObservable {
 
     public list: WGCompany[] = []
-    public onDataReload = function() {}
+
+    // OnLoad listeners
+    private _onLoadListeners: Function[];
+    // Once registered, the OnLoadListener will be notified of any changes in state.
+    public RegisterOnLoadListener(listener: Function): void {this._onLoadListeners.push(listener)}
+    // Give the OnLoadListener a way to de-register
+    public RemoveOnLoadListener(listener: Function): void {_.remove(this._onLoadListeners, (l) => l === listener)}
+    // Notify all the OnLoadListeners
+    public NotifyOnLoadListeners() {_.forEach(this._onLoadListeners, (l) => l(this.list))}
 
     constructor(public $rootScope: ng.IRootScopeService,
                 public wgEligibilities: WGEligibilitiesService) {
+
+        this._onLoadListeners = [];
+        this.wgEligibilities.RegisterOnLoadListener(this.eligibilityLoadListener)
         Parse.Object.registerSubclass('Company', WGCompany)
     }
 
@@ -68,16 +79,14 @@ class WGCompaniesService {
             .sortBy((c) => c.order)
             .forEach((c) => this.setEmptyEligibility(c))
             .value()
-
-            return this.wgEligibilities.load()
+            this.NotifyOnLoadListeners()
+            this.wgEligibilities.load()
         })
+    }
 
-        .then((eligibilities: WGEligibility[]) => {
-            // Replace eligibilities if they exist for that user
-            this.attachEligibilities(eligibilities)
-
-            this.onDataReload()
-        })
+    private eligibilityLoadListener(eligibilities: WGEligibility[]) {
+        // Replace eligibilities if they exist for that user
+        this.attachEligibilities(eligibilities)
     }
     private setEmptyEligibility(company) {
         company.eligibility = new WGEligibility(company)

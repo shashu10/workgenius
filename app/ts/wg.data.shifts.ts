@@ -59,7 +59,6 @@ class WGShiftsService {
     list: WGShift[] = []
     availableArr: WGAvailableShift[]
     available: WGAvailableShiftDay[]
-    onDataReload = function() {}
 
     constructor(public $q: angular.IQService,
                 public $rootScope: ng.IRootScopeService,

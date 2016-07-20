@@ -8,7 +8,7 @@ enum EligibilityStage {
 }
 
 // Makes it easy to keep track of eligibilities
-class WGEligibility extends Parse.Object {
+class WGEligibility extends Parse.Object implements IObservable {
 
     constructor(company: WGCompany, interested = false) {
         super('Eligibility')
@@ -17,8 +17,6 @@ class WGEligibility extends Parse.Object {
         this.company = company
         this.interested = interested
     }
-
-    public refresher: any
 
     get interested(): boolean { return this.get('interested') }
     set interested(interested: boolean) { this.set('interested', interested) }
@@ -60,12 +58,23 @@ class WGEligibility extends Parse.Object {
     }
 }
 
-class WGEligibilitiesService {
+class WGEligibilitiesService implements IObservable {
 
     public list: WGEligibility[] = []
 
+    // OnLoad listeners
+    private _onLoadListeners: Function[];
+    // Once registered, the OnLoadListener will be notified of any changes in state.
+    public RegisterOnLoadListener(listener: Function): void {this._onLoadListeners.push(listener)}
+    // Give the OnLoadListener a way to de-register
+    public RemoveOnLoadListener(listener: Function): void {_.remove(this._onLoadListeners, (l) => l === listener)}
+    // Notify all the OnLoadListeners
+    public NotifyOnLoadListeners() {_.forEach(this._onLoadListeners, (l) => l(this.list))}
+
     constructor(public $rootScope: ng.IRootScopeService,
                 public $interval: angular.IIntervalService) {
+
+        this._onLoadListeners = [];
         Parse.Object.registerSubclass('Eligibility', WGEligibility)
     }
 
@@ -83,6 +92,7 @@ class WGEligibilitiesService {
         .then((results) => {
             this.startRefreshTimers()
             this.list = results
+            this.NotifyOnLoadListeners()
             return this.list
         }, (err) => {
             console.log("Could not get eligibilities")

@@ -13,7 +13,7 @@ class ApplicationStatesService {
         this.progressbar = this.ngProgressFactory.createInstance()
         this.progressbar.setColor('#09f')
     }
-    serApplicationCompleteListener(listener: Function) {
+    setApplicationCompleteListener(listener: Function) {
         if (_.isFunction(listener)) this.onFinishListeners.push(listener)
     }
     resetStates() {
