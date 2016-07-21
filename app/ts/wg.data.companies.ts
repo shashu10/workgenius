@@ -62,11 +62,17 @@ class WGCompaniesService implements IObservable {
         Parse.Object.registerSubclass('Company', WGCompany)
     }
 
-    get selected(): WGCompany[] { return _.filter(this.list, (c) => c.eligibility.interested) }
+    get interested(): WGCompany[] { return _.filter(this.list, (c) => c.interested) }
 
+    // Don't need to apply to ones you've already connected/applied to
+    get toApply(): WGCompany[] {
+        return this.toApply = _.chain(this.interested)
+        .filter((c) => (!c.connected && !c.applied))
+        .value()
+    }
     // Union of all company requiredPages
     get requiredPages(): string[] {
-        return _.reduce(this.selected, (req, c) => {
+        return _.reduce(this.toApply, (req, c) => {
           return _.union(req, c.requiredPages);
         }, []);
     }
@@ -85,6 +91,25 @@ class WGCompaniesService implements IObservable {
             .value()
             this.NotifyOnLoadListeners()
             this.wgEligibilities.load()
+        })
+    }
+
+    public applyToInterested(): Parse.IPromise<any> {
+        if (!Parse.User.current()) return Parse.Promise.as('')
+
+        return Parse.Cloud.run('applyToCompanies',
+        {
+            userId : Parse.User.current().id,
+            companyIds : _.map(this.toApply, (c) => c.id)
+        })
+        .then((result: any) => {
+            console.log("success")
+            console.log(result)
+
+        },
+        (error) => {
+            console.log('Could not apply to companies')
+            console.log(error)
         })
     }
 

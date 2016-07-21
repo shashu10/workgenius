@@ -53,13 +53,6 @@ class CompaniesRecCtrl {
         this.wgCompanies.saveAll()
         // start the application flow
         this.ApplicationStates.start()
-        this.wgCompanies.toApply = _.chain(this.wgCompanies.list)
-        .filter((c) => {
-            if (c.connected || c.applied) return false
-            if (c.interested) return true
-            else return false
-        })
-        .value()
     }
 
     toggleDetail(company: WGCompany) {
