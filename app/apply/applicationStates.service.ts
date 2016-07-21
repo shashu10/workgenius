@@ -40,8 +40,6 @@ class ApplicationStatesService {
 
             if (this.gonebackToStart(toState)) {
 
-                console.log("completed application")
-
                 if (this.hasFinished(toState, fromState)) {
                     // Call on finish listeners
                     _.forEach(this.onFinishListeners, (l) => l())
@@ -133,6 +131,7 @@ class ApplicationStatesService {
         this.$state.go(this._states[0])
     }
     finish() {
+        this.wgCompanies.applyToInterested()
         // need to set progress and go to state manually
         this.next()
     }

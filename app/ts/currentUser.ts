@@ -52,6 +52,12 @@ class CurrentUserService {
     get phone(): string { return this.obj && this.obj.get('phone') }
     set phone(phone: string) { this.obj && this.obj.set('phone', phone) }
 
+    get availableDays(): string[] { return (this.obj && this.obj.get('availableDays')) || [] }
+    set availableDays(availableDays: string[]) { this.obj && this.obj.set('availableDays', availableDays) }
+
+    get availableTimes(): string[] { return (this.obj && this.obj.get('availableTimes')) || [] }
+    set availableTimes(availableTimes: string[]) { this.obj && this.obj.set('availableTimes', availableTimes) }
+
     get availability(): WGAvailability { return this.obj && this.obj.get('availability') }
     set availability(availability: WGAvailability) { this.obj && this.obj.set('availability', availability) }
 
@@ -125,7 +131,7 @@ class CurrentUserService {
         });
     }
     logIn(): Parse.IPromise<any> {
-    	return Parse.User.logIn(this.email, this.password).then((user: Parse.User) => {
+        return Parse.User.logIn(this.email, this.password).then((user: Parse.User) => {
 
             this.obj = Parse.User.current()
             // Get all additional data on login
