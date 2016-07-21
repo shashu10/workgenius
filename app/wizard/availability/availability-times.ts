@@ -1,6 +1,6 @@
 class AvailabilityTimesCtrl {
 
-    private options
+    private options: AvailabilityOption[]
 
     constructor(public WizardStates: WizardStatesService, public AvailabilityConverter: AvailabilityConverterService) {
         this.options = AvailabilityConverter.timeSlots
@@ -8,7 +8,15 @@ class AvailabilityTimesCtrl {
 
     next() {
         this.AvailabilityConverter.setHourBlocks()
-        this.WizardStates.next()
+
+        const toSave = _.chain(this.options)
+        .filter((o) => o.selected)
+        .map((o: AvailabilityOption) => o.start + "-" + o.end)
+        .value()
+
+        this.WizardStates.next({
+            availabilityTimes: toSave
+        })
     }
 }
 
