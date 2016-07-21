@@ -49,10 +49,17 @@ class CompaniesRecCtrl {
         if (_.intersection(company.requiredVehicles, userVehicles).length > 0) return true
     }
 
-    next() {
+    start() {
         this.wgCompanies.saveAll()
         // start the application flow
         this.ApplicationStates.start()
+        this.wgCompanies.toApply = _.chain(this.wgCompanies.list)
+        .filter((c) => {
+            if (c.connected || c.applied) return false
+            if (c.interested) return true
+            else return false
+        })
+        .value()
     }
 
     toggleDetail(company: WGCompany) {
@@ -78,22 +85,6 @@ class CompaniesRecCtrl {
     canContinue() {
         return _.filter(this.wgCompanies.list, (c) => c.interested).length
     }
-    toggleConnectedCompany(name, toggle, username, password, success, failure) {
-        // // If eligibility exists, get it. Else create new parse object
-        // const el = get(name) || createEligibility(name);
-
-        // // If unselecting parse object not in DB, just delete it
-        // // Makes my life simpler with wg-save-bar
-        // if (toggle === false && el.id === undefined)
-        //     removeEligibility(name);
-
-        // else {
-        //     el.connected = toggle;
-        //     el.username = username;
-        //     el.password = password;
-        // }
-        // this.save(el, success, failure);
-    }
 }
 
 CompaniesRecCtrl.$inject = ["$ionicScrollDelegate", "currentUser", "wgCompanies", "ApplicationStates", "$interval", "connectPopup"]
@@ -112,99 +103,3 @@ class CompanyDetail implements ng.IDirective {
         company: '='
     }
 }
-
-// .controller('ConnectAccountsCtrl', ['$scope', '$rootScope', '$ionicPopup',
-//     function($scope, $rootScope, $ionicPopup) {
-
-//         $scope.isEditing = false;
-
-//         $scope.connect = function() {
-//             if ($scope.connectPopup) {
-//                 console.log($scope.connectPopup);
-//                 $scope.connectPopup.close();
-//                 $scope.connectPopup = null;
-//             }
-//             if ($scope.user.username && $scope.user.password) {
-//                 eligibilities.toggleConnectedCompany(
-//                     $scope.selectedCompany.name,
-//                     true, // toggle value
-//                     $scope.user.username,
-//                     $scope.user.password,
-//                     function success() {
-
-//                         mixpanel.track("Connected company - " + $scope.selectedCompany.name);
-//                         // Pulls up wg-save-bar
-//                         if ($scope.wgSuccess) $scope.wgSuccess();
-//                     },
-//                     function failure(something) {
-
-//                         mixpanel.track("Failed company connect - " + $scope.selectedCompany.name);
-//                         $scope.selectedCompany.connected = false;
-//                         if (Parse.User.current()) $scope.$apply();
-//                         $ionicPopup.show(newFailurePopup());
-//                         console.log('failure');
-//                     });
-
-//                 // Empty username/password
-//             } else {
-//                 $scope.selectedCompany.connected = false;
-//             }
-//         };
-//         $scope.toggleConnection = function(company) {
-//             $scope.selectedCompany = company;
-//             // If toggle is turned on
-//             if (company && company.connected) {
-//                 $scope.isEditing = true;
-
-//                 $scope.user = {};
-
-//                 $scope.connectPopup = $ionicPopup.show();
-
-//                 $scope.connectPopup.then(function(connect) {
-//                     $scope.connectPopup = null;
-//                     $scope.isEditing = false;
-
-//                     // Pressed connect or hit enter/go on keyboard
-//                     if (connect || connect === undefined) {
-//                         $scope.connect(company);
-//                         // Pressed never mind
-//                     } else {
-//                         company.connected = false;
-//                     }
-//                 });
-
-//                 // If toggle is turned off
-//             } else {
-//                 // eligibilities.toggleConnectedCompany(company.name, false);
-//             }
-//         };
-
-//         // Toggle connected/not connected for each company
-//         for (const i = 0; i < $rootScope.companyList.length; i++) {
-//             const company = $rootScope.companyList[i];
-//             company.connected = isConnected(company.name);
-//         }
-
-//         function newFailurePopup() {
-//             return {
-//                 template: '<p>The username or password might be wrong</p>',
-//                 title: 'Could not connect your account',
-//                 scope: $scope,
-//                 buttons: [{
-//                     text: 'Ok',
-//                     type: 'button-positive',
-//                     onTap: function(e) {
-//                         // Returning a value will cause the promise to resolve with the given value.
-//                         return true;
-//                     }
-//                 }]
-//             };
-//         }
-
-
-//         function isConnected(name) {
-//             // const eligibility = eligibilities.get(name);
-//             // return eligibility && eligibility.connected;
-//         }
-//     }
-// ])

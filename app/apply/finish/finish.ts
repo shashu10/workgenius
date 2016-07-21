@@ -2,8 +2,8 @@ class FinishCtrl {
 
     constructor(public ApplicationStates: ApplicationStatesService) {}
 
-    next() {
-        this.ApplicationStates.next()
+    finish() {
+        this.ApplicationStates.finish()
     }
 }
 

@@ -56,8 +56,6 @@ class ApplicationStatesService {
         })
     }
     hasFinished(toState: angular.ui.IState, fromState: angular.ui.IState) {
-        console.log(fromState)
-        console.log(toState)
         return (toState.name === "app.companies" && fromState.name === this._states[this._states.length - 2])
     }
     gonebackToStart(toState: angular.ui.IState) {
@@ -133,6 +131,10 @@ class ApplicationStatesService {
         // need to set progress and go to state manually
         this.setProgress(1)
         this.$state.go(this._states[0])
+    }
+    finish() {
+        // need to set progress and go to state manually
+        this.next()
     }
 }
 
