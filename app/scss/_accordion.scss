@@ -8,8 +8,11 @@
         font-size: 20px;
         padding-left: 20px;
     }
-    .connected-button {
-        line-height: 44px;
+    .application-status-button {
+        display: block;
+        text-align: center;
+        top: 14px;
+        width: 108px;
     }
 }
 
@@ -19,7 +22,6 @@
     line-height: 24px;
     padding-bottom: 0px; // px is needed
     padding-top: 0px; // px is needed
-    text-align: center;
     transition: 0.2s all ease;
     // border-bottom: 0;
 

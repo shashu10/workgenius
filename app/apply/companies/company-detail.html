@@ -6,14 +6,14 @@
 <ion-item ng-if="company.connected || company.applied" ng-click="company.interested = true; companiesCtrl.toggleDetail(company)" class="item-checkbox-right wg-company-item item-button-right">
     <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
     <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
-    <button ng-if="company.connected" class="button button-balanced connected-button">Connected</button>
-    <button ng-if="company.applied && !company.connected" class="button button-positive connected-button">Applied</button>
+    <button ng-if="company.connected" class="button button-balanced application-status-button">Connected</button>
+    <button ng-if="company.applied && !company.connected" class="button button-positive application-status-button">Applied</button>
 </ion-item>
 
 <ion-item class="wg-company-detail" ng-show="company.showDetail">
 
     <p>&nbsp;</p>
-    <p>{{company.description}}</p>
+    <p>{{company.description | capitalize}}</p>
     <p>&nbsp;</p>
 
     <p ng-if="company.availableLocations.length">

@@ -2,38 +2,31 @@
 
 class CompaniesRecCtrl {
 
-    public myCompanies: WGCompany[]
     public companies: WGCompany[]
-    public recommended: WGCompany[]
-    public nonRecommended: WGCompany[]
 
     constructor(public $ionicScrollDelegate: ionic.scroll.IonicScrollDelegate,
                 public currentUser: CurrentUserService,
                 public wgCompanies: WGCompaniesService,
                 public ApplicationStates: ApplicationStatesService,
                 public $interval: ng.IIntervalService,
-                public connectPopup: ConnectPopupService) {
+                public connectPopup: ConnectPopupService) {}
 
-        this.loadCompanies()
-        wgCompanies.RegisterOnLoadListener(() => this.loadCompanies())
-        ApplicationStates.setApplicationCompleteListener(() => this.loadCompanies())
+    get myCompanies(): WGCompany[] {
+        return _.chain(this.wgCompanies.list)
+        .filter((c) => (c.connected || c.applied))
+        .sortBy((c) => !c.connected ? 1 : 0)
+        .value()
     }
-
-    loadCompanies() {
-        this.myCompanies = []
-        this.recommended = []
-        this.nonRecommended = []
-
-        _.forEach(this.wgCompanies.list, (c) => {
-            // Don't show companies that don't have a recommendation order
-            if (!c.order) return
-
-            if (c.connected || c.applied)
-                this.myCompanies.push(c)
-            else if (this.matchesLocation(c) && this.matchesVehicles(c) && c.isPartner)
-                this.recommended.push(c)
-            else
-                this.nonRecommended.push(c)
+    get recommended(): WGCompany[] {
+        return _.filter(this.wgCompanies.list, (c) => {
+            if (!c.order || c.connected || c.applied) return false
+            return (this.matchesLocation(c) && this.matchesVehicles(c) && c.isPartner)
+        })
+    }
+    get nonRecommended(): WGCompany[] {
+        return _.filter(this.wgCompanies.list, (c) => {
+            if (!c.order || c.connected || c.applied) return false
+            return !(this.matchesLocation(c) && this.matchesVehicles(c) && c.isPartner)
         })
     }
     private matchesLocation(company: WGCompany) {

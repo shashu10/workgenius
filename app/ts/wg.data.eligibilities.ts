@@ -27,7 +27,9 @@ class WGEligibility extends Parse.Object {
     get company(): WGCompany { return this.get('company') }
     set company(company: WGCompany) { this.set('company', company) }
 
-    get stage()     : EligibilityStage { return this.get('stage') }
+    get stage(): EligibilityStage { return this.get('stage') }
+    set stage(stage: EligibilityStage) { this.set('stage', stage) }
+
     get applied()   : boolean { return this.get('applied') }
     get connected() : boolean { return this.get('connected') }
     get password()  : {}      { return this.get('password') }
