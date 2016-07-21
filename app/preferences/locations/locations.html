@@ -1,4 +1,4 @@
-<ion-view title="Setup Wizard" ng-controller="LocationsCtrl as location">
+<ion-view title="Locations" ng-controller="LocationsPreferenceCtrl as location">
     <ion-content class="big-form wizard-locations">
 
         <h3>
@@ -9,7 +9,7 @@
 
         <ion-list>
             <div ng-repeat="city in location.options">
-                <ion-checkbox class="item-checkbox-right" ng-model="city.selected" on-change = "location.onChange(city)">
+                <ion-checkbox class="item-checkbox-right" ng-model="city.selected" ng-change = "location.onChange(city)">
                     <strong>{{city.name | capitalize: true}}</strong>
                 </ion-checkbox>
 
@@ -22,15 +22,6 @@
 
         <!--ng-class="{disabled: !location.selectedCities.length}"-->
 
-        <div class="next-button">
-            <button
-            ng-class="{disabled: !location.canContinue()}",
-            ng-click="location.next()"
-            class="button button-positive"
-            >
-                Continue ➝
-            </button>
-        </div>
 
     </ion-content>
 </ion-view>

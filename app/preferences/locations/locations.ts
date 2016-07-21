@@ -7,6 +7,7 @@ class LocationsPreferenceCtrl {
     constructor(public currentUser: CurrentUserService, public debounce: WGDebounce, public alertDialog: AlertDialogService) {
         this.reset()
         this.onChange = function(city) {
+
             if (this.canContinue()) this.save()
         }
     }
@@ -56,9 +57,15 @@ class LocationsPreferenceCtrl {
 
         this.currentUser.save ({
             locations: toSave
+        }).then(() => {
+            this.alertDialog.alert(AlertColor.success, 'Saved!')
+            console.log("success")
+        }, () => {
+            this.alertDialog.alert(AlertColor.failure, 'Could not save :(')
+            console.log("failure")
         })
     }
 }
 
-LocationsPreferenceCtrl.$inject = ["currentUser", "debounce"]
+LocationsPreferenceCtrl.$inject = ["currentUser", "debounce","alertDialog"]
 

@@ -23,3 +23,5 @@ angular.module('wg.preferences', [])
 .controller('LocationsPreferenceCtrl',LocationsPreferenceCtrl)
 
 .controller('GoalPreferencesCtrl', GoalPreferencesCtrl)
+
+.controller('VehiclesPreferenceCtrl',VehiclesPreferenceCtrl)
