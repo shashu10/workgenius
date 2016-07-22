@@ -23,11 +23,15 @@ $gray-nav-border: #ddd;
 }
 
 .personal-info-page {
-    .item {
-        background-color: $light;
+//     .item {
+//         background-color: $light;
+//     }
+
+    .item-divider {
+        padding-bottom: 4px;
+        padding-top: 4px;
     }
 }
-
 // Tab styling
 .tabs-color-active-positive {
     .tab-nav.tabs {

@@ -1,0 +1,80 @@
+<ion-view title="My Info" ng-controller="PersonalInfoPageCtrl as info">
+    <ion-content class="personal-info-page">
+        <ion-list>
+
+            <!-- ADDRESS -->
+
+            <div class="wg-info-address">
+                <ion-item class="item-divider"> Address </ion-item>
+                <ion-item class="item-input">
+                    <input type="text" placeholder="Street">
+                </ion-item>
+                <div class="row">
+                    <div class="col col-50">
+                        <ion-item class="item-input">
+                            <input type="text" placeholder="City">
+                        </ion-item>
+                    </div>
+                    <div class="col col-25">
+                        <ion-item class="item-input">
+                            <input type="text" placeholder="State">
+                        </ion-item>
+                    </div>
+                    <div class="col col-25">
+                        <ion-item class="item-input">
+                            <input type="text" placeholder="ZIP">
+                        </ion-item>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone & SSN -->
+
+            <br>
+
+            <ion-item class="item-input">
+                <span class="input-label">Phone</span>
+                <input type="text" placeholder="(XXX) XXX-XXXX">
+            </ion-item>
+
+            <ion-item class="item-input">
+                <span class="input-label">SSN</span>
+                <input type="text" placeholder="XXX-XX-XXXX">
+            </ion-item>
+
+            
+            <!--  -->
+
+            <br>
+
+            <ion-item href="#/app/vehicles" class="item-icon-left item-icon-right">
+                <i class="icon ion-document-text"></i>Documents
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+
+            <ion-item href="#/app/vehicles" class="item-icon-left item-icon-right">
+                <i class="icon ion-android-car"></i>Vehicles
+                <span class="item-note vehicle-item-list">
+                    <span ng-repeat="vehicle in currentUser.vehicles | filter:{ selected: true }">{{vehicle.name}}{{$last ? '' : ', '}}</span>
+                </span>
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+
+            <ion-item href="#/app/locations" class="item-icon-left item-icon-right">
+                <i class="icon ion-location"></i>Locations
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+
+            <!-- Logout -->
+
+            <br>
+            
+            <p class="center-text" ng-click="info.logout()">Logout <i class="icon ion-log-out"></i></p>
+
+            <br>
+
+            <div class="android-bottom-padder"></div>
+
+        </ion-list>
+    </ion-content>
+</ion-view>
