@@ -59,6 +59,11 @@ $big-form-backcround: #f7f7f7;
             color: $light;
             letter-spacing: 2px;
             line-height: 50px;
+            min-width: 140px;
+            height: 52px;
+            &.button-loading {
+                line-height: 0;
+            }
         }
     }
 

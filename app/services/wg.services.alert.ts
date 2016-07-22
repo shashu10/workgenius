@@ -16,11 +16,11 @@ class AlertDialogService {
             transition: 'top .2s ease-out, background .2s',
             top: '-54px',
             left: '0px',
-            height: '54px',
+            height: '74px',
             textAlign: 'center',
             color: 'white',
             fontSize: '21px',
-            lineHeight: '51px',
+            lineHeight: '91px',
             width: '100%',
             zIndex: '9999',
         })
