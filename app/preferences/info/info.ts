@@ -1,10 +1,12 @@
 class PersonalInfoPageCtrl {
 
-    public debouncedSave: any
-    public onChange: Function
+    public debouncedSave: Function
 
-    constructor(public currentUser: CurrentUserService, public wgDebounce: WGDebounce, public alertDialog: AlertDialogService) {
-        this.onChange = this.wgDebounce.create(() => this.save());
+    constructor(public currentUser: CurrentUserService,
+                public wgDebounce: WGDebounce,
+                public alertDialog: AlertDialogService,
+                public wgState: WGState) {
+        this.debouncedSave = this.wgDebounce.create(() => this.save());
     }
 
     save() {
@@ -17,6 +19,12 @@ class PersonalInfoPageCtrl {
             console.log("failure")
         })
     }
+
+    logout() {
+        this.currentUser.logOut()
+        this.wgState.goWithoutAnimate('welcome')
+        this.wgState.clearCache()
+    }
 }
 
-PersonalInfoPageCtrl.$inject = ["currentUser", "wgDebounce", "alertDialog"]
+PersonalInfoPageCtrl.$inject = ["currentUser", "wgDebounce", "alertDialog", "wgState"]

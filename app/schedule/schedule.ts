@@ -46,11 +46,11 @@ class ScheduleCtrl {
             },
         }
     }
-    doRefresh(): void {
+    doRefresh() {
         this.wgShifts.getAllScheduled()
         .then(() => this.$rootScope.$broadcast('scroll.refreshComplete'))
     }
-    cancelWarning(shift: WGShift): void {
+    cancelWarning(shift: WGShift) {
         const scope = this.$rootScope.$new(true)
 
         scope['shift']           = shift
@@ -79,12 +79,12 @@ class ScheduleCtrl {
         })
     }
 
-    gotoAnchor(anchorID: string): void {
+    gotoAnchor(anchorID: string) {
         this.$location.hash(anchorID)
         // Does not work immediately
         this.$timeout(() => {this.$ionicScrollDelegate.anchorScroll(true)}, 10)
     }
-    scrollTo(event: CalendarEvent): void {
+    scrollTo(event: CalendarEvent) {
         const eventDate = moment(event.date)
 
         const found = _.find(this.wgShifts.list, (s) => (eventDate.isSameOrBefore(s.date)))
@@ -92,7 +92,7 @@ class ScheduleCtrl {
         // this.gotoAnchor('empty-shift-list')
         this.$ionicScrollDelegate.scrollBottom()
     }
-    cancelShift(shift: WGShift): void {
+    cancelShift(shift: WGShift) {
         mixpanel.track(`Pressed Cancel - ${shift.company.name}`)
         this.shiftToCancel = shift
 

@@ -139,13 +139,13 @@ class WGShiftsService {
             console.log(error)
         })
     }
-    cancel(shift: WGShift): void {
+    cancel(shift: WGShift) {
         const el = this.wgEligibilities.getCompanyEligibility(shift.company.name)
         if (!shift) return
         shift.cancel(el)
         .then((result) => this.removeFromList(shift), (error) => {})
     }
-    cancelAll(shifts: WGShift[]): void {_.forEach(shifts, (s) => this.cancel(s))}
+    cancelAll(shifts: WGShift[]) {_.forEach(shifts, (s) => this.cancel(s))}
 
     hasConflict(shift: WGAvailableShift) {
         // proof: https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap/325964#325964
@@ -277,7 +277,7 @@ class WGShiftsService {
         })
         return days
     }
-    private removeFromList(shift): void {
+    private removeFromList(shift) {
         _.remove(this.list, (s) => s.id === shift.id)
         if (Parse.User.current()) this.$rootScope.$apply()
     }
@@ -303,7 +303,7 @@ class WGShiftsService {
     }
 
     // If called multiple times, will only show one popup at a time.
-    private acknowledgeShifts(): void {
+    private acknowledgeShifts() {
         const newShifts = _.filter(this.list, (s) => !s.acknowledged)
 
         const batchSave = function(shifts) {

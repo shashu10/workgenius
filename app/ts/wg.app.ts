@@ -142,7 +142,7 @@ class WGAppConfig {
 
         $stateProvider
 
-        .state('app',                    {url: '/app', abstract: true, templateUrl: 'tabs.html'})
+        .state('app',                    {url: '/app', abstract: true, templateUrl: 'tabs/tabs.html'})
 
         // Tabs
         .state('app.schedule',           {url: '/schedule',           views: {'tab-schedule':    {templateUrl: 'schedule/schedule.html'                  }}})
@@ -233,7 +233,6 @@ angular.module('workgenius', [
     // 'wg.preferences.location',
     'ionic',
     'ngCordova',
-    'workgenius.controllers',
     'workgenius.directives',
     'workgenius.services',
     'workgenius.constants',

@@ -38,36 +38,6 @@ angular.module('workgenius.services', ['base64'])
 
         };
     }])
-    .factory('zenMessage', ['$rootScope', '$base64', '$http',
-        function($rootScope, $base64, $http) {
-
-            var authdata = $base64.encode('shashank@workgeni.us/token:khsRXmfluCAvmzZMBZjtWpBTUmnEqvVeXy9TnXNp');                        
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
-
-            return {
-                send: function(message, subject) {
-                    var req = {
-                        method: 'POST',
-                        url: 'https://workgenius.zendesk.com/api/v2/tickets.json',
-                        data: {
-                            "ticket": {
-                                "requester": {
-                                    "name": $rootScope.currentUser.name,
-                                    "email": $rootScope.currentUser.email
-                                },
-                                "subject": subject,
-                                "comment": {
-                                    "body": message
-                                }
-                            }
-                        }
-                    };
-
-                    return $http(req);
-                }
-            };
-        }
-    ])
     .factory('utils', ['$ionicPosition', function($ionicPosition) {
 
         // private API

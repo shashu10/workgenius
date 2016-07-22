@@ -67,9 +67,9 @@ class WGEligibilitiesService implements IObservable {
     // OnLoad listeners
     private _onLoadListeners: Function[];
     // Once registered, the OnLoadListener will be notified of any changes in state.
-    public RegisterOnLoadListener(listener: Function): void {this._onLoadListeners.push(listener)}
+    public RegisterOnLoadListener(listener: Function) {this._onLoadListeners.push(listener)}
     // Give the OnLoadListener a way to de-register
-    public RemoveOnLoadListener(listener: Function): void {_.remove(this._onLoadListeners, (l) => l === listener)}
+    public RemoveOnLoadListener(listener: Function) {_.remove(this._onLoadListeners, (l) => l === listener)}
     // Notify all the OnLoadListeners
     public NotifyOnLoadListeners() {_.forEach(this._onLoadListeners, (l) => l(this.list))}
 

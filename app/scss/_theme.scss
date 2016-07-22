@@ -22,6 +22,16 @@ $gray-nav-border: #ddd;
     }
 }
 
+.claim-days,
+.personal-info-page,
+.has-ion-cal-subheader {
+    // Items starting at the top seem like they have 2px border
+    // use margin -1px to hide the scr
+    .scroll {
+        margin-top: -1px;
+    }
+}
+
 .personal-info-page {
 //     .item {
 //         background-color: $light;

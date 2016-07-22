@@ -7,22 +7,22 @@
             <div class="wg-info-address">
                 <ion-item class="item-divider"> Address </ion-item>
                 <ion-item class="item-input">
-                    <input type="text" placeholder="Street">
+                    <input ng-model="info.currentUser.address.street" type="text" placeholder="Street" ng-change="info.debouncedSave()">
                 </ion-item>
                 <div class="row">
                     <div class="col col-50">
                         <ion-item class="item-input">
-                            <input type="text" placeholder="City">
+                            <input ng-model="info.currentUser.address.city" type="text" placeholder="City" ng-change="info.debouncedSave()">
                         </ion-item>
                     </div>
                     <div class="col col-25">
                         <ion-item class="item-input">
-                            <input type="text" placeholder="State">
+                            <input ng-model="info.currentUser.address.state" type="text" placeholder="State" ng-change="info.debouncedSave()" type="text" maxlength="2" >
                         </ion-item>
                     </div>
                     <div class="col col-25">
                         <ion-item class="item-input">
-                            <input type="text" placeholder="ZIP">
+                            <input ng-model="info.currentUser.address.zip" type="number" placeholder="ZIP" ng-change="info.debouncedSave()" min="1000" max="100000" >
                         </ion-item>
                     </div>
                 </div>
@@ -34,12 +34,12 @@
 
             <ion-item class="item-input">
                 <span class="input-label">Phone</span>
-                <input type="text" placeholder="(XXX) XXX-XXXX">
+                <input name="phone" type="text" formatted-input wg-length="10" format-type="tel" ng-model="info.currentUser.phone" placeholder="(XXX) XXX-XXXX" pattern="[0-9]*">
             </ion-item>
 
             <ion-item class="item-input">
                 <span class="input-label">SSN</span>
-                <input type="text" placeholder="XXX-XX-XXXX">
+                <input name="ssn" type="text" wg-length="9" formatted-input format-type="ssn" ng-model="info.currentUser.ssn" placeholder="XXX-XX-XXXX" pattern="[0-9]*">
             </ion-item>
 
             
@@ -69,7 +69,7 @@
 
             <br>
             
-            <p class="center-text" ng-click="info.logout()">Logout <i class="icon ion-log-out"></i></p>
+            <p class="center-text" ng-click="info.logout()">Log Out <i class="icon ion-log-out"></i></p>
 
             <br>
 
