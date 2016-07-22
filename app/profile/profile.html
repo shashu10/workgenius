@@ -3,8 +3,8 @@
 
         <br>
         
-        <div class="wg-profile-wrapper">
-            <div class="wg-profile-picture" ng-style="{'background-image':'url(' + profile.imageData + ')'}" ng-click="headshot.showPictureOptions()"></div>
+        <div ng-controller="HeadshotCtrl as headshot" class="wg-profile-wrapper">
+            <div class="wg-profile-picture" ng-style="{'background-image':'url(' + headshot.imageData + ')'}" ng-click="headshot.showPictureOptions()"></div>
             <div class="wg-profile-edit">
                 <i class="icon ion-edit light"></i>
             </div>
@@ -15,9 +15,9 @@
         <div class="row center-text">
             <div class="col earnings-col">
                 <h4>Earnings</h4>
-                <p>{{profile.currentUser.earningsTotal.day | currency: undefined: 0}}</p>
-                <p>{{profile.currentUser.earningsTotal.month | currency: undefined: 0}}</p>
-                <p>{{profile.currentUser.earningsTotal.lifetime | currency: undefined: 0}}</p>
+                <p>{{(profile.currentUser.earningsTotal.day || 0) | currency: undefined: 0}}</p>
+                <p>{{(profile.currentUser.earningsTotal.month || 0) | currency: undefined: 0}}</p>
+                <p>{{(profile.currentUser.earningsTotal.lifetime || 0) | currency: undefined: 0}}</p>
             </div>
             <div class="col">
                 <h4>&nbsp;</h4>
@@ -27,9 +27,9 @@
             </div>
             <div class="col hours-col">
                 <h4>Hours</h4>
-                <p>{{profile.currentUser.hoursTotal.day}}</p>
-                <p>{{profile.currentUser.hoursTotal.month}}</p>
-                <p>{{profile.currentUser.hoursTotal.lifetime}}</p>
+                <p>{{(profile.currentUser.hoursTotal.day || 0)}}</p>
+                <p>{{(profile.currentUser.hoursTotal.month || 0)}}</p>
+                <p>{{(profile.currentUser.hoursTotal.lifetime || 0)}}</p>
             </div>
         </div>
         
