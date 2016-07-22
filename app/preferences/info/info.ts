@@ -22,7 +22,7 @@ class PersonalInfoPageCtrl {
 
     logout() {
         this.currentUser.logOut()
-        this.wgState.goWithoutAnimate('welcome')
+        this.wgState.goWithoutAnimate('tutorial')
         this.wgState.clearCache()
     }
 }

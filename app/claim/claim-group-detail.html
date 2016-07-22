@@ -23,16 +23,16 @@
 
             <ion-item class="item-button-right" ng-repeat="shift in claim.group.shifts">
 
-                {{claim.shift.timeSlotStr}}
-                <i class="icon ion-flash positive" ng-if="claim.shift.blitz"></i>
+                {{shift.timeSlotStr}}
+                <i class="icon ion-flash positive" ng-if="shift.blitz"></i>
 
-                <button class="button mini-claim-button" ng-class="{'button-positive button-outline' : claim.shift.claimStatus === 0, 'button-positive disabled' : claim.shift.claimStatus === 1, 'button-balanced disabled' : claim.shift.claimStatus === 2, 'button-assertive disabled' : claim.shift.claimStatus === 3}" ng-click="claim.claim(claim.shift)">
-                    <span ng-if="claim.shift.claimStatus !== 1">{{claim.shift.claimText}}</span>
-                    <ion-spinner ng-if="claim.shift.claimStatus === 1" icon="dots" class="spinner-light short-spinner"></ion-spinner>
+                <button class="button mini-claim-button" ng-class="{'button-positive button-outline' : shift.claimStatus === 0, 'button-positive disabled' : shift.claimStatus === 1, 'button-balanced disabled' : shift.claimStatus === 2, 'button-assertive disabled' : shift.claimStatus === 3}" ng-click="claim.claim(shift)">
+                    <span ng-if="shift.claimStatus !== 1">{{shift.claimText}}</span>
+                    <ion-spinner ng-if="shift.claimStatus === 1" icon="dots" class="spinner-light short-spinner"></ion-spinner>
                 </button>
 
                 <!-- failure -->
-                <span ng-if="claim.shift.claimStatus === 3" class="claim-warning">{{claim.shift.claimMessage}}</span>
+                <span ng-if="shift.claimStatus === 3" class="claim-warning">{{shift.claimMessage}}</span>
                 <!-- <i class="icon ion-android-add"></i> -->
             </ion-item>
             

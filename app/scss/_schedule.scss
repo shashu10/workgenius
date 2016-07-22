@@ -44,6 +44,11 @@ $gray-schedule-item-color: #a7a7a7;
 
 // Shift day divider
 .schedule {
+    .group-list {
+        .list {
+            margin-top: -1px;
+        }
+    }
     .item-divider {
         color: $gray-schedule-item-color;
         font-family: Avenir-Medium;
