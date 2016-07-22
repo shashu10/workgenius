@@ -33,11 +33,11 @@
                 Here is another job
             </span>
             <span ng-switch-default>
-                <span ng-if="companies.recommended.length === 0">
+                <span ng-if="companies.recommended.length === 0 && companies.myCompanies.length === 0">
                     Based on your preferences, we couldn't find a perfect jobs match but here are some others to check out
 
                 </span>
-                <span ng-if="companies.recommended.length !== 0">
+                <span ng-if="companies.recommended.length !== 0 || companies.myCompanies.length !== 0">
                     Here are some other jobs
                 </span>
             </span>

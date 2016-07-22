@@ -1,6 +1,5 @@
 class ApplicationStatesService {
 
-    public onFinishListeners: Function[] = []
     public progressbar
     private _states: string[]
     constructor(public $state: ng.ui.IStateService,
@@ -13,9 +12,7 @@ class ApplicationStatesService {
         this.progressbar.setColor('#09f')
         this.init()
     }
-    setApplicationCompleteListener(listener: Function) {
-        if (_.isFunction(listener)) this.onFinishListeners.push(listener)
-    }
+
     resetStates() {
         this._states = [
             "phone",
@@ -41,8 +38,6 @@ class ApplicationStatesService {
             if (this.gonebackToStart(toState)) {
 
                 if (this.hasFinished(toState, fromState)) {
-                    // Call on finish listeners
-                    _.forEach(this.onFinishListeners, (l) => l())
                     this.progressbar.complete()
 
                 } else this.progressbar.reset()

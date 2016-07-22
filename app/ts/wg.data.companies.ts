@@ -11,53 +11,50 @@ class WGCompany extends Parse.Object {
         super('Company')
     }
 
-    get name()               : string   { return this.get('name')}
-    get description()        : string   { return this.get('description')}
-    get employmentType()     : string   { return this.get('employmentType')     || ''}
-    get bonusCondition()     : string   { return this.get('bonusCondition')     || ''}
-    get requiredPages()      : string[] { return this.get('requiredPages')      || []}
+    get name()               : string   { return this.get('name'                )}
+    get description()        : string   { return this.get('description'         )}
+    get employmentType()     : string   { return this.get('employmentType') || ''}
+    get bonusCondition()     : string   { return this.get('bonusCondition') || ''}
+
+    get requiredPages()      : string[] { return this.get('requiredPages')  || []}
     get requiredVehicles()   : string[] { return _.map(this.get('requiredVehicles')   || [], (v: string) => v.toLowerCase())}
     get availableLocations() : string[] { return _.map(this.get('availableLocations') || [], (v: string) => v.toLowerCase())}
-    get order()              : number   { return this.get('recommendationOrder')}
-    get bonusValue()         : number   { return this.get('bonusValue')}
-    get payRangeLow()        : number   { return this.get('payRangeLow')}
-    get payRangeHigh()       : number   { return this.get('payRangeHigh')}
-    get peakDays()           : number   { return this.get('peakDays')}
-    get peakTimes()          : number   { return this.get('peakTimes')}
-    get earningsEst()        : number   { return this.get('earningsEst')}
-    get availableNow()       : boolean  { return this.get('availableNow')}
-    get isPartner()          : boolean  { return this.get('isPartner')}
-    get canConnect()         : boolean  { return this.get('canConnect')}
+
+    get order()              : number   { return this.get('recommendationOrder' )}
+    get bonusValue()         : number   { return this.get('bonusValue'          )}
+    get payRangeLow()        : number   { return this.get('payRangeLow'         )}
+    get payRangeHigh()       : number   { return this.get('payRangeHigh'        )}
+    get peakDays()           : number   { return this.get('peakDays'            )}
+    get peakTimes()          : number   { return this.get('peakTimes'           )}
+    get earningsEst()        : number   { return this.get('earningsEst'         )}
+
+    get availableNow()       : boolean  { return this.get('availableNow'        )}
+    get isPartner()          : boolean  { return this.get('isPartner'           )}
+    get canConnect()         : boolean  { return this.get('canConnect'          )}
     get connected()          : boolean  { return this.eligibility.connected}
-    get applied()            : boolean  { return this.eligibility.applied}
-    get interested()         : boolean  { return this.eligibility.interested}
 
     get connectInfo()        : any      { return this.get('connectInfo')}
 
+    get stage(): EligibilityStage { return this.eligibility.stage }
+    set stage(stage: EligibilityStage) { this.eligibility.stage = stage }
+
+    get applied(): boolean  { return this.eligibility.applied}
+    set applied(value: boolean) { this.eligibility.set('applied', value)}
+
+    get interested(): boolean  { return this.eligibility.interested}
     set interested(value: boolean) { this.eligibility.set('interested', value)}
 }
 
-class WGCompaniesService implements IObservable {
+class WGCompaniesService {
 
     public list: WGCompany[] = []
-
-    // OnLoad listeners
-    private _onLoadListeners: Function[];
-    // Once registered, the OnLoadListener will be notified of any changes in state.
-    public RegisterOnLoadListener(listener: Function): void {this._onLoadListeners.push(listener)}
-    // Give the OnLoadListener a way to de-register
-    public RemoveOnLoadListener(listener: Function): void {_.remove(this._onLoadListeners, (l) => l === listener)}
-    // Notify all the OnLoadListeners
-    public NotifyOnLoadListeners() {_.forEach(this._onLoadListeners, (l) => l(this.list))}
 
     constructor(public $rootScope: ng.IRootScopeService,
                 public wgEligibilities: WGEligibilitiesService) {
 
-        this._onLoadListeners = [];
         this.wgEligibilities.RegisterOnLoadListener((eligibilities: WGEligibility[]) => {
             // Replace eligibilities if they exist for that user
             this.attachEligibilities(eligibilities)
-            this.NotifyOnLoadListeners()
         })
         Parse.Object.registerSubclass('Company', WGCompany)
     }
@@ -89,7 +86,6 @@ class WGCompaniesService implements IObservable {
             .sortBy((c) => c.order)
             .forEach((c) => this.setEmptyEligibility(c))
             .value()
-            this.NotifyOnLoadListeners()
             this.wgEligibilities.load()
         })
     }
@@ -97,15 +93,21 @@ class WGCompaniesService implements IObservable {
     public applyToInterested(): Parse.IPromise<any> {
         if (!Parse.User.current()) return Parse.Promise.as('')
 
+        const toApply = this.toApply;
         return Parse.Cloud.run('applyToCompanies',
         {
-            userId : Parse.User.current().id,
-            companyIds : _.map(this.toApply, (c) => c.id)
+            companyIds : _.map(toApply, (c) => c.id),
+            companyNames : _.map(toApply, (c) => c.name)
         })
         .then((result: any) => {
             console.log("success")
             console.log(result)
-
+            _.forEach(toApply, (c) => {
+                c.applied = true
+                c.stage = EligibilityStage.applied
+            })
+            this.saveAll()
+            // Update companies to applied
         },
         (error) => {
             console.log('Could not apply to companies')

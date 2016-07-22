@@ -1,52 +1,17 @@
 <ion-view hide-nav-bar="true" ng-controller="TutorialCtrl as tutorial" class="wg-tutorial" left-buttons="leftButtons" right-buttons="rightButtons">
-
     <ion-slide-box on-slide-changed="slideChanged(index)">
-        <ion-slide>
-            <div class="card">
-                <div class="item item-divider">
-                    Create your WorkGenius ID
-                </div>
-                <div class="wg-tutorial-image">
-                    <img src="/img/tutorial1.png">
-                </div>
-            </div>
-        </ion-slide>
-        <ion-slide>
-            <div class="card">
-                <div class="item item-divider">
-                    Browse Flexible Jobs Near You
-                </div>
-                <div class="wg-tutorial-image">
-                    <img src="/img/tutorial2.png">
-                </div>
-            </div>
-        </ion-slide>
-        <ion-slide>
-            <div class="card">
-                <div class="item item-divider">
-                    Apply Instantly with your WorkGenius ID
-                </div>
-                <div class="wg-tutorial-image">
-                    <img src="/img/tutorial3.png">
-                </div>
-            </div>
-        </ion-slide>
-        <ion-slide>
-            <div class="card">
-                <div class="item item-divider">
-                    All of your work in one place.
-                </div>
-                <div class="wg-tutorial-image">
-                    <img src="/img/tutorial4.png">
-                </div>
-            </div>
-        </ion-slide>
+        <ion-slide><tutorial-card image="tutorial1" title="1. Create your WorkGenius ID">       </tutorial-card></ion-slide>
+        <ion-slide><tutorial-card image="tutorial2" title="2. Browse Flexible Jobs Near You">   </tutorial-card></ion-slide>
+        <ion-slide><tutorial-card image="tutorial3" title="3. Apply Instantly with your WG ID"> </tutorial-card></ion-slide>
+        <ion-slide><tutorial-card image="tutorial4" title="4. All of your work in one place.">  </tutorial-card></ion-slide>
     </ion-slide-box>
-    <div class="wg-button-container">
-        <button class="button button-block button-positive wg-tutorial-button signup-button" ng-click="tutorial.startApp()">
+    <div class="auth-container">
+        <button class="button button-positive button-signup" ng-click="tutorial.signup()">
             Sign up
         </button>
-        <div class="wg-tutorial-text">Do you already have an account?</div>
-        <button class="button button-block button-positive button-clear wg-tutorial-text-button">Log in here!</button>
+        <div class="signin-container" ng-click="tutorial.login()">
+            <p>Do you already have an account?</p>
+            <p class="button-signin">Login here!</p>
+        </div>
     </div>
 </ion-view>
