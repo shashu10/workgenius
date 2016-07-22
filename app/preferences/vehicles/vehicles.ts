@@ -5,7 +5,7 @@ class VehiclesPreferenceCtrl {
     private vehicles: WGVehicle[]
     private none: WGVehicle
 
-    constructor(public currentUser: CurrentUserService, public debounce: WGDebounce, public alertDialog: AlertDialogService) {
+    constructor(public currentUser: CurrentUserService, public alertDialog: AlertDialogService, public newVehicleService:NewVehicleService) {
 
         this.vehicles = [
             {selected: false, type: 'Car',        icon: 'wg-icon-car'},
@@ -25,9 +25,10 @@ class VehiclesPreferenceCtrl {
 
             vehicle.selected = true;
 
-        // If selecting some other vehicle
-            // Unselect none
-        // this.save()
+
+
+            this.newVehicleService.next(vehicle);
+         
     }
 
     save() {
@@ -39,4 +40,4 @@ class VehiclesPreferenceCtrl {
     }
 }
 
-VehiclesPreferenceCtrl.$inject = ["currentUser", "debounce", "alertDialog"]
+VehiclesPreferenceCtrl.$inject = ["currentUser", "alertDialog","newVehicleService"];

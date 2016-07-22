@@ -2,6 +2,9 @@
 /// <reference path="./locations/locations.ts" />
 /// <reference path="./vehicles/vehicles.ts" />
 /// <reference path="./vehicles/vehicles-list.ts" />
+/// <reference path="./vehicles/vehicle-info.ts" />
+
+/// <reference path="./vehicles/new.vehicle.service.ts" />
 /// <reference path="./info/info.ts" />
 
 angular.module('wg.preferences', [])
@@ -17,3 +20,7 @@ angular.module('wg.preferences', [])
 .controller('VehicleListCtrl', VehicleListCtrl)
 
 .controller('DocumentsPreferenceCtrl',DocumentsPreferenceCtrl)
+
+.controller('VehicleInfoPreferenceCtrl',VehicleInfoPreferenceCtrl)
+
+.service('newVehicleService', NewVehicleService);
