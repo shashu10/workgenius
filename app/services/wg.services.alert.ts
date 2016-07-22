@@ -7,7 +7,7 @@ class AlertDialogService {
 
     private _alertElement: ng.IAugmentedJQuery
     private _closeTimer: angular.IPromise<any>
-    private _alertDuration = 200000 // ms
+    private _alertDuration = 2000 // ms
     private isAndroid = ionic.Platform.isAndroid();
     private showParams: Function
     private hideParams: any
