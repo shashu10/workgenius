@@ -92,7 +92,7 @@ class ApplicationStatesService {
         // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
 
         // "headshot"
-        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
+        if (this.currentUser.headshot) _.remove(this._states, (s) => s === 'headshot')
 
         // "bg-info"
         // "bg-ssn"
