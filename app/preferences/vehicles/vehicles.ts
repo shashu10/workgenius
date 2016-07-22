@@ -5,7 +5,7 @@ class VehiclesPreferenceCtrl {
     private vehicles: WGVehicle[]
     private none: WGVehicle
 
-    constructor(public currentUser: CurrentUserService, public alertDialog: AlertDialogService, public newVehicleService:NewVehicleService) {
+    constructor(public currentUser: CurrentUserService, public alertDialog: AlertDialogService, public newVehicleService: NewVehicleService) {
 
         this.vehicles = [
             {selected: false, type: 'Car',        icon: 'wg-icon-car'},
@@ -25,10 +25,7 @@ class VehiclesPreferenceCtrl {
 
             vehicle.selected = true;
 
-
-
-            this.newVehicleService.next(vehicle);
-         
+            this.newVehicleService.next(vehicle)
     }
 
     save() {
@@ -36,8 +33,7 @@ class VehiclesPreferenceCtrl {
     //     .filter((v) => v.selected)    // Get only selected vehicles
     //     .map((v) => ({type: v.type})) // Save only type
     //     .value()
-
     }
 }
 
-VehiclesPreferenceCtrl.$inject = ["currentUser", "alertDialog","newVehicleService"];
+VehiclesPreferenceCtrl.$inject = ["currentUser", "alertDialog", "newVehicleService"];
