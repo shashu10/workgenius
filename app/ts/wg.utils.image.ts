@@ -1,6 +1,13 @@
 enum UploadType {
     headshot    = <any> "workgenius-headshots",
     document = <any> "workgenius-documents",
+
+}
+
+enum DocumentUploadType {
+    registration = <any>"registration",
+    insurance = <any>"insurance",
+    license = <any>"license"
 }
 
 class WGImage {
@@ -8,9 +15,9 @@ class WGImage {
     constructor(public currentUser: CurrentUserService, public $cordovaFileTransfer: ngCordova.IFileTransferService, public $cordovaCamera: ngCordova.ICameraService) {}
 
     public takeHeadshotPicture(source: number, callback: Function) {this.takePicture(source, Camera.Direction.FRONT, callback, UploadType.headshot)}
-    public takeDocumentPicture(source: number, callback: Function) {this.takePicture(source, Camera.Direction.BACK , callback, UploadType.document)}
+    public takeDocumentPicture(source: number, type:DocumentUploadType, callback: Function) {this.takePicture(source, Camera.Direction.BACK , callback, UploadType.document,type)}
 
-    private takePicture(source: number, direction: number, callback: Function, uploadType: UploadType) {
+    private takePicture(source: number, direction: number, callback: Function, uploadType: UploadType,documentType?:DocumentUploadType) {
         // localhost testing
         if (!Camera) {
             callback("img/profile-placeholder.png")
@@ -41,7 +48,7 @@ class WGImage {
             console.error("Could not take picture")
         })
     }
-    private uploadImage(fileURI: string, uploadType: UploadType) {
+    private uploadImage(fileURI: string, uploadType: UploadType,documentType?:DocumentUploadType) {
 
         let filename = this.generateFilename(uploadType)
 
@@ -66,13 +73,13 @@ class WGImage {
             console.log(error);
         })
     }
-    private generateFilename(uploadType: UploadType) {
+    private generateFilename(uploadType: UploadType,documentType?:DocumentUploadType) {
         if (!Parse.User.current())
             return "test.jpeg"
         else if (uploadType === UploadType.headshot)
             return this.currentUser.camelCaseName + "-" + this.currentUser.id + (new Date()).getTime() + ".jpeg"
         else
-            return this.currentUser.camelCaseName + "-" + this.currentUser.id + (new Date()).getTime() + ".jpeg"
+            return this.currentUser.camelCaseName + "-" + this.currentUser.id + documentType + (new Date()).getTime() + ".jpeg"
     }
     private saveInParse(filename: string) {
         return this.currentUser.save({
