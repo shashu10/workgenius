@@ -13,7 +13,6 @@ class VehiclesPreferenceCtrl {
             {selected: false, type: 'Motorcycle', icon: 'wg-icon-motorcycle'},
             {selected: false, type: 'Scooter',    icon: 'wg-icon-scooter'},
             {selected: false, type: 'Bicycle',    icon: 'wg-icon-bicycle'},
-            {selected: false, type: 'None',       icon: 'wg-icon-none'}
         ]
         this.none = this.vehicles[this.vehicles.length - 1]
     }
@@ -21,22 +20,16 @@ class VehiclesPreferenceCtrl {
     toggleSelect(vehicle: WGVehicle) {
 
         // If selecting none
-        if (vehicle === this.none && !vehicle.selected) {
 
-            // Unselect all others
             _.forEach(this.vehicles, v => { v.selected = false })
 
             vehicle.selected = true;
 
         // If selecting some other vehicle
-        } else {
-
-            vehicle.selected = !vehicle.selected
-
+              
+        
             // Unselect none
-            this.none.selected = false
-        }
-        this.save()
+        // this.save()
     }
 
     save() {

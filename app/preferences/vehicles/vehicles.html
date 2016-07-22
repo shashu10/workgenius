@@ -1,25 +1,15 @@
-<ion-view title="Vehicles" ng-controller="VehiclesPreferenceCtrl as vehicleCtrl">
-    <ion-content class="big-form wizard-locations">
+<ion-view title="Setup Wizard" ng-controller="VehiclesPreferenceCtrl as vehicles">
+    <ion-content class="big-form wizard-vehicles" scroll="false">
+        
+        <h3>Select your <strong>vehicles</strong></h3>
 
-        <h3>
-            Select your vehicle type
-            <br>
-        </h3>
+        <div class="vehicle-group" ng-repeat="group in vehicles.vehicles | chunkBy: 2">
+            <button class="vehicle-button button" ng-class="vehicle.selected ? 'button-positive' : 'button-light'" ng-click="vehicles.toggleSelect(vehicle)" ng-repeat="vehicle in group">
+                <span class="wg-icon" ng-class="vehicle.icon"></span>
+                <p>{{vehicle.type}}</p>
+            </button>
+        </div>
 
-        <ion-list>
-            <div ng-repeat="vehicle in vehicleCtrl.vehicles">
-                <ion-checkbox class="item-checkbox-right" ng-model="vehicle.selected" ng-change = "location.onChange(vehicle)">
-                    <strong>{{vehicle.type | capitalize: true}}</strong>
-                </ion-checkbox>
-
-                <label ng-if="vehicle.name === 'other'" class="item item-input item-floating-label wg-other-location" ng-show="vehicle.selected">
-                    <p class="input-label">Location</p>
-                    <input type="text" ng-model="city.otherName" placeholder="City, State" required>
-                </label>
-            </div>
-        </ion-list>
-
-        <!--ng-class="{disabled: !location.selectedCities.length}"-->
 
     </ion-content>
 </ion-view>

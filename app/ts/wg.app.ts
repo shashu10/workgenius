@@ -149,10 +149,11 @@ class WGAppConfig {
         .state('app.profile',            {url: '/profile',            views: {'tab-profile':     {templateUrl: 'profile/profile.html'                }}})
 
         // Sub Views Tabs
-        .state('app.vehicles',           {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'main/vehicles.html'                  }}})
+        .state('app.vehicle-list',           {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles-list.html'  }}})
         .state('app.goal',               {url: '/goal',               views: {'tab-profile':     {templateUrl: 'preferences/goal/goal.html'          }}})
         .state('app.personal-info',      {url: '/personal-info',      views: {'tab-profile':     {templateUrl: 'main/personal-info.html'             }}})
         .state('app.locations',          {url: '/locations',          views: {'tab-profile':     {templateUrl: 'preferences/locations/locations.html'}}})
+        .state('app.new-vehicle',          {url: '/new-vehicle',          views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles.html'}}})
 
 
         // Earnings
