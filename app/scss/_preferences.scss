@@ -52,4 +52,17 @@
         color: #7b7b7b;
         font-size: 20px;
     }
+
+    .earnings-col,
+    .hours-col {
+        font-size: 26px;
+        font-weight: bold;
+    }
+    .earnings-col {
+        color: $earnings-color;
+    }
+    .hours-col {
+        color: $positive;
+    }
+
 }
