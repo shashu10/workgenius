@@ -2,25 +2,29 @@
     text-align: center;
     .slider {
         height: 80%;
+        
+        .card-container {
+            height: 100%;
+            padding: 50px 25px 60px;
+            .card {
+                margin: 0;
+                border-radius: 6px;
+                box-shadow: 0px 4px 30px rgba(0, 1, 0, 0.12);
+                height: 100%;
 
-        .card {
-            border-radius: 6px;
-            box-shadow: 0px 4px 30px rgba(0, 1, 0, 0.12);
-            margin: 25px;
-            max-height: 100%;
-
-            .wg-tutorial-image {
-                margin: 30px 0px;
-                max-width: 100%;
-                img {
-                    max-height: 250px;
+                .wg-tutorial-image {
+                    margin: 30px 0px;
                     max-width: 100%;
+                    img {
+                        max-height: 250px;
+                        max-width: 100%;
+                    }
                 }
-            }
-            .item-divider {
-                background-color: $positive;
-                color: $light;
-                font-weight: 600;
+                .item-divider {
+                    background-color: $positive;
+                    color: $light;
+                    font-weight: 600;
+                }
             }
         }
         .icon {
