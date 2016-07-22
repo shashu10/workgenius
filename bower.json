@@ -19,8 +19,7 @@
     "raven-js": "^2.1.1",
     "lodash": "https://github.com/lodash/lodash.git#^4.6.1",
     "ion-google-place": "^0.0.1",
-    "ion-ngprogress": "shashu10/ngProgress#a83e4e0",
-    "numeral": "^1.5.3"
+    "ion-ngprogress": "shashu10/ngProgress#a83e4e0"
   },
   "resolutions": {
     "angular": "1.5.7",
