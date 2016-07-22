@@ -10,30 +10,34 @@ class DocumentsPreferenceCtrl {
     }
 
     public canContinue = false
+
     private actionButtons
     displayImage(imageURI) {
         if (imageURI) {
             this.canContinue = true
         }
-        this.wgImage.uploadHeadshot(imageURI);
 
         
         this.save()
 
     }
-    showPictureOptions() {
+    showPictureOptions(type) {
         this.$ionicActionSheet.show({
-            titleText: 'Add a recent picture of yourself with your head and shoulders in view',
+            titleText: 'Upload a clear picture of your document',
             buttons: this.actionButtons,
             cancelText: 'Cancel',
             cancel: () => {
                 console.log('CANCELLED')
             },
             buttonClicked: (index) => {
-                if (index === 0)
-                    this.wgImage.takeHeadshotPicture(Camera.PictureSourceType.CAMERA, this.displayImage)
-                else
-                    this.wgImage.takeHeadshotPicture(Camera.PictureSourceType.PHOTOLIBRARY, this.displayImage)
+                let option = Camera.PictureSourceType.PHOTOLIBRARY
+                if (index === 0) option = Camera.PictureSourceType.CAMERA
+                this.wgImage.takeDocumentPicture(option, type, (imageURI) => {
+                    if (imageURI) {
+                        // this.alertDialog.alert(AlertColor.success,"Saved");
+                    } 
+                    this.canContinue = true
+                })
 
                 console.log('BUTTON CLICKED', index)
                 return true
