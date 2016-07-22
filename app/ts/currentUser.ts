@@ -47,6 +47,12 @@ class CurrentUserService {
     get earningsGoal(): number { return this.obj && this.obj.get('earningsGoal') || 140 }
     set earningsGoal(earningsGoal: number) { this.obj && this.obj.set('earningsGoal', Number(earningsGoal)) }
 
+    get earningsTotal(): any { return this.obj && this.obj.get('earningsTotal') || 140 }
+    set earningsTotal(earningsTotal: any) { this.obj && this.obj.set('earningsTotal', earningsTotal) }
+
+    get hoursTotal(): any { return this.obj && this.obj.get('hoursTotal') || 140 }
+    set hoursTotal(hoursTotal: any) { this.obj && this.obj.set('hoursTotal', hoursTotal) }
+
     get locations(): WGLocation[] { return (this.obj && this.obj.get('locations')) || [] }
 
     get phone(): string { return this.obj && this.obj.get('phone') }
