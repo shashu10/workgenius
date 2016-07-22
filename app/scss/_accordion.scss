@@ -26,6 +26,8 @@
     // border-bottom: 0;
 
     p {
+        white-space: normal;
+        font-size: 16px;
         margin-bottom: 0;
         &.positive {
             color: $positive;
@@ -42,6 +44,9 @@
     &.ng-hide-add,
     &.ng-hide-remove {
         display: block !important;
+    }
+    .wg-connect-company {
+        text-align: center;
     }
 }
 
