@@ -7,11 +7,13 @@
         <ion-list>
             <ion-radio ng-repeat="slot in phone.timeslots | limitTo : 5" ng-model="phone.choice" ng-value="slot">{{slot.start}}</ion-radio>
             
-            <p class="show-more-slots" ng-if="!phone.moreSlots" ng-click="phone.moreSlots = true; phone.resize()">Show more timeslots</p>
+            <p class="show-more-slots" ng-if="!phone.moreSlots && phone.timeslots.length" ng-click="phone.moreSlots = true; phone.resize()">Show more timeslots</p>
 
             <ion-radio ng-if="phone.moreSlots" ng-repeat="slot in phone.timeslots | limitTo : 100 : 5" ng-model="phone.choice" ng-value="slot">{{slot.start}}</ion-radio>
 
         </ion-list>
+    
+        <p class="assertive padding">{{phone.error}}</p>
 
         <div class="next-button">
             <button

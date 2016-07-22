@@ -34,12 +34,12 @@
 
             <ion-item class="item-input">
                 <span class="input-label">Phone</span>
-                <input name="phone" type="text" formatted-input wg-length="10" format-type="tel" ng-model="info.currentUser.phone" placeholder="(XXX) XXX-XXXX" pattern="[0-9]*">
+                <input name="phone" type="text" formatted-input wg-length="10" format-type="tel" ng-model="info.currentUser.phone" placeholder="(XXX) XXX-XXXX" pattern="[0-9]*" ng-change="info.debouncedSave()">
             </ion-item>
 
             <ion-item class="item-input">
                 <span class="input-label">SSN</span>
-                <input name="ssn" type="text" wg-length="9" formatted-input format-type="ssn" ng-model="info.currentUser.ssn" placeholder="XXX-XX-XXXX" pattern="[0-9]*">
+                <input name="ssn" type="text" wg-length="9" formatted-input format-type="ssn" ng-model="info.currentUser.ssn" placeholder="XXX-XX-XXXX" pattern="[0-9]*" ng-change="info.debouncedSave()">
             </ion-item>
 
             

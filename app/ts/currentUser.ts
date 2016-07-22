@@ -30,13 +30,16 @@ class CurrentUserService {
     startWizard()  { localStorage.setItem('wg.shouldFinishWizard', 'true') }
     finishWizard() { localStorage.removeItem('wg.shouldFinishWizard') }
 
+    get id() { return this.obj && this.obj.id}
+
     get newUserCreated() { return this.obj && !this.obj.existed()}
     get isLoggedIn() { return !!Parse.User.current()}
 
     get password(): string { return this.obj && this.obj.get('password') }
     set password(password: string) { this.obj && this.obj.set('password', password) }
 
-    get firstName(): string { return (this.obj && this.obj.get('name') || "").split(" ")[0] }
+    get camelCaseName(): string { return ((this.obj && this.obj.get('name')) || "").split(" ").join() }
+    get firstName(): string { return ((this.obj && this.obj.get('name')) || "").split(" ")[0] }
     get name(): string { return this.obj && this.obj.get('name') }
     set name(name: string) { this.obj && this.obj.set('name', name) }
 
@@ -47,10 +50,19 @@ class CurrentUserService {
     get earningsGoal(): number { return this.obj && this.obj.get('earningsGoal') || 140 }
     set earningsGoal(earningsGoal: number) { this.obj && this.obj.set('earningsGoal', Number(earningsGoal)) }
 
+    get earningsTotal(): any { return this.obj && this.obj.get('earningsTotal') || 140 }
+    set earningsTotal(earningsTotal: any) { this.obj && this.obj.set('earningsTotal', earningsTotal) }
+
+    get hoursTotal(): any { return this.obj && this.obj.get('hoursTotal') || 140 }
+    set hoursTotal(hoursTotal: any) { this.obj && this.obj.set('hoursTotal', hoursTotal) }
+
     get locations(): WGLocation[] { return (this.obj && this.obj.get('locations')) || [] }
 
     get phone(): string { return this.obj && this.obj.get('phone') }
     set phone(phone: string) { this.obj && this.obj.set('phone', phone) }
+
+    get headshot(): string { return this.obj && this.obj.get('headshot') }
+    set headshot(headshot: string) { this.obj && this.obj.set('headshot', headshot) }
 
     get availableDays(): string[] { return (this.obj && this.obj.get('availableDays')) || [] }
     set availableDays(availableDays: string[]) { this.obj && this.obj.set('availableDays', availableDays) }
@@ -134,7 +146,7 @@ class CurrentUserService {
 
         }, (err) => {
             console.log(err);
-            Parse.User.logOut();
+            // Parse.User.logOut();
             Raven.setUserContext();
             mixpanel.identify();
         });

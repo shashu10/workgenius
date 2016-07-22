@@ -15,3 +15,5 @@ angular.module('wg.preferences', [])
 .controller('GoalPreferencesCtrl', GoalPreferencesCtrl)
 
 .controller('VehicleListCtrl', VehicleListCtrl)
+
+.controller('DocumentsPreferenceCtrl',DocumentsPreferenceCtrl)

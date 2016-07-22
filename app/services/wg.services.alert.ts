@@ -27,7 +27,7 @@ class AlertDialogService {
             fontSize: '21px',
             lineHeight: '91px',
             width: '100%',
-            zIndex: '9999',
+            zIndex: '9000',
         }
         this.showParams = (color) => {
           return {

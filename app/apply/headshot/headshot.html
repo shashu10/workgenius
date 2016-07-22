@@ -16,13 +16,15 @@
 
         <div class="next-button">
             <button
-            ng-class="{disabled: !headshot.canContinue}",
+            ng-class="{disabled: !headshot.canContinue && !headshot.error}",
             class="button button-positive"
             ng-click="headshot.next()"
             >
                 Continue ➝
             </button>
         </div>
+
+        <p ng-if="headshot.error">Can't add a photo? You can send your headshot directly to liveops@workgeni.us Be sure to include your name and email</p>
 
     </ion-content>
 </ion-view>

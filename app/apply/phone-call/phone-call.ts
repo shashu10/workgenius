@@ -3,6 +3,7 @@ class PhoneCallCtrl {
     public timeslots: any
     public choice: any
     public moreSlots = false
+    public error = ''
 
     constructor(public ApplicationStates: ApplicationStatesService,
                 public currentUser: CurrentUserService,
@@ -20,6 +21,9 @@ class PhoneCallCtrl {
             this.timeslots = result.data
             this.resize()
         }, (err) => {
+            // Allow user to continue if there is an error getting phone call slots
+            this.choice = true
+            this.error = "Could not get time slots. We'll get in touch with you to set up a phone call"
             console.log(err)
         })
     }

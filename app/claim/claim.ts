@@ -43,7 +43,7 @@ class ClaimDaysCtrl {
 
     select(shift) {
         this.shiftToClaim.set(shift)
-        if (shift.groupedShift) 
+        if (shift.groupedShift)
             this.$state.go("app.claim-group-detail")
         else
             this.$state.go("app.claim-detail")

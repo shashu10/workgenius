@@ -214,7 +214,7 @@ class WGShiftsService {
     }
     // Sorting by primary param: startsAt and secondary param: endsAt
     // http://stackoverflow.com/questions/16426774/underscore-sortby-based-on-multiple-attributes
-    private sortAndFormatShifts(shifts: WGAvailableShift[]) {
+    private sortAndFormatShifts(shifts: WGAvailableShift[] = []) {
         if (shifts.length <= 1) return shifts
 
         return _(shifts)
@@ -243,7 +243,7 @@ class WGShiftsService {
             const shifts = day.shifts
             // get postmates only shifts
             const PMShifts = _.remove(shifts, (shift: any) => {
-                return shift.company.name === 'postmates'
+                return shift.company === 'postmates'
             })
             if (!PMShifts.length) return
 
@@ -264,7 +264,7 @@ class WGShiftsService {
                         location: curr.location,
                         flex: true,
                         groupedShift: true,
-                        company: {name: 'postmates'},
+                        company: 'postmates',
                         startsAt: curr.startsAt,
                         endsAt: curr.endsAt,
                         shifts: [curr]

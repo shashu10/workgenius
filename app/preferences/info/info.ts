@@ -6,7 +6,7 @@ class PersonalInfoPageCtrl {
                 public wgDebounce: WGDebounce,
                 public alertDialog: AlertDialogService,
                 public wgState: WGState) {
-        this.debouncedSave = this.wgDebounce.create(() => this.save());
+        this.debouncedSave = this.wgDebounce.create(() => this.save(), 1000);
     }
 
     save() {
@@ -22,7 +22,7 @@ class PersonalInfoPageCtrl {
 
     logout() {
         this.currentUser.logOut()
-        this.wgState.goWithoutAnimate('welcome')
+        this.wgState.goWithoutAnimate('tutorial')
         this.wgState.clearCache()
     }
 }
