@@ -15,7 +15,7 @@ class DocumentsPreferenceCtrl {
         if (imageURI) {
             this.canContinue = true
         }
-        this.wgImage.uploadHeadshot(imageURI);
+        // this.wgImage.
 
         
         this.save()
