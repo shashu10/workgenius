@@ -1,0 +1,32 @@
+<ion-view title="Application" ng-controller="VehicleInfoPreferenceCtrl as car">
+    <ion-content class="big-form wg-application apply-car">
+
+        <h4>
+            Next, we need some
+            <br>
+            info about your car!
+        </h4>
+
+        <form name="form" shake-that novalidate submitted="submitted" submit="car.submit()">
+
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Make</span>
+                <input type="text" ng-model="car.make" placeholder="Eg: Toyota" required>
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Model</span>
+                <input type="text" ng-model="car.model" placeholder="Eg: Prius" required>
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Year</span>
+                <input type="number" ng-model="car.year" placeholder="Eg: 2009" required min="1950" max="2020">
+            </label>
+            <div class="next-button">
+                <button type="submit" class="button button-positive" ng-click="">
+                    Done
+                </button>
+            </div>
+
+        </form>
+    </ion-content>
+</ion-view>
