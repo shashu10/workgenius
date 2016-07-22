@@ -154,7 +154,8 @@ class WGAppConfig {
         .state('app.locations',          {url: '/locations',          views: {'tab-profile':     {templateUrl: 'preferences/locations/locations.html'    }}})
         .state('app.new-vehicle',        {url: '/new-vehicle',        views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles.html'      }}})
         .state('app.vehicle-list',       {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles-list.html' }}})
-
+        .state('app.documents',       {url: '/documents',           views: {'tab-profile':     {templateUrl: 'preferences/documents/documents.html' }}})
+        
 
         // Earnings
         .state('app.earnings',           {url: '/earnings',           views: {'tab-profile':     {templateUrl: 'main/earnings.html'                      }}})
