@@ -153,12 +153,22 @@ angular.module('wg.schedule', [])
     .directive('ionCalSubheader', function() {
         return {
             link: function(scope, element, attrs) {
+                let content, tabs: ng.IAugmentedJQuery;
+                const isAndroid = ionic.Platform.isAndroid();
+
                 scope.$watch(function() {
+
+                    if (isAndroid) {
+                        // Get the tabs
+                        if (!tabs) tabs = angular.element(document.querySelector('.tab-nav'))
+                        let top = tabs[0].offsetHeight + tabs[0].offsetTop
+                        element.css("top", `${top}px`)
+                    }
 
                     const height = element[0].offsetHeight + element[0].offsetTop
 
                     // Get the ion-content element containing has-subheader
-                    const content = angular.element(document.querySelector('.has-ion-cal-subheader'))
+                    if (!content) content = angular.element(document.querySelector('.has-ion-cal-subheader'))
 
                     content.css("top", `${height}px`)
                 })

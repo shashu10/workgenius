@@ -133,7 +133,7 @@ class WGAppConfig {
                 $ionicConfigProvider,
                 $analyticsProvider) {
 
-        $ionicConfigProvider.tabs.position('bottom');
+        // $ionicConfigProvider.tabs.position('bottom');
         // $ionicConfigProvider.backButton.text('Back');
         // $ionicConfigProvider.views.forwardCache(true);
 
@@ -145,41 +145,41 @@ class WGAppConfig {
         .state('app',                    {url: '/app', abstract: true, templateUrl: 'tabs.html'})
 
         // Tabs
-        .state('app.schedule',           {url: '/schedule',           views: {'tab-schedule':    {templateUrl: 'schedule/schedule.html'              }}})
-        .state('app.profile',            {url: '/profile',            views: {'tab-profile':     {templateUrl: 'profile/profile.html'                }}})
+        .state('app.schedule',           {url: '/schedule',           views: {'tab-schedule':    {templateUrl: 'schedule/schedule.html'                  }}})
+        .state('app.profile',            {url: '/profile',            views: {'tab-profile':     {templateUrl: 'profile/profile.html'                    }}})
 
         // Sub Views Tabs
-        .state('app.vehicle-list',           {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles-list.html'  }}})
-        .state('app.goal',               {url: '/goal',               views: {'tab-profile':     {templateUrl: 'preferences/goal/goal.html'          }}})
-        .state('app.personal-info',      {url: '/personal-info',      views: {'tab-profile':     {templateUrl: 'main/personal-info.html'             }}})
-        .state('app.locations',          {url: '/locations',          views: {'tab-profile':     {templateUrl: 'preferences/locations/locations.html'}}})
-        .state('app.new-vehicle',          {url: '/new-vehicle',          views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles.html'}}})
+        .state('app.vehicle-list',       {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles-list.html' }}})
+        .state('app.goal',               {url: '/goal',               views: {'tab-profile':     {templateUrl: 'preferences/goal/goal.html'              }}})
+        .state('app.personal-info',      {url: '/personal-info',      views: {'tab-profile':     {templateUrl: 'main/personal-info.html'                 }}})
+        .state('app.locations',          {url: '/locations',          views: {'tab-profile':     {templateUrl: 'preferences/locations/locations.html'    }}})
+        .state('app.new-vehicle',        {url: '/new-vehicle',        views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles.html'      }}})
 
 
         // Earnings
-        .state('app.earnings',           {url: '/earnings',           views: {'tab-profile':     {templateUrl: 'main/earnings.html'                  }}})
-        .state('app.hours',              {url: '/hours',              views: {'tab-profile':     {templateUrl: 'main/hours.html'                     }}})
+        .state('app.earnings',           {url: '/earnings',           views: {'tab-profile':     {templateUrl: 'main/earnings.html'                      }}})
+        .state('app.hours',              {url: '/hours',              views: {'tab-profile':     {templateUrl: 'main/hours.html'                         }}})
 
         // Availability Tabs
-        .state('app.availability',       {url: '/availability',       views: {'tab-profile':     {templateUrl: 'availability/availability.html'      }}})
-        .state('app.block-days',         {url: '/block-days',         views: {'tab-profile':     {templateUrl: 'availability/block-days.html'        }}})
+        .state('app.availability',       {url: '/availability',       views: {'tab-profile':     {templateUrl: 'availability/availability.html'          }}})
+        .state('app.block-days',         {url: '/block-days',         views: {'tab-profile':     {templateUrl: 'availability/block-days.html'            }}})
 
         // Claim Shifts
-        .state('app.claim-days',         {url: '/claim-days',         views: {'tab-claim-days':  {templateUrl: 'claim/claim.html'                    }}})
-        .state('app.claim-group-detail', {url: '/claim-group-detail', views: {'tab-claim-days':  {templateUrl: 'claim/claim-group-detail.html'       }}})
-        .state('app.claim-detail',       {url: '/claim-detail',       views: {'tab-claim-days':  {templateUrl: 'claim/claim-detail.html'             }}})
+        .state('app.claim-days',         {url: '/claim-days',         views: {'tab-claim-days':  {templateUrl: 'claim/claim.html'                        }}})
+        .state('app.claim-group-detail', {url: '/claim-group-detail', views: {'tab-claim-days':  {templateUrl: 'claim/claim-group-detail.html'           }}})
+        .state('app.claim-detail',       {url: '/claim-detail',       views: {'tab-claim-days':  {templateUrl: 'claim/claim-detail.html'                 }}})
 
         // Application
-        .state('app.phone',              {url: '/phone',              views: {'tab-companies':   {templateUrl: 'apply/phone/phone.html'              }}})
-        .state('app.address',            {url: '/address',            views: {'tab-companies':   {templateUrl: 'apply/address/address.html'          }}})
-        .state('app.weight-limit',       {url: '/weight-limit',       views: {'tab-companies':   {templateUrl: 'apply/weight/weight-limit.html'      }}})
-        .state('app.car-info',           {url: '/car-info',           views: {'tab-companies':   {templateUrl: 'apply/car/car-info.html'             }}})
-        .state('app.car-documents',      {url: '/car-documents',      views: {'tab-companies':   {templateUrl: 'apply/car/car-documents.html'        }}})
-        .state('app.headshot',           {url: '/headshot',           views: {'tab-companies':   {templateUrl: 'apply/headshot/headshot.html'        }}})
-        .state('app.bg-info',            {url: '/bg-info',            views: {'tab-companies':   {templateUrl: 'apply/background/bg-info.html'       }}})
-        .state('app.bg-ssn',             {url: '/bg-ssn',             views: {'tab-companies':   {templateUrl: 'apply/background/bg-ssn.html'        }}})
-        .state('app.phone-call',         {url: '/phone-call',         views: {'tab-companies':   {templateUrl: 'apply/phone-call/phone-call.html'    }}})
-        .state('app.finish',             {url: '/finish',             views: {'tab-companies':   {templateUrl: 'apply/finish/finish.html'            }}})
+        .state('app.phone',              {url: '/phone',              views: {'tab-companies':   {templateUrl: 'apply/phone/phone.html'                  }}})
+        .state('app.address',            {url: '/address',            views: {'tab-companies':   {templateUrl: 'apply/address/address.html'              }}})
+        .state('app.weight-limit',       {url: '/weight-limit',       views: {'tab-companies':   {templateUrl: 'apply/weight/weight-limit.html'          }}})
+        .state('app.car-info',           {url: '/car-info',           views: {'tab-companies':   {templateUrl: 'apply/car/car-info.html'                 }}})
+        .state('app.car-documents',      {url: '/car-documents',      views: {'tab-companies':   {templateUrl: 'apply/car/car-documents.html'            }}})
+        .state('app.headshot',           {url: '/headshot',           views: {'tab-companies':   {templateUrl: 'apply/headshot/headshot.html'            }}})
+        .state('app.bg-info',            {url: '/bg-info',            views: {'tab-companies':   {templateUrl: 'apply/background/bg-info.html'           }}})
+        .state('app.bg-ssn',             {url: '/bg-ssn',             views: {'tab-companies':   {templateUrl: 'apply/background/bg-ssn.html'            }}})
+        .state('app.phone-call',         {url: '/phone-call',         views: {'tab-companies':   {templateUrl: 'apply/phone-call/phone-call.html'        }}})
+        .state('app.finish',             {url: '/finish',             views: {'tab-companies':   {templateUrl: 'apply/finish/finish.html'                }}})
         .state('app.companies',          {url: '/companies',          views: {'tab-companies':   {templateUrl: 'apply/companies/company-recommendation.html'}}, cache: false})
 
         // Auth

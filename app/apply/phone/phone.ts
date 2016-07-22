@@ -1,10 +1,11 @@
 class PhoneCtrl {
 
-    constructor(public ApplicationStates: ApplicationStatesService) {}
+    constructor(public ApplicationStates: ApplicationStatesService,
+                public currentUser: CurrentUserService) {}
 
     next() {
         this.ApplicationStates.next()
     }
 }
 
-PhoneCtrl.$inject = ["ApplicationStates"]
+PhoneCtrl.$inject = ["ApplicationStates", "currentUser"]

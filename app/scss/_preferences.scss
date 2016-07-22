@@ -5,9 +5,10 @@
 }
 
 .wg-preferences {
-    .item-note.earnings-text {
-        color: $earnings-color;
+    .item-note {
         font-weight: bold;
+        line-height: 14px;
+        margin-right: 12px;
     }
     .vehicle-item-list {
         max-width: 120px;

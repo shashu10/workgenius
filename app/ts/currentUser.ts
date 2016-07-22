@@ -70,8 +70,17 @@ class CurrentUserService {
     get ssn(): string { return this.obj && this.obj.get('ssn') }
     set ssn(ssn: string) { this.obj && this.obj.set('ssn', ssn) }
 
-    get car(): WGVehicle { return this.obj && this.obj.get('vehicles') && _.find(this.vehicles, (v) => v.type === 'car') }
+    get car(): WGVehicle { return this.obj && this.obj.get('vehicles') && _.find(this.vehicles, (v) => v.type && v.type.toLowerCase() === 'car') }
     set car(car: WGVehicle) { this.obj && this.obj.set('car', car) }
+
+    get carMake(): string { return this.car && this.car.make }
+    set carMake(make: string) { this.car && (this.car.make = make)}
+
+    get carModel(): string { return this.car && this.car.model }
+    set carModel(model: string) { this.car && (this.car.model = model)}
+
+    get carYear(): number { return this.car && this.car.year }
+    set carYear(year: number) { this.car && (this.car.year = year)}
 
     get carInfo(): any { return this.obj && this.obj.get('carInfo') }
     set carInfo(carInfo: any) { this.obj && this.obj.set('carInfo', carInfo) }

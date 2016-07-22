@@ -82,7 +82,11 @@ class ApplicationStatesService {
         if (this.currentUser.canLift50lbs) _.remove(this._states, (s) => s === 'weight-limit')
 
         // "car-info"
-        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
+        if (this.currentUser.car      &&
+            this.currentUser.carMake  &&
+            this.currentUser.carModel &&
+            this.currentUser.carYear)
+            _.remove(this._states, (s) => s === 'car-info')
 
         // "car-documents"
         // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
