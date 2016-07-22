@@ -1,3 +1,8 @@
+enum UploadType {
+    image    = <any> "workgenius-images",
+    document = <any> "workgenius-documents",
+}
+
 class WGImage {
 
     constructor(public currentUser: CurrentUserService, public $cordovaFileTransfer: ngCordova.IFileTransferService, public $cordovaCamera: ngCordova.ICameraService) {}
@@ -5,10 +10,10 @@ class WGImage {
     public uploadHeadshot(fileURI: string) {this.uploadImage(fileURI, "workgenius-images")}
     public uploadDocument(fileURI: string) {this.uploadImage(fileURI, "workgenius-documents")}
 
-    public takeHeadshotPicture(source: number, callback: Function) {this.takePicture(source, Camera.Direction.FRONT, callback, this.uploadHeadshot)}
-    public takeDocumentPicture(source: number, callback: Function) {this.takePicture(source, Camera.Direction.BACK , callback, this.uploadDocument)}
+    public takeHeadshotPicture(source: number, callback: Function) {this.takePicture(source, Camera.Direction.FRONT, callback, UploadType.image)}
+    public takeDocumentPicture(source: number, callback: Function) {this.takePicture(source, Camera.Direction.BACK , callback, UploadType.document)}
 
-    private takePicture(source: number, direction: number, callback: Function, uploader: Function) {
+    private takePicture(source: number, direction: number, callback: Function, uploadType: UploadType) {
         // localhost testing
         if (!Camera) {
             callback("img/profile-placeholder.png")
@@ -31,7 +36,7 @@ class WGImage {
         }).then((fileURI) => {
             callback(fileURI)
             console.log(fileURI)
-            uploader(fileURI)
+            this.uploadImage(fileURI, uploadType.toString())
 
         }, (err) => {
             callback()
@@ -50,7 +55,7 @@ class WGImage {
         })
         .then((result) => {
             console.log("success uploading")
-            console.log(result.location)
+            console.log(result)
         }, (error) => {
             console.log('Failed');
             console.log(error);
@@ -62,7 +67,7 @@ class WGImage {
             params: {
                 "key": "test.jpeg",
                 "AWSAccessKeyId": s3Signature.awsKey,
-                "acl": "bucket-owner-full-control",
+                "acl": "public-read",
                 "policy": s3Signature.policy,
                 "signature": s3Signature.signature
             }
