@@ -1,6 +1,7 @@
 /// <reference path="./goal/goal.ts" />
 /// <reference path="./locations/locations.ts" />
-
+/// <reference path="./vehicles/vehicles.ts" />
+/// <reference path="./vehicles/vehicles-list.ts" />
 
 class PreferencesCtrl {
 
@@ -25,3 +26,5 @@ angular.module('wg.preferences', [])
 .controller('GoalPreferencesCtrl', GoalPreferencesCtrl)
 
 .controller('VehiclesPreferenceCtrl',VehiclesPreferenceCtrl)
+
+.controller('VehicleListCtrl',VehicleListCtrl)

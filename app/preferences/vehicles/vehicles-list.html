@@ -1,0 +1,22 @@
+
+<ion-view title="Your Vehicles" ng-controller="VehicleListCtrl as vehicles">
+    <ion-nav-buttons side="right">
+    <button class="button" ng-click="vehicles.addNew()">Add
+      </button>
+    </ion-nav-buttons>
+    <ion-content class="wg-preferences wg-preference-vehicle">
+        
+        <h3 class="wg-title">Select your <strong>vehicles</strong></h3>
+
+        <ion-list>
+         <ion-item class="item-icon-right"  ng-repeat="vehicle in vehicles.vehicles" >
+            <span>{{vehicle.type}}</span>
+            <span class="icon wg-icon" ng-class="vehicle.icon"></span>
+          </ion-item>
+
+    
+      </ion-list>
+
+    </ion-content>
+</ion-view>
+</ion-nav-view>
