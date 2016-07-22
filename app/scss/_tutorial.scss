@@ -23,7 +23,7 @@
                 .item-divider {
                     background-color: $positive;
                     color: $light;
-                    font-weight: 600;
+                    font-weight: bold;
                 }
             }
         }
@@ -35,7 +35,7 @@
         height: 20%;
         width: 100%;
         .button-signup {
-            font-weight: 600;
+            font-weight: bold;
             text-transform: uppercase;
             font-family: SourceSansPro-Semibold;
             font-size: 24px;
@@ -50,7 +50,7 @@
             }
             .button-signin {
                 color: $positive;
-                font-weight: 600;
+                font-weight: bold;
                 letter-spacing: 1.2px;
                 text-decoration: underline;
             }

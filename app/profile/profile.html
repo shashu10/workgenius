@@ -4,7 +4,7 @@
         <br>
         
         <div class="wg-profile-wrapper">
-            <div class="wg-profile-picture" ng-style="{'background-image':'url(' + headshot.imageData + ')'}" ng-click="headshot.showPictureOptions()"></div>
+            <div class="wg-profile-picture" ng-style="{'background-image':'url(' + profile.imageData + ')'}" ng-click="headshot.showPictureOptions()"></div>
             <div class="wg-profile-edit">
                 <i class="icon ion-edit light"></i>
             </div>
@@ -35,18 +35,24 @@
         <br>
 
         <ion-list>
+
+            <ion-toggle ng-model="airplaneMode" class="item-icon-left" toggle-class="toggle-positive">
+                <i class="icon ion-android-notifications"></i>
+                Notifications
+            </ion-toggle>
             
             <ion-item href="#/app/goal" class="item-icon-left item-icon-right">
                 <i class="icon ion-cash"></i>Earnings Goal
+                <span class="item-note earnings-text">{{profile.currentUser.earningsGoal | currency : undefined : 0}}</span>
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
 
             <ion-item href="#/app/personal-info" class="item-icon-left item-icon-right">
-                <i class="icon ion-person"></i>Personal Information
+                <i class="icon ion-person"></i>My Info
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
 
-            <ion-item href="#/app/vehicles" class="item-icon-left item-icon-right">
+            <!-- <ion-item href="#/app/vehicles" class="item-icon-left item-icon-right">
                 <i class="icon ion-document-text"></i>Documents
                 <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
@@ -62,24 +68,23 @@
             <ion-item href="#/app/locations" class="item-icon-left item-icon-right">
                 <i class="icon ion-location"></i>Locations
                 <i class="icon ion-ios-arrow-right"></i>
-            </ion-item>
-
-            <ion-item href="#/app/vehicles" class="item-icon-left item-icon-right">
-                <i class="icon ion-android-notifications"></i>Notifications
-                <i class="icon ion-ios-arrow-right"></i>
-            </ion-item>
+            </ion-item> -->
 
         </ion-list>
 
-        <br>
-
-        <ion-list>
+        <!-- <ion-list>
             <ion-item class="item-icon-right assertive" ng-click="profile.logout()">
                 Logout
                 <i class="icon ion-log-out"></i>
             </ion-item>
-        </ion-list>
+        </ion-list> -->
+
         <br>
+
         <p class="menu-note center-text">v{{appVersion || "0.0.1"}}</p>
+
+        <br>
+
     </ion-content>
+
 </ion-view>

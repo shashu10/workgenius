@@ -35,7 +35,7 @@ $primary-button-alt-bg: #34aeff;
         color: $primary-button-alt;
         font-family: SourceSansPro-Semibold;
         font-size: 28px;
-        font-weight: 600;
+        font-weight: bold;
         letter-spacing: 2px;
         margin-bottom: 20px;
         margin-top: 40px;
@@ -46,7 +46,7 @@ $primary-button-alt-bg: #34aeff;
             margin: 0;
         }
         .button-signin {
-            font-weight: 600;
+            font-weight: bold;
             text-decoration: underline;
         }
     }

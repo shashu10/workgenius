@@ -5,6 +5,10 @@
 }
 
 .wg-preferences {
+    .item-note.earnings-text {
+        color: $earnings-color;
+        font-weight: bold;
+    }
     .vehicle-item-list {
         max-width: 120px;
         overflow: hidden;
