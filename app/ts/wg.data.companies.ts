@@ -17,6 +17,7 @@ class WGCompany extends Parse.Object {
     get bonusCondition()     : string   { return this.get('bonusCondition') || ''}
 
     get requiredPages()      : string[] { return this.get('requiredPages')  || []}
+    get requiredDocs()       : string[] { return this.get('requiredDocs')   || []}
     get requiredVehicles()   : string[] { return _.map(this.get('requiredVehicles')   || [], (v: string) => v.toLowerCase())}
     get availableLocations() : string[] { return _.map(this.get('availableLocations') || [], (v: string) => v.toLowerCase())}
 
@@ -71,6 +72,12 @@ class WGCompaniesService {
     get requiredPages(): string[] {
         return _.reduce(this.toApply, (req, c) => {
           return _.union(req, c.requiredPages);
+        }, []);
+    }
+    // Union of all company requiredDocs
+    get requiredDocs(): string[] {
+        return _.reduce(this.toApply, (req, c) => {
+          return _.union(req, c.requiredDocs);
         }, []);
     }
 

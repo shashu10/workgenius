@@ -13,7 +13,7 @@ class AlertDialogService {
     private hideParams: any
 
     constructor(public $interval: angular.IIntervalService) {
-        this._alertElement = angular.element('<div class="shimmer"></div>');
+        this._alertElement = angular.element('<div></div>');
 
         // Initializing params for iOS popping from up and android poppping from below
         let cssOptions: any = {

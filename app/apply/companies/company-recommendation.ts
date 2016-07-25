@@ -69,7 +69,7 @@ class CompaniesRecCtrl {
     resize() { this.$ionicScrollDelegate.resize() }
 
     canContinue() {
-        return _.filter(this.wgCompanies.list, (c) => c.interested).length
+        return _.filter(this.wgCompanies.list, (c) => c.interested && !c.applied && !c.connected).length
     }
 }
 

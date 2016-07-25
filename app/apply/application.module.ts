@@ -4,8 +4,8 @@
 /// <reference path="./address/address.ts" />
 /// <reference path="./weight/weight-limit.ts" />
 /// <reference path="./car/car-info.ts" />
-/// <reference path="./car/car-documents.ts" />
-/// <reference path="./car/car-documents.ts" />
+/// <reference path="./documents/documents.ts" />
+/// <reference path="./documents/documents.ts" />
 /// <reference path="./headshot/headshot.ts" />
 /// <reference path="./background/bg-info.ts" />
 /// <reference path="./background/bg-ssn.ts" />
@@ -26,7 +26,7 @@ angular.module('wg.apply', ['wg.user', 'parseData'])
 
     .controller('CarInfoCtrl', CarInfoCtrl)
 
-    .controller('CarDocumentsCtrl', CarDocumentsCtrl)
+    .controller('DocumentsCtrl', DocumentsCtrl)
 
     .controller('HeadshotCtrl', HeadshotCtrl)
 

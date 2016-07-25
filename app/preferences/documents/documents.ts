@@ -1,8 +1,10 @@
 class DocumentsPreferenceCtrl {
 
-    constructor(public currentUser:CurrentUserService,public wgImage:WGImage,
-    			public $ionicActionSheet:ionic.actionSheet.IonicActionSheetService,
-    			public wgDebounce:WGDebounce,public alertDialog:AlertDialogService) {
+    constructor(public currentUser: CurrentUserService,
+                public wgImage: WGImage,
+                public $ionicActionSheet: ionic.actionSheet.IonicActionSheetService,
+                public wgDebounce: WGDebounce,
+                public alertDialog: AlertDialogService) {
 
         this.actionButtons = [{ text: 'Camera' }, { text: 'Photo Library' }]
         if (ionic.Platform.isAndroid())
@@ -17,7 +19,6 @@ class DocumentsPreferenceCtrl {
             this.canContinue = true
         }
 
-        
         this.save()
 
     }
@@ -35,7 +36,7 @@ class DocumentsPreferenceCtrl {
                 this.wgImage.takeDocumentPicture(option, type, (imageURI) => {
                     if (imageURI) {
                         // this.alertDialog.alert(AlertColor.success,"Saved");
-                    } 
+                    }
                     this.canContinue = true
                 })
 
@@ -46,9 +47,9 @@ class DocumentsPreferenceCtrl {
 
     }
     save() {
-    	//save something ehh
+    	// save something ehh
     }
 
 }
 
-DocumentsPreferenceCtrl.$inject = ["currentUser","wgImage","$ionicActionSheet","wgDebounce","alertDialog"];
+DocumentsPreferenceCtrl.$inject = ["currentUser", "wgImage", "$ionicActionSheet", "wgDebounce", "alertDialog"];

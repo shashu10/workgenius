@@ -2,6 +2,7 @@ class ApplicationStatesService {
 
     public progressbar
     private _states: string[]
+    private _docs: string[]
     constructor(public $state: ng.ui.IStateService,
                 public $rootScope: ng.IRootScopeService,
                 public $ionicHistory: ionic.navigation.IonicHistoryService,
@@ -19,11 +20,16 @@ class ApplicationStatesService {
             "address",
             "weight-limit",
             "car-info",
-            "car-documents",
+            "documents",
             "headshot",
             "bg-info",
             "bg-ssn",
             "phone-call",
+        ]
+        this._docs = [
+            "license",
+            "registration",
+            "insurance",
         ]
     }
     get nextPage(): string {
@@ -88,11 +94,11 @@ class ApplicationStatesService {
             this.currentUser.carYear)
             _.remove(this._states, (s) => s === 'car-info')
 
-        // "car-documents"
-        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
-
         // "headshot"
         if (this.currentUser.headshot) _.remove(this._states, (s) => s === 'headshot')
+
+        // "car-documents"
+        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
 
         // "bg-info"
         // "bg-ssn"
@@ -110,6 +116,9 @@ class ApplicationStatesService {
         // show only pages that are requirements
         this._states = _.intersection(this._states, this.wgCompanies.requiredPages)
 
+        // Ask for only the docs that are needed
+        this.initDocRequirements()
+
         // If the worker does not have a car, don't ask car stuff
 
         this.removeExistingValues()
@@ -121,6 +130,20 @@ class ApplicationStatesService {
         this._states = _.map(this._states, (s) => (`app.${s}`))
 
         this.linkProgressBar()
+    }
+    initDocRequirements() {
+        // show only docs that are requirements
+        this._docs = _.intersection(this._docs, this.wgCompanies.requiredDocs)
+        if (this._docs.length === 0) _.remove(this._states, (s) => s === 'documents')
+        else {
+            if (this.currentUser.license) _.remove(this._docs, (s) => s === 'license')
+            if (this.currentUser.registration) _.remove(this._docs, (s) => s === 'registration')
+            if (this.currentUser.insurance) _.remove(this._docs, (s) => s === 'insurance')
+        }
+
+    }
+    getRequiredDocs() {
+        return this._docs
     }
     start() {
 

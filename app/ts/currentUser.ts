@@ -70,6 +70,15 @@ class CurrentUserService {
     get phone(): string { return this.obj && this.obj.get('phone') }
     set phone(phone: string) { this.obj && this.obj.set('phone', phone) }
 
+    get license(): string { return this.obj && this.obj.get('license') }
+    set license(license: string) { this.obj && this.obj.set('license', license) }
+
+    get insurance(): string { return this.obj && this.obj.get('insurance') }
+    set insurance(insurance: string) { this.obj && this.obj.set('insurance', insurance) }
+
+    get registration(): string { return this.obj && this.obj.get('registration') }
+    set registration(registration: string) { this.obj && this.obj.set('registration', registration) }
+
     get headshot(): string { return this.obj && this.obj.get('headshot') }
     set headshot(headshot: string) { this.obj && this.obj.set('headshot', headshot) }
 
