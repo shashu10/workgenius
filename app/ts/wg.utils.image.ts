@@ -1,10 +1,10 @@
 enum UploadType {
     headshot    = <any> "workgenius-headshots",
     document = <any> "workgenius-documents",
-
 }
 
 enum DocumentUploadType {
+    headshot = <any>"headshot",
     registration = <any>"registration",
     insurance = <any>"insurance",
     license = <any>"license"
@@ -15,16 +15,16 @@ class WGImage {
     constructor(public currentUser: CurrentUserService, public $cordovaFileTransfer: ngCordova.IFileTransferService, public $cordovaCamera: ngCordova.ICameraService) {}
 
     public takeHeadshotPicture(source: number, callback: Function) {this.takePicture(source, Camera.Direction.FRONT, callback, UploadType.headshot)}
-    public takeDocumentPicture(source: number, type:DocumentUploadType, callback: Function) {this.takePicture(source, Camera.Direction.BACK , callback, UploadType.document,type)}
+    public takeDocumentPicture(source: number, doc: WGDocument, callback: Function) {this.takePicture(source, Camera.Direction.BACK , callback, UploadType.document, doc)}
 
-    private takePicture(source: number, direction: number, callback: Function, uploadType: UploadType,documentType?:DocumentUploadType) {
+    private takePicture(source: number, direction: number, callback: Function, uploadType: UploadType, document?: WGDocument): PromiseLike<any> {
         // localhost testing
         if (!Camera) {
             callback("img/profile-placeholder.png")
-            return console.error("Camera plugin is not installed")
+            console.error("Camera plugin is not installed")
         }
 
-        this.$cordovaCamera.getPicture({
+        return this.$cordovaCamera.getPicture({
             quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
             sourceType: source,
@@ -40,51 +40,69 @@ class WGImage {
         }).then((fileURI) => {
             callback(fileURI)
             console.log(fileURI)
-            this.uploadImage(fileURI, uploadType)
+
+            return this.uploadImage(fileURI, uploadType, document) as PromiseLike<any>
 
         }, (err) => {
             callback()
             console.log(err)
             console.error("Could not take picture")
+
+            return Parse.Promise.error('') as PromiseLike<any>
         })
     }
-    private uploadImage(fileURI: string, uploadType: UploadType,documentType?:DocumentUploadType) {
+    private uploadImage(fileURI: string, uploadType: UploadType, document?: WGDocument) {
+        if (document) {
+            document.imageURI = fileURI
+            document.uploading = true
+        }
 
-        let filename = this.generateFilename(uploadType)
+        let filename = this.generateFilename(uploadType, document)
 
         return this.getSignature(filename, uploadType.toString())
         .then((result) => {
+
             console.log("Success getting signature")
             console.log(result)
 
             return this.uploadImageToS3(filename, fileURI, result)
         })
         .then((result) => {
+
+            if (document)
+                document.imageURI = fileURI
+
             console.log("success uploading")
             console.log(result)
 
-            return this.saveInParse(filename)
+            return this.saveInParse(filename, document)
         })
         .then(() => {
+            if (document) {
+                document.uploading = false
+                document.uploaded = true
+            }
             console.log("success updating headshot in parse")
 
         }, (error) => {
+            if (document) document.error = true
+
             console.log('Something went wrong');
             console.log(error);
         })
     }
-    private generateFilename(uploadType: UploadType,documentType?:DocumentUploadType) {
+    private generateFilename(uploadType: UploadType, document?: WGDocument) {
         if (!Parse.User.current())
             return "test.jpeg"
         else if (uploadType === UploadType.headshot)
-            return this.currentUser.camelCaseName + "-" + this.currentUser.id + (new Date()).getTime() + ".jpeg"
+            return this.currentUser.lodashCaseName + "-" + this.currentUser.id + (new Date()).getTime() + ".jpeg"
         else
-            return this.currentUser.camelCaseName + "-" + this.currentUser.id + documentType + (new Date()).getTime() + ".jpeg"
+            return this.currentUser.lodashCaseName + "-" + document + "-" + this.currentUser.id + "-" + (new Date()).getTime() + ".jpeg"
     }
-    private saveInParse(filename: string) {
-        return this.currentUser.save({
-            headshot: `https://s3.amazonaws.com/${UploadType.headshot}/${filename}`
-        })
+    private saveInParse(filename: string, document?: WGDocument) {
+        const prop = (document && document.type) || 'headshot'
+        this.currentUser[prop] = `https://s3.amazonaws.com/${UploadType.headshot}/${filename}`
+        return this.currentUser.save()
     }
     private uploadImageToS3(filename: string, fileURI: string, s3Signature): ngCordova.IFileTransferPromise<any> {
 

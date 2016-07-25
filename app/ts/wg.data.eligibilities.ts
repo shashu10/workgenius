@@ -71,7 +71,7 @@ class WGEligibilitiesService implements IObservable {
     // Give the OnLoadListener a way to de-register
     public RemoveOnLoadListener(listener: Function) {_.remove(this._onLoadListeners, (l) => l === listener)}
     // Notify all the OnLoadListeners
-    public NotifyOnLoadListeners() {_.forEach(this._onLoadListeners, (l) => l(this.list))}
+    public NotifyOnLoadListeners() {_.forEach(this._onLoadListeners, (l) => {l(this.list)})}
 
     constructor(public $rootScope: ng.IRootScopeService,
                 public $interval: angular.IIntervalService) {

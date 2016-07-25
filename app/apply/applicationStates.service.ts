@@ -1,7 +1,31 @@
+class WGDocument {
+
+    public type: DocumentUploadType
+    public url: string
+    public imageURI: string
+    public uploading: boolean
+    public uploaded: boolean
+    public error: boolean
+
+    constructor(type: DocumentUploadType) {
+        this.type = type
+    }
+
+    get longName(): string {
+        switch (this.type) {
+            case DocumentUploadType.license: return "Driver's License";
+            case DocumentUploadType.insurance: return "Proof of Insurance";
+            case DocumentUploadType.registration: return "Vehicle Registration";
+            default: return this.type.toString();
+        }
+    }
+}
+
 class ApplicationStatesService {
 
     public progressbar
     private _states: string[]
+    private _docs: WGDocument[]
     constructor(public $state: ng.ui.IStateService,
                 public $rootScope: ng.IRootScopeService,
                 public $ionicHistory: ionic.navigation.IonicHistoryService,
@@ -19,11 +43,16 @@ class ApplicationStatesService {
             "address",
             "weight-limit",
             "car-info",
-            "car-documents",
+            "documents",
             "headshot",
             "bg-info",
             "bg-ssn",
             "phone-call",
+        ]
+        this._docs = [
+            new WGDocument(DocumentUploadType.license),
+            new WGDocument(DocumentUploadType.registration),
+            new WGDocument(DocumentUploadType.insurance),
         ]
     }
     get nextPage(): string {
@@ -88,11 +117,11 @@ class ApplicationStatesService {
             this.currentUser.carYear)
             _.remove(this._states, (s) => s === 'car-info')
 
-        // "car-documents"
-        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
-
         // "headshot"
         if (this.currentUser.headshot) _.remove(this._states, (s) => s === 'headshot')
+
+        // "car-documents"
+        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
 
         // "bg-info"
         // "bg-ssn"
@@ -110,6 +139,9 @@ class ApplicationStatesService {
         // show only pages that are requirements
         this._states = _.intersection(this._states, this.wgCompanies.requiredPages)
 
+        // Ask for only the docs that are needed
+        this.initDocRequirements()
+
         // If the worker does not have a car, don't ask car stuff
 
         this.removeExistingValues()
@@ -121,6 +153,20 @@ class ApplicationStatesService {
         this._states = _.map(this._states, (s) => (`app.${s}`))
 
         this.linkProgressBar()
+    }
+    initDocRequirements() {
+        // show only docs that are requirements
+        const licenseNotRequired = !_.find(this.wgCompanies.requiredDocs, (d) => d === 'license')
+        if (licenseNotRequired || this.currentUser.license) _.remove(this._docs, (s) => s.type === DocumentUploadType.license)
+
+        const registrationNotRequired = !_.find(this.wgCompanies.requiredDocs, (d) => d === 'license')
+        if (registrationNotRequired || this.currentUser.registration) _.remove(this._docs, (s) => s.type === DocumentUploadType.registration)
+
+        const insuranceNotRequired = !_.find(this.wgCompanies.requiredDocs, (d) => d === 'license')
+        if (insuranceNotRequired || this.currentUser.insurance) _.remove(this._docs, (s) => s.type === DocumentUploadType.insurance)
+    }
+    getRequiredDocs() {
+        return this._docs
     }
     start() {
 

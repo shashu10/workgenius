@@ -1,0 +1,14 @@
+.wg-documents {
+    .card:first-child {
+        margin-top: 0;
+    }
+
+    .button-icon-right {
+        padding-right: 42px;
+
+        .icon {
+            position: absolute;
+            right: 10px;
+        }
+    }
+}
