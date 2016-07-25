@@ -1,18 +1,29 @@
 <ion-view title="Application" ng-controller="DocumentsCtrl as docs">
-    <ion-content class="big-form wg-application apply-car">
+    <ion-content class="big-form wg-application wg-documents">
 
         <h4>
             Please upload your documents
         </h4>
 
         <div class="padding">
-            <button class="button button-outline button-positive button-block" ng-repeat="doc in docs.list" ng-click="docs.showPictureOptions(doc)">
-              {{docs.longName(doc)}}
+            <button class="button button-outline button-positive button-block button-icon-right" ng-repeat="doc in docs.list" ng-click="docs.showPictureOptions(doc)">
+              {{doc.longName}}
+              <i class="icon ion-upload"></i>
             </button>
+            <!-- <div class="card" ng-repeat="doc in docs.list" ng-click="docs.showPictureOptions(doc)">
+                <div class="item item-divider item-icon-right">
+                    {{docs.longName(doc)}}
+                    <i class="icon ion-upload"></i>
+                </div>
+                <div class="item item-image">
+                    <img src="img/placeholder.png">
+                </div>
+            </div> -->
         </div>
 
         <div class="next-button">
             <button
+            ng-class="{disabled: !docs.canContinue && !docs.error}",
             ng-click="docs.next()"
             class="button button-positive"
             >
@@ -20,5 +31,6 @@
             </button>
         </div>
 
+        <p ng-if="docs.error" class="padding">If the document upload is not working, we can collect them via email later</p>
     </ion-content>
 </ion-view>

@@ -38,7 +38,7 @@ class CurrentUserService {
     get password(): string { return this.obj && this.obj.get('password') }
     set password(password: string) { this.obj && this.obj.set('password', password) }
 
-    get camelCaseName(): string { return ((this.obj && this.obj.get('name')) || "").split(" ").join() }
+    get lodashCaseName(): string { return ((this.obj && this.obj.get('name')) || "").split(" ").join("_") }
     get firstName(): string { return ((this.obj && this.obj.get('name')) || "").split(" ")[0] }
     get name(): string { return this.obj && this.obj.get('name') }
     set name(name: string) { this.obj && this.obj.set('name', name) }

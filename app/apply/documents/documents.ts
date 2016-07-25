@@ -1,11 +1,7 @@
-class Document {
-    static type
-}
-
 // Don't cache view. It needs to refresh docs required on every load
 class DocumentsCtrl {
 
-    public list: string[]
+    public list: WGDocument[]
 
     constructor(public ApplicationStates: ApplicationStatesService,
                 public $ionicActionSheet: ionic.actionSheet.IonicActionSheetService,
@@ -18,37 +14,38 @@ class DocumentsCtrl {
     }
 
     public imageData: string
-    public canContinue = false
-    private error = false
     private actionButtons
 
-    longName(docName: string) {
-        switch (docName) {
-            case "license": return "Driver's License";
-            case "insurance": return "Proof of Insurance";
-            case "registration": return "Vehicle Registration";
-            default: return docName;
-        }
+    get canContinue(): boolean {
+        return _.reduce(this.list, (result, doc, key) => (result && doc.uploaded), true);
     }
 
-    showPictureOptions(docName) {
+    get error(): boolean {
+        if (!window['Camera']) return true
+        return _.reduce(this.list, (result, doc, key) => (result && doc.error), true);
+    }
+
+    showPictureOptions(doc: WGDocument) {
         this.$ionicActionSheet.show({
-            titleText: `Add a valid picture of your ${this.longName(docName)}`,
+            titleText: `Add a valid picture of your ${doc.longName}`,
             buttons: this.actionButtons,
             cancelText: 'Cancel',
             cancel: () => {
                 console.log('CANCELLED')
             },
             buttonClicked: (index) => {
+                if (!window['Camera']) {
+                    doc.error = true
+                    return true
+                }
                 let option = Camera.PictureSourceType.PHOTOLIBRARY
                 if (index === 0) option = Camera.PictureSourceType.CAMERA
-                this.wgImage.takeHeadshotPicture(option, (imageURI) => {
+                this.wgImage.takeDocumentPicture(option, doc, (imageURI) => {
                     if (!imageURI) {
-                        this.error = true
                         return
                     }
                     this.imageData = imageURI
-                    this.canContinue = true
+                    // this.canContinue = true
                 })
 
                 console.log('BUTTON CLICKED', index)

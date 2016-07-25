@@ -1,8 +1,31 @@
+class WGDocument {
+
+    public type: DocumentUploadType
+    public url: string
+    public imageURI: string
+    public uploading: boolean
+    public uploaded: boolean
+    public error: boolean
+
+    constructor(type: DocumentUploadType) {
+        this.type = type
+    }
+
+    get longName(): string {
+        switch (this.type) {
+            case DocumentUploadType.license: return "Driver's License";
+            case DocumentUploadType.insurance: return "Proof of Insurance";
+            case DocumentUploadType.registration: return "Vehicle Registration";
+            default: return this.type.toString();
+        }
+    }
+}
+
 class ApplicationStatesService {
 
     public progressbar
     private _states: string[]
-    private _docs: string[]
+    private _docs: WGDocument[]
     constructor(public $state: ng.ui.IStateService,
                 public $rootScope: ng.IRootScopeService,
                 public $ionicHistory: ionic.navigation.IonicHistoryService,
@@ -27,9 +50,9 @@ class ApplicationStatesService {
             "phone-call",
         ]
         this._docs = [
-            "license",
-            "registration",
-            "insurance",
+            new WGDocument(DocumentUploadType.license),
+            new WGDocument(DocumentUploadType.registration),
+            new WGDocument(DocumentUploadType.insurance),
         ]
     }
     get nextPage(): string {
@@ -133,14 +156,14 @@ class ApplicationStatesService {
     }
     initDocRequirements() {
         // show only docs that are requirements
-        this._docs = _.intersection(this._docs, this.wgCompanies.requiredDocs)
-        if (this._docs.length === 0) _.remove(this._states, (s) => s === 'documents')
-        else {
-            if (this.currentUser.license) _.remove(this._docs, (s) => s === 'license')
-            if (this.currentUser.registration) _.remove(this._docs, (s) => s === 'registration')
-            if (this.currentUser.insurance) _.remove(this._docs, (s) => s === 'insurance')
-        }
+        const licenseNotRequired = !_.find(this.wgCompanies.requiredDocs, (d) => d === 'license')
+        if (licenseNotRequired || this.currentUser.license) _.remove(this._docs, (s) => s.type === DocumentUploadType.license)
 
+        const registrationNotRequired = !_.find(this.wgCompanies.requiredDocs, (d) => d === 'license')
+        if (registrationNotRequired || this.currentUser.registration) _.remove(this._docs, (s) => s.type === DocumentUploadType.registration)
+
+        const insuranceNotRequired = !_.find(this.wgCompanies.requiredDocs, (d) => d === 'license')
+        if (insuranceNotRequired || this.currentUser.insurance) _.remove(this._docs, (s) => s.type === DocumentUploadType.insurance)
     }
     getRequiredDocs() {
         return this._docs
