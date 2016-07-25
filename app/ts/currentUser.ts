@@ -5,7 +5,9 @@ class CurrentUserService {
     // User for availability questionaire but not saved to parse
     public availabilityDays: Object[];
     public availabilityTimes: Object[];
-
+    public hoursTotalPastDay:number;
+    public hoursTotalPastMonth:number;
+    public hoursTotalLifetime:number;
     constructor(public wgCompanies: WGCompaniesService,
                 public wgShifts: WGShiftsService,
                 public wgDevice: WGDevice,
@@ -111,8 +113,25 @@ class CurrentUserService {
 
     get selectedVehicles(): string[] { return _.map(this.obj.get('vehicles'), (v: WGVehicle) => v.type) }
 
+
+
     hasCar() {
         return true
+    }
+
+    getHours() {
+        Parse.Cloud.run('getHoursWorked', {duration:24})
+        .then((hours: number) => {
+            this.hoursTotalPastDay = hours;
+        });
+        Parse.Cloud.run('getHoursWorked', {duration:24*30})
+        .then((hours: number) => {
+            this.hoursTotalPastMonth = hours;
+        });
+        Parse.Cloud.run('getHoursWorked', {})
+        .then((hours: number) => {
+            this.hoursTotalLifetime = hours;
+        });
     }
 
     save(params?: Object) {
@@ -139,7 +158,7 @@ class CurrentUserService {
         this.obj = Parse.User.current()
         if (!this.obj) return
         this.getUserData() // Legacy
-
+        this.getHours()
         return Parse.User.current()
         .fetch()
         .then((user: Parse.User) => {
