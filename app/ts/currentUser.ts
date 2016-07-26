@@ -120,6 +120,10 @@ class CurrentUserService {
     get canLift50lbs(): boolean { return this.obj && this.obj.get('canLift50lbs') }
     set canLift50lbs(canLift50lbs: boolean) { this.obj && this.obj.set('canLift50lbs', canLift50lbs) }
 
+    get notificationEnabled(): boolean { return this.obj && this.obj.get('notificationEnabled') }
+    set notificationEnabled(notificationEnabled: boolean) { this.obj && this.obj.set('notificationEnabled', notificationEnabled); this.save(); }
+
+
     get selectedVehicles(): string[] { return _.map(this.obj.get('vehicles'), (v: WGVehicle) => v.type) }
 
 
