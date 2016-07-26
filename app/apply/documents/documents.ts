@@ -25,6 +25,12 @@ class DocumentsCtrl {
         return _.reduce(this.list, (result, doc, key) => (result && doc.error), true);
     }
 
+    getClass(doc: WGDocument) {
+        if (doc.error) return 'button-assertive'
+        else if (doc.uploaded) return 'button-balanced'
+        else return 'button-positive'
+    }
+
     showPictureOptions(doc: WGDocument) {
         this.$ionicActionSheet.show({
             titleText: `Add a valid picture of your ${doc.longName}`,

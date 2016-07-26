@@ -119,9 +119,6 @@ class ApplicationStatesService {
         // "headshot"
         if (this.currentUser.headshot) _.remove(this._states, (s) => s === 'headshot')
 
-        // "car-documents"
-        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
-
         // "bg-info"
         // "bg-ssn"
         if (this.currentUser.ssn) {
@@ -130,7 +127,7 @@ class ApplicationStatesService {
         }
 
         // "phone-call"
-        // if (this.currentUser.phone) _.remove(this._states, (s) => s === 'phone')
+        if (moment(this.currentUser.phoneCallTime).isBefore()) _.remove(this._states, (s) => s === 'phone-call')
     }
     init() {
         this.resetStates()

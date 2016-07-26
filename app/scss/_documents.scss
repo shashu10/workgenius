@@ -9,6 +9,9 @@
         .icon {
             position: absolute;
             right: 10px;
+            &.spinner {
+                top: 8px;
+            }
         }
     }
 }

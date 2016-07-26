@@ -182,7 +182,7 @@ class WGAppConfig {
         .state('app.finish',             {url: '/finish',             views: {'tab-companies':   {templateUrl: 'apply/finish/finish.html'                        }}})
         .state('app.car-info',           {url: '/car-info',           views: {'tab-companies':   {templateUrl: 'apply/car/car-info.html'}}, cache: false})
         .state('app.documents',          {url: '/documents',          views: {'tab-companies':   {templateUrl: 'apply/documents/documents.html'}}, cache: false})
-        .state('app.companies',          {url: '/companies',          views: {'tab-companies':   {templateUrl: 'apply/companies/company-recommendation.html'}}, cache: false})
+        .state('app.companies',          {url: '/companies',          views: {'tab-companies':   {templateUrl: 'apply/companies/company-recommendation.html'}}})
 
         // Auth
         .state('welcome',                {url: '/welcome',               templateUrl: 'auth/welcome/welcome.html'                  })

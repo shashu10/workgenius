@@ -36,7 +36,9 @@ class PhoneCallCtrl {
         .then((result) => {
             console.log(result)
             console.log("Success")
-
+            this.currentUser.save({
+                phoneCallTime: new Date()
+            })
         }, (err) => {
             console.log(err)
         })

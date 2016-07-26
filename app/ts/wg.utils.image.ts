@@ -12,7 +12,10 @@ enum DocumentUploadType {
 
 class WGImage {
 
-    constructor(public currentUser: CurrentUserService, public $cordovaFileTransfer: ngCordova.IFileTransferService, public $cordovaCamera: ngCordova.ICameraService) {}
+    constructor(public currentUser: CurrentUserService,
+                public $cordovaFileTransfer: ngCordova.IFileTransferService,
+                public $cordovaCamera: ngCordova.ICameraService,
+                public $rootScope: angular.IRootScopeService) {}
 
     public takeHeadshotPicture(source: number, callback: Function) {this.takePicture(source, Camera.Direction.FRONT, callback, UploadType.headshot)}
     public takeDocumentPicture(source: number, doc: WGDocument, callback: Function) {this.takePicture(source, Camera.Direction.BACK , callback, UploadType.document, doc)}
@@ -83,12 +86,14 @@ class WGImage {
                 document.uploaded = true
             }
             console.log("success updating headshot in parse")
+            this.$rootScope.$apply()
 
         }, (error) => {
             if (document) document.error = true
 
             console.log('Something went wrong');
             console.log(error);
+            this.$rootScope.$apply()
         })
     }
     private generateFilename(uploadType: UploadType, document?: WGDocument) {
@@ -126,4 +131,4 @@ class WGImage {
     }
 }
 
-WGImage.$inject = ["currentUser", "$cordovaFileTransfer", "$cordovaCamera"]
+WGImage.$inject = ["currentUser", "$cordovaFileTransfer", "$cordovaCamera", "$rootScope"]

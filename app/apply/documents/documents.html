@@ -6,9 +6,12 @@
         </h4>
 
         <div class="padding">
-            <button class="button button-outline button-positive button-block button-icon-right" ng-repeat="doc in docs.list" ng-click="docs.showPictureOptions(doc)">
+            <button class="button button-outline button-block button-icon-right" ng-class="docs.getClass(doc)" ng-repeat="doc in docs.list" ng-click="docs.showPictureOptions(doc)">
               {{doc.longName}}
-              <i class="icon ion-upload"></i>
+              <i ng-if="!doc.uploading && !doc.uploaded && !doc.error" class="icon ion-upload"></i>
+              <i ng-if="doc.uploaded" class="icon ion-checkmark-circled"></i>
+              <i ng-if="doc.error" class="icon ion-close-circled"></i>
+              <ion-spinner ng-if="doc.uploading" class="icon spinner-positive"></ion-spinner>
             </button>
             <!-- <div class="card" ng-repeat="doc in docs.list" ng-click="docs.showPictureOptions(doc)">
                 <div class="item item-divider item-icon-right">

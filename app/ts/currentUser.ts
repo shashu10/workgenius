@@ -72,6 +72,10 @@ class CurrentUserService {
     get phone(): string { return this.obj && this.obj.get('phone') }
     set phone(phone: string) { this.obj && this.obj.set('phone', phone) }
 
+
+    get phoneCallTime(): Date { return this.obj && this.obj.get('phoneCallTime') }
+    set phoneCallTime(phoneCallTime: Date) { this.obj && this.obj.set('phoneCallTime', phoneCallTime) }
+
     get license(): string { return this.obj && this.obj.get('license') }
     set license(license: string) { this.obj && this.obj.set('license', license) }
 
