@@ -3,9 +3,11 @@ class CurrentUserService {
     public obj: Parse.User
 
     // User for availability questionaire but not saved to parse
-    public availabilityDays: Object[];
-    public availabilityTimes: Object[];
-
+    public availabilityDays: Object[]
+    public availabilityTimes: Object[]
+    public hoursTotalPastDay: number
+    public hoursTotalPastMonth: number
+    public hoursTotalLifetime: number
     constructor(public wgCompanies: WGCompaniesService,
                 public wgShifts: WGShiftsService,
                 public wgDevice: WGDevice,
@@ -21,7 +23,7 @@ class CurrentUserService {
 
     }
     create() {
-        this.obj = new Parse.User();
+        this.obj = new Parse.User()
     }
 
     get shouldFinishWizard() {
@@ -44,7 +46,7 @@ class CurrentUserService {
     set name(name: string) { this.obj && this.obj.set('name', name) }
 
     get email(): string { return this.obj && this.obj.get('email') }
-    set email(email: string) { this.obj && this.obj.set('email', email); this.obj && this.obj.set('username', email) }
+    set email(email: string) { this.obj && this.obj.set('email', email) this.obj && this.obj.set('username', email) }
 
     get hoursGoal(): number { return Math.round(this.earningsGoal / 18) }
     get earningsGoal(): number {
@@ -129,6 +131,26 @@ class CurrentUserService {
         return _.find(this.vehicles, (v) => (v.type && (v.type.toLowerCase() === 'car' || v.type.toLowerCase() === 'truck/van')))
     }
 
+    get notificationEnabled(): boolean { return this.obj && this.obj.get('notificationEnabled') }
+    set notificationEnabled(notificationEnabled: boolean) { this.obj && this.obj.set('notificationEnabled', notificationEnabled) this.save() }
+
+
+
+    getHours() {
+        Parse.Cloud.run('getHoursWorked', {duration: 24})
+        .then((hours: number) => {
+            this.hoursTotalPastDay = hours
+        })
+        Parse.Cloud.run('getHoursWorked', {duration: 24 * 30})
+        .then((hours: number) => {
+            this.hoursTotalPastMonth = hours
+        })
+        Parse.Cloud.run('getHoursWorked', {})
+        .then((hours: number) => {
+            this.hoursTotalLifetime = hours
+        })
+    }
+
     save(params?: Object) {
 
         // Testing env may not have current user
@@ -153,7 +175,7 @@ class CurrentUserService {
         this.obj = Parse.User.current()
         if (!this.obj) return
         this.getUserData() // Legacy
-
+        this.getHours()
         return Parse.User.current()
         .fetch()
         .then((user: Parse.User) => {
@@ -161,18 +183,18 @@ class CurrentUserService {
                 email: this.email,
                 id: this.obj.id,
                 // appVersion: $rootScope.appVersion,
-            });
+            })
             mixpanel.register({
                 Email: this.email,
                 Name: this.name,
             })
 
         }, (err) => {
-            console.log(err);
-            // Parse.User.logOut();
-            Raven.setUserContext();
-            mixpanel.identify();
-        });
+            console.log(err)
+            // Parse.User.logOut()
+            Raven.setUserContext()
+            mixpanel.identify()
+        })
     }
     logIn(): Parse.IPromise<any> {
         return Parse.User.logIn(this.email, this.password).then((user: Parse.User) => {
@@ -236,7 +258,7 @@ class CurrentUserService {
     logOut() {
         Parse.User.logOut()
         this.obj = undefined
-        this.getUserData();
+        this.getUserData()
     }
 }
 
