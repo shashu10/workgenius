@@ -152,10 +152,10 @@ class WGAppConfig {
         .state('app.info',               {url: '/info',               views: {'tab-profile':     {templateUrl: 'preferences/info/info.html'                      }}})
         .state('app.goal',               {url: '/goal',               views: {'tab-profile':     {templateUrl: 'preferences/goal/goal.html'                      }}})
         .state('app.locations',          {url: '/locations',          views: {'tab-profile':     {templateUrl: 'preferences/locations/locations.html'            }}})
-        .state('app.new-vehicle',        {url: '/new-vehicle',        views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles.html'              }}})
-        .state('app.vehicle-list',       {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles-list.html'         }}})
+        .state('app.new-vehicle',        {url: '/new-vehicle',        views: {'tab-profile':     {templateUrl: 'preferences/vehicles/new-vehicles.html'          }}})
+        .state('app.vehicle-list',       {url: '/vehicles',           views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicles-list.html'}}, cache: false})
         .state('app.documentPrefs',      {url: '/documentPrefs',      views: {'tab-profile':     {templateUrl: 'preferences/documents/documents.html'            }}})
-        .state('app.new-vehicle-make',   {url: '/vehicles-make',      views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicle-info.html'          }}})
+        .state('app.new-vehicle-make',   {url: '/vehicles-make',      views: {'tab-profile':     {templateUrl: 'preferences/vehicles/vehicle-info.html'}}, cache: false})
 
 
         // Earnings
@@ -175,12 +175,12 @@ class WGAppConfig {
         .state('app.phone',              {url: '/phone',              views: {'tab-companies':   {templateUrl: 'apply/phone/phone.html'                          }}})
         .state('app.address',            {url: '/address',            views: {'tab-companies':   {templateUrl: 'apply/address/address.html'                      }}})
         .state('app.weight-limit',       {url: '/weight-limit',       views: {'tab-companies':   {templateUrl: 'apply/weight/weight-limit.html'                  }}})
-        .state('app.car-info',           {url: '/car-info',           views: {'tab-companies':   {templateUrl: 'apply/car/car-info.html'                         }}})
         .state('app.headshot',           {url: '/headshot',           views: {'tab-companies':   {templateUrl: 'apply/headshot/headshot.html'                    }}})
         .state('app.bg-info',            {url: '/bg-info',            views: {'tab-companies':   {templateUrl: 'apply/background/bg-info.html'                   }}})
         .state('app.bg-ssn',             {url: '/bg-ssn',             views: {'tab-companies':   {templateUrl: 'apply/background/bg-ssn.html'                    }}})
         .state('app.phone-call',         {url: '/phone-call',         views: {'tab-companies':   {templateUrl: 'apply/phone-call/phone-call.html'                }}})
         .state('app.finish',             {url: '/finish',             views: {'tab-companies':   {templateUrl: 'apply/finish/finish.html'                        }}})
+        .state('app.car-info',           {url: '/car-info',           views: {'tab-companies':   {templateUrl: 'apply/car/car-info.html'}}, cache: false})
         .state('app.documents',          {url: '/documents',          views: {'tab-companies':   {templateUrl: 'apply/documents/documents.html'}}, cache: false})
         .state('app.companies',          {url: '/companies',          views: {'tab-companies':   {templateUrl: 'apply/companies/company-recommendation.html'}}, cache: false})
 

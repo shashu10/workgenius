@@ -94,34 +94,39 @@ class CurrentUserService {
     get address(): Object { return this.obj && this.obj.get('address') }
     set address(address) { this.obj && this.obj.set('address', address) }
 
-    get vehicles(): WGVehicle[] { return this.obj && this.obj.get('vehicles') }
+    addVehicle(vehicle: WGVehicle) {
+        console.log(this.vehicles)
+        this.vehicles.push(vehicle)
+        this.vehicles = angular.copy(this.vehicles)
+        this.save()
+    }
+    deleteVehicle(index: number) {
+        this.vehicles.splice(index, 1)
+        this.vehicles = angular.copy(this.vehicles)
+        this.save()
+    }
+    get vehicles(): WGVehicle[] { return (this.obj && this.obj.get('vehicles')) || [] }
     set vehicles(vehicles: WGVehicle[]) { this.obj && this.obj.set('vehicles', vehicles) }
 
     get ssn(): string { return this.obj && this.obj.get('ssn') }
     set ssn(ssn: string) { this.obj && this.obj.set('ssn', ssn) }
 
-    get car(): WGVehicle { return this.obj && this.obj.get('vehicles') && _.find(this.vehicles, (v) => v.type && v.type.toLowerCase() === 'car') }
-    set car(car: WGVehicle) { this.obj && this.obj.set('car', car) }
-
-    get carMake(): string { return this.car && this.car.make }
-    set carMake(make: string) { this.car && (this.car.make = make)}
-
-    get carModel(): string { return this.car && this.car.model }
-    set carModel(model: string) { this.car && (this.car.model = model)}
-
-    get carYear(): number { return this.car && this.car.year }
-    set carYear(year: number) { this.car && (this.car.year = year)}
-
-    get carInfo(): any { return this.obj && this.obj.get('carInfo') }
-    set carInfo(carInfo: any) { this.obj && this.obj.set('carInfo', carInfo) }
-
     get canLift50lbs(): boolean { return this.obj && this.obj.get('canLift50lbs') }
     set canLift50lbs(canLift50lbs: boolean) { this.obj && this.obj.set('canLift50lbs', canLift50lbs) }
 
-    get selectedVehicles(): string[] { return _.map(this.obj.get('vehicles'), (v: WGVehicle) => v.type) }
+    get selectedVehicles(): string[] { return _.map(this.obj.get('vehicles'), (v: WGVehicle) => (v.type || '')) }
 
-    hasCar() {
-        return true
+    hasAutomobileWithMakeModel() {
+        return _.find(this.vehicles, (v) => {
+            return v.type &&
+            (v.type.toLowerCase() === 'car' || v.type.toLowerCase() === 'truck/van') &&
+            v.make &&
+            v.model &&
+            v.year
+        })
+    }
+    getAnyAutomobile() {
+        return _.find(this.vehicles, (v) => (v.type && (v.type.toLowerCase() === 'car' || v.type.toLowerCase() === 'truck/van')))
     }
 
     save(params?: Object) {

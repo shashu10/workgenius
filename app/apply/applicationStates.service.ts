@@ -111,11 +111,10 @@ class ApplicationStatesService {
         if (this.currentUser.canLift50lbs) _.remove(this._states, (s) => s === 'weight-limit')
 
         // "car-info"
-        if (this.currentUser.car      &&
-            this.currentUser.carMake  &&
-            this.currentUser.carModel &&
-            this.currentUser.carYear)
+        if (this.currentUser.hasAutomobileWithMakeModel()) {
+            console.log("removing")
             _.remove(this._states, (s) => s === 'car-info')
+        }
 
         // "headshot"
         if (this.currentUser.headshot) _.remove(this._states, (s) => s === 'headshot')

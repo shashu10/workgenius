@@ -1,10 +1,10 @@
 /// <reference path="./goal/goal.ts" />
 /// <reference path="./locations/locations.ts" />
-/// <reference path="./vehicles/vehicles.ts" />
+/// <reference path="./vehicles/new-vehicles.ts" />
 /// <reference path="./vehicles/vehicles-list.ts" />
 /// <reference path="./vehicles/vehicle-info.ts" />
-/// <reference path="./documents/documents.ts" />
 /// <reference path="./vehicles/new.vehicle.service.ts" />
+/// <reference path="./documents/documents.ts" />
 /// <reference path="./info/info.ts" />
 
 angular.module('wg.preferences', [])

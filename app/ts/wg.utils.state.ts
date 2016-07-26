@@ -12,6 +12,14 @@ class WGState {
         return this.$state.go(stateName, {clear: true})
     }
 
+    public goWithoutBack(stateName: string): ng.IPromise<any> {
+
+        this.$ionicHistory.nextViewOptions({
+            historyRoot: true,
+            disableBack: true,
+        })
+        return this.$state.go(stateName, {clear: true})
+    }
     public go(stateName: string): ng.IPromise<any> {
         return this.$state.go(stateName)
     }

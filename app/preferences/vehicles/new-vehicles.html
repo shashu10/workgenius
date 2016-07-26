@@ -1,7 +1,7 @@
 <ion-view title="New Vehicle" ng-controller="VehiclesPreferenceCtrl as vehicles">
     <ion-content class="big-form wizard-vehicles" scroll="false">
         
-        <h3>Select your <strong>vehicles</strong></h3>
+        <h3>What type of vehicle do you want to add?</h3>
 
         <div class="vehicle-group" ng-repeat="group in vehicles.vehicles | chunkBy: 2">
             <button class="vehicle-button button" ng-class="vehicle.selected ? 'button-positive' : 'button-light'" ng-click="vehicles.toggleSelect(vehicle)" ng-repeat="vehicle in group">
