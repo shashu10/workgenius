@@ -13,7 +13,7 @@
 
         </ion-list>
     
-        <p class="assertive padding">{{phone.error}}</p>
+        <p ng-if="phone.error" class="assertive padding">{{phone.error}}</p>
 
         <div class="next-button">
             <button

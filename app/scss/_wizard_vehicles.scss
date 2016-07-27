@@ -12,7 +12,7 @@ $gray-vehicle-button: #dbdbdb;
 
     .vehicle-group {
         display: flex;
-        margin: 20px 0;
+        margin: 18px 0;
 
         &:first-child {
             margin-top: 0;
@@ -20,6 +20,10 @@ $gray-vehicle-button: #dbdbdb;
 
         &:last-child {
             margin-bottom: 0;
+        }
+        // Last vehicle group
+        &:nth-child(4) {
+            margin: 0;
         }
     }
 

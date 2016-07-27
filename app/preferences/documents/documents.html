@@ -1,25 +1,19 @@
-<ion-view title="Application" ng-controller="DocumentsPreferenceCtrl as car">
-    <ion-content class="big-form wg-application apply-car">
+<ion-view title="Application" ng-controller="DocumentsPreferenceCtrl as docs">
+    <ion-content class="big-form wg-application wg-documents">
 
         <h4>
             Please upload your documents
         </h4>
 
         <div class="padding">
-            <button class="button button-outline button-positive button-block" ng-click="car.uploadRegistration()">
-              Upload Registration
-            </button>
-
-            <button class="button button-outline button-positive button-block" ng-click="car.uploadInsurance()">
-              Upload Proof of Insurance
-            </button>
-
-            <button class="button button-outline button-positive button-block" ng-click="car.uploadLicense()">
-              Upload Drivers License
+            <button class="button button-outline button-block button-icon-right" ng-class="docs.getClass(doc)" ng-repeat="doc in docs.list" ng-click="docs.showPictureOptions(doc)">
+              {{doc.longName}}
+              <i ng-if="!doc.uploading && !doc.uploaded && !doc.error" class="icon ion-upload"></i>
+              <i ng-if="doc.uploaded" class="icon ion-checkmark-circled"></i>
+              <i ng-if="doc.error" class="icon ion-close-circled"></i>
+              <ion-spinner ng-if="doc.uploading" class="icon spinner-positive"></ion-spinner>
             </button>
         </div>
-
-
 
     </ion-content>
 </ion-view>

@@ -3,14 +3,14 @@
 
         <br>
         
-        <div ng-controller="HeadshotCtrl as headshot" class="wg-profile-wrapper">
+        <div ng-controller="HeadshotCtrl as headshot" class="wg-profile-wrapper wg-profile-small">
             <div class="wg-profile-picture" ng-style="{'background-image':'url(' + headshot.imageData + ')'}" ng-click="headshot.showPictureOptions()"></div>
-            <div class="wg-profile-edit">
+            <div class="wg-profile-edit" ng-click="headshot.showPictureOptions()">
                 <i class="icon ion-edit light"></i>
             </div>
         </div>
 
-        <br>
+        <p class="wg-preferences-email">{{profile.currentUser.email}}</p>
     
         <div class="row center-text">
             <div class="col earnings-col">
@@ -32,18 +32,14 @@
                 <p>{{(profile.currentUser.hoursTotalLifetime || 0)}}</p>
             </div>
         </div>
-        
-        <br>
+
+
+        <ion-list>
 
             <ion-item href="sms:1-650-825-1524" class="item-icon-right">
                 Contact Us
                 <i class="icon ion-ios-chatbubble"></i>
             </ion-item>
-
-        <br>
-
-        <ion-list>
-
             <!-- <ion-toggle ng-model="airplaneMode" class="item-icon-left" toggle-class="toggle-positive">
                 <i class="icon ion-android-notifications"></i>
                 Notifications

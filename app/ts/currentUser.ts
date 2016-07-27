@@ -46,7 +46,7 @@ class CurrentUserService {
     set name(name: string) { this.obj && this.obj.set('name', name) }
 
     get email(): string { return this.obj && this.obj.get('email') }
-    set email(email: string) { this.obj && this.obj.set('email', email) this.obj && this.obj.set('username', email) }
+    set email(email: string) { this.obj && this.obj.set('email', email); this.obj && this.obj.set('username', email) }
 
     get hoursGoal(): number { return Math.round(this.earningsGoal / 18) }
     get earningsGoal(): number {
@@ -136,9 +136,7 @@ class CurrentUserService {
     }
 
     get notificationEnabled(): boolean { return this.obj && this.obj.get('notificationEnabled') }
-    set notificationEnabled(notificationEnabled: boolean) { this.obj && this.obj.set('notificationEnabled', notificationEnabled) this.save() }
-
-
+    set notificationEnabled(notificationEnabled: boolean) { this.obj && this.obj.set('notificationEnabled', notificationEnabled); this.save() }
 
     getHours() {
         Parse.Cloud.run('getHoursWorked', {duration: 24})

@@ -1,55 +1,74 @@
+// Don't cache view. It needs to refresh docs required on every load
 class DocumentsPreferenceCtrl {
 
+    public list: WGDocument[] = []
+
     constructor(public currentUser: CurrentUserService,
-                public wgImage: WGImage,
                 public $ionicActionSheet: ionic.actionSheet.IonicActionSheetService,
-                public wgDebounce: WGDebounce,
-                public alertDialog: AlertDialogService) {
+                public wgImage: WGImage) {
 
         this.actionButtons = [{ text: 'Camera' }, { text: 'Photo Library' }]
         if (ionic.Platform.isAndroid())
             this.actionButtons = [{ text: '<i class="icon ion-camera"></i> Camera' }, { text: '<i class="icon ion-ios-albums"></i> Photo Library' }]
+
+        // Setup currentUser documents
+        let license = new WGDocument(DocumentUploadType.license)
+        if (!currentUser.license) license.uploaded = true
+        this.list.push(license)
+        let registration = new WGDocument(DocumentUploadType.registration)
+        if (!currentUser.registration) registration.uploaded = true
+        this.list.push(registration)
+        let insurance = new WGDocument(DocumentUploadType.insurance)
+        if (!currentUser.insurance) insurance.uploaded = true
+        this.list.push(insurance)
     }
 
-    public canContinue = false
-
+    public imageData: string
     private actionButtons
-    displayImage(imageURI) {
-        if (imageURI) {
-            this.canContinue = true
-        }
 
-        this.save()
-
+    get canContinue(): boolean {
+        return _.reduce(this.list, (result, doc, key) => (result && doc.uploaded), true);
     }
-    showPictureOptions(type) {
+
+    get error(): boolean {
+        if (!window['Camera']) return true
+        return _.reduce(this.list, (result, doc, key) => (result && doc.error), true);
+    }
+
+    getClass(doc: WGDocument) {
+        if (doc.error) return 'button-assertive'
+        else if (doc.uploaded) return 'button-balanced'
+        else return 'button-positive'
+    }
+
+    showPictureOptions(doc: WGDocument) {
         this.$ionicActionSheet.show({
-            titleText: 'Upload a clear picture of your document',
+            titleText: `Add a valid picture of your ${doc.longName}`,
             buttons: this.actionButtons,
             cancelText: 'Cancel',
             cancel: () => {
                 console.log('CANCELLED')
             },
             buttonClicked: (index) => {
+                if (!window['Camera']) {
+                    doc.error = true
+                    return true
+                }
                 let option = Camera.PictureSourceType.PHOTOLIBRARY
                 if (index === 0) option = Camera.PictureSourceType.CAMERA
-                this.wgImage.takeDocumentPicture(option, type, (imageURI) => {
-                    if (imageURI) {
-                        // this.alertDialog.alert(AlertColor.success,"Saved");
+                this.wgImage.takeDocumentPicture(option, doc, (imageURI) => {
+                    if (!imageURI) {
+                        return
                     }
-                    this.canContinue = true
+                    this.imageData = imageURI
+                    // this.canContinue = true
                 })
 
                 console.log('BUTTON CLICKED', index)
                 return true
             }
         })
-
     }
-    save() {
-    	// save something ehh
-    }
-
 }
 
-DocumentsPreferenceCtrl.$inject = ["currentUser", "wgImage", "$ionicActionSheet", "wgDebounce", "alertDialog"];
+DocumentsPreferenceCtrl.$inject = ["currentUser", "$ionicActionSheet", "wgImage"]

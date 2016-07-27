@@ -21,7 +21,7 @@
                             <img ng-src="img/companies/{{shift.company.name.toLowerCase() | spaceless}}.png">
                             <div class="schedule-text">
                                 <p>
-                                    <strong>{{shift.company.name | uppercase}}</strong>
+                                    <strong class="company-name">{{shift.company.name | capitalize}}</strong>
                                 </p>
                                 <p class="schedule-time">
                                     <strong>{{schedule.formatAMPM(shift.startsAt) | uppercase}}</strong> - <strong>{{schedule.formatAMPM(shift.endsAt) | uppercase}}</strong>

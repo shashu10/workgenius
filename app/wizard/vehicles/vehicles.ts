@@ -25,7 +25,7 @@ class VehiclesCtrl {
         if (vehicle === this.none && !vehicle.selected) {
 
             // Unselect all others
-            _.forEach(this.vehicles, v => { v.selected = false })
+            _.forEach(this.vehicles, v => { if (v !== vehicle) v.selected = false })
 
             vehicle.selected = true;
 

@@ -52,6 +52,7 @@ $big-form-backcround: #f7f7f7;
         text-align: center;
 
         button {
+            width: 100%;
             font-family: SourceSansPro-Semibold;
             text-transform: uppercase;
             font-size: 24px;
@@ -59,7 +60,7 @@ $big-form-backcround: #f7f7f7;
             letter-spacing: 2px;
             line-height: 50px;
             min-width: 140px;
-            height: 52px;
+            height: 62px;
             &.button-loading {
                 line-height: 0;
             }
@@ -108,5 +109,11 @@ $big-form-backcround: #f7f7f7;
         margin: 10px;
         text-align: center;
         text-decoration: underline;
+    }
+
+    .wg-floating-back-icon {
+        &::before {
+            line-height: 44px;
+        }
     }
 }

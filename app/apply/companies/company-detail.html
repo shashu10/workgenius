@@ -1,14 +1,16 @@
-<ion-checkbox ng-if="!company.connected && !company.applied" ng-model="company.interested" class="item-checkbox-right wg-company-item" ng-change="companiesCtrl.toggleDetail(company)">
-    <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
-    <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
-</ion-checkbox>
+<div id="{{company.name | spaceless}}">
+    <ion-checkbox ng-if="!company.connected && !company.applied" ng-model="company.interested" class="item-checkbox-right wg-company-item" ng-change="companiesCtrl.toggleDetail(company)">
+        <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
+        <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
+    </ion-checkbox>
 
-<ion-item ng-if="company.connected || company.applied" ng-click="company.interested = true; companiesCtrl.toggleDetail(company)" class="item-checkbox-right wg-company-item item-button-right">
-    <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
-    <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
-    <button ng-if="company.connected" class="button button-balanced application-status-button">Connected</button>
-    <button ng-if="company.applied && !company.connected" class="button button-positive application-status-button">Applied</button>
-</ion-item>
+    <ion-item ng-if="company.connected || company.applied" ng-click="company.interested = true; companiesCtrl.toggleDetail(company)" class="item-checkbox-right wg-company-item item-button-right">
+        <img ng-src="img/companies/{{company.name.toLowerCase()  | spaceless}}.png" alt="">
+        <strong class="wg-company-name">{{company.name | capitalize: true}}</strong>
+        <button ng-if="company.connected" class="button button-balanced application-status-button">Connected</button>
+        <button ng-if="company.applied && !company.connected" class="button button-positive application-status-button">Applied</button>
+    </ion-item>
+</div>
 
 <ion-item class="wg-company-detail" ng-show="company.showDetail">
 

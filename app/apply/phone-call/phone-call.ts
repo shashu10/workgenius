@@ -17,7 +17,7 @@ class PhoneCallCtrl {
         this.$http.get('http://wgscheduler-env.us-east-1.elasticbeanstalk.com/getAvailabilities')
 
         .then((result: TimeSlotData) => {
-            _.forEach(result.data, (slot) => {slot.start = moment(slot.start).format('dddd Do h:mm a')})
+            _.forEach(result.data, (slot) => {slot.start = moment(slot.start).format('dddd MMM Do h:mm a')})
             this.timeslots = result.data
             this.resize()
         }, (err) => {

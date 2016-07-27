@@ -16,39 +16,39 @@
     }
 }
 
-// Accordion
-// http://docs.angularjs.org/api/ng/directive/ngShow#usage_animations
-.wg-company-detail {
-    line-height: 24px;
-    padding-bottom: 0px; // px is needed
-    padding-top: 0px; // px is needed
-    transition: 0.2s all ease;
-    // border-bottom: 0;
+// // Accordion
+// // http://docs.angularjs.org/api/ng/directive/ngShow#usage_animations
+// .wg-company-detail {
+//     line-height: 24px;
+//     padding-bottom: 0px; // px is needed
+//     padding-top: 0px; // px is needed
+//     transition: 0.2s all ease;
+//     // border-bottom: 0;
 
-    p {
-        white-space: normal;
-        font-size: 16px;
-        margin-bottom: 0;
-        &.positive {
-            color: $positive;
-        }
-    }
+//     p {
+//         white-space: normal;
+//         font-size: 16px;
+//         margin-bottom: 0;
+//         &.positive {
+//             color: $positive;
+//         }
+//     }
 
-    &.ng-hide {
-        line-height: 0px; // px is needed
-        opacity: 0;
-        padding-bottom: 0px; // px is needed
-        padding-top: 0px; // px is needed
-    }
+//     &.ng-hide {
+//         line-height: 0px; // px is needed
+//         opacity: 0;
+//         padding-bottom: 0px; // px is needed
+//         padding-top: 0px; // px is needed
+//     }
 
-    &.ng-hide-add,
-    &.ng-hide-remove {
-        display: block !important;
-    }
-    .wg-connect-company {
-        text-align: center;
-    }
-}
+//     &.ng-hide-add,
+//     &.ng-hide-remove {
+//         display: block !important;
+//     }
+//     .wg-connect-company {
+//         text-align: center;
+//     }
+// }
 
 .item.item-input.item-floating-label.wg-other-location {
     background-color: $light !important;

@@ -20,6 +20,9 @@ $gray-schedule-item-color: #a7a7a7;
         .schedule-text {
             float: left;
             max-width: 100%;
+            .company-name {
+                font-size: 20px;
+            }
         }
         .shift-location {
             bottom: 20px;

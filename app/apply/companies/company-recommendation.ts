@@ -9,7 +9,9 @@ class CompaniesRecCtrl {
                 public wgCompanies: WGCompaniesService,
                 public ApplicationStates: ApplicationStatesService,
                 public $interval: ng.IIntervalService,
-                public connectPopup: ConnectPopupService) {}
+                public connectPopup: ConnectPopupService,
+                public $location: angular.ILocationService,
+                public $timeout: angular.ITimeoutService) {}
 
     get myCompanies(): WGCompany[] {
         return _.chain(this.wgCompanies.list)
@@ -59,7 +61,9 @@ class CompaniesRecCtrl {
         })
 
         // Resize after accordion animation
-        this.$interval(() => this.resize(), 100, 1)
+        if (company.showDetail) this.scrollToCompany(company)
+        else this.resize()
+        // this.$interval(() => this.resize(), 100, 1)
     }
 
     public connect(company) {
@@ -71,9 +75,18 @@ class CompaniesRecCtrl {
     canContinue() {
         return _.filter(this.wgCompanies.list, (c) => c.interested && !c.applied && !c.connected).length
     }
+
+    scrollToCompany(company) {
+        let anchorID = company.name.replace(/\s+/g, '_')
+        this.$location.hash(anchorID)
+        // Does not work immediately
+        this.$timeout(() => {this.$ionicScrollDelegate.anchorScroll(true)}, 10)
+        // this.$ionicScrollDelegate.anchorScroll(true)
+        // this.resize()
+    }
 }
 
-CompaniesRecCtrl.$inject = ["$ionicScrollDelegate", "currentUser", "wgCompanies", "ApplicationStates", "$interval", "connectPopup"]
+CompaniesRecCtrl.$inject = ["$ionicScrollDelegate", "currentUser", "wgCompanies", "ApplicationStates", "$interval", "connectPopup", "$location", "$timeout"]
 
 
 class CompanyDetail implements ng.IDirective {
