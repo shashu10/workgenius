@@ -28,6 +28,9 @@ function setupPush($interval) {
                         Raven.captureException(error);
                         console.log(error);
                     });
+                    Parse.User.current().save({
+                        notificationEnabled: true
+                    });
                 }, 5000, 1);
 
             }, function(e) {

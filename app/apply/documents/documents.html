@@ -14,6 +14,7 @@
               <ion-spinner ng-if="doc.uploading" class="icon spinner-positive"></ion-spinner>
             </button>
         </div>
+
         <!-- <div class="card" ng-repeat="doc in docs.list" ng-click="docs.showPictureOptions(doc)">
             <div class="item item-divider item-icon-right">
                 {{docs.longName(doc)}}
@@ -34,6 +35,6 @@
             </button>
         </div>
 
-        <p ng-if="docs.error" class="padding">If the document upload is not working, we can collect them via email later</p>
+        <p ng-if="docs.hasError" class="padding">Oops. Looks like your document couldn't be uploaded right now. Don't worry, we will email you to collect it later</p>
     </ion-content>
 </ion-view>

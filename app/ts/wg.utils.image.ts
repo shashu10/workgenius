@@ -58,6 +58,8 @@ class WGImage {
         if (document) {
             document.imageURI = fileURI
             document.uploading = true
+            document.error = false
+            document.uploaded = false
         }
 
         let filename = this.generateFilename(uploadType, document)
@@ -89,7 +91,10 @@ class WGImage {
             this.$rootScope.$apply()
 
         }, (error) => {
-            if (document) document.error = true
+            if (document) {
+                document.uploading = false
+                document.error = true
+            }
 
             console.log('Something went wrong');
             console.log(error);
@@ -102,20 +107,26 @@ class WGImage {
         else if (uploadType === UploadType.headshot)
             return this.currentUser.lodashCaseName + "-" + this.currentUser.id + (new Date()).getTime() + ".jpeg"
         else
-            return this.currentUser.lodashCaseName + "-" + document + "-" + this.currentUser.id + "-" + (new Date()).getTime() + ".jpeg"
+            return this.currentUser.lodashCaseName + "-" + document.type.toString() + "-" + this.currentUser.id + "-" + (new Date()).getTime() + ".jpeg"
     }
     private saveInParse(filename: string, document?: WGDocument) {
         const prop = (document && document.type) || 'headshot'
-        this.currentUser[prop] = `https://s3.amazonaws.com/${UploadType.headshot}/${filename}`
+        if (document)
+            this.currentUser[prop] = filename
+        else
+            this.currentUser.headshot = `https://s3.amazonaws.com/${UploadType.headshot}/${filename}`
+
         return this.currentUser.save()
     }
     private uploadImageToS3(filename: string, fileURI: string, s3Signature): ngCordova.IFileTransferPromise<any> {
 
+        console.log("policy")
+        console.log(s3Signature.acl)
         const options = {
             params: {
                 "key": filename,
                 "AWSAccessKeyId": s3Signature.awsKey,
-                "acl": "public-read",
+                "acl": s3Signature.acl,
                 "policy": s3Signature.policy,
                 "signature": s3Signature.signature
             }

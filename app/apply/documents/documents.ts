@@ -16,8 +16,9 @@ class DocumentsCtrl {
     public imageData: string
     private actionButtons
 
+    // Continue if you couldn't upload
     get canContinue(): boolean {
-        return _.reduce(this.list, (result, doc, key) => (result && doc.uploaded), true);
+        return _.reduce(this.list, (result, doc, key) => (result && (doc.uploaded || doc.error)), true);
     }
 
     get error(): boolean {
@@ -25,6 +26,10 @@ class DocumentsCtrl {
         return _.reduce(this.list, (result, doc, key) => (result && doc.error), true);
     }
 
+    get hasError(): boolean {
+        if (!window['Camera']) return true
+        return _.reduce(this.list, (result, doc, key) => (result || doc.error), false);
+    }
     getClass(doc: WGDocument) {
         if (doc.error) return 'button-assertive'
         else if (doc.uploaded) return 'button-balanced'

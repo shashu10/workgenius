@@ -13,13 +13,13 @@ class DocumentsPreferenceCtrl {
 
         // Setup currentUser documents
         let license = new WGDocument(DocumentUploadType.license)
-        if (!currentUser.license) license.uploaded = true
+        if (currentUser.license) license.uploaded = true
         this.list.push(license)
         let registration = new WGDocument(DocumentUploadType.registration)
-        if (!currentUser.registration) registration.uploaded = true
+        if (currentUser.registration) registration.uploaded = true
         this.list.push(registration)
         let insurance = new WGDocument(DocumentUploadType.insurance)
-        if (!currentUser.insurance) insurance.uploaded = true
+        if (currentUser.insurance) insurance.uploaded = true
         this.list.push(insurance)
     }
 
