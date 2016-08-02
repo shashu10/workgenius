@@ -132,6 +132,14 @@ class CurrentUserService {
         })
     }
     getAnyAutomobile() {
+
+        let shifts = []
+        let pastMonthShifts = _.filter(shifts, function(shift){
+             let startsAt = moment(shift.get("startsAt"));
+             let lastMonthDate = moment().subtract(1, "month");
+             return startsAt.isAfter(lastMonthDate);
+        })
+
         return _.find(this.vehicles, (v) => (v.type && (v.type.toLowerCase() === 'car' || v.type.toLowerCase() === 'truck/van')))
     }
 
@@ -139,17 +147,11 @@ class CurrentUserService {
     set notificationEnabled(notificationEnabled: boolean) { this.obj && this.obj.set('notificationEnabled', notificationEnabled); this.save() }
 
     getHours() {
-        Parse.Cloud.run('getHoursWorked', {duration: 24})
-        .then((hours: number) => {
-            this.hoursTotalPastDay = hours
-        })
-        Parse.Cloud.run('getHoursWorked', {duration: 24 * 30})
-        .then((hours: number) => {
-            this.hoursTotalPastMonth = hours
-        })
         Parse.Cloud.run('getHoursWorked', {})
-        .then((hours: number) => {
-            this.hoursTotalLifetime = hours
+        .then((hours: any) => {
+            this.hoursTotalPastDay = hours.day
+            this.hoursTotalPastMonth = hours.month
+            this.hoursTotalLifetime = hours.alltime
         })
     }
 
@@ -158,6 +160,19 @@ class CurrentUserService {
         // Testing env may not have current user
         if (Parse.User.current()) {
 
+            const changed = params || {}
+            _.forEach(Parse.User.current().dirtyKeys(), (key) => {
+                changed[key] = Parse.User.current().get(key)
+            })
+
+            Parse.Cloud.run('updateWorkforce', {
+                name: this.name,
+                email: this.email,
+                data: changed
+            })
+            .then(() => console.log("saved in workforce"), (err) => {
+                console.log("Could not save in workforce")
+            })
             return Parse.User.current()
                 .save(params)
 
@@ -183,7 +198,7 @@ class CurrentUserService {
         .then((user: Parse.User) => {
             Raven.setUserContext({
                 email: this.email,
-                id: this.obj.id,
+                id: Parse.User.current().id,
                 // appVersion: $rootScope.appVersion,
             })
             mixpanel.register({
